@@ -1,0 +1,493 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#f0f0f0"
+    android:orientation="vertical" >
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#22a100"
+        android:gravity="center"
+        android:paddingBottom="10dip"
+        android:paddingTop="10dip"
+        android:text="我的球队"
+        android:textColor="#ffffff"
+        android:textSize="18sp" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dip"
+        android:background="#ffffff"
+        android:paddingBottom="10dip"
+        android:paddingLeft="25dip"
+        android:paddingRight="10dip"
+        android:paddingTop="10dip" >
+
+        <ImageView
+            android:id="@+id/iv_team_1_image"
+            android:layout_width="70dip"
+            android:layout_height="70dip"
+            android:layout_alignParentTop="true"
+            android:layout_centerInParent="true"
+            android:clickable="true"
+            android:src="@drawable/team_default" />
+
+        <TextView
+            android:id="@+id/tv_team_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/iv_team_1_image"
+            android:layout_centerInParent="true"
+            android:layout_marginTop="5dip"
+            android:gravity="center"
+            android:text="格拉斯哥流浪者"
+            android:textColor="#333333"
+            android:textSize="20sp" />
+        <!--
+        <RelativeLayout
+	        android:id="@+id/team_honor"
+	        android:layout_toRightOf="@id/iv_team_1_image"
+	        android:layout_alignTop="@id/iv_team_1_image"
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:background="@drawable/btn_style_1"
+	        android:padding="5dip"
+	        android:layout_marginLeft="10dip">
+	        <ImageView 
+	            android:id="@+id/team_honor_detail"
+	            android:layout_marginLeft="5dip"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:layout_alignParentRight="true"
+	            android:layout_centerVertical="true"
+	            android:src="@drawable/more_"/>
+	        <ImageView 
+	            android:id="@+id/team_honor_item1"
+	            android:layout_marginLeft="5dip"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:layout_toLeftOf="@id/team_honor_detail"
+	            android:src="@drawable/team_honor_show"/>
+	        <ImageView 
+	            android:id="@+id/team_honor_item2"
+	            android:layout_marginLeft="5dip"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:layout_toLeftOf="@id/team_honor_item1"
+	            android:src="@drawable/team_honor_show"/>   
+	         <ImageView 
+	            android:id="@+id/team_honor_item3"
+	            android:layout_marginLeft="5dip"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:layout_toLeftOf="@id/team_honor_item2"
+	            android:src="@drawable/team_honor_show"/> 
+	        <TextView
+	            android:layout_toLeftOf="@id/team_honor_item3" 
+	            android:layout_height="wrap_content"
+	            android:layout_width="match_parent"
+	            android:text="球队成就"
+	            android:layout_alignTop="@id/team_honor_item3"
+	            android:layout_alignBottom="@id/team_honor_item3"
+	            android:gravity="center"
+	            android:textSize="12sp"
+	            android:textColor="#333333"/>        "
+	    </RelativeLayout>
+        -->
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/team_info_up"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dip"
+        android:layout_marginRight="8dip"
+        android:background="@drawable/btn_style_5"
+        android:clickable="true"
+        android:paddingBottom="15dip"
+        android:paddingTop="5dip" >
+
+        <TextView
+            android:id="@+id/team_zhongjian1"
+            android:layout_width="1dip"
+            android:layout_height="1dip"
+            android:layout_centerHorizontal="true" />
+
+        <TextView
+            android:id="@+id/team_tv_1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginBottom="15dip"
+            android:background="@drawable/mykickfor"
+            android:gravity="center"
+            android:text="踢否生涯"
+            android:textColor="#ffffff"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/team_match_number"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@id/team_tv_1"
+            android:layout_alignTop="@id/team_tv_1"
+            android:layout_centerHorizontal="true"
+            android:text="100"
+            android:textColor="#333333"
+            android:textSize="15sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/team_chuzhan"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@id/team_tv_1"
+            android:layout_alignTop="@id/team_tv_1"
+            android:layout_toLeftOf="@id/team_match_number"
+            android:text="出战"
+            android:textColor="#333333"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/team_changbisai"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@id/team_tv_1"
+            android:layout_alignTop="@id/team_tv_1"
+            android:layout_toRightOf="@id/team_match_number"
+            android:text="场比赛"
+            android:textColor="#333333"
+            android:textSize="15sp" />
+
+        <ImageView
+            android:id="@+id/team_iv_info4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@id/team_tv_1"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dip"
+            android:background="@drawable/info4" />
+
+        <TextView
+            android:id="@+id/team_win_rate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@id/team_iv_info4"
+            android:layout_marginLeft="5dip"
+            android:layout_toRightOf="@id/team_iv_info4"
+            android:gravity="bottom"
+            android:text="56%"
+            android:textColor="#333333"
+            android:textSize="15sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/team_shenglv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@id/team_win_rate"
+            android:layout_alignLeft="@id/team_win_rate"
+            android:layout_alignTop="@id/team_iv_info4"
+            android:gravity="center"
+            android:text="胜率"
+            android:textColor="#333333"
+            android:textSize="10sp" />
+
+        <TextView
+            android:id="@+id/team_zhongjian2"
+            android:layout_width="1dip"
+            android:layout_height="1dip"
+            android:layout_centerHorizontal="true" />
+
+        <ImageView
+            android:id="@+id/team_iv_info5"
+            android:layout_width="30dip"
+            android:layout_height="30dip"
+            android:layout_alignBottom="@id/team_iv_info4"
+            android:layout_alignTop="@id/team_iv_info4"
+            android:layout_marginRight="20dip"
+            android:layout_toLeftOf="@id/team_zhongjian2"
+            android:background="@drawable/info5" />
+
+        <TextView
+            android:id="@+id/team_goal_number"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@id/team_iv_info4"
+            android:layout_marginLeft="-15dip"
+            android:layout_toRightOf="@id/team_zhongjian2"
+            android:gravity="bottom"
+            android:text="20"
+            android:textColor="#333333"
+            android:textSize="15sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/team_jinqiu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@id/team_goal_number"
+            android:layout_alignLeft="@id/team_goal_number"
+            android:layout_alignTop="@id/team_shenglv"
+            android:gravity="center"
+            android:text="进球"
+            android:textColor="#333333"
+            android:textSize="10sp" />
+
+        <TextView
+            android:id="@+id/team_li"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@id/team_goal_number"
+            android:layout_alignTop="@id/team_goal_number"
+            android:layout_marginLeft="3dip"
+            android:layout_toRightOf="@id/team_goal_number"
+            android:gravity="bottom"
+            android:text="粒"
+            android:textColor="#333333"
+            android:textSize="10sp" />
+
+        <TextView
+            android:id="@+id/team_shiqiu"
+            android:layout_width="70dip"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignTop="@id/team_shenglv"
+            android:layout_marginRight="10dip"
+            android:drawableRight="@drawable/more_"
+            android:gravity="left"
+            android:text="失球"
+            android:textColor="#333333"
+            android:textSize="10sp" />
+
+        <TextView
+            android:id="@+id/team_lost_number"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@id/team_iv_info4"
+            android:layout_alignLeft="@id/team_shiqiu"
+            android:layout_below="@id/team_shiqiu"
+            android:gravity="bottom"
+            android:text="16"
+            android:textColor="#333333"
+            android:textSize="15sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/team_li1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@id/team_lost_number"
+            android:layout_alignTop="@id/team_li"
+            android:layout_marginLeft="3dip"
+            android:layout_toRightOf="@id/team_lost_number"
+            android:gravity="bottom"
+            android:text="粒"
+            android:textColor="#333333"
+            android:textSize="10sp" />
+
+        <ImageView
+            android:id="@+id/team_iv_info6"
+            android:layout_width="30dip"
+            android:layout_height="30dip"
+            android:layout_alignBottom="@id/team_iv_info4"
+            android:layout_alignTop="@id/team_iv_info4"
+            android:layout_marginRight="5dip"
+            android:layout_toLeftOf="@id/team_lost_number"
+            android:background="@drawable/lost" />
+    </RelativeLayout>
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:layout_marginLeft="8dip"
+        android:layout_marginRight="8dip"
+        android:background="#ebebeb" />
+
+    <RelativeLayout
+        android:id="@+id/team_info_down"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dip"
+        android:layout_marginRight="8dip"
+        android:background="@drawable/btn_style_7"
+        android:clickable="true"
+        android:paddingBottom="15dip"
+        android:paddingRight="10dip"
+        android:paddingTop="15dip" >
+
+        <ImageView
+            android:id="@+id/team_iv_info7"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dip"
+            android:background="@drawable/goal" />
+
+        <TextView
+            android:id="@+id/team_sheshouwang"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@id/team_iv_info7"
+            android:layout_marginLeft="5dip"
+            android:layout_toRightOf="@id/team_iv_info7"
+            android:text="射手王"
+            android:textColor="#333333"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/team_best_shooter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@id/team_sheshouwang"
+            android:layout_below="@id/team_sheshouwang"
+            android:text="樊迪 4球"
+            android:textColor="#6e6e6e"
+            android:textSize="10sp" />
+
+        <TextView
+            android:id="@+id/team_zhongjian3"
+            android:layout_width="1dip"
+            android:layout_height="1dip"
+            android:layout_centerHorizontal="true" />
+
+        <ImageView
+            android:id="@+id/team_iv_info8"
+            android:layout_width="30dip"
+            android:layout_height="30dip"
+            android:layout_alignBottom="@id/team_iv_info7"
+            android:layout_alignTop="@id/team_iv_info7"
+            android:layout_marginRight="20dip"
+            android:layout_toLeftOf="@id/team_zhongjian3"
+            android:background="@drawable/assist" />
+
+        <TextView
+            android:id="@+id/team_best_assist"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@id/team_best_shooter"
+            android:layout_alignTop="@id/team_best_shooter"
+            android:layout_marginLeft="-10dip"
+            android:layout_toRightOf="@id/team_zhongjian3"
+            android:drawableRight="@drawable/more_"
+            android:text="夏老师 4球"
+            android:textColor="#6e6e6e"
+            android:textSize="10sp" />
+
+        <TextView
+            android:id="@+id/team_zhugongwang"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@id/team_sheshouwang"
+            android:layout_alignLeft="@id/team_best_assist"
+            android:layout_alignTop="@id/team_sheshouwang"
+            android:text="助攻王"
+            android:textColor="#333333"
+            android:textSize="12sp" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dip"
+        android:layout_marginRight="8dip"
+        android:layout_marginTop="10dip" >
+
+        <TextView
+            android:id="@+id/team_zhongjian4"
+            android:layout_width="0dip"
+            android:layout_height="1dip"
+            android:layout_centerInParent="true" />
+
+        <TextView
+            android:id="@+id/tv_changing_room"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_toLeftOf="@id/team_zhongjian4"
+            android:background="@drawable/rect_8"
+            android:clickable="true"
+            android:drawableTop="@drawable/changingroom"
+            android:gravity="center"
+            android:paddingBottom="20dip"
+            android:paddingTop="30dip"
+            android:text="更衣室"
+            android:textColor="#333333"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/tv_hall_fame"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@id/tv_changing_room"
+            android:layout_alignParentRight="true"
+            android:layout_alignTop="@id/tv_changing_room"
+            android:layout_toRightOf="@id/team_zhongjian4"
+            android:background="@drawable/rect_9"
+            android:clickable="true"
+            android:drawableTop="@drawable/hall_room"
+            android:gravity="center"
+            android:paddingBottom="20dip"
+            android:paddingTop="30dip"
+            android:text="名人堂"
+            android:textColor="#333333"
+            android:textSize="15sp" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dip"
+        android:layout_marginLeft="8dip"
+        android:layout_marginRight="8dip" >
+
+        <TextView
+            android:id="@+id/team_zhongjian5"
+            android:layout_width="0dip"
+            android:layout_height="1dip"
+            android:layout_centerInParent="true" />
+
+        <TextView
+            android:id="@+id/tv_prematch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_toLeftOf="@id/team_zhongjian5"
+            android:background="@drawable/rect_8"
+            android:clickable="true"
+            android:drawableTop="@drawable/pre_match"
+            android:gravity="center"
+            android:paddingBottom="20dip"
+            android:paddingTop="30dip"
+            android:text="比赛预告"
+            android:textColor="#333333"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/tv_rematch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@id/tv_prematch"
+            android:layout_alignParentRight="true"
+            android:layout_alignTop="@id/tv_prematch"
+            android:layout_toRightOf="@id/team_zhongjian5"
+            android:background="@drawable/rect_9"
+            android:clickable="true"
+            android:drawableTop="@drawable/re_match"
+            android:gravity="center"
+            android:paddingBottom="20dip"
+            android:paddingTop="30dip"
+            android:text="比赛回顾"
+            android:textColor="#333333"
+            android:textSize="15sp" />
+    </RelativeLayout>
+
+</LinearLayout>

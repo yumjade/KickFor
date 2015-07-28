@@ -1,0 +1,155 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/rect_15"
+        android:orientation="horizontal"
+        android:paddingBottom="10dip"
+        android:paddingRight="10dip"
+        android:paddingTop="10dip" >
+
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" >
+
+            <TextView
+                android:layout_width="15dp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/btn_style_8"
+                android:text="   " />
+            <TextView
+                android:layout_width="8dp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/btn_style_9"
+                android:text="   " />
+        </FrameLayout>
+
+        <TextView
+            android:id="@+id/editre_number"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginRight="5dip"
+            android:layout_marginLeft="8dp"
+            android:background="@drawable/teammate_big"
+            android:gravity="center"
+            android:text="15"
+            android:textColor="#ffffff" />
+
+        <TextView
+            android:id="@+id/editre_name"
+            android:layout_width="0dip"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="2.5"
+            android:text="韦壮焜"
+            android:textColor="#333333"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/editre_ensure"
+            android:layout_width="0dip"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:background="@drawable/btn_bottom_selector"
+            android:gravity="center"
+            android:paddingBottom="5dip"
+            android:paddingLeft="5dip"
+            android:paddingRight="5dip"
+            android:paddingTop="5dip"
+            android:text="确认到场"
+            android:textColor="#ffffff" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/editre_info"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/rect_16"
+        android:paddingBottom="10dip"
+        android:paddingLeft="10dip"
+        android:paddingRight="10dip"
+        android:paddingTop="10dip"
+        android:visibility="gone" >
+
+        <ImageView
+            android:id="@+id/editre_goal"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/goal_new" />
+
+        <TextView
+            android:id="@+id/editre_value1"
+            android:layout_width="0dip"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="10dip"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:text=" 0"
+            android:textColor="#333333"
+            android:textSize="15sp" />
+
+        <ImageView
+            android:id="@+id/editre_assist"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginRight="10dip"
+            android:src="@drawable/assist_new" />
+
+        <TextView
+            android:id="@+id/editre_value2"
+            android:layout_width="0dip"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:text=" 0"
+            android:textColor="#333333"
+            android:textSize="15sp" />
+
+        <ImageView
+            android:id="@+id/editre_card"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginRight="10dip"
+            android:src="@drawable/yellow" />
+
+        <TextView
+            android:id="@+id/editre_value3"
+            android:layout_width="0dip"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:text=" 0"
+            android:textColor="#333333"
+            android:textSize="15sp" />
+
+        <ImageView
+            android:id="@+id/red_card"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginRight="10dip"
+            android:src="@drawable/red" />
+
+        <TextView
+            android:id="@+id/red_card_value"
+            android:layout_width="0dip"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:text=" 0"
+            android:textColor="#333333"
+            android:textSize="15sp" />
+    </LinearLayout>
+
+</LinearLayout>

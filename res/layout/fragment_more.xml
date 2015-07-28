@@ -1,0 +1,25 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#f0f0f0">
+    
+    <RelativeLayout
+        android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:background="@drawable/title_style">
+	    <TextView 
+		    android:layout_centerInParent="true"
+		    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content"
+		    android:text="更多"
+		    android:padding="12dip"
+		    android:textSize="15sp"
+		    android:textColor="#ffffff"/>
+    </RelativeLayout>
+    <ListView
+        android:id="@+id/more_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#ffffff"/>
+</LinearLayout>

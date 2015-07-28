@@ -1,0 +1,702 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#f0f0f0"
+    android:orientation="vertical" >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dip"
+        android:background="#ffffff" >
+
+        <ImageView
+            android:id="@+id/iv_photo"
+            android:layout_width="80dip"
+            android:layout_height="80dip"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginLeft="23dip"
+            android:layout_marginRight="7dip"
+            android:layout_marginTop="15dip"
+            android:background="@drawable/team_default" />
+
+        <TextView
+            android:id="@+id/tv_my_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@id/iv_photo"
+            android:layout_alignRight="@id/iv_photo"
+            android:layout_below="@id/iv_photo"
+            android:layout_marginTop="5dip"
+            android:gravity="center"
+            android:text="余辛迪"
+            android:textSize="13sp" />
+
+        <RelativeLayout
+            android:id="@+id/btn_mycapacity"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_toRightOf="@id/iv_photo"
+            android:background="@drawable/rect"
+            android:layout_marginLeft="17dp"
+            android:paddingBottom="15dip"
+            android:paddingTop="15dip" >
+
+            <ImageView
+                android:id="@+id/capacity_image"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_marginLeft="35dip"
+                android:src="@drawable/my_capacity" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@id/capacity_image"
+                android:layout_alignTop="@id/capacity_image"
+                android:layout_marginLeft="10dip"
+                android:layout_toRightOf="@id/capacity_image"
+                android:background="@null"
+                android:gravity="center"
+                android:text="踢否足球战力"
+                android:textColor="#333333"
+                android:textSize="15sp" />
+        </RelativeLayout>
+
+        <LinearLayout
+            android:id="@+id/process_bar_1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@id/btn_mycapacity"
+            android:layout_alignRight="@id/btn_mycapacity"
+            android:layout_below="@id/btn_mycapacity"
+            android:background="@drawable/rect_1"
+            android:orientation="horizontal"
+            android:paddingLeft="20dip"
+            android:paddingTop="10dip" >
+
+            <TextView
+                android:layout_width="0dip"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="5dip"
+                android:layout_weight="1"
+                android:text="力量"
+                android:textSize="10sp" />
+
+            <ProgressBar
+                android:id="@+id/show_power"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="0dip"
+                android:layout_height="8dip"
+                android:layout_marginTop="2dip"
+                android:layout_weight="5"
+                android:max="20"
+                android:progress="17"
+                android:progressDrawable="@drawable/progress_bar_style" />
+
+            <TextView
+                android:id="@+id/value_power"
+                android:layout_width="0dip"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dip"
+                android:layout_weight="1"
+                android:text="15"
+                android:textSize="10sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/process_bar_2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@id/process_bar_1"
+            android:layout_alignRight="@id/process_bar_1"
+            android:layout_below="@id/process_bar_1"
+            android:background="@drawable/rect_1"
+            android:orientation="horizontal"
+            android:paddingLeft="20dip"
+            android:paddingTop="10dip" >
+
+            <TextView
+                android:layout_width="0dip"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="5dip"
+                android:layout_weight="1"
+                android:text="速度"
+                android:textSize="10sp" />
+
+            <ProgressBar
+                android:id="@+id/show_speed"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="0dip"
+                android:layout_height="8dip"
+                android:layout_marginTop="2dip"
+                android:layout_weight="5"
+                android:max="20"
+                android:progress="5"
+                android:progressDrawable="@drawable/progress_bar_style_1" />
+
+            <TextView
+                android:id="@+id/value_speed"
+                android:layout_width="0dip"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dip"
+                android:layout_weight="1"
+                android:text="15"
+                android:textSize="10sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/process_bar_3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@id/process_bar_1"
+            android:layout_alignRight="@id/process_bar_1"
+            android:layout_below="@id/process_bar_2"
+            android:background="@drawable/rect_1"
+            android:orientation="horizontal"
+            android:paddingLeft="20dip"
+            android:paddingTop="10dip" >
+
+            <TextView
+                android:layout_width="0dip"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="5dip"
+                android:layout_weight="1"
+                android:text="技术"
+                android:textSize="10sp" />
+
+            <ProgressBar
+                android:id="@+id/show_skills"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="0dip"
+                android:layout_height="8dip"
+                android:layout_marginTop="2dip"
+                android:layout_weight="5"
+                android:max="20"
+                android:progress="10"
+                android:progressDrawable="@drawable/progress_bar_style_1" />
+
+            <TextView
+                android:id="@+id/value_skills"
+                android:layout_width="0dip"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dip"
+                android:layout_weight="1"
+                android:text="15"
+                android:textSize="10sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/process_bar_4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@id/process_bar_1"
+            android:layout_alignRight="@id/process_bar_1"
+            android:layout_below="@id/process_bar_3"
+            android:background="@drawable/rect_1"
+            android:orientation="horizontal"
+            android:paddingLeft="20dip"
+            android:paddingTop="10dip" >
+
+            <TextView
+                android:layout_width="0dip"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="5dip"
+                android:layout_weight="1"
+                android:text="体能"
+                android:textSize="10sp" />
+
+            <ProgressBar
+                android:id="@+id/show_stamina"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="0dip"
+                android:layout_height="8dip"
+                android:layout_marginTop="2dip"
+                android:layout_weight="5"
+                android:max="20"
+                android:progress="11"
+                android:progressDrawable="@drawable/progress_bar_style" />
+
+            <TextView
+                android:id="@+id/value_stamina"
+                android:layout_width="0dip"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dip"
+                android:layout_weight="1"
+                android:text="15"
+                android:textSize="10sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/process_bar_5"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@id/process_bar_1"
+            android:layout_alignRight="@id/process_bar_1"
+            android:layout_below="@id/process_bar_4"
+            android:background="@drawable/rect_1"
+            android:orientation="horizontal"
+            android:paddingLeft="20dip"
+            android:paddingTop="10dip" >
+
+            <TextView
+                android:layout_width="0dip"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="5dip"
+                android:layout_weight="1"
+                android:text="进攻"
+                android:textSize="10sp" />
+
+            <ProgressBar
+                android:id="@+id/show_attack"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="0dip"
+                android:layout_height="8dip"
+                android:layout_marginTop="2dip"
+                android:layout_weight="5"
+                android:max="20"
+                android:progress="13"
+                android:progressDrawable="@drawable/progress_bar_style" />
+
+            <TextView
+                android:id="@+id/value_attack"
+                android:layout_width="0dip"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dip"
+                android:layout_weight="1"
+                android:text="15"
+                android:textSize="10sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/process_bar_6"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@id/process_bar_1"
+            android:layout_alignRight="@id/process_bar_1"
+            android:layout_below="@id/process_bar_5"
+            android:background="@drawable/rect"
+            android:orientation="horizontal"
+            android:paddingBottom="10dip"
+            android:paddingLeft="20dip"
+            android:paddingTop="10dip" >
+
+            <TextView
+                android:layout_width="0dip"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="5dip"
+                android:layout_weight="1"
+                android:text="防守"
+                android:textSize="10sp" />
+
+            <ProgressBar
+                android:id="@+id/show_defence"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="0dip"
+                android:layout_height="8dip"
+                android:layout_marginTop="2dip"
+                android:layout_weight="5"
+                android:max="20"
+                android:progress="3"
+                android:progressDrawable="@drawable/progress_bar_style_1" />
+
+            <TextView
+                android:id="@+id/value_defence"
+                android:layout_width="0dip"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dip"
+                android:layout_weight="1"
+                android:text="15"
+                android:textSize="10sp" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tv_grade"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/process_bar_3"
+            android:layout_toLeftOf="@id/process_bar_4"
+            android:background="@drawable/rect_2"
+            android:gravity="center"
+            android:layout_marginTop="10dp"
+            android:paddingTop="10dip"
+            android:text="Lv.1 新兵"
+            android:textColor="#333333"
+            android:textSize="13sp" />
+
+        <ProgressBar
+            android:id="@+id/progress_grade"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="match_parent"
+            android:layout_height="8dip"
+            android:layout_alignLeft="@id/tv_grade"
+            android:layout_alignRight="@id/tv_grade"
+            android:layout_below="@id/tv_grade"
+            android:layout_marginLeft="10dip"
+            android:layout_marginRight="10dip"
+            android:layout_marginTop="5dip"
+            android:layout_marginBottom="5dp"
+            android:progressDrawable="@drawable/progress_bar_style_1" />
+
+        <RelativeLayout
+            android:id="@+id/homepage_signin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@id/process_bar_6"
+            android:layout_below="@+id/progress_grade"
+            android:layout_toLeftOf="@id/process_bar_6"
+            android:background="@drawable/rect_3" >
+
+            <TextView
+                android:id="@+id/homepage_zhongjian"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true" />
+
+            <TextView
+                android:id="@+id/homepage_sign_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@id/homepage_zhongjian"
+                android:text="签到"
+                android:textColor="#333333"
+                android:textSize="13sp" />
+
+            <ImageView
+                android:id="@+id/homepage_sign_iv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="5dip"
+                android:layout_toLeftOf="@id/homepage_zhongjian"
+                android:src="@drawable/signin" />
+
+            <ProgressBar
+                android:id="@+id/homepage_wait"
+                style="?android:attr/progressBarStyleSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="5dip"
+                android:layout_toLeftOf="@id/homepage_zhongjian"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/homepage_addup"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@id/homepage_sign_iv"
+                android:layout_alignTop="@id/homepage_sign_iv"
+                android:gravity="center"
+                android:text="连续登陆"
+                android:visibility="gone" />
+        </RelativeLayout>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/btn_info1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dip"
+        android:layout_marginLeft="8dip"
+        android:layout_marginRight="8dip"
+        android:background="@drawable/selected_unselected_1"
+        android:paddingTop="15dp"
+        android:paddingBottom="15dp"
+        android:paddingLeft="10dip"
+        android:paddingRight="10dip" >
+
+        <ImageView
+            android:id="@+id/iv_info1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:background="@drawable/info1" />
+
+        <TextView
+            android:id="@+id/tv_info1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@id/iv_info1"
+            android:layout_alignTop="@id/iv_info1"
+            android:layout_marginLeft="5dip"
+            android:layout_toRightOf="@id/iv_info1"
+            android:gravity="center_vertical"
+            android:text="出生年月\n城市"
+            android:textColor="#333333"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/zhongjian"
+            android:layout_width="1dip"
+            android:layout_height="1dip"
+            android:layout_centerHorizontal="true" />
+
+        <ImageView
+            android:id="@+id/iv_info2"
+            android:layout_width="30dip"
+            android:layout_height="30dip"
+            android:layout_alignBottom="@id/iv_info1"
+            android:layout_alignTop="@id/iv_info1"
+            android:layout_marginRight="20dip"
+            android:layout_toLeftOf="@id/zhongjian"
+            android:background="@drawable/info2" />
+
+        <TextView
+            android:id="@+id/tv_info2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@id/iv_info1"
+            android:layout_alignTop="@id/iv_info1"
+            android:layout_centerHorizontal="true"
+            android:gravity="center"
+            android:text="体重\n身高"
+            android:textColor="#333333"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/tv_info3"
+            android:layout_width="75dip"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@id/iv_info1"
+            android:layout_alignParentRight="true"
+            android:layout_alignTop="@id/iv_info1"
+            android:drawableRight="@drawable/more_"
+            android:gravity="center_vertical"
+            android:text="所属球队\n位置"
+            android:textColor="#333333"
+            android:textSize="12sp" />
+
+        <ImageView
+            android:id="@+id/iv_info3"
+            android:layout_width="30dip"
+            android:layout_height="30dip"
+            android:layout_alignBottom="@id/iv_info1"
+            android:layout_alignTop="@id/iv_info1"
+            android:layout_marginRight="5dip"
+            android:layout_toLeftOf="@id/tv_info3"
+            android:background="@drawable/info3" />
+    </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/btn_info2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/btn_style_5"
+            android:clickable="true"
+            android:layout_marginLeft="8dip"
+            android:layout_marginRight="8dip"
+            android:paddingTop="5dip"
+            android:paddingBottom="15dip">
+            <TextView 
+                android:id="@+id/zhongjian1"
+                android:layout_centerHorizontal="true"
+                android:layout_width="1dip"
+                android:layout_height="1dip"/>
+            <TextView 
+                android:id="@+id/tv_1"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentTop="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/mykickfor"
+                android:textSize="12sp"
+                android:gravity="center"
+                android:textColor="#ffffff"
+                android:text="踢否生涯"
+                android:layout_marginBottom="15dip"/>
+            <TextView 
+                android:id="@+id/tv_match_number"
+                android:layout_centerHorizontal="true"
+                android:layout_alignTop="@id/tv_1"
+                android:layout_alignBottom="@id/tv_1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="15sp"
+                android:textColor="#333333"
+                android:text="100"
+                android:textStyle="bold"/>
+            <TextView 
+                android:id="@+id/home_chuzhan"
+                android:layout_toLeftOf="@id/tv_match_number"
+                android:layout_alignTop="@id/tv_1"
+                android:layout_alignBottom="@id/tv_1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="15sp"
+                android:textColor="#333333"
+                android:text="出战"/>
+            <TextView 
+                android:id="@+id/home_changbisai"
+                android:layout_toRightOf="@id/tv_match_number"
+                android:layout_alignTop="@id/tv_1"
+                android:layout_alignBottom="@id/tv_1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="15sp"
+                android:textColor="#333333"
+                android:text="场"/>
+            
+            <ImageView
+                android:id="@+id/iv_info4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:layout_below="@id/tv_1"
+                android:background="@drawable/info4" 
+                android:layout_marginLeft="10dip"/>
+
+            <TextView
+                android:id="@+id/tv_win_rate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@id/iv_info4"
+                android:layout_marginLeft="5dip"
+                android:layout_toRightOf="@id/iv_info4"
+                android:gravity="bottom"
+                android:text="56%"
+                android:textStyle="bold"
+                android:textSize="15sp" 
+                android:textColor="#333333"/>
+            <TextView
+                android:id="@+id/home_shenglv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@id/tv_win_rate"
+                android:layout_alignTop="@id/iv_info4"
+                android:layout_above="@id/tv_win_rate"
+                android:gravity="center"
+                android:text="胜率"
+                android:textSize="10sp" 
+                android:textColor="#333333"/>
+
+            <TextView
+                android:id="@+id/zhongjian2"
+                android:layout_width="1dip"
+                android:layout_height="1dip"
+                android:layout_centerHorizontal="true" />
+
+            <ImageView
+                android:id="@+id/iv_info5"
+                android:layout_width="30dip"
+                android:layout_height="30dip"
+                android:layout_alignBottom="@id/iv_info4"
+                android:layout_alignTop="@id/iv_info4"
+                android:layout_marginRight="20dip"
+                android:layout_toLeftOf="@id/zhongjian2"
+                android:background="@drawable/info5" />
+
+            <TextView
+                android:id="@+id/tv_goal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@id/iv_info4"
+                android:layout_toRightOf="@id/zhongjian2"
+                android:layout_marginLeft="-15dip"
+                android:gravity="bottom"
+                android:text="20"
+                android:textSize="15sp" 
+                android:textStyle="bold"
+                android:textColor="#333333"/>
+            <TextView
+                android:id="@+id/home_jinqiu"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@id/tv_goal"
+                android:layout_alignTop="@id/home_shenglv"
+                android:layout_above="@id/tv_goal"
+                android:gravity="center"
+                android:text="进球"
+                android:textSize="10sp" 
+                android:textColor="#333333"/>
+            <TextView
+                android:id="@+id/home_li"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@id/tv_goal"
+                android:layout_alignBottom="@id/tv_goal"
+                android:layout_toRightOf="@id/tv_goal"
+                android:gravity="bottom"
+                android:text="粒"
+                android:layout_marginLeft="3dip"
+                android:textSize="10sp" 
+                android:textColor="#333333"/>
+            
+            <TextView
+                android:id="@+id/home_zhugong"
+                android:layout_width="70dip"
+                android:drawableRight="@drawable/more_"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="10dip"
+                android:layout_alignTop="@id/home_shenglv"
+                android:gravity="left"
+                android:text="助攻"
+                android:textSize="10sp" 
+                android:textColor="#333333"/>
+            
+            <TextView
+                android:id="@+id/tv_assist"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/home_zhugong"
+                android:layout_alignLeft="@id/home_zhugong"
+                android:layout_alignBottom="@id/iv_info4"
+                android:gravity="bottom"
+                android:text="16"
+                android:textSize="15sp" 
+                android:textStyle="bold"
+                android:textColor="#333333"/>
+            <TextView
+                android:id="@+id/home_li1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@id/home_li"
+                android:layout_alignBottom="@id/tv_assist"
+                android:layout_toRightOf="@id/tv_assist"
+                android:gravity="bottom"
+                android:text="次"
+                android:layout_marginLeft="3dip"
+                android:textSize="10sp" 
+                android:textColor="#333333"/>
+
+            <ImageView
+                android:id="@+id/iv_info6"
+                android:layout_width="30dip"
+                android:layout_height="30dip"
+                android:layout_alignBottom="@id/iv_info4"
+                android:layout_alignTop="@id/iv_info4"
+                android:layout_toLeftOf="@id/tv_assist"
+                android:layout_marginRight="5dip"
+                android:background="@drawable/info6" />
+        </RelativeLayout>
+        
+        <View 
+            android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:layout_marginLeft="8dip"
+            android:layout_marginRight="8dip"
+            android:background="#ebebeb"/>
+        <TextView
+            android:id="@+id/btn_info3"
+            android:layout_marginLeft="8dip"
+            android:layout_marginRight="8dip"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="15sp"
+            android:text="我的下一场比赛"
+            android:gravity="center"
+            android:paddingTop="20dip"
+            android:paddingBottom="20dip"
+            android:paddingRight="10dip"
+            android:textColor="#333333"
+            android:drawableRight="@drawable/more_"
+            android:background="@drawable/btn_style_7"/>
+
+</LinearLayout>

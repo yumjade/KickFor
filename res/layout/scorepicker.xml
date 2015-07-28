@@ -1,0 +1,28 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/scorePicker"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal" >
+     <com.example.kickfor.wheelview.WheelView
+         android:id="@+id/wheel_goals"
+         android:layout_width="0dip"
+         android:layout_weight="1"
+         android:layout_gravity="center"
+         android:layout_height="wrap_content" />
+     <TextView
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:text="-"
+         android:layout_marginLeft="10dip"
+         android:textSize="40sp"
+         android:layout_marginRight="10dip"
+         android:layout_gravity="center"
+         android:textColor="#333333"/>
+
+     <com.example.kickfor.wheelview.WheelView
+         android:id="@+id/wheel_lost"
+         android:layout_width="0dip"
+         android:layout_weight="1"
+         android:layout_gravity="center"
+         android:layout_height="wrap_content" />
+</LinearLayout>

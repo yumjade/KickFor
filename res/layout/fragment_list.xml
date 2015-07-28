@@ -1,0 +1,35 @@
+ <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"  
+    android:layout_width="match_parent"  
+    android:layout_height="match_parent"  
+    android:orientation="vertical" > 
+    <RelativeLayout
+        android:id="@+id/list_title"
+		    android:layout_width="match_parent"
+		    android:layout_height="wrap_content"
+		    android:background="@drawable/title_style">
+	        <ImageView
+	            android:id="@+id/list_back"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:layout_alignParentLeft="true"
+	            android:layout_centerVertical="true"
+	            android:padding="15dip"
+	            android:src="@drawable/back"
+	            android:background="@drawable/select_unselected_3"/>
+	        <TextView 
+		        android:id="@+id/list_text"
+		        android:layout_toRightOf="@id/list_back"
+		        android:layout_centerVertical="true"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:text="比赛回顾"
+		        android:textSize="15sp"
+		        android:textColor="#ffffff"/>
+	    </RelativeLayout>
+    <com.example.kickfor.KickForListView 
+        android:id="@+id/kick_for_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    </com.example.kickfor.KickForListView>
+  
+</LinearLayout>  
