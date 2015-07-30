@@ -56,7 +56,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_weight="1"
-            android:background="@drawable/btn_bottom_selector"
+            android:background="@drawable/btn_bottom_selector1"
             android:gravity="center"
             android:paddingBottom="5dip"
             android:paddingLeft="5dip"

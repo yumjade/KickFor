@@ -13,6 +13,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 import org.json.JSONObject;
 import org.json.JSONStringer;
@@ -673,7 +674,11 @@ public class Tools {
 			}
 			return bundle;
 		}
-
-
-
+		
+		public static int randomNumber(int number){
+			Random random = new Random();
+			int v = random.nextInt();
+			int value = Math.abs(v % number) + 1;
+			return value;			
+		}
 }

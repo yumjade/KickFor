@@ -209,6 +209,30 @@
                     android:text=""
                     android:textColor="#333333"
                     android:textSize="14sp" />
+                
+                <TextView
+                    android:id="@+id/saizhi"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignLeft="@id/bisairiqi"
+                    android:layout_below="@id/bisaixingzhi"
+                    android:paddingBottom="1dp"
+                    android:text="比赛赛制："
+                    android:textColor="#6e6e6e"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/pre_person"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@id/saizhi"
+                    android:layout_alignTop="@id/saizhi"
+                    android:layout_marginLeft="5dip"
+                    android:layout_toRightOf="@id/saizhi"
+                    android:paddingBottom="1dp"
+                    android:text=""
+                    android:textColor="#333333"
+                    android:textSize="14sp" />
             </RelativeLayout>
 
             <RelativeLayout
@@ -312,16 +336,18 @@
                     android:textColor="#6e6e6e"
                     android:textSize="14sp" />
 
-                <TextView
+                <LinearLayout
                     android:id="@+id/pre_members"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignLeft="@id/querencansaiduiyuan"
                     android:layout_below="@id/querencansaiduiyuan"
-                    android:text=""
-                    android:hint="暂无队员报名"
-                    android:textColor="#333333"
-                    android:textSize="14sp" />
+                    android:orientation="vertical">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:hint="暂无队员参加"/>
+                </LinearLayout>
             </RelativeLayout>
 
             <TextView

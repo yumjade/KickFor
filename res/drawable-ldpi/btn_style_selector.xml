@@ -6,13 +6,13 @@
 
             <corners android:radius="5dp" />
 
-            <padding android:bottom="9dip" android:top="9dip" />
+            <padding android:bottom="10dip" android:top="10dip" />
 
         </shape></item>
     <item><shape android:shape="rectangle">
             <solid android:color="#56b02a" />
 
-            <padding android:bottom="9dip" android:top="9dip" />
+            <padding android:bottom="10dip" android:top="10dip" />
 
             <corners android:radius="5dp" />
 

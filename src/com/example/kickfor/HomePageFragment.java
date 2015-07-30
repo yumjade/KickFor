@@ -59,6 +59,7 @@ public class HomePageFragment extends Fragment implements OnClickListener, HomeP
 	private ProgressBar pbGrade=null;
 	private TextView addupText=null;
 	private TextView text=null;
+	private TextView zhugong=null;
 	
 	private ProgressBar power=null;
 	private ProgressBar speed=null;
@@ -73,7 +74,7 @@ public class HomePageFragment extends Fragment implements OnClickListener, HomeP
 	private TextView info3_team=null;
 	private TextView info3_time=null;
 	private TextView info3_place=null;
-	private TextView info3_p=null;
+	private TextView info3_person=null;
 	private TextView info3_type=null;
 	private TextView button1=null;
 	private TextView button2=null;
@@ -228,6 +229,7 @@ public class HomePageFragment extends Fragment implements OnClickListener, HomeP
 			titleBack=(ImageView)view.findViewById(R.id.other_homepage_back);
 			power=(ProgressBar)view.findViewById(R.id.show_other_power);
 			skills=(ProgressBar)view.findViewById(R.id.show_other_skills);
+			zhugong=(TextView)view.findViewById(R.id.other_zhugong);
 			stamina=(ProgressBar)view.findViewById(R.id.show_other_stamina);
 			speed=(ProgressBar)view.findViewById(R.id.show_other_speed);
 			attack=(ProgressBar)view.findViewById(R.id.show_other_attack);
@@ -252,7 +254,7 @@ public class HomePageFragment extends Fragment implements OnClickListener, HomeP
 			info3_team=(TextView)view.findViewById(R.id.other_team);
 			info3_time=(TextView)view.findViewById(R.id.other_date_time);
 			info3_place=(TextView)view.findViewById(R.id.other_place);
-			info3_p=(TextView)view.findViewById(R.id.other_number);
+			info3_person=(TextView)view.findViewById(R.id.other_number);
 			info3_type=(TextView)view.findViewById(R.id.other_type);
 			button1=(TextView)view.findViewById(R.id.other_chat);
 			button2=(TextView)view.findViewById(R.id.other_evaluate);
@@ -290,7 +292,6 @@ public class HomePageFragment extends Fragment implements OnClickListener, HomeP
 		mListView.setVisibility(View.GONE);
 		info3Detail.setVisibility(View.GONE);
 		Drawable drawable= getResources().getDrawable(R.drawable.more_down);
-		totalAssist.setCompoundDrawablesWithIntrinsicBounds(null, null, drawable, null);
 		info3Detail.setVisibility(View.GONE);
 		infoButton3.setCompoundDrawablesWithIntrinsicBounds(null, null, drawable, null);
 		infoButton3.setText("下一场比赛对手："+entity.getAgainstName());
@@ -299,6 +300,7 @@ public class HomePageFragment extends Fragment implements OnClickListener, HomeP
 		info3_place.setText(entity.getPlace());
 		info3_time.setText(entity.getDateAndTime());
 		info3_type.setText(entity.getType());
+		info3_person.setText(entity.getPerson());
 		titleBack.setOnClickListener(this);
 		infoButton2.setOnClickListener(this);
 		infoButton3.setOnClickListener(this);
@@ -361,13 +363,13 @@ public class HomePageFragment extends Fragment implements OnClickListener, HomeP
 				if(!isListVisible){
 					mListView.setVisibility(View.VISIBLE);
 					Drawable drawable= getResources().getDrawable(R.drawable.more_up);
-					totalAssist.setCompoundDrawablesWithIntrinsicBounds(null, null, drawable, null);
+					zhugong.setCompoundDrawablesWithIntrinsicBounds(null, null, drawable, null);
 					isListVisible=true;
 				}
 				else{
 					mListView.setVisibility(View.GONE);
 					Drawable drawable= getResources().getDrawable(R.drawable.more_down);
-					totalAssist.setCompoundDrawablesWithIntrinsicBounds(null, null, drawable, null);
+					zhugong.setCompoundDrawablesWithIntrinsicBounds(null, null, drawable, null);
 					isListVisible=false;
 				}
 				break;
@@ -399,6 +401,7 @@ public class HomePageFragment extends Fragment implements OnClickListener, HomeP
 					tmp.put("date", Tools.getDate());
 					Runnable r=new ClientWrite(Tools.JsonEncode(tmp));
 					new Thread(r).start();
+					Toast.makeText(getActivity(), "申请已发送至对方", Toast.LENGTH_SHORT).show();
 				}
 				break;
 			}

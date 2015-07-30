@@ -34,7 +34,6 @@ public class ClientReader implements Runnable{
 	private String message=null;
 	private Context context=null;
 	private boolean ing=true;
-	private String reviewStatus;
 	
 	public ClientReader(Handler handler, Context context){
 		this.handler=handler;
@@ -1272,7 +1271,7 @@ public class ClientReader implements Runnable{
 					String againstName=map.get("againstname").toString();
 					int goals=Integer.parseInt(map.get("goal").toString());
 					int lost=Integer.parseInt(map.get("lost").toString());
-					MatchReviewEntity item=new MatchReviewEntity(id, date, place, Tools.bitmapToString(teamImg), Tools.bitmapToString(againstImg), teamName, againstName, reviewStatus,goals, lost);
+					MatchReviewEntity item=new MatchReviewEntity(id, date, place, Tools.bitmapToString(teamImg), Tools.bitmapToString(againstImg), teamName, againstName, goals, lost);
 					item.setStatus(map.get("status").toString());
 					item.setAgainstId(map.get("againstid").toString());
 					bundle.putSerializable("entity", item);

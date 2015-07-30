@@ -70,11 +70,11 @@
 			        android:layout_width="0dip"
 			        android:layout_height="wrap_content"
 			        android:layout_weight="1"
-			        android:text="力量"
+			        android:text="进攻"
 			        android:textSize="10sp"
 			        android:layout_marginRight="5dip"/>
 	            <ProgressBar
-				    android:id="@+id/show_other_power"
+				    android:id="@+id/show_other_attack"
 				    android:layout_width="0dip"
 				    android:layout_height="8dip"
 				    android:layout_weight="5"
@@ -84,7 +84,7 @@
 				    style="?android:attr/progressBarStyleHorizontal" 
 				    android:max="20"/> 
 				<TextView
-				    android:id="@+id/value_other_power"
+				    android:id="@+id/value_other_attack"
 			        android:layout_width="0dip"
 			        android:layout_height="wrap_content"
 			        android:layout_weight="1"
@@ -107,11 +107,11 @@
 			        android:layout_width="0dip"
 			        android:layout_height="wrap_content"
 			        android:layout_weight="1"
-			        android:text="速度"
+			        android:text="防守"
 			        android:textSize="10sp"
 			        android:layout_marginRight="5dip"/>
 	            <ProgressBar
-				    android:id="@+id/show_other_speed"
+				    android:id="@+id/show_other_defence"
 				    android:layout_width="0dip"
 				    android:layout_height="8dip"
 				    android:layout_weight="5"
@@ -121,7 +121,7 @@
 				    style="?android:attr/progressBarStyleHorizontal" 
 				    android:max="20"/> 
 				<TextView
-				    android:id="@+id/value_other_speed"
+				    android:id="@+id/value_other_defence"
 			        android:layout_width="0dip"
 			        android:layout_height="wrap_content"
 			        android:layout_weight="1"
@@ -181,11 +181,11 @@
 			        android:layout_width="0dip"
 			        android:layout_height="wrap_content"
 			        android:layout_weight="1"
-			        android:text="体能"
+			        android:text="力量"
 			        android:textSize="10sp"
 			        android:layout_marginRight="5dip"/>
 	            <ProgressBar
-				    android:id="@+id/show_other_stamina"
+				    android:id="@+id/show_other_power"
 				    android:layout_width="0dip"
 				    android:layout_height="8dip"
 				    android:layout_weight="5"
@@ -195,7 +195,7 @@
 				    android:layout_marginTop="2dip"
 				    android:max="20"/> 
 				<TextView
-				    android:id="@+id/value_other_stamina"
+				    android:id="@+id/value_other_power"
 			        android:layout_width="0dip"
 			        android:layout_height="wrap_content"
 			        android:layout_weight="1"
@@ -218,11 +218,11 @@
 			        android:layout_width="0dip"
 			        android:layout_height="wrap_content"
 			        android:layout_weight="1"
-			        android:text="进攻"
+			        android:text="速度"
 			        android:textSize="10sp"
 			        android:layout_marginRight="5dip"/>
 	            <ProgressBar
-				    android:id="@+id/show_other_attack"
+				    android:id="@+id/show_other_speed"
 				    android:layout_width="0dip"
 				    android:layout_height="8dip"
 				    android:layout_weight="5"
@@ -232,7 +232,7 @@
 				    android:layout_marginTop="2dip"
 				    android:max="20"/> 
 				<TextView
-				    android:id="@+id/value_other_attack"
+				    android:id="@+id/value_other_speed"
 			        android:layout_width="0dip"
 			        android:layout_height="wrap_content"
 			        android:layout_weight="1"
@@ -256,11 +256,11 @@
 			        android:layout_width="0dip"
 			        android:layout_height="wrap_content"
 			        android:layout_weight="1"
-			        android:text="防守"
+			        android:text="体能"
 			        android:textSize="10sp"
 			        android:layout_marginRight="5dip"/>
 	            <ProgressBar
-				    android:id="@+id/show_other_defence"
+				    android:id="@+id/show_other_stamina"
 				    android:layout_width="0dip"
 				    android:layout_height="8dip"
 				    android:layout_weight="5"
@@ -270,7 +270,7 @@
 				    android:layout_marginTop="2dip"
 				    android:max="20"/> 
 				<TextView
-				    android:id="@+id/value_other_defence"
+				    android:id="@+id/value_other_stamina"
 			        android:layout_width="0dip"
 			        android:layout_height="wrap_content"
 			        android:layout_weight="1"
@@ -525,7 +525,7 @@
 	            <TextView
 	                android:id="@+id/other_zhugong"
 	                android:layout_width="70dip"
-	                android:drawableRight="@drawable/more_"
+	                android:drawableRight="@drawable/more_down"
 	                android:layout_height="wrap_content"
 	                android:layout_alignParentRight="true"
 	                android:layout_marginRight="10dip"

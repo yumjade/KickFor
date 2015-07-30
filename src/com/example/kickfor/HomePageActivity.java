@@ -18,6 +18,7 @@ import com.easemob.chat.EMGroupManager;
 import com.easemob.chat.EMMessage;
 import com.easemob.chat.EMMessage.ChatType;
 import com.easemob.chat.TextMessageBody;
+import com.example.kickfor.more.AboutusFragment;
 import com.example.kickfor.more.FeedbackFragment;
 import com.example.kickfor.more.FindPasswordsFragment;
 import com.example.kickfor.more.MoreFragment;
@@ -27,7 +28,6 @@ import com.example.kickfor.more.SearchItemEntity;
 import com.example.kickfor.more.SearchItemFragment;
 import com.example.kickfor.more.SettingsFragment;
 import com.example.kickfor.service.NetWorkBroadcastReceiver;
-import com.example.kickfor.team.AboutusFragment;
 import com.example.kickfor.team.ChangingRoomAdapter;
 import com.example.kickfor.team.ChangingRoomFragment;
 import com.example.kickfor.team.EditPreviewFragment;
@@ -522,7 +522,7 @@ public class HomePageActivity extends FragmentActivity implements HandlerListene
 
 
 	public void edit(int id, String teamid, String againstid, String againstname,
-		String place, String date, String time) {
+		String place, String date, String time, String type, String person) {
 		EditPreviewFragment tmp=new EditPreviewFragment();
 		Bundle bundle=new Bundle();
 		bundle.putInt("id", id);
@@ -532,6 +532,8 @@ public class HomePageActivity extends FragmentActivity implements HandlerListene
 		bundle.putString("place", place);
 		bundle.putString("date", date);
 		bundle.putString("time", time);
+		bundle.putString("type", type);
+		bundle.putString("person", person);
 		tmp.setArguments(bundle);
 		FragmentTransaction tx=fm.beginTransaction();
 		tx.setCustomAnimations(R.animator.slide_in_right, R.animator.slide_out_left, R.animator.slide_in_left, R.animator.slide_out_right);
@@ -642,24 +644,6 @@ public class HomePageActivity extends FragmentActivity implements HandlerListene
 		FragmentTransaction tx=fm.beginTransaction();
 		tx.setCustomAnimations(R.animator.slide_in_right, R.animator.slide_out_left, R.animator.slide_in_left, R.animator.slide_out_right);
 		tx.replace(R.id.main, protocols);
-		tx.addToBackStack(null);
-		tx.commit();
-	}
-	
-	public void feedback(){
-		FeedbackFragment feedback = new FeedbackFragment();
-		FragmentTransaction tx=fm.beginTransaction();
-		tx.setCustomAnimations(R.animator.slide_in_right, R.animator.slide_out_left, R.animator.slide_in_left, R.animator.slide_out_right);
-		tx.replace(R.id.main, feedback);
-		tx.addToBackStack(null);
-		tx.commit();
-	}
-	
-	public void aboutus(){
-		AboutusFragment aboutus = new AboutusFragment();
-		FragmentTransaction tx=fm.beginTransaction();
-		tx.setCustomAnimations(R.animator.slide_in_right, R.animator.slide_out_left, R.animator.slide_in_left, R.animator.slide_out_right);
-		tx.replace(R.id.main, aboutus);
 		tx.addToBackStack(null);
 		tx.commit();
 	}
@@ -1430,7 +1414,7 @@ public class HomePageActivity extends FragmentActivity implements HandlerListene
 		// TODO Auto-generated method stub
 		this.selectImage=selectImage;
 		MyPopupWindow popWindow=new MyPopupWindow(this);
-		backgroundAlpha(0.3f);
+		backgroundAlpha(0.4f);
 		popWindow.showAtLocation(this.findViewById(R.id.content), Gravity.BOTTOM|Gravity.CENTER_HORIZONTAL, 0, 0);
 		popWindow.setOnDismissListener(new OnDismissListener(){  
             public void onDismiss() {  
@@ -1600,6 +1584,25 @@ public class HomePageActivity extends FragmentActivity implements HandlerListene
 		}
 		
 	}
+	
+	public void aboutus(){
+		AboutusFragment aboutus = new AboutusFragment();
+		FragmentTransaction tx=fm.beginTransaction();
+		tx.setCustomAnimations(R.animator.slide_in_right, R.animator.slide_out_left, R.animator.slide_in_left, R.animator.slide_out_right);
+		tx.replace(R.id.main, aboutus);
+		tx.addToBackStack(null);
+		tx.commit();
+	}
+
+	public void feedback(){
+		FeedbackFragment feedback = new FeedbackFragment();
+		FragmentTransaction tx=fm.beginTransaction();
+		tx.setCustomAnimations(R.animator.slide_in_right, R.animator.slide_out_left, R.animator.slide_in_left, R.animator.slide_out_right);
+		tx.replace(R.id.main, feedback);
+		tx.addToBackStack(null);
+		tx.commit();
+	}
+
 	
 	public void openFame(boolean type, String teamid, String authority, HallofFame entity){
 		if(type==HallOfFameFragment.FIRST_OPEN){
@@ -2893,7 +2896,6 @@ public class HomePageActivity extends FragmentActivity implements HandlerListene
 		if ((keyCode == KeyEvent.KEYCODE_BACK)) { 
 			long time=new Date().getTime();
 			if(time-ctime<800){
-				ctime=time;
 				Toast.makeText(this, "您的操作过于频繁", Toast.LENGTH_SHORT).show();
 				return true;
 			}

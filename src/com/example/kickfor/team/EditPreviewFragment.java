@@ -32,13 +32,18 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 public class EditPreviewFragment extends Fragment implements TeamInterface, IdentificationInterface{
+	
+	final String[]items ={"联赛", "杯赛", "热身赛"};
+	final String[]items1 ={"5人制", "7人制", "8人制", "9人制", "11人制", "其他"};
 	
 	private EditText nameText=null;
 	private EditText placeText=null;
@@ -48,6 +53,8 @@ public class EditPreviewFragment extends Fragment implements TeamInterface, Iden
 	private TextView cancel=null;
 	private TextView delete=null;
 	private ListView mListView=null;
+	private TextView typeText=null;
+	private TextView personText=null;
 	
 	private int id=-1;
 	private String teamid=null;
@@ -56,6 +63,8 @@ public class EditPreviewFragment extends Fragment implements TeamInterface, Iden
 	private String place=null;
 	private String date=null;
 	private String time=null;
+	private String type=null;
+	private String person=null;
 	private Bitmap againstimg=null;
 	
 	private ImageView back=null;
@@ -89,6 +98,12 @@ public class EditPreviewFragment extends Fragment implements TeamInterface, Iden
 		this.place=bundle.getString("place");
 		this.date=bundle.getString("date");
 		this.time=bundle.getString("time");
+		if(bundle.containsKey("type")){
+			this.type=bundle.getString("type");
+		}
+		if(bundle.containsKey("person")){
+			this.person=bundle.getString("person");
+		}
 		mList=new ArrayList<SearchItemEntity>();
 	}
 
@@ -111,6 +126,41 @@ public class EditPreviewFragment extends Fragment implements TeamInterface, Iden
 		// TODO Auto-generated method stub
 		init();
 		View view=inflater.inflate(R.layout.fragment_edit_prematch, container, false);
+		typeText=(TextView)view.findViewById(R.id.match_character_2);
+		typeText.setOnClickListener(new OnClickListener(){
+			@Override
+			public void onClick(View arg0) {
+				// TODO Auto-generated method stub
+				AlertDialog.Builder builder = new AlertDialog.Builder(context);
+				builder.setTitle("比赛类型");
+				ListAdapter catalogsAdapter = new ArrayAdapter<String>(context, R.layout.match_type_item, items);
+				builder.setAdapter(catalogsAdapter, new DialogInterface.OnClickListener(){
+				    public void onClick(DialogInterface arg0, int arg1) {
+				        typeText.setText(items[arg1]);
+				    }
+				});
+				builder.show();
+				
+			}
+		});
+		personText=(TextView)view.findViewById(R.id.match_format_2);
+		personText.setOnClickListener(new OnClickListener(){
+
+			@Override
+			public void onClick(View arg0) {
+				// TODO Auto-generated method stub
+				AlertDialog.Builder builder = new AlertDialog.Builder(context);
+				builder.setTitle("赛制");
+				ListAdapter catalogsAdapter = new ArrayAdapter<String>(context, R.layout.match_type_item, items1);
+				builder.setAdapter(catalogsAdapter, new DialogInterface.OnClickListener(){
+				    public void onClick(DialogInterface arg0, int arg1) {
+				        personText.setText(items1[arg1]);
+				    }
+				});
+				builder.show();
+			}
+			
+		});
 		delete=(TextView)view.findViewById(R.id.edit_pre_delete);
 		if(id==-1){
 			delete.setVisibility(View.GONE);
@@ -234,6 +284,8 @@ public class EditPreviewFragment extends Fragment implements TeamInterface, Iden
 				place=placeText.getText().toString();
 				date=dateText.getText().toString();
 				time=timeText.getText().toString();
+				type=typeText.getText().toString();
+				person=personText.getText().toString();
 				if(name.isEmpty()){
 					Toast.makeText(context, "对手姓名不能为空", Toast.LENGTH_SHORT).show();
 				}
@@ -251,6 +303,12 @@ public class EditPreviewFragment extends Fragment implements TeamInterface, Iden
 					dateText.setText("");
 					timeText.setText("");
 				}
+				else if(type.isEmpty()){
+					Toast.makeText(context, "比赛性质不能为空", Toast.LENGTH_SHORT).show();
+				}
+				else if(person.isEmpty()){
+					Toast.makeText(context, "赛制不能为空", Toast.LENGTH_SHORT).show();
+				}
 				else{
 					setEnable(false);
 					Map<String, Object> tmp=new HashMap<String, Object>();
@@ -260,6 +318,8 @@ public class EditPreviewFragment extends Fragment implements TeamInterface, Iden
 					tmp.put("date", date);
 					tmp.put("time", time);
 					tmp.put("status", "u");
+					tmp.put("type", type);
+					tmp.put("person", person);
 					if(id==-1){
 						tmp.put("id", id);
 					}
@@ -313,6 +373,8 @@ public class EditPreviewFragment extends Fragment implements TeamInterface, Iden
 		placeText.setText(place);
 		dateText.setText(date);
 		timeText.setText(time);
+		typeText.setText(type);
+		personText.setText(person);
 		nameText.addTextChangedListener(new TextWatcher(){
 
 			@Override

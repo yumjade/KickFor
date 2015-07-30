@@ -21,7 +21,6 @@ public class MatchReviewEntity implements Serializable{
 	private String teamName=null;
 	private String againstName=null;
 	private String againstImg=null;
-	private String reviewStatus = null;
 	private int goals=0;
 	private int lost=0;
 	private int assists=0;
@@ -31,27 +30,26 @@ public class MatchReviewEntity implements Serializable{
 	private String type=null;
 	private int id=0;
 	private String status=null;
+	private String person=null;
 	
-	public MatchReviewEntity(int id, String date, String place, String teamImg, String againstImg, String teamName, String againstName,String reviewStatus, int goals, int lost){
+	public MatchReviewEntity(int id, String date, String place, String teamImg, String againstImg, String teamName, String againstName, int goals, int lost){
 		this.date=date;
 		this.place=place;
 		this.teamImg=teamImg;
 		this.againstImg=againstImg;
 		this.teamName=teamName;
 		this.againstName=againstName;
-		this.reviewStatus = reviewStatus;
 		this.goals=goals;
 		this.lost=lost;
 		this.id=id;
 	}
 	
-	public MatchReviewEntity(int id, String date, String teamImg, String teamName, String againstName, String reviewStatus,int goals, int lost){
+	public MatchReviewEntity(int id, String date, String teamImg, String teamName, String againstName, int goals, int lost){
 		this.date=date;
 		this.id=id;
 		this.teamImg=teamImg;
 		this.teamName=teamName;
 		this.againstName=againstName;
-		this.reviewStatus = reviewStatus;
 		this.goals=goals;
 		this.lost=lost;
 		
@@ -66,6 +64,14 @@ public class MatchReviewEntity implements Serializable{
 	
 	public void setPlace(String place){
 		this.place=place;
+	}
+	
+	public void setPerson(String person){
+		this.person=person;
+	}
+	
+	public String getPerson(){
+		return person;
 	}
 	
 	public void setAssists(String assists){
@@ -164,7 +170,7 @@ public class MatchReviewEntity implements Serializable{
 	public String[] getDetails(){
 		List<String> mList=explode(info, "<END>");
 		int length=mList.size();
-		String[] details=new String[4];
+		String[] details=new String[5];
 		for(int index=0; index<length; index++){
 			String str=mList.get(index);
 			List<String> item=explode(str, ";");
@@ -177,31 +183,56 @@ public class MatchReviewEntity implements Serializable{
 			String attendance=item.get(7);
 			if(index==0){
 				if(!(goal.equals("0"))){
-					details[1]=name+"x"+goal+" ";
+					details[1]=name+"x"+goal+"x;";
 				}
+				else{
+					details[1]="";
+				}
+				
 				if(!(assist.equals("0"))){
-					details[2]=name+"x"+assist+" ";
+					details[2]=name+"x"+assist+"x;";
 				}
-				if(!(yellowCard.equals("0") && redCard.equals("0"))){
-					details[3]=name+" ";
+				else{
+					details[2]="";
 				}
+				
+				if(!(yellowCard.equals("0"))){
+					details[3]=name+";";
+				}
+				else{
+					details[3]="";
+				}
+				
+				if(!(redCard.equals("0"))){
+					details[4]=name+";";
+				}
+				else{
+					details[4]="";
+				}
+				
 				if(attendance.equals("1")){
-					details[0]=number+" "+name+"   ";
+					details[0]=number+" "+name+";";
+				}
+				else{
+					details[0]="";
 				}
 				
 			}
 			else{
 				if(!(goal.equals("0"))){
-					details[1]=details[1]+name+"x"+goal+" ";
+					details[1]=details[1]+name+"x"+goal+"x;";
 				}
 				if(!(assist.equals("0"))){
-					details[2]=details[2]+name+"x"+assist+" ";
+					details[2]=details[2]+name+"x"+assist+"x;";
 				}
-				if(!(yellowCard.equals("0") && redCard.equals("0"))){
-					details[3]=details[3]+name;
+				if(!(yellowCard.equals("0"))){
+					details[3]=details[3]+name+";";
+				}
+				if(!(redCard.equals("0"))){
+					details[4]=details[4]+name+";";
 				}
 				if(attendance.equals("1")){
-					details[0]=details[0]+number+" "+name+"   ";
+					details[0]=details[0]+number+" "+name+";";
 				}
 			}
 			
@@ -247,14 +278,6 @@ public class MatchReviewEntity implements Serializable{
 	
 	
 	
-	public String getReviewStatus() {
-		return reviewStatus;
-	}
-
-	public void setReviewStatus(String reviewStatus) {
-		this.reviewStatus = reviewStatus;
-	}
-
 	public String getSocre(){
 		return goals+" - "+lost;
 	}

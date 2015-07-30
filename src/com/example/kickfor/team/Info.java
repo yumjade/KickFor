@@ -82,14 +82,26 @@ public class Info{
 		assist=assist+1;
 	}
 	
-	public void resetCard(){
-		card=0;
+	public void resetYCard(){
+		if(card!=2){
+			card=0;
+		}
 	}
 	
-	public void setCard(){
+	public void resetRCard(){
+		if(card==2){
+			card=0;
+		}
+	}
+	
+	public void setYCard(){
 		if(card<2){
 			card=card+1;
 		}
+	}
+	
+	public void setRCard(){
+		card=2;
 	}
 	
 	public String getGoal(){

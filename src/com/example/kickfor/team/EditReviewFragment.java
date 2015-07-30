@@ -53,7 +53,8 @@ import android.widget.Toast;
 
 public class EditReviewFragment extends Fragment implements TeamInterface, IdentificationInterface{
 	
-	final String[]items ={"联赛","杯赛","热身赛","训练赛","友谊赛"};
+	final String[]items ={"联赛", "杯赛", "热身赛"};
+	final String[]items1 ={"5人制", "7人制", "8人制", "9人制", "11人制", "其他"};
 	
 	private ImageView myTeamImage=null;
 	private ImageView againstTeamImage=null;
@@ -93,6 +94,7 @@ public class EditReviewFragment extends Fragment implements TeamInterface, Ident
 	private WheelTime wheelTime=null;
 	private TextView cancel=null;
 	private ImageView back=null;
+	private TextView person=null;
 	
 	@Override
 	public int getFragmentLevel() {
@@ -120,6 +122,24 @@ public class EditReviewFragment extends Fragment implements TeamInterface, Ident
 		((HomePageActivity)getActivity()).removeVague();
 		init();
 		View view=inflater.inflate(R.layout.fragment_edit_review, container, false);
+		person=(TextView)view.findViewById(R.id.tv_play_format);
+		person.setOnClickListener(new OnClickListener(){
+
+			@Override
+			public void onClick(View arg0) {
+				// TODO Auto-generated method stub
+				AlertDialog.Builder builder = new AlertDialog.Builder(context);
+				builder.setTitle("赛制");
+				ListAdapter catalogsAdapter = new ArrayAdapter<String>(context, R.layout.match_type_item, items1);
+				builder.setAdapter(catalogsAdapter, new DialogInterface.OnClickListener(){
+				    public void onClick(DialogInterface arg0, int arg1) {
+				        person.setText(items1[arg1]);
+				    }
+				});
+				builder.show();
+			}
+			
+		});
 		myTeamImage=(ImageView)view.findViewById(R.id.iv_editre_my_team);
 		againstTeamImage=(ImageView)view.findViewById(R.id.iv_editre_against_team);
 		myTeamName=(TextView)view.findViewById(R.id.tv_editre_my_team_name);
@@ -405,6 +425,7 @@ public class EditReviewFragment extends Fragment implements TeamInterface, Ident
 					map.put("date", date.getText().toString());
 					map.put("teamid", teamid);
 					map.put("id", id);
+					map.put("person", person.getText().toString());
 					Runnable r=new ClientWrite(Tools.JsonEncode(map));
 					new Thread(r).start();
 					((HomePageActivity)getActivity()).onBackPressed();
@@ -468,6 +489,7 @@ public class EditReviewFragment extends Fragment implements TeamInterface, Ident
 			time.setText(entity.getTime());
 			date.setText(entity.getDate());
 			type.setText(entity.getType());
+			person.setText(entity.getPerson());
 			typeEdit.setText(entity.getType());
 			id=entity.getId();
 			List<String> dateList=Tools.explode(entity.getDate(), "-");
@@ -508,7 +530,6 @@ public class EditReviewFragment extends Fragment implements TeamInterface, Ident
 		mListView.setVisibility(View.VISIBLE);
 		mListView.setOnItemClickListener(new OnItemClickListener(){
 
-			private String reviewSttus;
 
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
@@ -519,7 +540,7 @@ public class EditReviewFragment extends Fragment implements TeamInterface, Ident
 				String againstName=entity1.getName();
 				Bitmap againstImage=entity1.getImage();
 				if(entity==null){
-					entity=new MatchReviewEntity(id, "", "", Tools.bitmapToString(myImage), Tools.bitmapToString(againstImage), myTeamName.getText().toString(), againstName,reviewSttus, 0, 0);
+					entity=new MatchReviewEntity(id, "", "", Tools.bitmapToString(myImage), Tools.bitmapToString(againstImage), myTeamName.getText().toString(), againstName, 0, 0);
 					entity.setAgainstId(againstid);
 				}
 				else{
@@ -547,6 +568,7 @@ public class EditReviewFragment extends Fragment implements TeamInterface, Ident
 		score.setEnabled(enable);
 		typeEdit.setEnabled(enable);
 		ensure.setEnabled(enable);
+		person.setEnabled(enable);
 		mListView.setEnabled(enable);
 		mListView.setEnabled(enable);
 		back.setEnabled(enable);

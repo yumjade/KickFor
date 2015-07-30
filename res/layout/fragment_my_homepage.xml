@@ -83,11 +83,11 @@
                 android:layout_height="wrap_content"
                 android:layout_marginRight="5dip"
                 android:layout_weight="1"
-                android:text="力量"
+                android:text="进攻"
                 android:textSize="10sp" />
 
             <ProgressBar
-                android:id="@+id/show_power"
+                android:id="@+id/show_attack"
                 style="?android:attr/progressBarStyleHorizontal"
                 android:layout_width="0dip"
                 android:layout_height="8dip"
@@ -98,7 +98,7 @@
                 android:progressDrawable="@drawable/progress_bar_style" />
 
             <TextView
-                android:id="@+id/value_power"
+                android:id="@+id/value_attack"
                 android:layout_width="0dip"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dip"
@@ -124,11 +124,11 @@
                 android:layout_height="wrap_content"
                 android:layout_marginRight="5dip"
                 android:layout_weight="1"
-                android:text="速度"
+                android:text="防守"
                 android:textSize="10sp" />
 
             <ProgressBar
-                android:id="@+id/show_speed"
+                android:id="@+id/show_defence"
                 style="?android:attr/progressBarStyleHorizontal"
                 android:layout_width="0dip"
                 android:layout_height="8dip"
@@ -139,7 +139,7 @@
                 android:progressDrawable="@drawable/progress_bar_style_1" />
 
             <TextView
-                android:id="@+id/value_speed"
+                android:id="@+id/value_defence"
                 android:layout_width="0dip"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dip"
@@ -189,7 +189,7 @@
                 android:textSize="10sp" />
         </LinearLayout>
 
-        <LinearLayout
+        <LinearLayout 
             android:id="@+id/process_bar_4"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -206,11 +206,11 @@
                 android:layout_height="wrap_content"
                 android:layout_marginRight="5dip"
                 android:layout_weight="1"
-                android:text="体能"
+                android:text="力量"
                 android:textSize="10sp" />
 
             <ProgressBar
-                android:id="@+id/show_stamina"
+                android:id="@+id/show_power"
                 style="?android:attr/progressBarStyleHorizontal"
                 android:layout_width="0dip"
                 android:layout_height="8dip"
@@ -221,7 +221,7 @@
                 android:progressDrawable="@drawable/progress_bar_style" />
 
             <TextView
-                android:id="@+id/value_stamina"
+                android:id="@+id/value_power"
                 android:layout_width="0dip"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dip"
@@ -247,11 +247,11 @@
                 android:layout_height="wrap_content"
                 android:layout_marginRight="5dip"
                 android:layout_weight="1"
-                android:text="进攻"
+                android:text="速度"
                 android:textSize="10sp" />
 
             <ProgressBar
-                android:id="@+id/show_attack"
+                android:id="@+id/show_speed"
                 style="?android:attr/progressBarStyleHorizontal"
                 android:layout_width="0dip"
                 android:layout_height="8dip"
@@ -262,7 +262,7 @@
                 android:progressDrawable="@drawable/progress_bar_style" />
 
             <TextView
-                android:id="@+id/value_attack"
+                android:id="@+id/value_speed"
                 android:layout_width="0dip"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dip"
@@ -289,11 +289,11 @@
                 android:layout_height="wrap_content"
                 android:layout_marginRight="5dip"
                 android:layout_weight="1"
-                android:text="防守"
+                android:text="体能"
                 android:textSize="10sp" />
 
             <ProgressBar
-                android:id="@+id/show_defence"
+                android:id="@+id/show_stamina"
                 style="?android:attr/progressBarStyleHorizontal"
                 android:layout_width="0dip"
                 android:layout_height="8dip"
@@ -304,7 +304,7 @@
                 android:progressDrawable="@drawable/progress_bar_style_1" />
 
             <TextView
-                android:id="@+id/value_defence"
+                android:id="@+id/value_stamina"
                 android:layout_width="0dip"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dip"

@@ -30,8 +30,8 @@ public class WheelTime {
 		minuteWheel=(WheelView)view.findViewById(R.id.wheel_min);
 		hourWheel.setVisibleItems(3);
 		minuteWheel.setVisibleItems(3);
-		hourWheel.setAdapter(new NumericWheelAdapter(0, 23));
-		minuteWheel.setAdapter(new NumericWheelAdapter(0, 59));
+		hourWheel.setAdapter(new NumericWheelAdapter(0, 23, "%02d"));
+		minuteWheel.setAdapter(new NumericWheelAdapter(0, 59, "%02d"));
 		hourWheel.setCyclic(true);
 		minuteWheel.setCyclic(true);
 		hourWheel.setCurrentItem(hour);
@@ -43,7 +43,7 @@ public class WheelTime {
 	}
 	
 	public String getTime(){
-		return hourWheel.getCurrentItem()+":"+minuteWheel.getCurrentItem();
+		return String.format("%02d", hourWheel.getCurrentItem())+":"+String.format("%02d", minuteWheel.getCurrentItem());
 	}
 	
 }

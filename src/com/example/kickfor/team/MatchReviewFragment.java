@@ -50,7 +50,6 @@ public class MatchReviewFragment extends Fragment implements OnClickListener, Te
 	private ImageView reviewBack=null;
 	private TextView addNew=null;
 	private String authority=null;
-	private String reviewStatus;
 	
 	@Override
 	public int getFragmentLevel() {
@@ -143,7 +142,7 @@ public class MatchReviewFragment extends Fragment implements OnClickListener, Te
 								}
 							}).show();
 				}
-				return false;
+				return true;
 			}
 			
 		});
@@ -272,7 +271,7 @@ public class MatchReviewFragment extends Fragment implements OnClickListener, Te
 			String againstName=temp.get("againstname").toString();
 			int goals=Integer.parseInt(temp.get("goal").toString());
 			int lost=Integer.parseInt(temp.get("lost").toString());
-			MatchReviewEntity item=new MatchReviewEntity(id, date, place, Tools.bitmapToString(teamImg), Tools.bitmapToString(againstImg), teamName, againstName,reviewStatus, goals, lost);
+			MatchReviewEntity item=new MatchReviewEntity(id, date, place, Tools.bitmapToString(teamImg), Tools.bitmapToString(againstImg), teamName, againstName, goals, lost);
 			item.setStatus(temp.get("status").toString());
 			item.setAgainstId(temp.get("againstid").toString());
 			mList.add(item);	
@@ -281,7 +280,7 @@ public class MatchReviewFragment extends Fragment implements OnClickListener, Te
 		if(number==1){
 			index=mList.size();
 			System.out.println("aaaaa "+index);
-			mList.add(new MatchReviewEntity(-1, null, null, null, null, null,teamid, this.year, index, -1));
+			mList.add(new MatchReviewEntity(-1, null, null, null, null, teamid, this.year, index, -1));
 			System.out.println("确实加了");
 		}
 		if(adapter!=null){

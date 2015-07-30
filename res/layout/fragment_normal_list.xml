@@ -2,19 +2,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="#ffffff">
-    <com.example.kickfor.refreshLayout.RefreshableView 
-        android:id="@+id/refreshable_view"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="#ffffff"
-        android:orientation="vertical">
-        <ListView
+    android:background="#f0f0f0">
+    
+    <ListView
 	        android:id="@+id/normal_list"
 	        android:layout_width="match_parent"
 	        android:layout_height="wrap_content"
-	        android:background="#cccccc"/>
-        
-    </com.example.kickfor.refreshLayout.RefreshableView>
+	        android:background="#ffffff"/>
     
 </LinearLayout>

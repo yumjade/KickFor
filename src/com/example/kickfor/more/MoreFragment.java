@@ -12,6 +12,8 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,6 +29,8 @@ public class MoreFragment extends Fragment implements IdentificationInterface{
 	private ListView mListView=null;
 	private List<MoreItem> mList=new ArrayList<MoreItem>();
     private MoreAdapter adapter=null;
+    
+    private FragmentManager fm=null;
 	
     @Override
 	public int getFragmentLevel() {
@@ -67,6 +71,8 @@ public class MoreFragment extends Fragment implements IdentificationInterface{
 				case 5:
 					((HomePageActivity)getActivity()).settings();
 					break;
+				case 6:
+					//((HomePageActivity)getActivity()).formationEdit();
 
 				}
 			}
@@ -75,6 +81,8 @@ public class MoreFragment extends Fragment implements IdentificationInterface{
 		return view;
 	}
 	
+	
+
 
 	
 	private void initiate(){
@@ -84,6 +92,7 @@ public class MoreFragment extends Fragment implements IdentificationInterface{
 		mList.add(new MoreItem("服务协议",BitmapFactory.decodeResource(getResources(), R.drawable.more_item_service), 3));
 		mList.add(new MoreItem("意见反馈",BitmapFactory.decodeResource(getResources(), R.drawable.more_item_suggest), 4));
 		mList.add(new MoreItem("设置",BitmapFactory.decodeResource(getResources(), R.drawable.more_item_control), 5));
+		//mList.add(new MoreItem("阵型编辑",BitmapFactory.decodeResource(getResources(), R.drawable.more_item_control), 6));
 
 	}
 	

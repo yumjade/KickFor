@@ -86,11 +86,11 @@
 	        android:paddingRight="10dip"
 	        android:background="#f5f5f5">
 	        <TextView
-	            android:id="@+id/e_liliang"
+	            android:id="@+id/e_jingong"
 	            android:layout_width="wrap_content"
 	            android:layout_height="wrap_content"
 	           android:layout_alignParentLeft="true"
-	            android:text="力量"
+	            android:text="进攻"
 	            android:textSize="14sp"
 	            android:paddingTop="10dip"
 	            android:paddingBottom="10dip"
@@ -101,8 +101,8 @@
 		        android:layout_width="wrap_content"
 		        android:layout_height="wrap_content"
 		        android:layout_alignParentRight="true"
-		        android:layout_alignTop="@id/e_liliang"
-		        android:layout_alignBottom="@id/e_liliang"
+		        android:layout_alignTop="@id/e_jingong"
+		        android:layout_alignBottom="@id/e_jingong"
 		        android:gravity="center">
 		        <TextView 
 		        	android:id="@+id/tv_sub1"
@@ -142,13 +142,13 @@
 		        	android:clickable="true"/>
 		    </RelativeLayout>
 		    <SeekBar
-		        android:id="@+id/pb_power"
+		        android:id="@+id/pb_attack"
 		        android:layout_width="match_parent"
-		        android:layout_alignTop="@id/e_liliang"
+		        android:layout_alignTop="@id/e_jingong"
 		        android:layout_marginTop="9dip"
 		        android:layout_marginBottom="6dip"
-		        android:layout_alignBottom="@id/e_liliang"
-		        android:layout_toRightOf="@id/e_liliang"
+		        android:layout_alignBottom="@id/e_jingong"
+		        android:layout_toRightOf="@id/e_jingong"
 		        android:layout_toLeftOf="@id/ll_b1"
 		        android:layout_height="wrap_content"
 		        android:thumb="@drawable/thumb"
@@ -168,11 +168,11 @@
 	        android:paddingTop="8dip"
 	        android:paddingRight="10dip">
 	        <TextView
-	            android:id="@+id/e_sudu"
+	            android:id="@+id/e_fangshou"
 	            android:layout_width="wrap_content"
 	            android:layout_height="wrap_content"
 	           android:layout_alignParentLeft="true"
-	            android:text="速度"
+	            android:text="防守"
 	            android:textSize="14sp"
 	            android:paddingTop="10dip"
 	            android:paddingBottom="10dip"
@@ -184,8 +184,8 @@
 		        android:layout_height="wrap_content"
 		        android:layout_alignParentRight="true"
 		        android:layout_marginTop="10dip"
-		        android:layout_alignTop="@id/e_sudu"
-		        android:layout_alignBottom="@id/e_sudu"
+		        android:layout_alignTop="@id/e_fangshou"
+		        android:layout_alignBottom="@id/e_fangshou"
 		        android:gravity="center">
 		        <TextView 
 		        	android:id="@+id/tv_sub2"
@@ -225,13 +225,13 @@
 		        	android:clickable="true"/>
 		    </RelativeLayout>
 		    <SeekBar
-		        android:id="@+id/pb_speed"
+		        android:id="@+id/pb_defence"
 		        android:layout_width="match_parent"
-		        android:layout_alignTop="@id/e_sudu"
+		        android:layout_alignTop="@id/e_fangshou"
 		        android:layout_marginTop="9dip"
 		        android:layout_marginBottom="6dip"
-		        android:layout_alignBottom="@id/e_sudu"
-		        android:layout_toRightOf="@id/e_sudu"
+		        android:layout_alignBottom="@id/e_fangshou"
+		        android:layout_toRightOf="@id/e_fangshou"
 		        android:layout_toLeftOf="@id/ll_b2"
 		        android:layout_height="wrap_content"
 		        android:thumb="@drawable/thumb"
@@ -332,11 +332,11 @@
 	        android:paddingLeft="15dip"
 	        android:paddingRight="10dip">
 	        <TextView
-	            android:id="@+id/e_tineng"
+	            android:id="@+id/e_liliang"
 	            android:layout_width="wrap_content"
 	            android:layout_height="wrap_content"
 	            android:layout_alignParentLeft="true"
-	            android:text="体能"
+	            android:text="力量"
 	            android:textSize="14sp"
 	            android:paddingTop="10dip"
 	            android:paddingBottom="10dip"
@@ -348,8 +348,8 @@
 		        android:layout_height="wrap_content"
 		        android:layout_alignParentRight="true"
 		        android:layout_marginTop="10dip"
-		        android:layout_alignTop="@id/e_tineng"
-		        android:layout_alignBottom="@id/e_tineng"
+		        android:layout_alignTop="@id/e_liliang"
+		        android:layout_alignBottom="@id/e_liliang"
 		        android:gravity="center">
 		        <TextView 
 		        	android:id="@+id/tv_sub4"
@@ -389,13 +389,13 @@
 		        	android:clickable="true"/>
 		    </RelativeLayout>
 		    <SeekBar
-		        android:id="@+id/pb_stamina"
+		        android:id="@+id/pb_power"
 		        android:layout_width="match_parent"
-		        android:layout_alignTop="@id/e_tineng"
+		        android:layout_alignTop="@id/e_liliang"
 		        android:layout_marginTop="9dip"
 		        android:layout_marginBottom="6dip"
-		        android:layout_alignBottom="@id/e_tineng"
-		        android:layout_toRightOf="@id/e_tineng"
+		        android:layout_alignBottom="@id/e_liliang"
+		        android:layout_toRightOf="@id/e_liliang"
 		        android:layout_toLeftOf="@id/ll_b4"
 		        android:layout_height="wrap_content"
 		        android:thumb="@drawable/thumb"
@@ -414,11 +414,11 @@
 	        android:paddingLeft="15dip"
 	        android:paddingRight="10dip">
 	        <TextView
-	            android:id="@+id/e_jingong"
+	            android:id="@+id/e_sudu"
 	            android:layout_width="wrap_content"
 	            android:layout_height="wrap_content"
 	           android:layout_alignParentLeft="true"
-	            android:text="进攻"
+	            android:text="速度"
 	            android:textSize="14sp"
 	            android:paddingTop="10dip"
 	            android:paddingBottom="10dip"
@@ -430,8 +430,8 @@
 		        android:layout_height="wrap_content"
 		        android:layout_alignParentRight="true"
 		        android:layout_marginTop="10dip"
-		        android:layout_alignTop="@id/e_jingong"
-		        android:layout_alignBottom="@id/e_jingong"
+		        android:layout_alignTop="@id/e_sudu"
+		        android:layout_alignBottom="@id/e_sudu"
 		        android:gravity="center">
 		        <TextView 
 		        	android:id="@+id/tv_sub5"
@@ -471,13 +471,13 @@
 		        	android:clickable="true"/>
 		    </RelativeLayout>
 		    <SeekBar
-		        android:id="@+id/pb_attack"
+		        android:id="@+id/pb_speed"
 		        android:layout_width="match_parent"
-		        android:layout_alignTop="@id/e_jingong"
+		        android:layout_alignTop="@id/e_sudu"
 		        android:layout_marginTop="9dip"
 		        android:layout_marginBottom="6dip"
-		        android:layout_alignBottom="@id/e_jingong"
-		        android:layout_toRightOf="@id/e_jingong"
+		        android:layout_alignBottom="@id/e_sudu"
+		        android:layout_toRightOf="@id/e_sudu"
 		        android:layout_toLeftOf="@id/ll_b5"
 		        android:layout_height="wrap_content"
 		        android:thumb="@drawable/thumb"
@@ -497,11 +497,11 @@
 	        android:paddingLeft="15dip"
 	        android:paddingRight="10dip">
 	        <TextView
-	            android:id="@+id/e_fangshou"
+	            android:id="@+id/e_tineng"
 	            android:layout_width="wrap_content"
 	            android:layout_height="wrap_content"
 	           android:layout_alignParentLeft="true"
-	            android:text="防守"
+	            android:text="体能"
 	            android:textSize="14sp"
 	            android:paddingTop="10dip"
 	            android:paddingBottom="10dip"
@@ -513,8 +513,8 @@
 		        android:layout_height="wrap_content"
 		        android:layout_alignParentRight="true"
 		        android:layout_marginTop="10dip"
-		        android:layout_alignTop="@id/e_fangshou"
-		        android:layout_alignBottom="@id/e_fangshou"
+		        android:layout_alignTop="@id/e_tineng"
+		        android:layout_alignBottom="@id/e_tineng"
 		        android:gravity="center">
 		        <TextView 
 		        	android:id="@+id/tv_sub6"
@@ -554,13 +554,13 @@
 		        	android:clickable="true"/>
 		    </RelativeLayout>
 		    <SeekBar
-		        android:id="@+id/pb_defence"
+		        android:id="@+id/pb_stamina"
 		        android:layout_width="match_parent"
-		        android:layout_alignTop="@id/e_fangshou"
+		        android:layout_alignTop="@id/e_tineng"
 		        android:paddingTop="9dip"
-		        android:paddingBottom="9dip"
-		        android:layout_alignBottom="@id/e_fangshou"
-		        android:layout_toRightOf="@id/e_fangshou"
+		        android:paddingBottom="6dip"
+		        android:layout_alignBottom="@id/e_tineng"
+		        android:layout_toRightOf="@id/e_tineng"
 		        android:layout_toLeftOf="@id/ll_b6"
 		        android:layout_height="wrap_content"
 		        android:thumb="@drawable/thumb"

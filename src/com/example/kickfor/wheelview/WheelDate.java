@@ -70,7 +70,7 @@ public class WheelDate {
 
 		// 月
 		wv_month = (WheelView) view.findViewById(R.id.wheel_month);
-		wv_month.setAdapter(new NumericWheelAdapter(1, 12));
+		wv_month.setAdapter(new NumericWheelAdapter(1, 12, "%02d"));
 		wv_month.setVisibleItems(3);
 		wv_month.setCyclic(true);
 		wv_month.setLabel("月");
@@ -82,15 +82,15 @@ public class WheelDate {
 		wv_day.setVisibleItems(3);
 		// 判断大小月及是否闰年,用来确定"日"的数据
 		if (list_big.contains(String.valueOf(month + 1))) {
-			wv_day.setAdapter(new NumericWheelAdapter(1, 31));
+			wv_day.setAdapter(new NumericWheelAdapter(1, 31, "%02d"));
 		} else if (list_little.contains(String.valueOf(month + 1))) {
-			wv_day.setAdapter(new NumericWheelAdapter(1, 30));
+			wv_day.setAdapter(new NumericWheelAdapter(1, 30, "%02d"));
 		} else {
 			// 闰年
 			if ((year % 4 == 0 && year % 100 != 0) || year % 400 == 0)
-				wv_day.setAdapter(new NumericWheelAdapter(1, 29));
+				wv_day.setAdapter(new NumericWheelAdapter(1, 29, "%02d"));
 			else
-				wv_day.setAdapter(new NumericWheelAdapter(1, 28));
+				wv_day.setAdapter(new NumericWheelAdapter(1, 28, "%02d"));
 		}
 		wv_day.setLabel("日");
 		wv_day.setCurrentItem(day - 1);
@@ -102,16 +102,16 @@ public class WheelDate {
 				// 判断大小月及是否闰年,用来确定"日"的数据
 				if (list_big
 						.contains(String.valueOf(wv_month.getCurrentItem() + 1))) {
-					wv_day.setAdapter(new NumericWheelAdapter(1, 31));
+					wv_day.setAdapter(new NumericWheelAdapter(1, 31, "%02d"));
 				} else if (list_little.contains(String.valueOf(wv_month
 						.getCurrentItem() + 1))) {
-					wv_day.setAdapter(new NumericWheelAdapter(1, 30));
+					wv_day.setAdapter(new NumericWheelAdapter(1, 30, "%02d"));
 				} else {
 					if ((year_num % 4 == 0 && year_num % 100 != 0)
 							|| year_num % 400 == 0)
-						wv_day.setAdapter(new NumericWheelAdapter(1, 29));
+						wv_day.setAdapter(new NumericWheelAdapter(1, 29, "%02d"));
 					else
-						wv_day.setAdapter(new NumericWheelAdapter(1, 28));
+						wv_day.setAdapter(new NumericWheelAdapter(1, 28, "%02d"));
 				}
 			}
 		};
@@ -121,16 +121,16 @@ public class WheelDate {
 				int month_num = newValue + 1;
 				// 判断大小月及是否闰年,用来确定"日"的数据
 				if (list_big.contains(String.valueOf(month_num))) {
-					wv_day.setAdapter(new NumericWheelAdapter(1, 31));
+					wv_day.setAdapter(new NumericWheelAdapter(1, 31, "%02d"));
 				} else if (list_little.contains(String.valueOf(month_num))) {
-					wv_day.setAdapter(new NumericWheelAdapter(1, 30));
+					wv_day.setAdapter(new NumericWheelAdapter(1, 30, "%02d"));
 				} else {
 					if (((wv_year.getCurrentItem() + START_YEAR) % 4 == 0 && (wv_year
 							.getCurrentItem() + START_YEAR) % 100 != 0)
 							|| (wv_year.getCurrentItem() + START_YEAR) % 400 == 0)
-						wv_day.setAdapter(new NumericWheelAdapter(1, 29));
+						wv_day.setAdapter(new NumericWheelAdapter(1, 29, "%02d"));
 					else
-						wv_day.setAdapter(new NumericWheelAdapter(1, 28));
+						wv_day.setAdapter(new NumericWheelAdapter(1, 28, "%02d"));
 				}
 			}
 		};
@@ -146,27 +146,22 @@ public class WheelDate {
 	}
 
 	public String getDate() {
-		StringBuffer sb = new StringBuffer();
-		sb.append((wv_year.getCurrentItem() + START_YEAR)).append("-").append((wv_month.getCurrentItem() + 1)).append("-").append((wv_day.getCurrentItem() + 1));
-		return sb.toString();
+		String str1=String.format("%02d", (wv_year.getCurrentItem() + START_YEAR));
+		String str2=String.format("%02d", (wv_month.getCurrentItem() + 1));
+		String str3=String.format("%02d", (wv_day.getCurrentItem() + 1));
+		return str1+"-"+str2+"-"+str3;
 	}
 	
 	public String getYear(){
-		StringBuffer sb = new StringBuffer();
-		sb.append(wv_year.getCurrentItem() + START_YEAR);
-		return sb.toString();
+		return String.format("%02d", (wv_year.getCurrentItem() + START_YEAR));
 	}
 	
 	public String getMonth(){
-		StringBuffer sb = new StringBuffer();
-		sb.append(wv_month.getCurrentItem() + 1);
-		return sb.toString();
+		return String.format("%02d", (wv_month.getCurrentItem() + 1));
 	}
 	
 	public String getDay(){
-		StringBuffer sb = new StringBuffer();
-		sb.append(wv_day.getCurrentItem() + 1);
-		return sb.toString();
+		return String.format("%02d", (wv_day.getCurrentItem() + 1));
 	}
 }
 

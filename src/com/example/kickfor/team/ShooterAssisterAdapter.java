@@ -69,7 +69,7 @@ public class ShooterAssisterAdapter extends BaseAdapter{
 			viewHolder.line.setVisibility(View.GONE);
 		}
 		if(position==0){
-			viewHolder.b.setBackgroundColor(Color.parseColor("#ebf2ff"));
+			viewHolder.b.setBackgroundColor(Color.parseColor("#fafafa"));
 			viewHolder.line.setVisibility(View.VISIBLE);
 			viewHolder.rankAndName.setTextColor(Color.parseColor("#6e6e6e"));
 			viewHolder.rankAndName.setTextSize(TypedValue.COMPLEX_UNIT_SP, 12);

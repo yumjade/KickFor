@@ -40,6 +40,7 @@ import android.widget.Toast;
 public class ShowCapacitiyFragment extends Fragment implements OnClickListener, HomePageInterface, IdentificationInterface{
 	
 	private static final int THUMB_SIZE = 150;
+	private static final int SHIRT_NUMBER = 22;
 	
 	private ImageView back=null;
 	private ImageView share=null;
@@ -196,10 +197,10 @@ public class ShowCapacitiyFragment extends Fragment implements OnClickListener, 
 		        Display d = m.getDefaultDisplay(); // 获取屏幕宽、高用
 		        Window dialogWindow = dialog.getWindow();
 		        WindowManager.LayoutParams p = dialogWindow.getAttributes(); // 获取对话框当前的参数值
-		        p.width = (int) (d.getWidth() * 1.2);
+		        p.width = (int) (d.getWidth());
 		        dialogWindow.setAttributes(p);
 				dialog.show();
-				
+				setEnable(true);
 				final LinearLayout scenesession = (LinearLayout) dialog.findViewById(R.id.ll_wx_scenesession);
 				scenesession.setOnClickListener(new OnClickListener() {
 					
@@ -287,8 +288,12 @@ public class ShowCapacitiyFragment extends Fragment implements OnClickListener, 
 		team.setTypeface(other_tf);
 		position.setText("位置："+str1);
 		position.setTypeface(other_tf);
-		number.setText(this.number.getText());
-		number.setTypeface(other_tf);
+		if ("".equals(this.number.getText())) {
+			number.setText(String.valueOf(Tools.randomNumber(SHIRT_NUMBER)));
+		}else {
+			number.setText(this.number.getText());
+			number.setTypeface(other_tf);
+		}
 		image.setImageBitmap(this.bitmap);
 		attack.setText("进攻"+this.attackValue.getText());
 		attack.setTypeface(other_tf);

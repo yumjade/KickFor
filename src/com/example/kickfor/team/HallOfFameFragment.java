@@ -99,7 +99,12 @@ public class HallOfFameFragment extends Fragment implements TeamInterface, Ident
 				@Override
 				public void onClick(View v) {
 					// TODO Auto-generated method stub
-					((HomePageActivity)getActivity()).openFame(SECOND_OPEN, teamid, String.valueOf(authority), null);
+					if(authority>=2){
+						((HomePageActivity)getActivity()).openFame(SECOND_OPEN, teamid, String.valueOf(authority), null);
+					}
+					else{
+						Toast.makeText(context, "您的权限不够", Toast.LENGTH_SHORT).show();
+					}
 				}
 				
 			});

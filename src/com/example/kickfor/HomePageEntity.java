@@ -45,6 +45,7 @@ public class HomePageEntity implements Serializable{
 	private String dateAndTime="нч";
 	private String matchPlace="нч";
 	private String type="";
+	private String person="";
 	
 	public HomePageEntity(Context context, String phone){
 		helper=SQLHelper.getInstance(context);
@@ -76,6 +77,10 @@ public class HomePageEntity implements Serializable{
 		return type;
 	}
 	
+	public String getPerson(){
+		return person;
+	}
+	
 	public String getTeam1(){
 		return team1;
 	}
@@ -88,13 +93,16 @@ public class HomePageEntity implements Serializable{
 			dateAndTime=map.get("date").toString();
 		}
 		if(map.containsKey("time")){
-			dateAndTime=dateAndTime+map.get("time").toString();
+			dateAndTime=dateAndTime+"  "+map.get("time").toString();
 		}
 		if(map.containsKey("place")){
 			matchPlace=map.get("place").toString();
 		}
 		if(map.containsKey("type") && map.get("type")!=null){
-			dateAndTime=map.get("type").toString();
+			type=map.get("type").toString();
+		}
+		if(map.containsKey("person") && map.get("type")!=null){
+			person=map.get("person").toString();
 		}
 		score=map.get("score").toString();
 		name=map.get("name").toString();
@@ -108,31 +116,40 @@ public class HomePageEntity implements Serializable{
 		place=map.get("city").toString();
 		weight=map.get("weight").toString();
 		height=map.get("height").toString();
-		team1=map.get("team1").toString();
 		position=map.get("position1").toString();
-		String team2=map.get("team2").toString();
-		String team3=map.get("team3").toString();
-		String tmatch1=map.get("tmatch1").toString();
-		String tmatch2=map.get("tmatch2").toString();
-		String tmatch3=map.get("tmatch3").toString();
-		String goal1=map.get("goal1").toString();
-		String goal2=map.get("goal2").toString();
-		String goal3=map.get("goal3").toString();
-		String assist1=map.get("assist1").toString();
-		String assist2=map.get("assist2").toString();
-		String assist3=map.get("assist3").toString();
+		team1=map.containsKey("team1")? map.get("team1").toString(): "";
+		String team2=map.containsKey("team2")? map.get("team2").toString(): "";
+		String team3=map.containsKey("team3")? map.get("team3").toString(): "";
+		String tmatch1=map.containsKey("tmatch1")? map.get("tmatch1").toString(): "0";
+		String tmatch2=map.containsKey("tmatch2")? map.get("tmatch2").toString(): "0";
+		String tmatch3=map.containsKey("tmatch3")? map.get("tmatch3").toString(): "0";
+		String goal1=map.containsKey("goal1")? map.get("goal1").toString(): "0";
+		String goal2=map.containsKey("goal2")? map.get("goal2").toString(): "0";
+		String goal3=map.containsKey("goal3")? map.get("goal3").toString(): "0";
+		String assist1=map.containsKey("assist1")? map.get("assist1").toString(): "0";
+		String assist2=map.containsKey("assist2")? map.get("assist2").toString(): "0";
+		String assist3=map.containsKey("assist3")? map.get("assist3").toString(): "0";
+		String win1=map.containsKey("win1")? map.get("win1").toString(): "0";
+		String win2=map.containsKey("win2")? map.get("win2").toString(): "0";
+		String win3=map.containsKey("win3")? map.get("win3").toString(): "0";
 		matchNumber=String.valueOf(Integer.parseInt(tmatch1)+Integer.parseInt(tmatch2)+Integer.parseInt(tmatch3));
 		goal=String.valueOf(Integer.parseInt(goal1)+Integer.parseInt(goal2)+Integer.parseInt(goal3));
 		assist=String.valueOf(Integer.parseInt(assist1)+Integer.parseInt(assist2)+Integer.parseInt(assist3));
-		double win=Integer.parseInt(map.get("win1").toString())+Integer.parseInt(map.get("win2").toString())+Integer.parseInt(map.get("win3").toString());
+		double win=Integer.parseInt(win1)+Integer.parseInt(win2)+Integer.parseInt(win3);
 		double number=Integer.valueOf(matchNumber);
 		winRate=convert(win/number*100)+"%";
-		OthersMatchEntity item1=new OthersMatchEntity(team1, tmatch1, goal1, assist1);
-		list.add(item1);
-		OthersMatchEntity item2=new OthersMatchEntity(team2, tmatch2, goal2, assist2);
-		list.add(item2);
-		OthersMatchEntity item3=new OthersMatchEntity(team3, tmatch3, goal3, assist3);
-		list.add(item3);
+		if(!team1.isEmpty()){
+			OthersMatchEntity item1=new OthersMatchEntity(team1, tmatch1, goal1, assist1);
+			list.add(item1);
+		}
+		if(!team2.isEmpty()){
+			OthersMatchEntity item2=new OthersMatchEntity(team2, tmatch2, goal2, assist2);
+			list.add(item2);
+		}
+		if(!team3.isEmpty()){
+			OthersMatchEntity item3=new OthersMatchEntity(team3, tmatch3, goal3, assist3);
+			list.add(item3);
+		}
 		
 	}
 	

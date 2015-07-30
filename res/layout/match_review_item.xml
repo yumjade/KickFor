@@ -88,17 +88,6 @@
             android:textSize="12sp" />
     </RelativeLayout>
 
-    <TextView
-        android:id="@+id/tv_review_status"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/rl_review_item"
-        android:paddingTop="10dp"
-        android:paddingBottom="10dp"
-        android:background="@drawable/rect_13"
-        android:gravity="center"
-        android:text="比赛未开始"
-        android:textColor="#333333"
-        android:textSize="15sp" />
+    
 
 </RelativeLayout>

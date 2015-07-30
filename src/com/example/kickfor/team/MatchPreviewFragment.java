@@ -16,6 +16,9 @@ import java.util.Map;
 
 
 
+
+
+
 import com.example.kickfor.ClientWrite;
 import com.example.kickfor.HomePageActivity;
 import com.example.kickfor.HomePageInterface;
@@ -35,6 +38,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -49,9 +53,10 @@ public class MatchPreviewFragment extends Fragment implements TeamInterface, Hom
 	private TextView time=null;
 	private TextView place=null;
 	private TextView type=null;
+	private TextView person=null;
 	private TextView history=null;
 	private List<TextView> historyGroup=null;
-	private TextView attendance=null;
+	private LinearLayout attendance=null;
 	private TextView edit=null;
 	private TextView ensureJoin=null;
 	private RelativeLayout title=null;
@@ -76,7 +81,8 @@ public class MatchPreviewFragment extends Fragment implements TeamInterface, Hom
 	}
 	
 	public void setAttendanceInfo(String info){
-		attendance.setText(this.info+info);
+		this.info=this.info+info+";";
+		setAttendance();
 		SQLHelper helper=SQLHelper.getInstance(context);
 		Cursor cursor=helper.select("matches", new String[]{"ensure"}, "id=? and teamid=?", new String[]{String.valueOf(id), teamid}, null);
 		if(cursor.moveToNext()){
@@ -128,13 +134,14 @@ public class MatchPreviewFragment extends Fragment implements TeamInterface, Hom
 		time=(TextView)view.findViewById(R.id.pre_time);
 		place=(TextView)view.findViewById(R.id.pre_place);
 		type=(TextView)view.findViewById(R.id.pre_type);
+		person=(TextView)view.findViewById(R.id.pre_person);
 		history=(TextView)view.findViewById(R.id.pre_history_whole);
 		historyGroup.add((TextView)view.findViewById(R.id.pre_history_item1));
 		historyGroup.add((TextView)view.findViewById(R.id.pre_history_item2));
 		historyGroup.add((TextView)view.findViewById(R.id.pre_history_item3));
 		historyGroup.add((TextView)view.findViewById(R.id.pre_history_item4));
 		historyGroup.add((TextView)view.findViewById(R.id.pre_history_item5));
-		attendance=(TextView)view.findViewById(R.id.pre_members);
+		attendance=(LinearLayout)view.findViewById(R.id.pre_members);
 		ensureJoin=(TextView)view.findViewById(R.id.pre_ensure_join);
 		edit=(TextView)view.findViewById(R.id.pre_reedit);
 		initiate();
@@ -181,7 +188,7 @@ public class MatchPreviewFragment extends Fragment implements TeamInterface, Hom
 					}
 					else{
 						edit.setEnabled(false);
-						((HomePageActivity)getActivity()).edit(id, teamid, againstid, againstTeamName.getText().toString(), place.getText().toString(), date.getText().toString(), time.getText().toString());
+						((HomePageActivity)getActivity()).edit(id, teamid, againstid, againstTeamName.getText().toString(), place.getText().toString(), date.getText().toString(), time.getText().toString(), type.getText().toString(), person.getText().toString());
 					}
 				}
 				
@@ -235,13 +242,17 @@ public class MatchPreviewFragment extends Fragment implements TeamInterface, Hom
 		againstTeamName.setText(map.get("againstname").toString());
 		place.setText(map.get("place").toString());
 		info=map.get("info").toString();
-		attendance.setText(info);
+		
+		setAttendance();
+		
 		type.setText(map.get("type").toString());
+		person.setText(map.get("person").toString());
 		againstid=map.get("againstid").toString();
 		map.remove("againstimg");
 		map.remove("againstname");
 		map.remove("place");
 		map.remove("type");
+		map.remove("person");
 		map.remove("info");
 		map.remove("againstid");
 		Iterator<String> iter=map.keySet().iterator();
@@ -273,6 +284,61 @@ public class MatchPreviewFragment extends Fragment implements TeamInterface, Hom
 		history.setText(win+"Ê¤"+pull+"Æ½"+defeat+"¸º");
 	}
 
+	private void setAttendance(){
+		attendance.removeAllViews();
+		List<String> list0=explode(info, ";");
+		int n=list0.size();
+		int i=0;
+		int j=-1;
+		while(i<n){
+			if(j==-1){
+				j=0;
+				LinearLayout ll=new LinearLayout(getActivity());
+				ll.setOrientation(LinearLayout.HORIZONTAL);
+				LinearLayout.LayoutParams params=new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+				ll.setPadding(10, 10, 10, 0);
+				attendance.addView(ll, j, params);
+			}
+			TextView v=new TextView(getActivity());
+			v.setText(list0.get(i));
+			if((i/4)!=j){
+				j=i/4;
+				LinearLayout ll=new LinearLayout(getActivity());
+				ll.setOrientation(LinearLayout.HORIZONTAL);
+				LinearLayout.LayoutParams params=new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+				ll.setPadding(10, 30, 10, 0);
+				attendance.addView(ll, j, params);
+			}
+			LinearLayout.LayoutParams params=new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+			params.weight=1;
+			((LinearLayout)attendance.getChildAt(j)).addView(v, params);
+			i++;
+		}
+		int lasting=n%4;
+		for(int m=0; m<lasting; m++){
+			TextView v=new TextView(getActivity());
+			v.setText("");
+			LinearLayout.LayoutParams params=new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+			params.weight=1;
+			((LinearLayout)attendance.getChildAt(j)).addView(v, params);
+		}
+		if(j<1){
+			int last=1-j;
+			for(int m=1; m<=last; m++){
+				LinearLayout ll=new LinearLayout(getActivity());
+				ll.setOrientation(LinearLayout.HORIZONTAL);
+				for(int mm=0; mm<=3; mm++){
+					TextView v=new TextView(getActivity());
+					v.setText("");
+					LinearLayout.LayoutParams params=new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+					params.weight=1;
+					ll.addView(v, params);
+				}
+				attendance.addView(ll, j+m);
+			}
+		}
+	}
+	
 	public int getAuthority(){
 		return authority;
 	}
@@ -293,6 +359,16 @@ public class MatchPreviewFragment extends Fragment implements TeamInterface, Hom
 		super.onPause();
 	}
 	
-	
+	private List<String> explode(String str, String sign){
+    	int end=str.indexOf(sign);
+    	int sizeoff=sign.length();
+    	List<String> mList=new ArrayList<String>();
+    	while(str.length()!=0){
+    		mList.add(str.substring(0, end));
+    		str=str.substring(end+sizeoff);
+    		end=str.indexOf(sign);
+    	}
+    	return mList;
+    }
 
 }
