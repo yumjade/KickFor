@@ -2,7 +2,10 @@
     android:id="@+id/manage_layout"
 	android:layout_width="match_parent"
 	android:layout_height="wrap_content"
-	android:padding="5dip"
+	android:paddingLeft="5dp"
+	android:paddingRight="5dp"
+	android:paddingTop="10dp"
+	android:paddingBottom="10dp"
 	android:orientation="horizontal"
 	android:background="#ffffff">
 	<EditText
@@ -36,7 +39,7 @@
 		android:layout_height="wrap_content"
 		android:layout_marginRight="5dip"
 		android:layout_gravity="center_vertical"
-		android:background="#000000">
+		android:background="#ffffff">
 	    <TextView
 			android:id="@+id/manage_kick"
 			android:layout_width="match_parent"
@@ -65,7 +68,7 @@
 		android:layout_height="wrap_content"
 		android:layout_marginRight="5dip"
 		android:layout_gravity="center_vertical"
-		android:background="#000000">
+		android:background="#ffffff">
 	    <TextView
 			android:id="@+id/manage_authority"
 			android:layout_width="match_parent"

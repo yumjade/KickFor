@@ -9,27 +9,12 @@ import java.util.List;
 import java.util.Map;
 
 import com.easemob.chat.EMChatManager;
-import com.easemob.chat.EMConversation;
-import com.example.kickfor.KickForListView.OnDeleteListener;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 import com.example.kickfor.utils.IdentificationInterface;
 import com.example.kickfor.utils.Sidebar;
 
-import android.content.ContentValues;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -45,9 +30,11 @@ import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -67,7 +54,7 @@ public class ListsFragment extends Fragment implements HomePageInterface, Identi
 	
 	protected static final int TYPE_MESSAGE_LIST=8;
 		
-	private KickForListView mListView=null;
+	private ListView mListView=null;
 	private List<MyFriend> mList=new ArrayList<MyFriend>();
 	private RelativeLayout title=null;
 	private ImageView back=null;
@@ -78,12 +65,7 @@ public class ListsFragment extends Fragment implements HomePageInterface, Identi
 	private int state=-1;
 	
 	
-	private WindowManager mWindowManager;
-	private TextView mDialogText;
-	private View head;
-	private MyFriend mFriend;
 	private Sidebar sidebar;
-	private List<MyFriend> friendList;
 	private InputMethodManager inputMethodManager;
 	private EditText query;
 	private ImageButton clearSearch;
@@ -412,7 +394,7 @@ public class ListsFragment extends Fragment implements HomePageInterface, Identi
 		}
 		else{
 			view=inflater.inflate(R.layout.fragment_list, container,false);
-			mListView=(KickForListView)view.findViewById(R.id.kick_for_list);
+			mListView=(ListView)view.findViewById(R.id.kick_for_list);
 			adapter=new FriendsAdapter(context, R.layout.vlist, mList);
 		}
 		title=(RelativeLayout)view.findViewById(R.id.list_title);
@@ -571,60 +553,68 @@ public class ListsFragment extends Fragment implements HomePageInterface, Identi
 		});
 		
 		
-		mListView.setOnDeleteListener(new OnDeleteListener(){
+		mListView.setOnItemLongClickListener(new OnItemLongClickListener(){
 
 			@Override
-			public void onDelete(int index) {
+			public boolean onItemLongClick(AdapterView<?> arg0, View arg1,
+					int position, long arg3) {
 				// TODO Auto-generated method stub
-				//contentList.remove(index);
-				SQLHelper helper=SQLHelper.getInstance(context);
-				switch(state){
-				case TYPE_FRIEND_LIST:{
-					MyFriend item=mList.get(index);
-					helper.delete("friends", "phone=?", new String[]{item.getPhone()});
-					Map<String, Object> tmp=new HashMap<String, Object>();
-					tmp.put("request", "delete friend");
-					tmp.put("phone", item.getPhone());
-					Runnable r=new ClientWrite(Tools.JsonEncode(tmp));
-					new Thread(r).start();
-					mList.remove(index);
-					adapter.notifyDataSetChanged();
-					break;
-				}
-				case TYPE_MESSAGE_LIST:{
-					MyFriend item=mList.get(index);
-					if(item.getType().equals(ListsFragment.TYPE_FRIEND_MESSAGE)){
-						ContentValues cv=new ContentValues();
-						cv.put("result", "p");
-						helper.update(cv, "systemtable", item.getIndex());
-						mList.remove(index);
-						adapter.notifyDataSetChanged();
+				final MyFriend item=mList.get(position);
+				if(!(item.getType().equals(String.valueOf(TYPE_FRIEND_APPLY_ALL)) || item.getType().equals(String.valueOf(TYPE_SYSTEM_MESSAGE_ALL)) || item.getType().equals(String.valueOf(TYPE_TEAMS_MESSAGE_ALL)))){
+					if(item.getType().equals(String.valueOf(TYPE_FRIEND_LIST))){
+						new AlertDialog.Builder(context)
+						.setTitle("删除此此好友")
+						.setPositiveButton("确认",
+								new DialogInterface.OnClickListener() {
+									@Override
+									public void onClick(DialogInterface dialog,
+											int which) {
+										Map<String, Object> map=new HashMap<String, Object>();
+										map.put("request", "delete friend");
+										map.put("phone", item.getPhone());
+										Runnable r=new ClientWrite(Tools.JsonEncode(map));
+										new Thread(r).start();
+										SQLHelper helper=SQLHelper.getInstance(context);
+										helper.delete("friends", "phone=?", new String[]{item.getPhone()});
+										mList.remove(item);
+										adapter.notifyDataSetChanged();
+									}
+								})
+						.setNegativeButton("取消",
+								new DialogInterface.OnClickListener() {
+									@Override
+									public void onClick(DialogInterface dialog,
+											int which) {
+										
+									}
+								}).show();
 					}
-					break;
-				}
-				case TYPE_FRIEND_APPLY:{
-					MyFriend item=mList.get(index);
-					helper.delete("systemtable", "i=?", new String[]{String.valueOf(item.getIndex())});
-					mList.remove(index);
-					adapter.notifyDataSetChanged();
-					break;
-				}
-				case TYPE_SYSTEM_MESSAGE:{
-					MyFriend item=mList.get(index);
-					helper.delete("systemtable", "i=?", new String[]{String.valueOf(item.getIndex())});
-					mList.remove(index);
-					adapter.notifyDataSetChanged();
-					break;
-				}
-				case TYPE_TEAMS_MESSAGE:{
-					MyFriend item=mList.get(index);
-					helper.delete("systemtable", "i=?", new String[]{String.valueOf(item.getIndex())});
-					mList.remove(index);
-					adapter.notifyDataSetChanged();
-					break;
-				}
+					else{
+						new AlertDialog.Builder(context)
+						.setTitle("删除此消息")
+						.setPositiveButton("确认",
+								new DialogInterface.OnClickListener() {
+									@Override
+									public void onClick(DialogInterface dialog,
+											int which) {
+										SQLHelper helper=SQLHelper.getInstance(context);
+										helper.delete("systemtable", "i=?", new String[]{String.valueOf(item.getIndex())});
+										mList.remove(item);
+										adapter.notifyDataSetChanged();
+									}
+								})
+						.setNegativeButton("取消",
+								new DialogInterface.OnClickListener() {
+									@Override
+									public void onClick(DialogInterface dialog,
+											int which) {
+										
+									}
+								}).show();
+					}
 				}
 				
+				return false;
 			}
 			
 		});

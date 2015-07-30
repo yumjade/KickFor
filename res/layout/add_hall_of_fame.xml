@@ -33,193 +33,155 @@
         android:id="@+id/fame_add_photo"
         android:layout_width="65dip"
         android:layout_height="65dip"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginBottom="10dp"
-        android:layout_marginLeft="10dip"
-        android:layout_marginRight="10dip"
-        android:layout_marginTop="10dip"
-        android:background="@drawable/team_default" />
-
-    <View
-        android:layout_width="fill_parent"
-        android:layout_height="1px"
-        android:background="#cccccc" />
+        android:layout_gravity="left"
+        android:layout_marginBottom="20dp"
+        android:layout_marginLeft="20dip"
+        android:layout_marginTop="20dip"
+        android:background="@drawable/team_register_image" />
 
     <LinearLayout
+        android:id="@+id/ll_name_number"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="10dip"
+        android:layout_marginRight="5dip"
         android:orientation="horizontal" >
-
-        <TextView
-            android:id="@+id/tv_fame_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:gravity="center_vertical"
-            android:padding="5dip"
-            android:text="姓名"
-            android:textColor="#333333"
-            android:textSize="15sp" />
 
         <EditText
             android:id="@+id/et_fame_name"
-            android:layout_width="match_parent"
+            android:layout_width="0dip"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:background="#ffffff" />
-    </LinearLayout>
-
-    <View
-        android:layout_width="fill_parent"
-        android:layout_height="1px"
-        android:background="#cccccc" />
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal" >
-
-        <TextView
-            android:id="@+id/tv_fame_number"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:gravity="center_vertical"
-            android:padding="5dip"
-            android:text="号码"
+            android:layout_marginRight="5dip"
+            android:layout_weight="1"
+            android:background="@drawable/bg_edittext"
+            android:clickable="true"
+            android:hint="姓名"
+            android:paddingBottom="10dip"
+            android:paddingLeft="10dip"
+            android:paddingRight="10dip"
+            android:paddingTop="10dip"
             android:textColor="#333333"
             android:textSize="15sp" />
 
         <EditText
             android:id="@+id/et_fame_number"
-            android:layout_width="match_parent"
+            android:layout_width="0dip"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:background="#ffffff" />
-    </LinearLayout>
-
-    <View
-        android:layout_width="fill_parent"
-        android:layout_height="1px"
-        android:background="#cccccc" />
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal" >
-
-        <TextView
-            android:id="@+id/tv_fame_position"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:gravity="center_vertical"
-            android:padding="5dip"
-            android:text="位置"
+            android:layout_weight="1"
+            android:background="@drawable/bg_edittext"
+            android:clickable="true"
+            android:hint="号码"
+            android:layout_marginRight="5dp"
+            android:paddingBottom="10dip"
+            android:paddingLeft="10dip"
+            android:paddingRight="10dip"
+            android:paddingTop="10dip"
             android:textColor="#333333"
             android:textSize="15sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_position"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dip"
+        android:layout_marginRight="5dip"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal" >
 
         <EditText
             android:id="@+id/et_fame_positoin"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:background="#ffffff" />
+            android:layout_marginRight="5dip"
+            android:background="@drawable/bg_edittext"
+            android:clickable="true"
+            android:hint="位置"
+            android:paddingBottom="10dip"
+            android:paddingLeft="10dip"
+            android:paddingRight="10dip"
+            android:paddingTop="10dip"
+            android:textColor="#333333"
+            android:textSize="15sp" />
     </LinearLayout>
 
-    <View
-        android:layout_width="fill_parent"
-        android:layout_height="1px"
-        android:background="#cccccc" />
-    
-        <LinearLayout
+    <LinearLayout
+        android:id="@+id/ll_time"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="10dip"
+        android:layout_marginRight="5dip"
+        android:layout_marginTop="10dp"
         android:orientation="horizontal" >
 
-    <TextView
-        android:id="@+id/fame_attended_time"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical"
-        android:gravity="center_vertical"
-        android:padding="5dip"
-        android:text="效力时间"
-        android:textColor="#333333"
-        android:textSize="15sp" />
-
-        <TextView
+        <EditText
             android:id="@+id/et_fame_time"
-            android:layout_width="match_parent"
+            android:layout_width="0dip"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:background="#ffffff" />
+            android:layout_marginRight="5dip"
+            android:layout_weight="1"
+            android:background="@drawable/bg_edittext"
+            android:clickable="true"
+            android:hint="服役开始时间"
+            android:paddingBottom="10dip"
+            android:paddingLeft="10dip"
+            android:paddingRight="10dip"
+            android:paddingTop="10dip"
+            android:textColor="#333333"
+            android:textSize="15sp" />
+
+        <EditText
+            android:id="@+id/et_fame_time_end"
+            android:layout_width="0dip"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="5dip"
+            android:layout_weight="1"
+            android:background="@drawable/bg_edittext"
+            android:clickable="true"
+            android:hint="服役结束时间"
+            android:paddingBottom="10dip"
+            android:paddingLeft="10dip"
+            android:paddingRight="10dip"
+            android:paddingTop="10dip"
+            android:textColor="#333333"
+            android:textSize="15sp" />
     </LinearLayout>
-
-
-
-    <View
-        android:layout_width="fill_parent"
-        android:layout_height="1px"
-        android:background="#cccccc" />
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical"
-        android:gravity="center_vertical"
-        android:padding="5dip"
-        android:text="荣光简介（限140字）"
-        android:textColor="#333333"
-        android:textSize="20sp" />
-
-    <View
-        android:layout_width="fill_parent"
-        android:layout_height="1px"
-        android:background="#cccccc" />
 
     <EditText
         android:id="@+id/et_fame_text"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:background="#ffffff"
-        android:drawableRight="@drawable/more_"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/bg_edittext"
+        android:clickable="true"
+        android:gravity="top|left"
         android:hint="说说他的丰功伟绩"
-        android:padding="5dip"
+        android:paddingBottom="80dip"
+        android:paddingLeft="10dip"
+        android:paddingRight="10dip"
+        android:paddingTop="10dip"
         android:textColor="#333333"
-        android:textSize="20sp" />
-
-    <View
-        android:layout_width="fill_parent"
-        android:layout_height="1px"
-        android:background="#cccccc" />
+        android:textSize="15sp" />
 
     <LinearLayout
-        android:layout_width="match_parent"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
         android:orientation="horizontal" >
 
         <TextView
             android:id="@+id/hall_confirmation"
             android:layout_width="0dip"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_marginBottom="20dip"
-            android:layout_marginLeft="5dip"
-            android:layout_marginRight="5dip"
-            android:layout_marginTop="10dip"
+            android:layout_marginBottom="10dip"
+            android:layout_marginLeft="20dip"
+            android:layout_marginRight="35dip"
+            android:layout_marginTop="20dip"
             android:layout_weight="1"
             android:alpha="1"
-            android:background="@drawable/btn_style"
+            android:background="@drawable/btn_style_selector"
             android:clickable="true"
             android:gravity="center"
             android:text="确认"
@@ -230,19 +192,44 @@
             android:id="@+id/hall_cancel"
             android:layout_width="0dip"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_marginBottom="20dip"
+            android:layout_marginBottom="10dip"
             android:layout_marginLeft="5dip"
-            android:layout_marginRight="5dip"
-            android:layout_marginTop="10dip"
+            android:layout_marginRight="10dip"
+            android:layout_marginTop="20dip"
             android:layout_weight="1"
             android:alpha="1"
-            android:background="@drawable/btn_style_2"
+            android:background="@drawable/btn_style_selector_2"
             android:clickable="true"
             android:gravity="center"
             android:text="取消"
             android:textColor="#ffffff"
             android:textSize="15sp" />
     </LinearLayout>
+    
+    <LinearLayout
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:id="@+id/hall_delete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="20dip"
+            android:layout_marginLeft="20dip"
+            android:layout_marginRight="10dip"
+            android:layout_weight="1"
+            android:alpha="1"
+            android:background="@drawable/btn_style_selector_3"
+            android:clickable="true"
+            android:gravity="center"
+            android:text="删除"
+            android:textColor="#ffffff"
+            android:textSize="15sp" />
+
+    </LinearLayout>
+    
 
 </LinearLayout>

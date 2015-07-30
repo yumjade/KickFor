@@ -10,6 +10,7 @@ public class MyChat {
 	private Bitmap bitmap=null;
 	private String phone=null;//use for group chat
 	private boolean isMyMsg;// if true, I sent, else, I received.
+	private String msgId=null;
 
 	public void setData(String message, String date, boolean isMyMsg, String phone, long time){
 		this.message=message;
@@ -17,6 +18,14 @@ public class MyChat {
 		this.isMyMsg=isMyMsg;
 		this.phone=phone;
 		this.time=time;
+	}
+	
+	public void setMsgId(String msgId){
+		this.msgId=msgId;
+	}
+	
+	public String getMsgId(){
+		return msgId;
 	}
 	
 	public long getTime(){

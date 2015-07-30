@@ -250,29 +250,16 @@ public class ChangingRoomAdapter extends BaseAdapter implements OnClickListener{
 		Map<String, Object> tmp=new HashMap<String, Object>();
 		if(id==R.id.manage_authority){
 			if(type==JOIN_IN){
-				boolean isSuccess=true;
-				try{
-					EMGroupManager.getInstance().addUsersToGroup(new PreferenceData(context).getData(new String[]{v.teamid}).get(v.teamid).toString(), new String[]{v.phone});
-				}catch(Exception e){
-					e.printStackTrace();
-					isSuccess=false;
-				}
-				if(isSuccess){
-					((TextView)view).setAlpha((float) 0.6);
-					mList.get(position).pb2=true;
-					v.pb2.setVisibility(View.VISIBLE);
-					HomePageActivity ac=(HomePageActivity)context;;
-					ac.openProgressBarWait(HomePageActivity.WAIT_PROGRESSBAR, v, mList.get(position));
-					tmp.put("request", "agree join");
-					tmp.put("phone", v.phone);
-					tmp.put("teamid", v.teamid);
-					Runnable r=new ClientWrite(Tools.JsonEncode(tmp));
-					new Thread(r).start();
-				}
-				else{
-					Toast.makeText(context, "允许加入失败，请重试", Toast.LENGTH_LONG).show();
-					v.setEnable(true);
-				}
+				((TextView)view).setAlpha((float) 0.6);
+				mList.get(position).pb2=true;
+				v.pb2.setVisibility(View.VISIBLE);
+				HomePageActivity ac=(HomePageActivity)context;;
+				ac.openProgressBarWait(HomePageActivity.WAIT_PROGRESSBAR, v, mList.get(position));
+				tmp.put("request", "agree join");
+				tmp.put("phone", v.phone);
+				tmp.put("teamid", v.teamid);
+				Runnable r=new ClientWrite(Tools.JsonEncode(tmp));
+				new Thread(r).start();
 			}
 			else{
 				String str=v.name.getText().toString();
@@ -336,22 +323,7 @@ public class ChangingRoomAdapter extends BaseAdapter implements OnClickListener{
 					Tools.setListViewHeight(mListView);
 				}
 				else{
-					boolean isSuccess=true;
 					if(authority==4){
-						try{
-							EMGroupManager.getInstance().removeUserFromGroup(new PreferenceData(context).getData(new String[]{v.teamid}).get(v.teamid).toString(), v.phone);//需异步处理
-						}catch(Exception e){
-							isSuccess=false;
-						}
-					}
-					else{
-						try{
-							EMGroupManager.getInstance().exitFromGroup(new PreferenceData(context).getData(new String[]{v.teamid}).get(v.teamid).toString());//需异步处理
-						}catch(Exception e){
-							isSuccess=false;
-						}
-					}
-					if(isSuccess){
 						((TextView)view).setAlpha((float) 0.6);
 						if(mList.size()>position){
 							mList.get(position).pb1=true;
@@ -366,18 +338,15 @@ public class ChangingRoomAdapter extends BaseAdapter implements OnClickListener{
 							Runnable r=new ClientWrite(Tools.JsonEncode(tmp));
 							new Thread(r).start();
 						}
-					}
-					else{
-						Toast.makeText(context, "操作未成功，请重试", Toast.LENGTH_LONG).show();
-						v.setEnable(true);
-					}
 					
+					
+					}
 				}
 			}
+		
 		}
 		
 	}
-	
 	
 	
 	

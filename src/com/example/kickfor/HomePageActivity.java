@@ -3,6 +3,7 @@ package com.example.kickfor;
 import java.io.File;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -17,6 +18,7 @@ import com.easemob.chat.EMGroupManager;
 import com.easemob.chat.EMMessage;
 import com.easemob.chat.EMMessage.ChatType;
 import com.easemob.chat.TextMessageBody;
+import com.example.kickfor.more.FeedbackFragment;
 import com.example.kickfor.more.FindPasswordsFragment;
 import com.example.kickfor.more.MoreFragment;
 import com.example.kickfor.more.MoreInterface;
@@ -25,6 +27,7 @@ import com.example.kickfor.more.SearchItemEntity;
 import com.example.kickfor.more.SearchItemFragment;
 import com.example.kickfor.more.SettingsFragment;
 import com.example.kickfor.service.NetWorkBroadcastReceiver;
+import com.example.kickfor.team.AboutusFragment;
 import com.example.kickfor.team.ChangingRoomAdapter;
 import com.example.kickfor.team.ChangingRoomFragment;
 import com.example.kickfor.team.EditPreviewFragment;
@@ -67,6 +70,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -95,6 +99,8 @@ public class HomePageActivity extends FragmentActivity implements HandlerListene
 	private RelativeLayout vague=null;
 	private int selectImage;
 	public boolean fromViewPager=false;
+	
+	private long ctime=0;
 	
 	private ViewPager viewPager=null;
 	private List<Fragment> fragmentList1=new ArrayList<Fragment>();
@@ -640,6 +646,24 @@ public class HomePageActivity extends FragmentActivity implements HandlerListene
 		tx.commit();
 	}
 	
+	public void feedback(){
+		FeedbackFragment feedback = new FeedbackFragment();
+		FragmentTransaction tx=fm.beginTransaction();
+		tx.setCustomAnimations(R.animator.slide_in_right, R.animator.slide_out_left, R.animator.slide_in_left, R.animator.slide_out_right);
+		tx.replace(R.id.main, feedback);
+		tx.addToBackStack(null);
+		tx.commit();
+	}
+	
+	public void aboutus(){
+		AboutusFragment aboutus = new AboutusFragment();
+		FragmentTransaction tx=fm.beginTransaction();
+		tx.setCustomAnimations(R.animator.slide_in_right, R.animator.slide_out_left, R.animator.slide_in_left, R.animator.slide_out_right);
+		tx.replace(R.id.main, aboutus);
+		tx.addToBackStack(null);
+		tx.commit();
+	}
+	
 	private boolean initTeam(boolean isInitTeam){
 		if(isInitTeam==false){
 			fragmentList1.clear();
@@ -956,27 +980,14 @@ public class HomePageActivity extends FragmentActivity implements HandlerListene
 			}
 			else{
 				t.setEnable(id, false);
-				boolean isSuccess=true;
 				Map<String, Object> tmp1=pd.getData(new String[]{"phone"});
-				try{
-					EMGroupManager.getInstance().createPrivateGroup(tmp1.get("phone")+"u", "", new String[]{}, false);//需异步处理
-				}catch(Exception e){
-					e.printStackTrace();
-					isSuccess=false;
-				}
-				if(isSuccess){
-					openVague(WAIT_TEAM_CREATE);
-					tmp1.put("phone", tmp1.get("phone")+"u");
-					teamMap=Tools.addMap(teamMap, tmp1);
-					teamMap=Tools.addMap(teamMap, tmp);
-					teamMap.put("request", "create team");
-					Runnable r=new ClientWrite(Tools.JsonEncode(teamMap));
-					new Thread(r).start();
-				}
-				else{
-					Toast.makeText(this, "球队创建未成功，请重试", Toast.LENGTH_LONG).show();
-					t.setEnable(id, true);
-				}
+				openVague(WAIT_TEAM_CREATE);
+				tmp1.put("phone", tmp1.get("phone")+"u");
+				teamMap=Tools.addMap(teamMap, tmp1);
+				teamMap=Tools.addMap(teamMap, tmp);
+				teamMap.put("request", "create team");
+				Runnable r=new ClientWrite(Tools.JsonEncode(teamMap));
+				new Thread(r).start();
 				break;
 			}
 		}
@@ -1077,6 +1088,7 @@ public class HomePageActivity extends FragmentActivity implements HandlerListene
 				hideDown();
 			}
 			else if(Tools.hasUnkickedMatch(this, teamid2)){
+				System.out.println("222222222222222222222");
 				Bundle bundle0=new Bundle();
 				bundle0.putInt("state", TitleFragment.PREVIEW_MATCH);
 				bundle0.putInt("status", 2);
@@ -2722,7 +2734,9 @@ public class HomePageActivity extends FragmentActivity implements HandlerListene
 				bar.setArguments(bundle1);
 				FragmentTransaction tx=fm.beginTransaction();
 				tx.replace(R.id.bar, bar);
+				System.out.println("1111111111111111");
 				tx.commit();
+				System.out.println("2222222222222222");
 				resetViewPager();
 				MatchReviewFragment matchReviewList=new MatchReviewFragment();
 				Bundle bundle=new Bundle();
@@ -2738,7 +2752,9 @@ public class HomePageActivity extends FragmentActivity implements HandlerListene
 				if(tf!=null && tf.isVisible()){
 					tf.setEnable(true);
 				}
+				System.out.println("3333333333333333");
 				reviewDetail(teamid, (MatchReviewEntity)bundle0.getSerializable("entity"), authority);
+				System.out.println("444444444444444444");
 			}
 			break;
 		}
@@ -2872,6 +2888,21 @@ public class HomePageActivity extends FragmentActivity implements HandlerListene
 	}
 
 
+	@Override 
+	public boolean onKeyDown(int keyCode, KeyEvent event) { 
+		if ((keyCode == KeyEvent.KEYCODE_BACK)) { 
+			long time=new Date().getTime();
+			if(time-ctime<800){
+				ctime=time;
+				Toast.makeText(this, "您的操作过于频繁", Toast.LENGTH_SHORT).show();
+				return true;
+			}
+			ctime=time;
+		}
+		return super.onKeyDown(keyCode, event);
+	} 
+
+	
 	@Override
 	public void onBackPressed() {
 		// TODO Auto-generated method stub

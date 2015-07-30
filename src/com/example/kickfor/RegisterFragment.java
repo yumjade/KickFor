@@ -233,17 +233,6 @@ public class RegisterFragment extends Fragment implements IdentificationInterfac
 						Runnable r=new ClientWrite(Tools.JsonEncode(tmp));
 						new Thread(r).start();
 						
-						new Thread(new Runnable() {
-						    public void run() {
-						      try {
-						         // 调用sdk注册方法
-						         EMChatManager.getInstance().createAccountOnServer(phone, psw);
-						      } catch (final Exception e) {
-						      //注册失败
-								e.printStackTrace();
-								
-						   }
-						}}).start();
 						
 					}
 					else{

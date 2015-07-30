@@ -56,11 +56,13 @@ public class MoreFragment extends Fragment implements IdentificationInterface{
 					((HomePageActivity)getActivity()).openSearch();
 					break;
 				case 2:
+					((HomePageActivity)getActivity()).aboutus();
 					break;
 				case 3:
 					((HomePageActivity)getActivity()).openProtocols();
 					break;
 				case 4:
+					((HomePageActivity)getActivity()).feedback();
 					break;
 				case 5:
 					((HomePageActivity)getActivity()).settings();

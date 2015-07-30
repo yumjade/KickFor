@@ -18,7 +18,9 @@ import com.example.kickfor.pullableview.PullableListView;
 import com.example.kickfor.utils.IdentificationInterface;
 import com.example.kickfor.R;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -32,12 +34,19 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemLongClickListener;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ListAdapter;
 import android.widget.TextView;
 
 public class ChatFragment extends Fragment implements HomePageInterface, IdentificationInterface{
 
+	
+	final String[]items ={"复制","删除"};
+	
 	public static String PEORSON_CHAT = "1";
 	public static String GROUP_CHAT = "0";
 
@@ -97,7 +106,12 @@ public class ChatFragment extends Fragment implements HomePageInterface, Identif
 			date = Tools.getDate(0, message.getMsgTime());
 		}
 		String str = ((TextMessageBody) message.getBody()).getMessage();
-		setData(str, date, message.getFrom(), message.getMsgTime());
+		if(type.equals(GROUP_CHAT)){
+			setData(str, date, groupid, message.getMsgTime(), message.getMsgId());
+		}
+		else{
+			setData(str, date, phone, message.getMsgTime(), message.getMsgId());
+		}
 	}
 
 	
@@ -184,7 +198,7 @@ public class ChatFragment extends Fragment implements HomePageInterface, Identif
 					// 设置接收人
 					// 把消息加入到此会话对象中
 					conversation.addMessage(message);
-					send(message.getMsgTime());
+					send(message.getMsgTime(), message.getMsgId());
 					// 发送消息
 					EMChatManager.getInstance().sendMessage(message, new EMCallBack() {
 
@@ -215,10 +229,12 @@ public class ChatFragment extends Fragment implements HomePageInterface, Identif
 		adapter = new ChatAdapter(context, mList);
 		mListView.setAdapter(adapter);
 		initiate();
+		
+				
 		return view;
 	}
 
-	private void send(long time) {
+	private void send(long time, String msgId) {
 		String str = edit.getText().toString();
 		if (str.length() > 0) {
 			MyChat entity = new MyChat();
@@ -229,8 +245,14 @@ public class ChatFragment extends Fragment implements HomePageInterface, Identif
 			else{
 				date = Tools.getDate(0, time);
 			}
-			entity.setData(str, date, true, null, time);
+			if(type.equals(GROUP_CHAT)){
+				entity.setData(str, date, true, groupid, time);
+			}
+			else{
+				entity.setData(str, date, true, phone, time);
+			}
 			entity.setImage(myBitmap);
+			entity.setMsgId(msgId);
 			mList.add(entity);
 			adapter.notifyDataSetChanged();
 			edit.setText("");
@@ -315,8 +337,9 @@ public class ChatFragment extends Fragment implements HomePageInterface, Identif
 					else{
 						date = Tools.getDate(0, message.getMsgTime());
 					}
-					entity.setData(t.getMessage(), date, false, null, message.getMsgTime());
+					entity.setData(t.getMessage(), date, false, phone, message.getMsgTime());
 					entity.setImage(otherBitmap);
+					entity.setMsgId(message.getMsgId());
 				} else {
 					String date=null;
 					if(mList.size()>0){
@@ -325,8 +348,9 @@ public class ChatFragment extends Fragment implements HomePageInterface, Identif
 					else{
 						date = Tools.getDate(0, message.getMsgTime());
 					}
-					entity.setData(t.getMessage(), date, true, null, message.getMsgTime());
+					entity.setData(t.getMessage(), date, true, phone, message.getMsgTime());
 					entity.setImage(myBitmap);
+					entity.setMsgId(message.getMsgId());
 				}
 				mList.add(entity);
 			}
@@ -361,11 +385,13 @@ public class ChatFragment extends Fragment implements HomePageInterface, Identif
 							TextMessageBody t = (TextMessageBody) message.getBody();
 							MyChat entity = new MyChat();
 							if (message.getFrom().equals(phone)) {
-								entity.setData(t.getMessage(), date, false, null, message.getMsgTime());
+								entity.setData(t.getMessage(), date, false, phone, message.getMsgTime());
 								entity.setImage(otherBitmap);
+								entity.setMsgId(message.getMsgId());
 							} else {
-								entity.setData(t.getMessage(), date, true, null, message.getMsgTime());
+								entity.setData(t.getMessage(), date, true, phone, message.getMsgTime());
 								entity.setImage(myBitmap);
+								entity.setMsgId(message.getMsgId());
 							}
 							mList.add(0, entity);
 						}
@@ -438,8 +464,9 @@ public class ChatFragment extends Fragment implements HomePageInterface, Identif
 					else{
 						date = Tools.getDate(0, message.getMsgTime());
 					}
-					entity.setData(t.getMessage(), date, true, null, message.getMsgTime());
+					entity.setData(t.getMessage(), date, true, groupid, message.getMsgTime());
 					entity.setImage(myBitmap);
+					entity.setMsgId(message.getMsgId());
 				}
 				else{
 					String otherPhone=message.getFrom();
@@ -461,8 +488,9 @@ public class ChatFragment extends Fragment implements HomePageInterface, Identif
 					else{
 						date = Tools.getDate(0, message.getMsgTime());
 					}
-					entity.setData(t.getMessage(), date, false, otherPhone, message.getMsgTime());
+					entity.setData(t.getMessage(), date, false, groupid, message.getMsgTime());
 					entity.setImage(otherBitmap);
+					entity.setMsgId(message.getMsgId());
 				}
 				mList.add(entity);
 			}
@@ -499,8 +527,9 @@ public class ChatFragment extends Fragment implements HomePageInterface, Identif
 							TextMessageBody t = (TextMessageBody) message.getBody();
 							MyChat entity = new MyChat();
 							if (message.getFrom().equals(new PreferenceData(context).getData(new String[]{"phone"}).get("phone").toString())) {
-								entity.setData(t.getMessage(), date, true, null, message.getMsgTime());
+								entity.setData(t.getMessage(), date, true, groupid, message.getMsgTime());
 								entity.setImage(myBitmap);
+								entity.setMsgId(message.getMsgId());
 							} else {
 								String otherPhone=message.getFrom();
 								Cursor cursor=helper.select("friends", new String[]{"image", "name"}, "phone=?", new String[]{otherPhone}, null);
@@ -513,8 +542,9 @@ public class ChatFragment extends Fragment implements HomePageInterface, Identif
 										otherBitmap=BitmapFactory.decodeResource(getResources(), R.drawable.team_default);
 									}
 								}
-								entity.setData(t.getMessage(), date, false, otherPhone, message.getMsgTime());
+								entity.setData(t.getMessage(), date, false, groupid, message.getMsgTime());
 								entity.setImage(otherBitmap);
+								entity.setMsgId(message.getMsgId());
 							}
 							mList.add(0, entity);
 						}
@@ -565,10 +595,11 @@ public class ChatFragment extends Fragment implements HomePageInterface, Identif
 		mListView.setSelection(mListView.getCount() - 1);
 	}
 
-	private void setData(String str, String date, String phone, long time) {
+	private void setData(String str, String date, String phone, long time, String msgId) {
 		MyChat entity = new MyChat();
 		entity.setData(str, date, false, phone, time);
 		entity.setImage(otherBitmap);
+		entity.setMsgId(msgId);
 		mList.add(entity);
 		adapter.notifyDataSetChanged();
 		mListView.setSelection(mListView.getCount()-1);

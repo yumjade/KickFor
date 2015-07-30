@@ -38,18 +38,18 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dip"
-            android:background="@drawable/rect_7"
-            android:paddingBottom="10dip"
+            android:background="@drawable/rect_6"
             android:paddingLeft="10dip"
-            android:paddingRight="10dip"
-            android:paddingTop="10dip" >
+            android:paddingRight="10dip" >
 
             <ImageView
                 android:id="@+id/other_team_image"
-                android:layout_width="75dip"
-                android:layout_height="75dip"
+                android:layout_width="70dip"
+                android:layout_height="70dip"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentTop="true"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="10dp"
                 android:clickable="true"
                 android:src="@drawable/team_default" />
 
@@ -64,45 +64,72 @@
                 android:gravity="center"
                 android:text="格拉斯哥流浪者"
                 android:textColor="#333333"
-                android:textSize="10sp" />
+                android:textSize="14sp" />
 
             <RelativeLayout
                 android:id="@+id/other_team_honor"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignTop="@id/other_team_image"
-                android:layout_marginLeft="10dip"
+                android:layout_marginLeft="20dip"
                 android:layout_toRightOf="@id/other_team_image"
-                android:background="@drawable/rect_4"
-                android:paddingBottom="5dip"
-                android:paddingTop="5dip" >
-
-                <ImageView
-                    android:id="@+id/other_team_honor_item1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_marginLeft="5dip"
-                    android:layout_marginRight="5dip"
-                    android:src="@drawable/team_honor_show" />
-
-                <ImageView
-                    android:id="@+id/other_team_honor_item2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dip"
-                    android:layout_toLeftOf="@id/other_team_honor_item1"
-                    android:src="@drawable/team_honor_show" />
-
-                <ImageView
-                    android:id="@+id/other_team_honor_item3"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dip"
-                    android:layout_toLeftOf="@id/other_team_honor_item2"
-                    android:src="@drawable/team_honor_show" />
+                android:background="@drawable/rect_1"
+                android:paddingBottom="25dip"
+                android:paddingTop="10dip" >
 
                 <TextView
+                    android:id="@+id/tv_fame_hall"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginTop="5dp"
+                    android:gravity="center"
+                    android:text="名人堂"
+                    android:textColor="#333333"
+                    android:textSize="14sp" />
+
+                <ImageView
+                    android:id="@+id/other_team_hall_item1"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_alignParentLeft="true"
+                    android:layout_below="@id/tv_fame_hall"
+                    android:layout_marginBottom="15dp"
+                    android:layout_marginLeft="30dip"
+                    android:layout_marginTop="5dp"
+                    android:src="@drawable/team_honor_show" />
+
+                <ImageView
+                    android:id="@+id/other_team_hall_item2"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_alignBottom="@id/other_team_hall_item1"
+                    android:layout_alignTop="@id/other_team_hall_item1"
+                    android:layout_below="@id/tv_fame_hall"
+                    android:layout_marginLeft="20dip"
+                    android:layout_toRightOf="@id/other_team_hall_item1"
+                    android:src="@drawable/team_honor_show" />
+
+                <ImageView
+                    android:id="@+id/other_team_hall_item3"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_alignBottom="@id/other_team_hall_item2"
+                    android:layout_alignTop="@id/other_team_hall_item2"
+                    android:layout_marginLeft="20dip"
+                    android:layout_toRightOf="@id/other_team_hall_item2"
+                    android:src="@drawable/team_honor_show" />
+
+                <ImageView
+                    android:id="@+id/other_team_hall_more"
+                    android:layout_width="10dp"
+                    android:layout_height="10dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerInParent="true"
+                    android:layout_marginLeft="25dp"
+                    android:layout_toRightOf="@id/other_team_hall_item3"
+                    android:src="@drawable/more_" />
+
+                <!-- <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_alignBottom="@id/other_team_honor_item3"
@@ -111,9 +138,9 @@
                     android:gravity="center"
                     android:text="球队成就"
                     android:textColor="#333333"
-                    android:textSize="14sp" />
+                    android:textSize="14sp" /> -->
 
-                <TextView
+                <!-- <TextView
                     android:id="@+id/other_line1"
                     android:layout_width="match_parent"
                     android:layout_height="1dip"
@@ -152,19 +179,7 @@
                     android:layout_alignRight="@id/other_team_honor_item3"
                     android:layout_alignTop="@id/other_team_hall_item1"
                     android:layout_below="@id/other_line1"
-                    android:src="@drawable/team_honor_show" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_alignBottom="@id/other_team_hall_item3"
-                    android:layout_alignTop="@id/other_team_hall_item3"
-                    android:layout_below="@id/other_line1"
-                    android:layout_toLeftOf="@id/other_team_hall_item3"
-                    android:gravity="center"
-                    android:text="名人堂"
-                    android:textColor="#333333"
-                    android:textSize="14sp" />
+                    android:src="@drawable/team_honor_show" /> -->
             </RelativeLayout>
         </RelativeLayout>
 
@@ -236,7 +251,7 @@
                 android:layout_alignBottom="@id/other_team_tv_1"
                 android:layout_alignTop="@id/other_team_tv_1"
                 android:layout_toLeftOf="@id/other_team_match_number"
-                android:text="出战"
+                android:text="出战 "
                 android:textColor="#333333"
                 android:textSize="15sp" />
 
@@ -247,7 +262,7 @@
                 android:layout_alignBottom="@id/other_team_tv_1"
                 android:layout_alignTop="@id/other_team_tv_1"
                 android:layout_toRightOf="@id/other_team_match_number"
-                android:text="场比赛"
+                android:text=" 场"
                 android:textColor="#333333"
                 android:textSize="15sp" />
 
@@ -270,9 +285,9 @@
                 android:layout_toRightOf="@id/other_team_iv_info4"
                 android:gravity="bottom"
                 android:text="56%"
-                android:textColor="#333333"
-                android:textSize="15sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:textSize="15sp" 
+                android:textColor="#333333"/>
 
             <TextView
                 android:id="@+id/other_team_shenglv"
@@ -301,19 +316,19 @@
                 android:layout_marginRight="20dip"
                 android:layout_toLeftOf="@id/other_team_zhongjian2"
                 android:background="@drawable/info5" />
-
+            
             <TextView
                 android:id="@+id/other_team_goal_number"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignBottom="@id/other_team_iv_info4"
-                android:layout_marginLeft="-15dip"
                 android:layout_toRightOf="@id/other_team_zhongjian2"
+                android:layout_marginLeft="-15dip"
                 android:gravity="bottom"
                 android:text="20"
-                android:textColor="#333333"
-                android:textSize="15sp"
-                android:textStyle="bold" />
+                android:textSize="15sp" 
+                android:textStyle="bold"
+                android:textColor="#333333"/>
 
             <TextView
                 android:id="@+id/other_team_jinqiu"
@@ -337,9 +352,10 @@
                 android:layout_toRightOf="@id/other_team_goal_number"
                 android:gravity="bottom"
                 android:text="粒"
+                android:layout_marginTop="5dp"
                 android:textColor="#333333"
                 android:textSize="10sp" />
-
+            
             <TextView
                 android:id="@+id/other_team_shiqiu"
                 android:layout_width="70dip"
@@ -371,10 +387,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignBottom="@id/other_team_lost_number"
-                android:layout_alignTop="@id/other_team_li"
+                android:layout_alignTop="@id/other_team_lost_number"
                 android:layout_marginLeft="3dip"
                 android:layout_toRightOf="@id/other_team_lost_number"
                 android:gravity="bottom"
+                android:layout_marginTop="5dp"
                 android:text="粒"
                 android:textColor="#333333"
                 android:textSize="10sp" />
@@ -389,12 +406,13 @@
                 android:layout_toLeftOf="@id/other_team_lost_number"
                 android:background="@drawable/lost" />
         </RelativeLayout>
-
+        
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/rect_7" >
-             <TextView
+
+            <TextView
                 android:id="@+id/other_team_"
                 android:layout_width="1dip"
                 android:layout_height="1dip"
@@ -404,7 +422,7 @@
                 android:id="@+id/ll_other_team_log"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="#f5f5f5"
+                android:background="#ebf4ff"
                 android:orientation="horizontal"
                 android:padding="10dp" >
 
@@ -462,6 +480,7 @@
                 android:id="@+id/other_team_match_list"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:divider="@null"
                 android:layout_below="@id/ll_other_team_log" />
         </RelativeLayout>
 
@@ -469,8 +488,7 @@
             android:id="@+id/other_team_info_down"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dip"
-            android:background="@drawable/rect_2"
+            android:background="@drawable/rect_3"
             android:clickable="true"
             android:paddingBottom="10dip"
             android:paddingRight="10dip"
@@ -591,6 +609,7 @@
             <ListView
                 android:id="@+id/other_team_shooter_assister_list"
                 android:layout_width="match_parent"
+                android:divider="@null"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/other_team_assister" />
         </RelativeLayout>

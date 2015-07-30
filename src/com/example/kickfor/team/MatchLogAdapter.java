@@ -2,6 +2,7 @@ package com.example.kickfor.team;
 
 import java.util.List;
 
+import com.easemob.chat.core.v;
 import com.example.kickfor.R;
 
 import android.content.Context;
@@ -67,16 +68,17 @@ public class MatchLogAdapter extends BaseAdapter{
 		viewHolder.totalGoal.setText(item.getMatchTotalGoal());
 		viewHolder.totalLost.setText(item.getMatchTotalLost());
 		if(position%2==1){
-			viewHolder.b.setBackgroundColor(Color.parseColor("#dcdee0"));
+			
+			viewHolder.b.setBackgroundColor(Color.parseColor("#ffffff"));
 		}
 		else if(position%2==0){
 			viewHolder.b.setBackgroundColor(Color.parseColor("#ffffff"));
 		}
-		viewHolder.margin.setVisibility(View.GONE);
+//		viewHolder.margin.setVisibility(View.GONE);
 		if(position==(getCount()-1))
 		{
-			viewHolder.margin.setVisibility(View.VISIBLE);
-			viewHolder.b.setBackgroundColor(Color.parseColor("#cfe1ec"));
+//			viewHolder.margin.setVisibility(View.VISIBLE);
+//			viewHolder.b.setBackgroundColor(Color.parseColor("#ebf4ff"));
 		}
 		return convertView;
 	}

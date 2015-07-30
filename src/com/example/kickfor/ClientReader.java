@@ -52,6 +52,7 @@ public class ClientReader implements Runnable{
 				while((size=size+in.read(tmp, size, 8-size))!=8 && size!=-1){
 				}
 				if(size==-1){
+					System.out.println("inputstream¶Ï¿ª");
 					break;
 				}
 				System.out.println(new String(tmp, "UTF-8"));

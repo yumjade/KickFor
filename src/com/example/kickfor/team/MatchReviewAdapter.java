@@ -73,6 +73,7 @@ public class MatchReviewAdapter extends BaseAdapter{
 				viewHolder.teamName=(TextView)convertView.findViewById(R.id.tv_my_team_name);
 				viewHolder.againstName=(TextView)convertView.findViewById(R.id.tv_against_team_name);
 				viewHolder.score=(TextView)convertView.findViewById(R.id.match_result);
+				viewHolder.status =(TextView) convertView.findViewById(R.id.tv_review_status);
 				convertView.setTag(viewHolder);
 			}
 		}
@@ -106,14 +107,15 @@ public class MatchReviewAdapter extends BaseAdapter{
 			viewHolder.teamName.setText(item.getTeamName());
 			viewHolder.againstName.setText(item.getAgainstName());
 			viewHolder.score.setText(item.getSocre());
-//			viewHolder.status.setText(item.getReviewStatus());
+			viewHolder.status.setText(item.getReviewStatus());
 			if(item.getSocre().equals("u")){
 				viewHolder.score.setText(" - ");
-				viewHolder.score.setTextColor(Color.parseColor("#ff3300"));
+				viewHolder.status.setText("比赛未开始");
+				viewHolder.status.setTextColor(Color.parseColor("#ff3300"));
 			}
 			else if(item.getSocre().equals("p")){
-				viewHolder.score.setText("比赛尚未编辑");
-				viewHolder.score.setTextColor(Color.parseColor("#ff3300"));
+				viewHolder.status.setText("比赛尚未编辑");
+				viewHolder.status.setTextColor(Color.parseColor("#ff3300"));
 			}
 			else if(item.getSocre().equals("k")){
 				viewHolder.score.setText(item.getSocre());
