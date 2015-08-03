@@ -21,6 +21,7 @@ import com.easemob.chat.TextMessageBody;
 import com.example.kickfor.more.AboutusFragment;
 import com.example.kickfor.more.FeedbackFragment;
 import com.example.kickfor.more.FindPasswordsFragment;
+import com.example.kickfor.more.FormationEditFragment;
 import com.example.kickfor.more.MoreFragment;
 import com.example.kickfor.more.MoreInterface;
 import com.example.kickfor.more.MoreProtocols;
@@ -3157,6 +3158,15 @@ public class HomePageActivity extends FragmentActivity implements HandlerListene
 				n--;
 			}
 		}
+	}
+	
+	public void formationEdit(){
+		FormationEditFragment formationEdit = new FormationEditFragment();
+		FragmentTransaction tx=fm.beginTransaction();
+		tx.setCustomAnimations(R.animator.slide_in_right, R.animator.slide_out_left, R.animator.slide_in_left, R.animator.slide_out_right);
+		tx.replace(R.id.main, formationEdit);
+		tx.addToBackStack(null);
+		tx.commit();
 	}
 	
 	

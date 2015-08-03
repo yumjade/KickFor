@@ -72,7 +72,7 @@ public class MoreFragment extends Fragment implements IdentificationInterface{
 					((HomePageActivity)getActivity()).settings();
 					break;
 				case 6:
-					//((HomePageActivity)getActivity()).formationEdit();
+					((HomePageActivity)getActivity()).formationEdit();
 
 				}
 			}
@@ -92,7 +92,7 @@ public class MoreFragment extends Fragment implements IdentificationInterface{
 		mList.add(new MoreItem("服务协议",BitmapFactory.decodeResource(getResources(), R.drawable.more_item_service), 3));
 		mList.add(new MoreItem("意见反馈",BitmapFactory.decodeResource(getResources(), R.drawable.more_item_suggest), 4));
 		mList.add(new MoreItem("设置",BitmapFactory.decodeResource(getResources(), R.drawable.more_item_control), 5));
-		//mList.add(new MoreItem("阵型编辑",BitmapFactory.decodeResource(getResources(), R.drawable.more_item_control), 6));
+		mList.add(new MoreItem("阵型编辑",BitmapFactory.decodeResource(getResources(), R.drawable.more_item_control), 6));
 
 	}
 	

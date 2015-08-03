@@ -1,6 +1,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/rl_formation"
     android:background="#f0f0f0" >
 
     <RelativeLayout
@@ -39,11 +40,11 @@
             android:textSize="15sp" />
     </RelativeLayout>
     
-     <RelativeLayout
+     <!-- <RelativeLayout
         android:id="@+id/rl_court"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/r_position1" >
+        android:layout_below="@id/r_position1" > -->
         
     
     <RelativeLayout
@@ -236,7 +237,7 @@
             android:textColor="#ffffff" />
         
 
-    </RelativeLayout>
+   <!--  </RelativeLayout> -->
 
    <!--  <RelativeLayout
         android:id="@+id/rl_court"
