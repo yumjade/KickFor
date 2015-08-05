@@ -6,13 +6,15 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="#ffffff"
-        android:orientation="vertical" >
+        android:orientation="vertical">
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingLeft="10dp"
+            android:paddingLeft="5dp"
             android:paddingTop="10dp"
+            android:layout_marginLeft="10dip"
+        	android:layout_marginRight="10dip"
             android:text="球队初创篇"
             android:textColor="#333333"
             android:textSize="14sp" />
@@ -21,17 +23,23 @@
             android:id="@+id/team_history_start"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="10dip"
+        	android:layout_marginRight="10dip"
             android:background="@null"
-            android:paddingLeft="10dp"
+            android:minLines="3"
+            android:paddingLeft="5dp"
             android:text="亚平宁之师是一支成立于2006年的草根队伍"
+            android:gravity="left"
             android:textColor="#333333"
             android:textSize="14sp" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dip"
-            android:paddingLeft="10dp"
+            android:layout_marginTop="10dip"
+            android:paddingLeft="5dp"
+            android:layout_marginLeft="10dip"
+        	android:layout_marginRight="10dip"
             android:text="初期发展篇"
             android:textColor="#333333"
             android:textSize="14sp" />
@@ -41,16 +49,22 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@null"
-            android:paddingLeft="10dp"
             android:text="初期建队5人开始招兵买马"
+            android:layout_marginLeft="10dip"
+        	android:layout_marginRight="10dip"
+            android:minLines="3"
+            android:paddingLeft="5dp"
             android:textColor="#333333"
+            android:gravity="left"
             android:textSize="14sp" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dip"
-            android:paddingLeft="10dp"
+            android:layout_marginTop="10dip"
+            android:paddingLeft="5dp"
+            android:layout_marginLeft="10dip"
+        	android:layout_marginRight="10dip"
             android:text="快速扩张篇"
             android:textColor="#333333"
             android:textSize="14sp" />
@@ -59,19 +73,25 @@
             android:id="@+id/team_history_expanding"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:paddingLeft="5dp"
             android:background="@null"
-            android:paddingLeft="10dp"
+            android:layout_marginLeft="10dip"
+        	android:layout_marginRight="10dip"
+            android:minLines="3"
             android:text="经历过百队杯的磨练，我们逐渐成熟，吸引了XX队队长的加盟"
+            android:gravity="left"
             android:textColor="#333333"
             android:textSize="14sp" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dip"
-            android:paddingLeft="10dp"
+            android:layout_marginTop="10dip"
+            android:paddingLeft="5dp"
             android:text="逐渐成熟篇"
             android:textColor="#333333"
+            android:layout_marginLeft="10dip"
+        	android:layout_marginRight="10dip"
             android:textSize="14sp" />
 
         <EditText
@@ -79,9 +99,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@null"
-            android:paddingLeft="10dp"
+            android:paddingLeft="5dp"
+            android:minLines="3"
             android:text="在百事争霸赛后，在业余圈开始小有名气"
             android:textColor="#333333"
+            android:layout_marginLeft="10dip"
+        	android:layout_marginRight="10dip"
+            android:gravity="left"
             android:textSize="14sp" />
 
         <TextView
@@ -100,47 +124,6 @@
             android:textColor="#ffffff"
             android:textSize="17sp" />
 
-        <LinearLayout
-            android:id="@+id/team_history_item1"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="15dp"
-            android:layout_marginLeft="40dp"
-            android:layout_marginTop="20dp"
-            android:orientation="horizontal"
-            android:visibility="gone" >
-
-            <TextView
-                android:id="@+id/team_history_cancel1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:background="@drawable/btn_style_selector_2"
-                android:gravity="center"
-                android:paddingBottom="5dp"
-                android:paddingLeft="35dp"
-                android:paddingRight="35dp"
-                android:paddingTop="5dp"
-                android:text="取消"
-                android:textColor="#ffffff"
-                android:textSize="17sp" />
-
-            <TextView
-                android:id="@+id/team_history_ensure1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginLeft="60dp"
-                android:background="@drawable/btn_style_selector"
-                android:gravity="center"
-                android:paddingBottom="5dp"
-                android:paddingLeft="35dp"
-                android:paddingRight="35dp"
-                android:paddingTop="5dp"
-                android:text="确定"
-                android:textColor="#ffffff"
-                android:textSize="17sp" />
-        </LinearLayout>
 
         <View
             android:layout_width="fill_parent"
@@ -153,7 +136,9 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dip"
             android:paddingBottom="5dip"
-android:paddingLeft="10dp"
+			android:paddingLeft="5dp"
+			android:layout_marginLeft="10dip"
+        	android:layout_marginRight="10dip"
             android:paddingTop="5dip"
             android:text="荣誉"
             android:textColor="#333333"
@@ -163,7 +148,8 @@ android:paddingLeft="10dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:paddingLeft="10dp" >
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp" >
 
             <TextView
                 android:layout_width="0dip"
@@ -201,6 +187,7 @@ android:paddingLeft="10dp"
         <ListView
             android:id="@+id/team_history_honor"
             android:layout_width="match_parent"
+            android:divider="@null"
             android:layout_height="wrap_content" />
 
         <TextView
@@ -209,6 +196,7 @@ android:paddingLeft="10dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="20dip"
+            android:layout_marginBottom="20dip"
             android:background="@drawable/btn_style_selector"
             android:gravity="center"
             android:paddingBottom="5dip"
@@ -219,47 +207,7 @@ android:paddingLeft="10dp"
             android:textColor="#ffffff"
             android:textSize="17sp" />
 
-        <LinearLayout
-            android:id="@+id/team_history_item2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="20dp"
-            android:layout_marginLeft="40dp"
-            android:layout_marginTop="20dp"
-            android:orientation="horizontal"
-            android:visibility="gone" >
-
-            <TextView
-                android:id="@+id/team_history_cancel2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:background="@drawable/btn_style_selector_2"
-                android:gravity="center"
-                android:paddingBottom="5dp"
-                android:paddingLeft="35dp"
-                android:paddingRight="35dp"
-                android:paddingTop="5dp"
-                android:text="取消"
-                android:textColor="#ffffff"
-                android:textSize="17sp" />
-
-            <TextView
-                android:id="@+id/team_history_ensure2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginLeft="60dp"
-                android:background="@drawable/btn_style_selector"
-                android:gravity="center"
-                android:paddingBottom="5dp"
-                android:paddingLeft="35dp"
-                android:paddingRight="35dp"
-                android:paddingTop="5dp"
-                android:text="确定"
-                android:textColor="#ffffff"
-                android:textSize="17sp" />
-        </LinearLayout>
+        
     </LinearLayout>
 
 </ScrollView>

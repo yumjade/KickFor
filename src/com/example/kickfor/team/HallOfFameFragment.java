@@ -7,6 +7,9 @@ import java.util.List;
 import java.util.Map;
 
 
+
+
+
 import com.example.kickfor.ClientWrite;
 import com.example.kickfor.HomePageActivity;
 import com.example.kickfor.R;
@@ -22,6 +25,8 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -44,16 +49,18 @@ public class HallOfFameFragment extends Fragment implements TeamInterface, Ident
 	private String teamid = null;
 	private int resource;
 	
+	private TextView delete=null;
 	private Bitmap image=null;
 	private TextView confirmation = null;
 	private TextView cancel = null;
 	private ImageView famePhoto = null;
 	private EditText editName = null;
 	private EditText editNumber=null;
-	private EditText editPosition=null;
+	private TextView editPosition=null;
 	private TextView editTime=null;
 	private EditText editText=null;
 	private WheelDate wheelDate=null;
+	private WheelDate wheelDate1=null;
 	private int year=0;
 	private int month=0;
 	private int day=0;
@@ -67,6 +74,7 @@ public class HallOfFameFragment extends Fragment implements TeamInterface, Ident
 	private HallOfFmeAdapter adapter=null;
 	private HallofFame entity = null;
 	private List<HallofFame> mList=new ArrayList<HallofFame>();
+	private TextView editTimeEnd=null;
 	
 	public int getResourceId() {
 		return resource;
@@ -122,11 +130,14 @@ public class HallOfFameFragment extends Fragment implements TeamInterface, Ident
 		}
 		case R.layout.add_hall_of_fame:{
 			editName=(EditText)view.findViewById(R.id.et_fame_name);
-			editPosition=(EditText)view.findViewById(R.id.et_fame_positoin);
+			editPosition=(TextView)view.findViewById(R.id.et_fame_position);
 			editNumber=(EditText)view.findViewById(R.id.et_fame_number);
 			editTime=(TextView)view.findViewById(R.id.et_fame_time);
+			editTimeEnd=(TextView)view.findViewById(R.id.et_fame_time_end);
 			famePhoto=(ImageView)view.findViewById(R.id.fame_add_photo);
 			editText=(EditText)view.findViewById(R.id.et_fame_text);
+			delete=(TextView)view.findViewById(R.id.hall_delete);
+			
 			
 			famePhoto.setOnClickListener(new OnClickListener(){
 
@@ -134,6 +145,16 @@ public class HallOfFameFragment extends Fragment implements TeamInterface, Ident
 				public void onClick(View v) {
 					// TODO Auto-generated method stub
 					((HomePageActivity)getActivity()).sendImage(3);
+				}
+				
+			});
+			
+			editPosition.setOnClickListener(new OnClickListener(){
+
+				@Override
+				public void onClick(View v) {
+					// TODO Auto-generated method stub
+					((HomePageActivity)getActivity()).getInPosition(editPosition.getText().toString(), 0);
 				}
 				
 			});
@@ -150,14 +171,47 @@ public class HallOfFameFragment extends Fragment implements TeamInterface, Ident
 					wheelDate.screenheight=screenInfo.getHeight();
 					wheelDate.initDatePicker(year, month, day);
 					new AlertDialog.Builder(context)
-					.setTitle("选择日期")
+					.setTitle("选择开始效力时间")
 					.setView(datepickerview)
 					.setPositiveButton("确定",
 							new DialogInterface.OnClickListener() {
 								@Override
 								public void onClick(DialogInterface dialog,
 										int which) {
-									editTime.setText(wheelDate.getDate());
+									editTime.setText(wheelDate.getDate1());
+								}
+							})
+					.setNegativeButton("取消",
+							new DialogInterface.OnClickListener() {
+								@Override
+								public void onClick(DialogInterface dialog,
+										int which) {
+								}
+							}).show();
+				}
+				
+			});
+			
+			editTimeEnd.setOnClickListener(new OnClickListener(){
+
+				@Override
+				public void onClick(View v) {
+					// TODO Auto-generated method stub
+					LayoutInflater inflater=LayoutInflater.from(context);
+					final View datepickerview=inflater.inflate(R.layout.datepicker, null);
+					wheelDate1=new WheelDate(datepickerview);
+					ScreenInfo screenInfo=new ScreenInfo(getActivity());
+					wheelDate1.screenheight=screenInfo.getHeight();
+					wheelDate1.initDatePicker(year, month, day);
+					new AlertDialog.Builder(context)
+					.setTitle("选择结束效力时间")
+					.setView(datepickerview)
+					.setPositiveButton("确定",
+							new DialogInterface.OnClickListener() {
+								@Override
+								public void onClick(DialogInterface dialog,
+										int which) {
+									editTimeEnd.setText(wheelDate1.getDate1());
 								}
 							})
 					.setNegativeButton("取消",
@@ -197,7 +251,7 @@ public class HallOfFameFragment extends Fragment implements TeamInterface, Ident
 					else if(editPosition.getText().toString().isEmpty()){
 						Toast.makeText(context, "位置不能为空", Toast.LENGTH_SHORT).show();
 					}
-					else if(editTime.getText().toString().isEmpty()){
+					else if(editTime.getText().toString().isEmpty() || editTimeEnd.getText().toString().isEmpty()){
 						Toast.makeText(context, "效力时间不能为空", Toast.LENGTH_SHORT).show();
 					}
 					else if(editText.getText().toString().isEmpty()){
@@ -211,7 +265,7 @@ public class HallOfFameFragment extends Fragment implements TeamInterface, Ident
 						map.put("name", editName.getText().toString());
 						map.put("position", editPosition.getText().toString());
 						map.put("number", editNumber.getText().toString());
-						map.put("date", editTime.getText().toString());
+						map.put("date", editTime.getText().toString()+" - "+editTimeEnd.getText().toString());
 						if(image==null){
 							map.put("image", "-1");
 						}
@@ -238,6 +292,26 @@ public class HallOfFameFragment extends Fragment implements TeamInterface, Ident
 				
 			});
 			initiate();
+			if(id==-1){
+				delete.setVisibility(View.GONE);
+			}
+			else{
+				delete.setVisibility(View.VISIBLE);
+				delete.setOnClickListener(new OnClickListener(){
+
+					@Override
+					public void onClick(View arg0) {
+						// TODO Auto-generated method stub
+						Map<String, Object> map=new HashMap<String, Object>();
+						map.put("request", "delete fame");
+						map.put("teamid", teamid);
+						map.put("id", String.valueOf(id));
+						Runnable r=new ClientWrite(Tools.JsonEncode(map));
+						new Thread(r).start();
+					}
+					
+				});
+			}
 			break;
 		}
 		case R.layout.hall_of_fame_list:{
@@ -277,7 +351,6 @@ public class HallOfFameFragment extends Fragment implements TeamInterface, Ident
 			
 			fameList.setAdapter(adapter);
 			fameList.setItemsCanFocus(false); 
-			System.out.println("authority==="+authority);
 		}
 		}
 		return view;
@@ -309,7 +382,9 @@ public class HallOfFameFragment extends Fragment implements TeamInterface, Ident
 			editName.setText(entity.getName());
 			editNumber.setText(entity.getNumber());
 			editPosition.setText(entity.getPosition());
-			editTime.setText(entity.getDate());
+			List<String> list=explode(entity.getDate()+" - ", " - ");
+			editTime.setText(list.get(0));
+			editTimeEnd.setText(list.get(1));
 			editText.setText(entity.getIntruduction());
 			id=entity.getId();
 		}
@@ -349,6 +424,20 @@ public class HallOfFameFragment extends Fragment implements TeamInterface, Ident
 		return IdentificationInterface.SECOND_LEVEL;
 	}
 	
-	
+	public void setPosition(String position){
+		editPosition.setText(position);
+	}
 
+	private List<String> explode(String str, String sign){
+    	int end=str.indexOf(sign);
+    	int sizeoff=sign.length();
+    	List<String> mList=new ArrayList<String>();
+    	while(str.length()!=0){
+    		mList.add(str.substring(0, end));
+    		str=str.substring(end+sizeoff);
+    		end=str.indexOf(sign);
+    	}
+    	return mList;
+    }
+	
 }

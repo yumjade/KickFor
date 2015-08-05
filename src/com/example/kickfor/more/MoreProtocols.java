@@ -1,6 +1,11 @@
 package com.example.kickfor.more;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import com.example.kickfor.ClientWrite;
 import com.example.kickfor.R;
+import com.example.kickfor.Tools;
 import com.example.kickfor.utils.IdentificationInterface;
 
 import android.os.Bundle;

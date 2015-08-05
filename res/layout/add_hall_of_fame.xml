@@ -22,8 +22,9 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:padding="12dip"
+            android:layout_toRightOf="@id/fame_back"
+            android:paddingTop="12dip"
+            android:paddingBottom="12dip"
             android:text="名人堂资料添加"
             android:textColor="#ffffff"
             android:textSize="15sp" />
@@ -44,107 +45,158 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dip"
-        android:layout_marginRight="5dip"
+        android:layout_marginRight="10dip"
         android:orientation="horizontal" >
 
-        <EditText
-            android:id="@+id/et_fame_name"
-            android:layout_width="0dip"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="5dip"
-            android:layout_weight="1"
-            android:background="@drawable/bg_edittext"
-            android:clickable="true"
-            android:hint="姓名"
-            android:paddingBottom="10dip"
-            android:paddingLeft="10dip"
-            android:paddingRight="10dip"
-            android:paddingTop="10dip"
-            android:textColor="#333333"
-            android:textSize="15sp" />
+            <RelativeLayout
+		        android:layout_width="0dip"
+		        android:layout_height="wrap_content"
+		        android:layout_weight="1"
+		        android:paddingTop="10dip"
+		        android:paddingBottom="10dip"
+		        android:paddingLeft="10dip"
+		        android:layout_marginRight="5dip"
+		        android:background="#ffffff">
+		        <TextView
+		            android:id="@+id/qiuyuanxingming"
+		            android:layout_width="wrap_content"
+		            android:layout_height="wrap_content"
+		            android:layout_alignParentLeft="true"
+		            android:text="姓名"
+		            android:textColor="#333333"/>
+		        <EditText
+		            android:id="@+id/et_fame_name"
+		            android:layout_width="match_parent"
+		            android:layout_height="wrap_content"
+		            android:layout_toRightOf="@id/qiuyuanxingming"
+		            android:layout_marginLeft="10dip"
+		            android:inputType="text"
+		            android:textColor="#9e9e9e"
+		            android:textSize="15sp"
+		            android:background="@null"/>
+    	</RelativeLayout>
 
-        <EditText
-            android:id="@+id/et_fame_number"
-            android:layout_width="0dip"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="@drawable/bg_edittext"
-            android:clickable="true"
-            android:hint="号码"
-            android:layout_marginRight="5dp"
-            android:paddingBottom="10dip"
-            android:paddingLeft="10dip"
-            android:paddingRight="10dip"
-            android:paddingTop="10dip"
-            android:textColor="#333333"
-            android:textSize="15sp" />
+        <RelativeLayout
+		        android:layout_width="0dip"
+		        android:layout_height="wrap_content"
+		        android:layout_weight="1"
+		        android:paddingTop="10dip"
+		        android:paddingBottom="10dip"
+		        android:paddingLeft="10dip"
+		        android:layout_marginLeft="5dip"
+		        android:background="#ffffff">
+		        <TextView
+		            android:id="@+id/qiuyuanhaoma"
+		            android:layout_width="wrap_content"
+		            android:layout_height="wrap_content"
+		            android:layout_alignParentLeft="true"
+		            android:text="号码"
+		            android:textColor="#333333"/>
+		        <EditText
+		            android:id="@+id/et_fame_number"
+		            android:layout_width="match_parent"
+		            android:layout_height="wrap_content"
+		            android:layout_toRightOf="@id/qiuyuanhaoma"
+		            android:layout_marginLeft="10dip"
+		            android:inputType="number"
+		            android:textColor="#9e9e9e"
+		            android:textSize="15sp"
+		            android:background="@null"/>
+    	</RelativeLayout>
     </LinearLayout>
 
-    <LinearLayout
-        android:id="@+id/ll_position"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="10dip"
-        android:layout_marginRight="5dip"
-        android:layout_marginTop="10dp"
-        android:orientation="horizontal" >
-
-        <EditText
-            android:id="@+id/et_fame_positoin"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="5dip"
-            android:background="@drawable/bg_edittext"
-            android:clickable="true"
-            android:hint="位置"
-            android:paddingBottom="10dip"
-            android:paddingLeft="10dip"
-            android:paddingRight="10dip"
-            android:paddingTop="10dip"
-            android:textColor="#333333"
-            android:textSize="15sp" />
-    </LinearLayout>
+    <RelativeLayout
+		        android:layout_width="match_parent"
+		        android:layout_height="wrap_content"
+		        android:paddingTop="10dip"
+		        android:layout_marginTop="10dip"
+		        android:layout_marginLeft="10dip"
+		        android:layout_marginRight="10dip"
+		        android:paddingBottom="10dip"
+		        android:paddingLeft="10dip"
+		        android:background="#ffffff">
+		        <TextView
+		            android:id="@+id/qiuyuanweizhi"
+		            android:layout_width="wrap_content"
+		            android:layout_height="wrap_content"
+		            android:layout_alignParentLeft="true"
+		            android:text="位置"
+		            android:textColor="#333333"/>
+		        <TextView
+		            android:id="@+id/et_fame_position"
+		            android:layout_width="match_parent"
+		            android:layout_height="wrap_content"
+		            android:layout_toRightOf="@id/qiuyuanweizhi"
+		            android:layout_marginLeft="10dip"
+		            android:textColor="#9e9e9e"
+		            android:textSize="15sp"
+		            android:background="@null"/>
+    	</RelativeLayout>
 
     <LinearLayout
         android:id="@+id/ll_time"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="10dip"
         android:layout_marginLeft="10dip"
-        android:layout_marginRight="5dip"
-        android:layout_marginTop="10dp"
+        android:layout_marginRight="10dip"
         android:orientation="horizontal" >
 
-        <EditText
-            android:id="@+id/et_fame_time"
-            android:layout_width="0dip"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="5dip"
-            android:layout_weight="1"
-            android:background="@drawable/bg_edittext"
-            android:clickable="true"
-            android:hint="服役开始时间"
-            android:paddingBottom="10dip"
-            android:paddingLeft="10dip"
-            android:paddingRight="10dip"
-            android:paddingTop="10dip"
-            android:textColor="#333333"
-            android:textSize="15sp" />
+            <RelativeLayout
+		        android:layout_width="0dip"
+		        android:layout_height="wrap_content"
+		        android:layout_weight="1"
+		        android:paddingTop="10dip"
+		        android:paddingBottom="10dip"
+		        android:paddingLeft="10dip"
+		        android:layout_marginRight="5dip"
+		        android:background="#ffffff">
+		        <TextView
+		            android:id="@+id/qiuyuankaishi"
+		            android:layout_width="wrap_content"
+		            android:layout_height="wrap_content"
+		            android:layout_alignParentLeft="true"
+		            android:text="效力于"
+		            android:textColor="#333333"/>
+		        <TextView
+		            android:id="@+id/et_fame_time"
+		            android:layout_width="match_parent"
+		            android:layout_height="wrap_content"
+		            android:layout_toRightOf="@id/qiuyuankaishi"
+		            android:layout_marginLeft="10dip"
+		            android:inputType="text"
+		            android:textColor="#9e9e9e"
+		            android:textSize="15sp"
+		            android:background="@null"/>
+    	</RelativeLayout>
 
-        <EditText
-            android:id="@+id/et_fame_time_end"
-            android:layout_width="0dip"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="5dip"
-            android:layout_weight="1"
-            android:background="@drawable/bg_edittext"
-            android:clickable="true"
-            android:hint="服役结束时间"
-            android:paddingBottom="10dip"
-            android:paddingLeft="10dip"
-            android:paddingRight="10dip"
-            android:paddingTop="10dip"
-            android:textColor="#333333"
-            android:textSize="15sp" />
+        <RelativeLayout
+		        android:layout_width="0dip"
+		        android:layout_height="wrap_content"
+		        android:layout_weight="1"
+		        android:paddingTop="10dip"
+		        android:paddingBottom="10dip"
+		        android:paddingLeft="10dip"
+		        android:layout_marginLeft="5dip"
+		        android:background="#ffffff">
+		        <TextView
+		            android:id="@+id/qiuyuanjieshu"
+		            android:layout_width="wrap_content"
+		            android:layout_height="wrap_content"
+		            android:layout_alignParentLeft="true"
+		            android:text="效力至"
+		            android:textColor="#333333"/>
+		        <TextView
+		            android:id="@+id/et_fame_time_end"
+		            android:layout_width="match_parent"
+		            android:layout_height="wrap_content"
+		            android:layout_toRightOf="@id/qiuyuanjieshu"
+		            android:layout_marginLeft="10dip"
+		            android:inputType="number"
+		            android:textColor="#9e9e9e"
+		            android:textSize="15sp"
+		            android:background="@null"/>
+    	</RelativeLayout>
     </LinearLayout>
 
     <EditText
@@ -162,6 +214,7 @@
         android:paddingLeft="10dip"
         android:paddingRight="10dip"
         android:paddingTop="10dip"
+        android:maxLength="140"
         android:textColor="#333333"
         android:textSize="15sp" />
 

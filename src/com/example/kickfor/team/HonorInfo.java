@@ -1,6 +1,12 @@
 package com.example.kickfor.team;
 
-public class HonorInfo{
+import java.io.Serializable;
+
+public class HonorInfo implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 33L;
 	private String year="";
 	private String name="";
 	private String result="";

@@ -9,11 +9,11 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+import java.util.TreeMap;
 
 import org.json.JSONObject;
 import org.json.JSONStringer;
@@ -277,7 +277,7 @@ public class Tools {
 			Iterator<String> keyIter=jsonObject.keys();
 			String key;
 			Object value;
-			Map<String, Object> valueMap=new HashMap<String, Object>();
+			Map<String, Object> valueMap=new TreeMap<String, Object>();
 			while(keyIter.hasNext()){
 				key=keyIter.next();
 				value=jsonObject.get(key);
@@ -593,7 +593,7 @@ public class Tools {
 	    return bitmap;
 	}
 	
-	 public static String saveMyBitmap(Bitmap mBitmap,String bitName)  {
+	public static String saveMyBitmap(Bitmap mBitmap,String bitName)  {
 		 String path = Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + bitName + ".jpg";
 	        File f = new File(path);
 	        FileOutputStream fOut = null;
@@ -681,4 +681,10 @@ public class Tools {
 			int value = Math.abs(v % number) + 1;
 			return value;			
 		}
+		
+		public static String dataFormat(float x){ 
+			float b=(float)(Math.round(x*10))/10;
+			return String.valueOf(b);
+		}
+		
 }

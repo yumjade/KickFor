@@ -1,0 +1,227 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#f0f0f0"
+    android:orientation="vertical" >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/title_style" >
+
+        <ImageView
+            android:id="@+id/info_edit_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:background="@drawable/select_unselected_3"
+            android:padding="15dip"
+            android:src="@drawable/back" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:padding="12dip"
+            android:text="球队信息编辑"
+            android:textColor="#ffffff"
+            android:textSize="15sp" />
+    </RelativeLayout>
+
+    <ImageView
+        android:id="@+id/iv_info_team_photo"
+        android:layout_width="65dip"
+        android:layout_height="65dip"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="5dp"
+        android:layout_marginTop="10dip"
+        android:background="@drawable/team_register_image" />
+    
+    <TextView 
+        android:id="@+id/tv_info_team_photo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="10dp"
+        android:hint="点击编辑图像"/>
+
+
+        <RelativeLayout
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:layout_marginLeft="10dp"
+        	android:layout_marginRight="10dp"
+        	android:layout_marginTop="10dp"
+	        android:paddingTop="10dip"
+	        android:paddingBottom="10dip"
+	        android:paddingLeft="10dip"
+	        android:background="#ffffff">
+	        <TextView
+	            android:id="@+id/qiuduimingcheng"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:layout_alignParentLeft="true"
+	            android:text="球队名称"
+	            android:textColor="#333333"/>
+	        <EditText
+	            android:id="@+id/info_team_name"
+	            android:layout_width="match_parent"
+	            android:layout_height="wrap_content"
+	            android:layout_toRightOf="@id/qiuduimingcheng"
+	            android:layout_marginLeft="10dip"
+	            android:inputType="text"
+	            android:textColor="#9e9e9e"
+	            android:textSize="15sp"
+	            android:background="@null"/>
+    </RelativeLayout>
+
+
+         <RelativeLayout
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:layout_marginLeft="10dp"
+        	android:layout_marginRight="10dp"
+        	android:layout_marginTop="10dp"
+	        android:paddingTop="10dip"
+	        android:paddingBottom="10dip"
+	        android:paddingLeft="10dip"
+	        android:background="#ffffff">
+	        <TextView
+	            android:id="@+id/chenglishijian"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:layout_alignParentLeft="true"
+	            android:text="成立时间"
+	            android:textColor="#333333"/>
+	        <TextView
+	            android:id="@+id/info_team_time"
+	            android:layout_width="match_parent"
+	            android:layout_height="wrap_content"
+	            android:layout_toRightOf="@id/chenglishijian"
+	            android:layout_marginLeft="10dip"
+	            android:inputType="text"
+	            android:textColor="#9e9e9e"
+	            android:textSize="15sp"
+	            android:background="@null"/>
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dip"
+        android:layout_marginRight="5dip"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal" >
+
+            <RelativeLayout
+		        android:layout_width="0dip"
+		        android:layout_height="wrap_content"
+		        android:layout_weight="1"
+		        android:paddingTop="10dip"
+		        android:paddingBottom="10dip"
+		        android:layout_marginRight="5dip"
+		        android:paddingLeft="10dip"
+		        android:background="#ffffff">
+		        <TextView
+		            android:id="@+id/chenglichengshi"
+		            android:layout_width="wrap_content"
+		            android:layout_height="wrap_content"
+		            android:layout_alignParentLeft="true"
+		            android:text="城市"
+		            android:textColor="#333333"/>
+		        <EditText
+		            android:id="@+id/info_team_city"
+		            android:layout_width="match_parent"
+		            android:layout_height="wrap_content"
+		            android:layout_toRightOf="@id/chenglichengshi"
+		            android:layout_marginLeft="10dip"
+		            android:inputType="text"
+		            android:textColor="#9e9e9e"
+		            android:textSize="15sp"
+		            android:background="@null"/>
+	    </RelativeLayout>
+           <RelativeLayout
+		        android:layout_width="0dip"
+		        android:layout_height="wrap_content"
+		        android:layout_weight="1"
+		        android:layout_marginLeft="5dip"
+		        android:paddingTop="10dip"
+		        android:paddingBottom="10dip"
+		        android:paddingLeft="10dip"
+		        android:background="#ffffff">
+		        <TextView
+		            android:id="@+id/chenglidiqu"
+		            android:layout_width="wrap_content"
+		            android:layout_height="wrap_content"
+		            android:layout_alignParentLeft="true"
+		            android:text="城市"
+		            android:textColor="#333333"/>
+		        <EditText
+		            android:id="@+id/info_team_district"
+		            android:layout_width="match_parent"
+		            android:layout_height="wrap_content"
+		            android:layout_toRightOf="@id/chenglidiqu"
+		            android:layout_marginLeft="10dip"
+		            android:inputType="text"
+		            android:textColor="#9e9e9e"
+		            android:textSize="15sp"
+		            android:background="@null"/>
+	    </RelativeLayout>
+    </LinearLayout>
+
+    <RelativeLayout
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:layout_marginLeft="10dp"
+        	android:layout_marginRight="10dp"
+        	android:layout_marginTop="10dp"
+	        android:paddingTop="10dip"
+	        android:paddingBottom="10dip"
+	        android:paddingLeft="10dip"
+	        android:background="#ffffff">
+	        <TextView
+	            android:id="@+id/chenglirenshu"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:layout_alignParentLeft="true"
+	            android:text="人数"
+	            android:textColor="#333333"/>
+	        <EditText
+	            android:id="@+id/info_team_number"
+	            android:layout_width="match_parent"
+	            android:layout_height="wrap_content"
+	            android:layout_toRightOf="@id/chenglirenshu"
+	            android:layout_marginLeft="10dip"
+	            android:inputType="text"
+	            android:textColor="#9e9e9e"
+	            android:textSize="15sp"
+	            android:background="@null"/>
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:id="@+id/info_team_confirmation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dip"
+            android:layout_marginLeft="10dip"
+            android:layout_marginRight="10dip"
+            android:layout_marginTop="20dip"
+            android:layout_weight="1"
+            android:alpha="1"
+            android:background="@drawable/btn_style_selector"
+            android:clickable="true"
+            android:gravity="center"
+            android:text="确认"
+            android:textColor="#ffffff"
+            android:textSize="15sp" />
+
+    </LinearLayout>
+    
+
+</LinearLayout>

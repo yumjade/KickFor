@@ -65,6 +65,12 @@ public class BarFragment extends Fragment implements OnClickListener, Identifica
 		return view;
 	}
 
+	public void setEnable(boolean enable){
+		myKickForText.setEnabled(enable);
+		team.setEnabled(enable);
+		more.setEnabled(enable);
+	}
+	
 	public void setDot(boolean show){
 		if(show==true){
 			dot.setVisibility(View.VISIBLE);

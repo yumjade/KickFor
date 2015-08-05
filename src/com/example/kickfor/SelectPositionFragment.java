@@ -54,10 +54,19 @@ public class SelectPositionFragment extends Fragment implements OnClickListener,
 		return IdentificationInterface.SECOND_LEVEL;
 	}
 	
-	public SelectPositionFragment(String phone, int state, String position){
-		this.phone=phone;
-		this.state=state;
-		this.position=position;
+	public int getState(){
+		return state;
+	}
+	
+	public String getPosition(){
+		return position;
+	}
+	
+	private void init(){
+		Bundle bundle=getArguments();
+		this.phone=bundle.getString("phone");
+		this.state=bundle.getInt("state");
+		this.position=bundle.getString("position");
 	}
 	
 
@@ -65,6 +74,7 @@ public class SelectPositionFragment extends Fragment implements OnClickListener,
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
+		init();
 		View view=inflater.inflate(R.layout.fragment_position, container, false);
 		positionText=(TextView)view.findViewById(R.id.position_);
 		title=(TextView)view.findViewById(R.id.position_text);
@@ -127,7 +137,7 @@ public class SelectPositionFragment extends Fragment implements OnClickListener,
 		while(iter.hasNext()){
 			CheckBox item=iter.next();
 			if(item.getText().equals(position)){
-				initState();
+				initState1();
 				item.setChecked(true);
 				break;
 			}
@@ -140,25 +150,30 @@ public class SelectPositionFragment extends Fragment implements OnClickListener,
 		int id=v.getId();
 		if(id==R.id.btn_ensure1){
 			setEnable(false);
-			((HomePageActivity)getActivity()).openVague(HomePageActivity.WAIT_POSITION);
-			Map<String, Object> tmp=new HashMap<String, Object>();
-			tmp.put("request", "update position");
-			tmp.put("phone", phone);
-			tmp.put("position", position);
-			if(state==1){
-				tmp.put("type", "1");
+			if(state==0){
+				((HomePageActivity)getActivity()).onBackPressed();
 			}
-			else if(state==2){
-				tmp.put("type", "2");
+			else{
+				((HomePageActivity)getActivity()).openVague(HomePageActivity.WAIT_POSITION);
+				Map<String, Object> tmp=new HashMap<String, Object>();
+				tmp.put("request", "update position");
+				tmp.put("phone", phone);
+				tmp.put("position", position);
+				if(state==1){
+					tmp.put("type", "1");
+				}
+				else if(state==2){
+					tmp.put("type", "2");
+				}
+				Runnable r=new ClientWrite(Tools.JsonEncode(tmp));
+				new Thread(r).start();
 			}
-			Runnable r=new ClientWrite(Tools.JsonEncode(tmp));
-			new Thread(r).start();
 		}
 		else if(id==R.id.position_back){
 			((HomePageActivity)getActivity()).onBackPressed();
 		}
 		else{
-			initState();
+			initState1();
 			CheckBox tmp=(CheckBox)v;
 			tmp.setChecked(true);
 			position=tmp.getText().toString();
@@ -166,7 +181,7 @@ public class SelectPositionFragment extends Fragment implements OnClickListener,
 		}
 	}
 	
-	private void initState(){
+	private void initState1(){
 		striker.setChecked(false);
 		striker1.setChecked(false);
 		leftwing.setChecked(false);

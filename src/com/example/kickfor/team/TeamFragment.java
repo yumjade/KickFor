@@ -129,6 +129,7 @@ public class TeamFragment extends Fragment implements OnClickListener, TeamInter
 	public void onClick(View v) {
 		// TODO Auto-generated method stub
 		setEnable(false);
+		((HomePageActivity)getActivity()).setBar(false);
 		((HomePageActivity)getActivity()).teamCommand(v, teamid, authority);
 	}
 	

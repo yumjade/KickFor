@@ -23,15 +23,16 @@
                 android:layout_marginTop="10dip"
                 android:background="@drawable/team_default" />
 
-            <ImageView
+            <TextView
                 android:id="@+id/fame_shirt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignTop="@id/fame_photo"
                 android:layout_toRightOf="@id/fame_photo"
                 android:layout_marginLeft="5dp"
-                android:padding="5dip"
-                android:src="@drawable/hall_of_fame_shirt" />
+                android:gravity="center"
+                android:textColor="#ffffff"
+                android:background="@drawable/hall_of_fame_shirt" />
 
             <TextView
                 android:id="@+id/fame_name"
@@ -103,8 +104,10 @@
             android:layout_marginLeft="5dip"
             android:layout_marginRight="5dip"
             android:layout_toRightOf="@id/fame_name"
-            android:gravity="center_vertical"
+            android:gravity="left"
             android:padding="5dip"
+            android:minLines="7"
+            android:maxLines="12"
             android:text="中学7校比赛最佳射手\n牛逼村连续几年最佳射手\n大学8校最佳射手\n位置：前锋（10年前）、中场（5年前）、门将+中卫"
             android:textColor="#333333"
             android:textSize="15sp" />

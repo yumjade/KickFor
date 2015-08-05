@@ -338,8 +338,22 @@ public class ChangingRoomAdapter extends BaseAdapter implements OnClickListener{
 							Runnable r=new ClientWrite(Tools.JsonEncode(tmp));
 							new Thread(r).start();
 						}
-					
-					
+					}
+					else if(v.phone.equals(phone)){
+						((TextView)view).setAlpha((float) 0.6);
+						if(mList.size()>position){
+							mList.get(position).pb1=true;
+							v.pb1.setVisibility(View.VISIBLE);
+							HomePageActivity ac=(HomePageActivity)context;;
+							ac.openProgressBarWait(HomePageActivity.WAIT_PROGRESSBAR, v, mList.get(position));
+							tmp.put("request", "fuck off");
+							tmp.put("phone", v.phone);
+							tmp.put("name", v.name.getText());
+							tmp.put("number", v.number.getText());
+							tmp.put("teamid", v.teamid);
+							Runnable r=new ClientWrite(Tools.JsonEncode(tmp));
+							new Thread(r).start();
+						}
 					}
 				}
 			}

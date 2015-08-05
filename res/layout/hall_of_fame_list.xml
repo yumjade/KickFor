@@ -4,7 +4,7 @@
     android:orientation="vertical"
     android:background="#f0f0f0">
     
-        <RelativeLayout
+    <RelativeLayout
         android:id="@+id/fame_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -23,9 +23,10 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
+            android:layout_toRightOf="@id/fame_back"
             android:alpha="1"
-            android:padding="12dip"
+            android:paddingTop="12dip"
+            android:paddingBottom="12dip"
             android:text="名人堂"
             android:textColor="#ffffff"
             android:textSize="15sp" />
@@ -51,6 +52,8 @@
     <ListView
         android:id="@+id/hall_of_fame_list"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="#ffffff"/>
+        android:layout_height="match_parent"
+        android:background="#f0f0f0"
+        android:dividerHeight="5dip"
+        android:divider="#f0f0f0"/>
 </LinearLayout>

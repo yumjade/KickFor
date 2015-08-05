@@ -105,19 +105,19 @@ public class HomePageEntity implements Serializable{
 			person=map.get("person").toString();
 		}
 		score=map.get("score").toString();
-		name=map.get("name").toString();
+		name=map.get("name").toString().isEmpty()? "Unknown": map.get("name").toString();
 		power=map.get("power").toString();
 		speed=map.get("speed").toString();
 		skills=map.get("skills").toString();
 		stamina=map.get("stamina").toString();
 		attack=map.get("attack").toString();
 		defence=map.get("defence").toString();
-		birth=map.get("year")+"."+map.get("month");
-		place=map.get("city").toString();
-		weight=map.get("weight").toString();
-		height=map.get("height").toString();
-		position=map.get("position1").toString();
-		team1=map.containsKey("team1")? map.get("team1").toString(): "";
+		birth=(map.get("year").toString().isEmpty() || map.get("month").toString().isEmpty())? "生日": map.get("year")+"."+map.get("month");
+		place=map.get("city").toString().isEmpty()? "地区": map.get("city").toString();
+		weight=map.get("weight").toString().isEmpty()? "体重": map.get("weight").toString();
+		height=map.get("height").toString().isEmpty()? "身高": map.get("height").toString();
+		position=map.get("position1").toString().isEmpty()? "位置": map.get("position1").toString();
+		team1=map.containsKey("team1") && !(map.get("team1").toString().isEmpty())? map.get("team1").toString(): "球队";
 		String team2=map.containsKey("team2")? map.get("team2").toString(): "";
 		String team3=map.containsKey("team3")? map.get("team3").toString(): "";
 		String tmatch1=map.containsKey("tmatch1")? map.get("tmatch1").toString(): "0";
@@ -137,7 +137,7 @@ public class HomePageEntity implements Serializable{
 		assist=String.valueOf(Integer.parseInt(assist1)+Integer.parseInt(assist2)+Integer.parseInt(assist3));
 		double win=Integer.parseInt(win1)+Integer.parseInt(win2)+Integer.parseInt(win3);
 		double number=Integer.valueOf(matchNumber);
-		winRate=convert(win/number*100)+"%";
+		winRate=(number==0? 100: Tools.dataFormat((float)(win/number*100)))+"%";
 		if(!team1.isEmpty()){
 			OthersMatchEntity item1=new OthersMatchEntity(team1, tmatch1, goal1, assist1);
 			list.add(item1);
@@ -261,7 +261,7 @@ public class HomePageEntity implements Serializable{
 				                      "win1", "win2", "win3", "image", "team2", "team3", "addup", "score", "date"};
 		Cursor cursor=helper.select("ich", columns, "phone=?", new String[]{phone}, null);
 		if(cursor.moveToNext()){
-			name=cursor.getString(0);
+			name=cursor.getString(0).isEmpty()? "Unknown": cursor.getString(0);
 			power=cursor.getString(1);
 			System.out.println("power="+power);
 			speed=cursor.getString(2);
@@ -269,22 +269,25 @@ public class HomePageEntity implements Serializable{
 			stamina=cursor.getString(4);
 			attack=cursor.getString(5);
 			defence=cursor.getString(6);
-			birth=cursor.getString(7)+"."+cursor.getString(8);
-			place=cursor.getString(9);
-			weight=cursor.getString(10)+"Kg";
-			height=cursor.getString(11)+"cm";
+			birth=cursor.getString(7).isEmpty() || cursor.getString(8).isEmpty()? "生日": cursor.getString(7)+"."+cursor.getString(8);
+			place=cursor.getString(9).isEmpty()? "地区": cursor.getString(9);
+			weight=cursor.getString(10).isEmpty()? "体重": cursor.getString(10)+"Kg";
+			height=cursor.getString(11).isEmpty()? "身高": cursor.getString(11)+"cm";
 			team1=cursor.getString(12);
 			Cursor cursor1=helper.select("teams", new String[]{"name"}, "teamid=?", new String[]{team1}, null);
 			if(cursor1.moveToNext()){
-				team1=cursor1.getString(0);
+				team1=cursor1.getString(0).isEmpty()? "球队": cursor1.getString(0);
 			}
-			position=cursor.getString(13);
+			else{
+				team1="球队";
+			}
+			position=cursor.getString(13).isEmpty()? "位置": cursor.getString(13);
 			matchNumber=String.valueOf(Integer.valueOf(cursor.getString(14))+Integer.valueOf(cursor.getString(15))+Integer.valueOf(cursor.getString(16)));
 			goal=String.valueOf(Integer.valueOf(cursor.getString(17))+Integer.valueOf(cursor.getString(18))+Integer.valueOf(cursor.getString(19)));
 			assist=String.valueOf(Integer.valueOf(cursor.getString(20))+Integer.valueOf(cursor.getString(21))+Integer.valueOf(cursor.getString(22)));
 			double win=Integer.valueOf(cursor.getString(23))+Integer.valueOf(cursor.getString(24))+Integer.valueOf(cursor.getString(25));
 			double number=Integer.valueOf(matchNumber);
-			winRate=convert(win/number*100)+"%";
+			winRate=(number==0? 100: Tools.dataFormat((float)(win/number*100)))+"%";
 			String imgPathName=cursor.getString(26);
 			if(!(imgPathName.equals("-1"))){
 				image=Tools.bitmapToString(BitmapFactory.decodeFile(cursor.getString(26)));
@@ -306,10 +309,7 @@ public class HomePageEntity implements Serializable{
 		
 	}
 	
-	private String convert(double f) {
-        DecimalFormat df = new DecimalFormat("#.0");
-        return String.valueOf(df.format(f));
-    }
+	
 	
 	
 

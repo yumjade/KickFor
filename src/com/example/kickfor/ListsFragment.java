@@ -389,7 +389,7 @@ public class ListsFragment extends Fragment implements HomePageInterface, Identi
 			clearSearch = (ImageButton) view.findViewById(R.id.search_clear);
 			searchbar=view.findViewById(R.id.search_bar_view);
 			sidebar=(Sidebar)view.findViewById(R.id.sidebar);
-			mListView=(KickForListView)view.findViewById(R.id.kick_for_list);
+			mListView=(ListView)view.findViewById(R.id.kick_for_list);
 			sidebar.setListView(mListView);
 		}
 		else{

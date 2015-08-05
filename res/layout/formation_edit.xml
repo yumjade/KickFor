@@ -31,16 +31,7 @@
 
     </RelativeLayout>
 
-    
-
-    <RelativeLayout
-        android:id="@+id/rl_court"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/r_position1"
-        android:background="@drawable/court_new" >
-        
-        <TextView
+    <TextView
         android:id="@+id/btn_ensure1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -51,6 +42,14 @@
         android:paddingTop="10dip"
         android:textColor="#ffffff"
         android:textSize="16sp" />
+
+    <RelativeLayout
+        android:id="@+id/rl_court"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/r_position1"
+        android:layout_above="@id/btn_ensure1"
+        android:background="@drawable/court_new" >
 
         <CheckBox
             android:id="@+id/rb_striker"

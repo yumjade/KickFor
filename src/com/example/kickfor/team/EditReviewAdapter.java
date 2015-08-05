@@ -24,6 +24,8 @@ public class EditReviewAdapter extends BaseAdapter implements OnClickListener, O
 	private LayoutInflater mInflater=null;
 	private ListView mListView=null;
 	private int height=0;
+	private int did=-1;
+	
 	
 	public EditReviewAdapter(Context context, List<Info> mList, ListView mListView){
 		this.mList=mList;
@@ -76,6 +78,8 @@ public class EditReviewAdapter extends BaseAdapter implements OnClickListener, O
 			viewHolder.assist=(ImageView)convertView.findViewById(R.id.editre_assist);
 			viewHolder.r_card=(ImageView)convertView.findViewById(R.id.red_card);
 			viewHolder.y_card=(ImageView)convertView.findViewById(R.id.editre_card);
+			viewHolder.textGoal=(TextView)convertView.findViewById(R.id.editre_text_goal);
+			viewHolder.textAssist=(TextView)convertView.findViewById(R.id.editre_text_assist);
 			viewHolder.goal.setOnClickListener(this);
 			viewHolder.assist.setOnClickListener(this);
 			viewHolder.r_card.setOnClickListener(this);
@@ -86,6 +90,8 @@ public class EditReviewAdapter extends BaseAdapter implements OnClickListener, O
 			viewHolder.y_card.setOnLongClickListener(this);
 			viewHolder.goalText=(TextView)convertView.findViewById(R.id.editre_value1);
 			viewHolder.assistText=(TextView)convertView.findViewById(R.id.editre_value2);
+			viewHolder.red=(TextView)convertView.findViewById(R.id.editre_r);
+			viewHolder.yellow=(TextView)convertView.findViewById(R.id.editre_y);
 			viewHolder.y_cardText=(TextView)convertView.findViewById(R.id.editre_value3);
 			viewHolder.r_cardText=(TextView)convertView.findViewById(R.id.red_card_value);
 			convertView.setTag(viewHolder);
@@ -102,6 +108,8 @@ public class EditReviewAdapter extends BaseAdapter implements OnClickListener, O
 		viewHolder.assist.setTag(position);
 		viewHolder.y_card.setTag(position);
 		viewHolder.r_card.setTag(position);
+		viewHolder.textGoal.setText(entity.getGoal().equals("0")? "": "进 "+entity.getGoal());
+		viewHolder.textAssist.setText(entity.getAssist().equals("0")? "": "助 "+entity.getAssist());
 		if(entity.getAttendance()){
 			viewHolder.ensure.setText("取消确认");
 			viewHolder.ensure.setBackgroundColor(Color.parseColor("#ff3300"));
@@ -109,12 +117,20 @@ public class EditReviewAdapter extends BaseAdapter implements OnClickListener, O
 		viewHolder.goalText.setText(entity.getGoal());
 		viewHolder.assistText.setText(entity.getAssist());
 		if(entity.getCard()==1){
+			viewHolder.yellow.setVisibility(View.VISIBLE);
+			viewHolder.red.setVisibility(View.GONE);
 			viewHolder.y_cardText.setText("X 1");
 			viewHolder.r_cardText.setText("X 0");
 		}
 		else if(entity.getCard()==2){
+			viewHolder.yellow.setVisibility(View.GONE);
+			viewHolder.red.setVisibility(View.VISIBLE);
 			viewHolder.y_cardText.setText("X 0");
 			viewHolder.r_cardText.setText("X 1");
+		}
+		else{
+			viewHolder.yellow.setVisibility(View.GONE);
+			viewHolder.red.setVisibility(View.GONE);
 		}
 		return convertView;
 	}
@@ -132,6 +148,10 @@ public class EditReviewAdapter extends BaseAdapter implements OnClickListener, O
 		TextView assistText=null;
 		TextView y_cardText=null;
 		TextView r_cardText=null;
+		TextView textGoal=null;
+		TextView textAssist=null;
+		TextView red=null;
+		TextView yellow=null;
 	}
 
 	@Override
@@ -150,16 +170,22 @@ public class EditReviewAdapter extends BaseAdapter implements OnClickListener, O
 			}
 			else{
 				((TextView)v).setText("确认到场");
-				((TextView)v).setBackgroundColor(Color.parseColor("#22a100"));
+				((TextView)v).setBackgroundColor(Color.parseColor("#B6DA53"));
 				item.resetGoal();
 				item.resetAssist();
 				item.resetYCard();
 				item.resetRCard();
+				viewHolder.textGoal.setText("");
+				viewHolder.textAssist.setText("");
+				viewHolder.red.setVisibility(View.GONE);
+				viewHolder.yellow.setVisibility(View.GONE);
 				if(viewHolder.r.isShown()){
 					viewHolder.r.measure(0, 0);
 					height=height-viewHolder.r.getMeasuredHeight();
 					viewHolder.r.setVisibility(View.GONE);
 					Tools.changeListViewHeight(height, mListView);
+					item.setPoped();
+					did=-1;
 				}
 				
 			}
@@ -170,11 +196,20 @@ public class EditReviewAdapter extends BaseAdapter implements OnClickListener, O
 			Info item=mList.get(position);
 			ViewHolder viewHolder=(ViewHolder)((View)v.getParent().getParent()).getTag();
 			if(!item.getPoped()){
+				if(did!=-1){
+					ViewHolder tmp=(ViewHolder)(mListView.getChildAt(did).getTag());
+					tmp.r.measure(0, 0);
+					height=height-tmp.r.getMeasuredHeight();
+					tmp.r.setVisibility(View.GONE);
+					Tools.changeListViewHeight(height, mListView);
+					mList.get(did).setPoped();
+				}
 				viewHolder.r.setVisibility(View.VISIBLE);
 				viewHolder.r.measure(0, 0);
 				height=height+viewHolder.r.getMeasuredHeight();
 				Tools.changeListViewHeight(height, mListView);
 				item.setPoped();
+				did=position;
 			}
 			else{
 				viewHolder.r.measure(0, 0);
@@ -182,6 +217,7 @@ public class EditReviewAdapter extends BaseAdapter implements OnClickListener, O
 				viewHolder.r.setVisibility(View.GONE);
 				Tools.changeListViewHeight(height, mListView);
 				item.setPoped();
+				did=-1;
 			}
 			break;
 		}
@@ -195,6 +231,7 @@ public class EditReviewAdapter extends BaseAdapter implements OnClickListener, O
 				height=height+viewHolder.r.getMeasuredHeight();
 				Tools.changeListViewHeight(height, mListView);
 				item.setPoped();
+				did=position;
 			}
 			else{
 				viewHolder.r.measure(0, 0);
@@ -202,6 +239,7 @@ public class EditReviewAdapter extends BaseAdapter implements OnClickListener, O
 				viewHolder.r.setVisibility(View.GONE);
 				Tools.changeListViewHeight(height, mListView);
 				item.setPoped();
+				did=-1;
 			}
 			break;
 		}
@@ -211,6 +249,7 @@ public class EditReviewAdapter extends BaseAdapter implements OnClickListener, O
 			ViewHolder viewHolder=(ViewHolder)((View)v.getParent().getParent()).getTag();
 			item.setGoal();
 			viewHolder.goalText.setText("X "+item.getGoal());
+			viewHolder.textGoal.setText("进 "+item.getGoal());
 			if(!item.getAttendance()){
 				item.setAttendance();
 				viewHolder.ensure.setText("取消确认");
@@ -224,6 +263,7 @@ public class EditReviewAdapter extends BaseAdapter implements OnClickListener, O
 			ViewHolder viewHolder=(ViewHolder)((View)v.getParent().getParent()).getTag();
 			item.setAssist();
 			viewHolder.assistText.setText("X "+item.getAssist());
+			viewHolder.textAssist.setText("助 "+item.getAssist());
 			if(!item.getAttendance()){
 				item.setAttendance();
 				viewHolder.ensure.setText("取消确认");
@@ -237,14 +277,20 @@ public class EditReviewAdapter extends BaseAdapter implements OnClickListener, O
 			ViewHolder viewHolder=(ViewHolder)((View)v.getParent().getParent()).getTag();
 			item.setYCard();
 			if(item.getCard()==1){
+				viewHolder.red.setVisibility(View.GONE);
+				viewHolder.yellow.setVisibility(View.VISIBLE);
 				viewHolder.y_cardText.setText("X 1");
 				viewHolder.r_cardText.setText("X 0");
 			}
 			else if(item.getCard()==2){
+				viewHolder.red.setVisibility(View.VISIBLE);
+				viewHolder.yellow.setVisibility(View.GONE);
 				viewHolder.y_cardText.setText("X 0");
 				viewHolder.r_cardText.setText("X 1");
 			}
 			else{
+				viewHolder.red.setVisibility(View.GONE);
+				viewHolder.yellow.setVisibility(View.GONE);
 				viewHolder.y_cardText.setText("X 0");
 				viewHolder.r_cardText.setText("X 0");
 			}
@@ -261,14 +307,20 @@ public class EditReviewAdapter extends BaseAdapter implements OnClickListener, O
 			ViewHolder viewHolder=(ViewHolder)((View)v.getParent().getParent()).getTag();
 			item.setRCard();
 			if(item.getCard()==1){
+				viewHolder.red.setVisibility(View.GONE);
+				viewHolder.yellow.setVisibility(View.VISIBLE);
 				viewHolder.y_cardText.setText("X 1");
 				viewHolder.r_cardText.setText("X 0");
 			}
 			else if(item.getCard()==2){
+				viewHolder.red.setVisibility(View.VISIBLE);
+				viewHolder.yellow.setVisibility(View.GONE);
 				viewHolder.y_cardText.setText("X 0");
 				viewHolder.r_cardText.setText("X 1");
 			}
 			else{
+				viewHolder.red.setVisibility(View.GONE);
+				viewHolder.yellow.setVisibility(View.GONE);
 				viewHolder.y_cardText.setText("X 0");
 				viewHolder.r_cardText.setText("X 0");
 			}
@@ -294,6 +346,7 @@ public class EditReviewAdapter extends BaseAdapter implements OnClickListener, O
 			ViewHolder viewHolder=(ViewHolder)((View)v.getParent().getParent()).getTag();
 			item.resetGoal();
 			viewHolder.goalText.setText("X "+item.getGoal());
+			viewHolder.textGoal.setText("");
 			break;
 		}
 		case R.id.editre_assist:{
@@ -302,6 +355,7 @@ public class EditReviewAdapter extends BaseAdapter implements OnClickListener, O
 			ViewHolder viewHolder=(ViewHolder)((View)v.getParent().getParent()).getTag();
 			item.resetAssist();
 			viewHolder.assistText.setText("X "+item.getAssist());
+			viewHolder.textAssist.setText("");
 			break;
 		}
 		case R.id.editre_card:{
@@ -310,6 +364,7 @@ public class EditReviewAdapter extends BaseAdapter implements OnClickListener, O
 			ViewHolder viewHolder=(ViewHolder)((View)v.getParent().getParent()).getTag();
 			item.resetYCard();
 			viewHolder.y_cardText.setText("X 0");
+			viewHolder.yellow.setVisibility(View.GONE);
 			break;
 		}
 		case R.id.red_card:{
@@ -318,6 +373,7 @@ public class EditReviewAdapter extends BaseAdapter implements OnClickListener, O
 			ViewHolder viewHolder=(ViewHolder)((View)v.getParent().getParent()).getTag();
 			item.resetRCard();
 			viewHolder.r_cardText.setText("X 0");
+			viewHolder.red.setVisibility(View.GONE);
 			break;
 		}
 		}

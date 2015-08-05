@@ -12,21 +12,28 @@
         android:paddingRight="10dip"
         android:paddingTop="10dip" >
 
-        <FrameLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" >
-
+        <LinearLayout 
+            android:layout_width="0dip"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.3"
+            android:orientation="horizontal">
             <TextView
+                android:id="@+id/editre_y"
                 android:layout_width="15dp"
                 android:layout_height="wrap_content"
                 android:background="@drawable/btn_style_8"
-                android:text="   " />
+                android:layout_gravity="center" 
+                android:visibility="gone"/>
             <TextView
-                android:layout_width="8dp"
+                android:id="@+id/editre_r"
+                android:layout_width="15dp"
                 android:layout_height="wrap_content"
                 android:background="@drawable/btn_style_9"
-                android:text="   " />
-        </FrameLayout>
+                android:layout_gravity="center" 
+                android:visibility="gone"/>
+            
+        </LinearLayout>
+
 
         <TextView
             android:id="@+id/editre_number"
@@ -34,7 +41,6 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_marginRight="5dip"
-            android:layout_marginLeft="8dp"
             android:background="@drawable/teammate_big"
             android:gravity="center"
             android:text="15"
@@ -45,16 +51,33 @@
             android:layout_width="0dip"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:layout_weight="2.5"
+            android:layout_weight="1.5"
             android:text="韦壮焜"
             android:textColor="#333333"
             android:textSize="15sp" />
-
+        
+        <TextView
+            android:id="@+id/editre_text_goal"
+            android:layout_width="0dip"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+            android:layout_gravity="center"
+            android:textColor="#9e9e9e"
+            android:layout_marginRight="5dip"
+            android:text="进17"/>
+        <TextView
+            android:id="@+id/editre_text_assist"
+            android:layout_width="0dip"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+            android:layout_gravity="center_vertical"
+            android:textColor="#9e9e9e"
+            android:text="助17"/>
         <TextView
             android:id="@+id/editre_ensure"
             android:layout_width="0dip"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
+            android:layout_gravity="center"
             android:layout_weight="1"
             android:background="@drawable/btn_bottom_selector1"
             android:gravity="center"

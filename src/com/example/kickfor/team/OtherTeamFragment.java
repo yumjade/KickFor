@@ -65,12 +65,15 @@ public class OtherTeamFragment extends Fragment implements OnClickListener, Iden
 	private ShooterAssisterAdapter adapter3=null;
 	private ShooterAssisterAdapter adapter4=null;
 	private LinearLayout logInfo = null;
+	private ImageView fame1=null;
+	private ImageView fame2=null;
+	private ImageView fame3=null;
 	
 	private TextView tmp=null;
 	
 	private Context context=null;
 	private String teamid=null;
-	private Map<String, Object>map=null;
+	private Bundle map=null;
 	private Bitmap teamImage=null;
 	
 	private List<MemberInfo> mList1=new ArrayList<MemberInfo>();
@@ -88,10 +91,13 @@ public class OtherTeamFragment extends Fragment implements OnClickListener, Iden
 		return IdentificationInterface.SECOND_LEVEL;
 	}
 	
-	public OtherTeamFragment(Context context, String teamid, Map<String, Object> map){
-		this.context=context;
-		this.teamid=teamid;
-		this.map=map;
+
+	
+	private void init(){
+		this.context=getActivity();
+		Bundle bundle=getArguments();
+		this.teamid=bundle.getString("teamid");
+		this.map=bundle.getBundle("map");
 	}
 	
 	public void setImage(Bitmap image){
@@ -162,8 +168,12 @@ public class OtherTeamFragment extends Fragment implements OnClickListener, Iden
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
+		init();
 		((HomePageActivity)getActivity()).removeVague();
 		View view=inflater.inflate(R.layout.fragment_other_team, container, false);
+		fame1=(ImageView)view.findViewById(R.id.other_team_hall_item1);
+		fame2=(ImageView)view.findViewById(R.id.other_team_hall_item2);
+		fame3=(ImageView)view.findViewById(R.id.other_team_hall_item3);
 		tmp=(TextView)view.findViewById(R.id.other_team_shiqiu);
 		back=(ImageView)view.findViewById(R.id.other_team_back);
 		titleText=(TextView)view.findViewById(R.id.other_team_text);
@@ -206,6 +216,19 @@ public class OtherTeamFragment extends Fragment implements OnClickListener, Iden
 		if(map.containsKey("team_assister")){
 			setList4(Tools.getMapForJson(map.get("team_assister").toString()));
 		}
+		
+		if(map.containsKey("fame")){
+			Map<String, Object> temp=Tools.getMapForJson(map.get("fame").toString());
+			if(temp.containsKey("1")){
+				fame1.setImageBitmap(Tools.stringtoBitmap(temp.get("1").toString()));
+			}
+			if(temp.containsKey("2")){
+				fame2.setImageBitmap(Tools.stringtoBitmap(temp.get("2").toString()));
+			}
+			if(temp.containsKey("3")){
+				fame3.setImageBitmap(Tools.stringtoBitmap(temp.get("3").toString()));
+			}
+		}
 		return view;
 	}
 	
@@ -232,7 +255,7 @@ public class OtherTeamFragment extends Fragment implements OnClickListener, Iden
 		selectAssister.setTextColor(getResources().getColor(R.color.tab_normal));
 		bestAssister.setCompoundDrawablesWithIntrinsicBounds(null, null, drawable, null);
 		info2Detail.setVisibility(View.GONE);
-		info3.setText(map.get("next match").toString()+" "+map.get("next time").toString());
+		info3.setText(map.get("next time").toString()+" vs "+map.get("next match").toString());
 		image.setImageBitmap(teamImage);
 		subscribeButton.setVisibility(View.GONE);
 		back.setOnClickListener(this);

@@ -35,7 +35,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="100dp"
-        android:src="@drawable/share_qr_code" />
+        android:src="@drawable/contact_us" />
 
     <TextView
         android:id="@+id/feedback_text"

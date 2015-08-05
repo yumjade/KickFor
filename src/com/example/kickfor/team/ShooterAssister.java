@@ -2,6 +2,8 @@ package com.example.kickfor.team;
 
 import java.text.DecimalFormat;
 
+import com.example.kickfor.Tools;
+
 public class ShooterAssister {
 	
 	private boolean b;
@@ -24,10 +26,10 @@ public class ShooterAssister {
 		double tmp1=Integer.parseInt(data);
 		double tmp2=Integer.parseInt(matchNumber);
 		if(tmp2!=0){
-			this.efficiency=convert(tmp1/tmp2)+"/³¡";
+			this.efficiency=Tools.dataFormat((float)(tmp1/tmp2))+"/³¡";
 		}
 		else{
-			this.efficiency="-/-";
+			this.efficiency="-/³¡";
 		}
 	}
 	
@@ -67,11 +69,6 @@ public class ShooterAssister {
 	public String getEfficiency(){
 		return efficiency;
 	}
-	
-	 private String convert(double f) {
-	        DecimalFormat df = new DecimalFormat("#.00");
-	        return String.valueOf(df.format(f));
-	    }
 	
 
 }

@@ -1,17 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<layer-list xmlns:android="http://schemas.android.com/apk/res/android" >
-    <item>
-        <shape>
-            <solid android:color="#1e8c00" />
-        </shape>
-    </item>
-    <item
-        android:left="1dp"
-        android:right="1dp"
-        android:top="1dp"
-        android:bottom="1dp">
-        <shape>
-            <solid android:color="#27b500" />
-        </shape>
-    </item>
-</layer-list>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:state_pressed="true"><layer-list>
+            <item><shape>
+                    <solid android:color="#1e8c00" />
+                </shape></item>
+            <item android:bottom="1dp" android:left="1dp" android:right="1dp" android:top="1dp"><shape>
+                    <solid android:color="#1f9100" />
+                </shape></item>
+        </layer-list></item>
+    <item><layer-list>
+            <item><shape>
+                    <solid android:color="#1e8c00" />
+                </shape></item>
+            <item android:bottom="1dp" android:left="1dp" android:right="1dp" android:top="1dp"><shape>
+                    <solid android:color="#27b500" />
+                </shape></item>
+        </layer-list></item>
+
+</selector>

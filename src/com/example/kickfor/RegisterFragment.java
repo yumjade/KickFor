@@ -57,6 +57,7 @@ public class RegisterFragment extends Fragment implements IdentificationInterfac
 	
 	private int state=0;
 	private String code=null;
+	private TextView rPhone=null;
 	private Context context=null;
 	
 	@Override
@@ -198,6 +199,18 @@ public class RegisterFragment extends Fragment implements IdentificationInterfac
 				
 			};
 			view=inflater.inflate(R.layout.fragment_register2, container, false);
+			rPhone=(TextView)view.findViewById(R.id.r_info);
+			String str="";
+			int n=phone.length();
+			for(int i=0; i<n; i++){
+				if(i<3 || i>7){
+					str=str+String.valueOf(phone.charAt(i));
+				}
+				else{
+					str=str+"*";
+				}
+			}
+			rPhone.setText("验证码已发送至您的手机号"+str+"上，3分钟内输入有效。");
 			identify=(EditText)view.findViewById(R.id.r_verify);
 			back=(ImageView)view.findViewById(R.id.register_title_back2);
 			back.setOnClickListener(new OnClickListener(){

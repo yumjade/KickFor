@@ -27,7 +27,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class FindPasswordsFragment extends Fragment implements IdentificationInterface{
+public class FindPasswordsFragment extends Fragment implements MoreInterface, IdentificationInterface{
 	
 	private int resource=0;
 	private Context context=null;
@@ -36,6 +36,7 @@ public class FindPasswordsFragment extends Fragment implements IdentificationInt
 	
 	private EditText codeText=null;
 	private TextView timerText=null;
+	private TextView rPhone=null;
 	
 	private EditText psw1Text=null;
 	private EditText psw2Text=null;
@@ -171,6 +172,18 @@ public class FindPasswordsFragment extends Fragment implements IdentificationInt
 				
 			};
 			
+			rPhone=(TextView)view.findViewById(R.id.yanzhengmayifa);
+			String str="";
+			int n=phone.length();
+			for(int i=0; i<n; i++){
+				if(i<3 || i>7){
+					str=str+String.valueOf(phone.charAt(i));
+				}
+				else{
+					str=str+"*";
+				}
+			}
+			rPhone.setText("验证码已发送至您的手机号"+str+"上，3分钟内输入有效。");
 			codeText=(EditText)view.findViewById(R.id.find_psd_code);
 			timerText=(TextView)view.findViewById(R.id.find_psd_re);
 			back=(ImageView)view.findViewById(R.id.find_psd_back1);

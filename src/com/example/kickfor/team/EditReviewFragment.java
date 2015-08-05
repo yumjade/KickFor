@@ -73,8 +73,8 @@ public class EditReviewFragment extends Fragment implements TeamInterface, Ident
 	private List<SearchItemEntity> mList=new ArrayList<SearchItemEntity>();
 	private ListView mListView=null;
 	private TextView listShow=null;
-	private int goals=0;
-	private int lost=0;
+	private int goals=-1;
+	private int lost=-1;
 	private int year=0;
 	private int month=0;
 	private int day=0;
@@ -334,7 +334,7 @@ public class EditReviewFragment extends Fragment implements TeamInterface, Ident
 				wheelScore=new WheelScore(scorepickerview);
 				ScreenInfo screenInfo=new ScreenInfo(getActivity());
 				wheelScore.screenheight=screenInfo.getHeight();
-				wheelScore.initScorePicker(goals, lost);
+				wheelScore.initScorePicker(goals==-1? 0: goals, lost==-1? 0:lost);
 				new AlertDialog.Builder(context)
 				.setTitle("选择比分")
 				.setView(scorepickerview)
@@ -397,6 +397,15 @@ public class EditReviewFragment extends Fragment implements TeamInterface, Ident
 				}
 				else if(score.getText().toString().isEmpty()){
 					Toast.makeText(context, "比分不能为空", Toast.LENGTH_LONG).show();
+				}
+				else if(goals==-1 || lost==-1){
+					Toast.makeText(context, "您未上传比分", Toast.LENGTH_LONG).show();
+				}
+				else if(type.getText().toString().isEmpty()){
+					Toast.makeText(context, "您未编辑比赛性质", Toast.LENGTH_LONG).show();
+				}
+				else if(person.getText().toString().isEmpty()){
+					Toast.makeText(context, "您未编辑赛制", Toast.LENGTH_LONG).show();
 				}
 				else{
 					setEnable(false);

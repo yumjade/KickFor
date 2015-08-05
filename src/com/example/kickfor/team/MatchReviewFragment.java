@@ -41,8 +41,8 @@ public class MatchReviewFragment extends Fragment implements OnClickListener, Te
 	private String teamid=null;
 	private MatchReviewAdapter adapter=null;
 	private TextView matchYear=null;
-	private TextView backOneYear=null;
-	private TextView headOneYear=null;
+	private ImageView backOneYear=null;
+	private ImageView headOneYear=null;
 	private String year=null;
 	private int index=0;
 	private Bitmap teamImg=null;
@@ -147,8 +147,8 @@ public class MatchReviewFragment extends Fragment implements OnClickListener, Te
 			
 		});
 		matchYear=(TextView)view.findViewById(R.id.review_year);
-		backOneYear=(TextView)view.findViewById(R.id.review_left);
-		headOneYear=(TextView)view.findViewById(R.id.review_right);
+		backOneYear=(ImageView)view.findViewById(R.id.review_left);
+		headOneYear=(ImageView)view.findViewById(R.id.review_right);
 		matchYear.setText(year);
 		adapter=new MatchReviewAdapter(getActivity(), mList);
 		mListView.setAdapter(adapter);
@@ -277,7 +277,8 @@ public class MatchReviewFragment extends Fragment implements OnClickListener, Te
 			mList.add(item);	
 		}
 		int number=map.keySet().size();
-		if(number==1){
+		System.out.println("number====="+number);
+		if(number==5){
 			index=mList.size();
 			System.out.println("aaaaa "+index);
 			mList.add(new MatchReviewEntity(-1, null, null, null, null, teamid, this.year, index, -1));

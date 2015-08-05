@@ -224,7 +224,7 @@
             android:layout_alignParentLeft="true"
             android:paddingLeft="5dp"
             android:layout_centerVertical="true"
-            android:src="@drawable/share_qr_code" />
+            android:src="@drawable/contact_us" />
         
         <ImageView
             android:id="@+id/iv_share_icon"

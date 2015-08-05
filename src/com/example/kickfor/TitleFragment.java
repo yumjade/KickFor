@@ -131,9 +131,7 @@ public class TitleFragment extends Fragment implements IdentificationInterface{
 	private void init(){
 		this.context=getActivity();
 		Bundle bundle=getArguments();
-		if(bundle.containsKey("state")){
-			this.state=bundle.getInt("state");
-		}
+		this.state=bundle.getInt("state");
 		if(bundle.containsKey("teamid")){
 			this.teamid=bundle.getString("teamid");
 		}
@@ -395,6 +393,15 @@ public class TitleFragment extends Fragment implements IdentificationInterface{
 					image.setImageBitmap(bitmap);
 				}	
 			}
+			image.setOnClickListener(new OnClickListener(){
+
+				@Override
+				public void onClick(View v) {
+					// TODO Auto-generated method stub
+					((HomePageActivity)getActivity()).openTeamInfoEdit(teamid, authority);
+				}
+				
+			});
 			back.setOnClickListener(new OnClickListener(){
 
 				@Override
@@ -450,7 +457,7 @@ public class TitleFragment extends Fragment implements IdentificationInterface{
 			SQLHelper helper=SQLHelper.getInstance(context);
 			Cursor cursor=helper.select("ich", new String[]{"name", "image", "team1", "team2", "team3", "goal1", "goal2", "goal3", "assist1", "assist2", "assist3", "tmatch1", "tmatch2", "tmatch3"}, "phone=?", new String[]{"host"}, null);
 			cursor.moveToNext();
-			myName.setText(cursor.getString(0));
+			myName.setText(cursor.getString(0).isEmpty()? "Unknown": cursor.getString(0));
 			String img=cursor.getString(1);
 			if(!img.equals("-1")){
 				Bitmap bitmap=BitmapFactory.decodeFile(img);

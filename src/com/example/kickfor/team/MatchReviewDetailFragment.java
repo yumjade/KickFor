@@ -78,11 +78,20 @@ public class MatchReviewDetailFragment extends Fragment implements TeamInterface
 		
 		density= getActivity().getResources().getDisplayMetrics().density;
 		Map<String, Object> map=new HashMap<String, Object>();
-		map.put("request", "get match detail");
-		map.put("id", entity.getId());
-		map.put("teamid", teamid);
-		Runnable r=new ClientWrite(Tools.JsonEncode(map));
-		new Thread(r).start();
+		if(authority.equals("-1")){
+			map.put("request", "get ones match detail");
+			map.put("id", entity.getId());
+			map.put("teamid", teamid);
+			Runnable r=new ClientWrite(Tools.JsonEncode(map));
+			new Thread(r).start();
+		}
+		else{
+			map.put("request", "get match detail");
+			map.put("id", entity.getId());
+			map.put("teamid", teamid);
+			Runnable r=new ClientWrite(Tools.JsonEncode(map));
+			new Thread(r).start();
+		}
 		View view=inflater.inflate(R.layout.fragment_match_review_detail, container, false);
 		date=(TextView)view.findViewById(R.id.detail_date);
 		place=(TextView)view.findViewById(R.id.detail_place);

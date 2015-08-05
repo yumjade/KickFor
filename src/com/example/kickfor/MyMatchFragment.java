@@ -163,11 +163,6 @@ public class MyMatchFragment extends Fragment implements HomePageInterface, Iden
 					Map<String, Object> map=new HashMap<String, Object>();
 					MatchReviewEntity entity=new MatchReviewEntity(id, date, Tools.bitmapToString(teamImg), teamName, againstName, goals, lost);
 					((HomePageActivity)getActivity()).reviewDetail(item.getTeamId(), entity, "-1");
-					map.put("request", "get ones match detail");
-					map.put("id", id);
-					map.put("teamid", item.getTeamId());
-					Runnable r=new ClientWrite(Tools.JsonEncode(map));
-					new Thread(r).start();
 				}
 			}
 			

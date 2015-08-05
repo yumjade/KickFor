@@ -642,6 +642,7 @@ public class ClientReader implements Runnable{
 					AlarmManager am=(AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
 					am.set(AlarmManager.RTC_WAKEUP, setTime, tmpPending);	
 					Message msg=handler.obtainMessage();
+					msg.obj=teamid;
 					msg.what=HomePageActivity.UPDATED_MATCH;
 					handler.sendMessage(msg);
 					break;
@@ -833,6 +834,7 @@ public class ClientReader implements Runnable{
 						String index=iter.next();
 						Map<String, Object> temp=Tools.getMapForJson(map.get(index).toString());
 						HonorInfo item=new HonorInfo(Integer.parseInt(temp.get("id").toString()));
+						System.out.println(index);
 						item.setYear(temp.get("year").toString());
 						item.setName(temp.get("name").toString());
 						item.setResult(temp.get("result").toString());
@@ -840,6 +842,10 @@ public class ClientReader implements Runnable{
 						item.setUpdateName(temp.get("name").toString());
 						item.setUpdateResult(temp.get("result").toString());
 						mList.add(item);
+					}
+					Iterator<HonorInfo> iter1=mList.iterator();
+					while(iter1.hasNext()){
+						System.out.println(iter1.next().getYear());
 					}
 					Bundle bundle=new Bundle();
 					bundle.putString("p1", p1);
@@ -1305,6 +1311,14 @@ public class ClientReader implements Runnable{
 					handler.sendMessage(msg);
 					break;
 				}
+				case "delete_fame":{
+					String teamid=map.get("teamid").toString();
+					Message msg=handler.obtainMessage();
+					msg.obj=teamid;
+					msg.what=HomePageActivity.UPDATE_FAME;
+					handler.sendMessage(msg);
+					break;
+				}
 				case "delete_preview":{
 					String teamid=map.get("teamid").toString();
 					String id=map.get("id").toString();
@@ -1350,6 +1364,47 @@ public class ClientReader implements Runnable{
 					handler.sendMessage(msg);
 					break;
 				}
+				case "change_team_info":{
+					map.remove("request");
+					String teamid=map.get("teamid").toString();
+					SQLHelper helper=SQLHelper.getInstance(context);
+					if(map.containsKey("image")){
+						Cursor cursor=helper.select("teams", new String[]{"image"}, "teamid=?", new String[]{teamid}, null);
+						if(cursor.moveToNext()){
+							String fileName=cursor.getString(0);
+							Bitmap bitmap=Tools.stringtoBitmap(map.get("image").toString());
+							System.out.println("fff============="+fileName);
+							Tools.saveBitmapToFile(bitmap, fileName);
+							map.remove("image");
+						}
+						else{
+							String fileName=Environment.getExternalStorageDirectory().getPath()+"/KICKFOR/teams/"+teamid+".png";
+							System.out.println(fileName);
+							Bitmap bitmap=Tools.stringtoBitmap(map.get("image").toString());
+							Tools.saveBitmapToFile(bitmap, fileName);
+							map.put("image", fileName);
+						}
+					}
+					helper.update(Tools.getContentValuesFromMap(map, null), "teams", teamid);
+					Message msg=handler.obtainMessage();
+					msg.obj=teamid;
+					msg.what=HomePageActivity.CHANGE_TEAM_INFO;
+					handler.sendMessage(msg);
+					break;
+				}
+				case "change_result":{
+					Message msg=handler.obtainMessage();
+					msg.what=HomePageActivity.CHANGE_TEAM_GRADE;
+					handler.sendMessage(msg);
+					break;
+				}
+				case "change_process":{
+					Message msg=handler.obtainMessage();
+					msg.what=HomePageActivity.CHANGE_TEAM_GRADE;
+					handler.sendMessage(msg);
+					break;
+				}
+				
 				}
 				
 			}

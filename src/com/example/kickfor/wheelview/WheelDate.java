@@ -152,6 +152,14 @@ public class WheelDate {
 		return str1+"-"+str2+"-"+str3;
 	}
 	
+	public String getDate1() {
+		String str1=String.format("%02d", (wv_year.getCurrentItem() + START_YEAR));
+		String str2=String.format("%02d", (wv_month.getCurrentItem() + 1));
+		String str3=String.format("%02d", (wv_day.getCurrentItem() + 1));
+		return str1+"/"+str2+"/"+str3;
+	}
+	
+	
 	public String getYear(){
 		return String.format("%02d", (wv_year.getCurrentItem() + START_YEAR));
 	}

@@ -73,6 +73,7 @@ public class ShowCapacitiyFragment extends Fragment implements OnClickListener, 
 	
 	ImageView itest;
 	private IWXAPI api;
+	private String teamid;
 	
 	@Override
 	public int getFragmentLevel() {
@@ -108,12 +109,12 @@ public class ShowCapacitiyFragment extends Fragment implements OnClickListener, 
 		stamina=(ProgressBar)view.findViewById(R.id.show_capacity_stamina);
 		attack=(ProgressBar)view.findViewById(R.id.show_capacity_attack);
 		defence=(ProgressBar)view.findViewById(R.id.show_capacity_defence);
-		powerValue=(TextView)view.findViewById(R.id.show_capacity_value1);
-		speedValue=(TextView)view.findViewById(R.id.show_capacity_value2);
+		powerValue=(TextView)view.findViewById(R.id.show_capacity_value4);
+		speedValue=(TextView)view.findViewById(R.id.show_capacity_value5);
 		skillsValue=(TextView)view.findViewById(R.id.show_capacity_value3);
-		staminaValue=(TextView)view.findViewById(R.id.show_capacity_value4);
-		attackValue=(TextView)view.findViewById(R.id.show_capacity_value5);
-		defenceValue=(TextView)view.findViewById(R.id.show_capacity_value6);
+		staminaValue=(TextView)view.findViewById(R.id.show_capacity_value6);
+		attackValue=(TextView)view.findViewById(R.id.show_capacity_value1);
+		defenceValue=(TextView)view.findViewById(R.id.show_capacity_value2);
 		evaluate=(TextView)view.findViewById(R.id.show_capacity_submit);
 		text=(TextView)view.findViewById(R.id.show_capacity_number_e);
 		
@@ -144,14 +145,15 @@ public class ShowCapacitiyFragment extends Fragment implements OnClickListener, 
 				bitmap=BitmapFactory.decodeResource(getResources(), R.drawable.team_default);
 				image.setImageBitmap(bitmap);
 			}
-			name.setText(cursor.getString(1));
+			name.setText(cursor.getString(1).isEmpty()? "Unknown": cursor.getString(1));
+			teamid=cursor.getString(2);
 			str=cursor.getString(2);
 			str1=cursor.getString(3);
 			Cursor cursor1=helper.select("teams", new String[]{"name"}, "teamid=?", new String[]{str}, null);
 			if(cursor1.moveToNext()){
 				str=cursor1.getString(0);
 			}
-			info.setText(str+"—"+cursor.getString(3));
+			info.setText(str.isEmpty()? "球队不详-位置不详": str+"—"+cursor.getString(3));
 			number.setText(cursor.getString(4));
 			setBarColor(power, powerValue, Integer.parseInt(cursor.getString(5)));
 			setBarColor(speed, speedValue, Integer.parseInt(cursor.getString(6)));
@@ -160,6 +162,10 @@ public class ShowCapacitiyFragment extends Fragment implements OnClickListener, 
 			setBarColor(attack, attackValue, Integer.parseInt(cursor.getString(9)));
 			setBarColor(defence, defenceValue, Integer.parseInt(cursor.getString(10)));
 			text.setText("已有"+n+"人给您评分，点击分享邀请更多好友来为您的足球水平进行评分");
+		}
+		Cursor cursor1=helper.select("f_"+teamid, new String[]{"number"}, "phone=?", new String[]{phone}, null);
+		if(cursor1.moveToNext()){
+			number.setText(cursor1.getString(0));
 		}
 	}
 	
@@ -343,12 +349,12 @@ public class ShowCapacitiyFragment extends Fragment implements OnClickListener, 
 		bmp.recycle();
 		msg.thumbData = Tools.bmpToByteArray(thumbBmp, true);
 		
-//		int imageSize = msg.thumbData.length / 1024;
-//		if (imageSize > 32) {
-//			Toast.makeText(getActivity(), "您分享的图片过大", Toast.LENGTH_SHORT)
-//					.show();
-//			return;
-//		}
+		int imageSize = msg.thumbData.length / 1024;
+		if (imageSize > 32) {
+			Toast.makeText(getActivity(), "您分享的图片过大", Toast.LENGTH_SHORT)
+					.show();
+			return;
+		}
 		
 		SendMessageToWX.Req req = new SendMessageToWX.Req();
 		req.transaction = buildTransaction("img");

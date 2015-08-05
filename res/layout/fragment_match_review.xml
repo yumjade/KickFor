@@ -2,88 +2,99 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#f0f0f0"
-    android:orientation="vertical">
+    android:orientation="vertical" >
+
     <RelativeLayout
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		android:background="@drawable/title_style">
-	    <ImageView
-	        android:id="@+id/review_back"
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-	        android:layout_alignParentLeft="true"
-	        android:layout_centerVertical="true"
-	        android:padding="15dip"
-	        android:src="@drawable/back"
-	        android:background="@drawable/select_unselected_3"/>
-	    <TextView 
-		    android:id="@+id/review_title"
-		    android:layout_toRightOf="@id/review_back"
-		    android:layout_centerVertical="true"
-		    android:layout_width="wrap_content"
-		    android:layout_height="wrap_content"
-		    android:text="比赛回顾"
-		    android:textSize="15sp"
-		    android:textColor="#ffffff"/>
-	    <TextView
-	        android:id="@+id/review_add_new"
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-	        android:layout_alignParentRight="true"
-	        android:layout_centerVertical="true"
-	        android:layout_marginRight="10dip"
-	        android:clickable="true"
-	        android:paddingTop="5dip"
-	        android:paddingBottom="5dip"
-	        android:paddingLeft="5dip"
-	        android:paddingRight="5dip"
-	        android:text="新增"
-	        android:textColor="#ffffff"
-	        android:gravity="center"
-	        android:textSize="13sp"
-	        android:background="@drawable/rect_14"/>
-	    </RelativeLayout>
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/title_style" >
+
+        <ImageView
+            android:id="@+id/review_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:background="@drawable/select_unselected_3"
+            android:padding="15dip"
+            android:src="@drawable/back" />
+
+        <TextView
+            android:id="@+id/review_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@id/review_back"
+            android:text="比赛回顾"
+            android:textColor="#ffffff"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/review_add_new"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dip"
+            android:background="@drawable/rect_14"
+            android:clickable="true"
+            android:gravity="center"
+            android:paddingBottom="5dip"
+            android:paddingLeft="5dip"
+            android:paddingRight="5dip"
+            android:paddingTop="5dip"
+            android:text="新增"
+            android:textColor="#ffffff"
+            android:textSize="13sp" />
+    </RelativeLayout>
+
     <RelativeLayout
         android:id="@+id/rrrr"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/rect_12"
-        android:paddingTop="5dip"
         android:paddingBottom="5dip"
-        android:paddingLeft="10dip"
-        android:paddingRight="10dip">
+        android:paddingTop="5dip" >
+
         <TextView
-	        android:id="@+id/review_year"
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-	        android:layout_alignParentTop="true"
-	        android:layout_centerHorizontal="true"
-	        android:textSize="15sp"
-	        android:textColor="#000000"
-	        android:text="2013"/>
-	    <TextView
-	        android:id="@+id/review_left"
-	        android:layout_width="10dp"
-	        android:layout_height="10dp"
-	        android:layout_alignParentLeft="true"
-	        android:layout_alignTop="@id/review_year"
-	        android:layout_alignBottom="@id/review_year"
-	        android:background="@drawable/left_arrow"
-	        android:clickable="true"/>
-	     <TextView
-	        android:id="@+id/review_right"
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-	        android:layout_alignParentRight="true"
-	        android:layout_alignTop="@id/review_year"
-	        android:layout_alignBottom="@id/review_year"
-	        android:background="@drawable/right_arrow"
-	        android:clickable="true"/>     
+            android:id="@+id/review_year"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:text="2013"
+            android:textColor="#000000"
+            android:textSize="15sp" />
+
+        <ImageView
+            android:id="@+id/review_left"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@id/review_year"
+            android:layout_alignParentLeft="true"
+            android:layout_alignTop="@id/review_year"
+            android:background="@drawable/left_arrow_selector"
+            android:clickable="true"
+            android:paddingLeft="10dp"
+            android:src="@drawable/left_arrow" />
+
+        <ImageView
+            android:id="@+id/review_right"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@id/review_year"
+            android:layout_alignParentRight="true"
+            android:layout_alignTop="@id/review_year"
+            android:background="@drawable/right_arrow_selector"
+            android:clickable="true"
+            android:paddingRight="10dp"
+            android:src="@drawable/right_arrow" />
     </RelativeLayout>
+
     <ListView
         android:id="@+id/review_list"
         android:layout_width="match_parent"
-        android:divider="@null"
-        android:layout_height="match_parent"/>
-    
+        android:layout_height="match_parent"
+        android:divider="@null" />
+
 </LinearLayout>

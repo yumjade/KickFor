@@ -14,14 +14,12 @@ import cn.jpush.android.api.JPushInterface;
 import com.easemob.EMEventListener;
 import com.easemob.EMNotifierEvent;
 import com.easemob.chat.EMChatManager;
-import com.easemob.chat.EMGroupManager;
 import com.easemob.chat.EMMessage;
 import com.easemob.chat.EMMessage.ChatType;
 import com.easemob.chat.TextMessageBody;
 import com.example.kickfor.more.AboutusFragment;
 import com.example.kickfor.more.FeedbackFragment;
 import com.example.kickfor.more.FindPasswordsFragment;
-import com.example.kickfor.more.FormationEditFragment;
 import com.example.kickfor.more.MoreFragment;
 import com.example.kickfor.more.MoreInterface;
 import com.example.kickfor.more.MoreProtocols;
@@ -33,6 +31,7 @@ import com.example.kickfor.team.ChangingRoomAdapter;
 import com.example.kickfor.team.ChangingRoomFragment;
 import com.example.kickfor.team.EditPreviewFragment;
 import com.example.kickfor.team.EditReviewFragment;
+import com.example.kickfor.team.EditTeamGradeFragment;
 import com.example.kickfor.team.HallOfFameFragment;
 import com.example.kickfor.team.HallofFame;
 import com.example.kickfor.team.HonorInfo;
@@ -42,9 +41,12 @@ import com.example.kickfor.team.MatchReviewDetailFragment;
 import com.example.kickfor.team.MatchReviewEntity;
 import com.example.kickfor.team.MatchReviewFragment;
 import com.example.kickfor.team.OtherTeamFragment;
+import com.example.kickfor.team.PrematchStartFragment;
 import com.example.kickfor.team.ShooterAssisterFragment;
 import com.example.kickfor.team.TeamCreateFragment;
 import com.example.kickfor.team.TeamFragment;
+import com.example.kickfor.team.TeamInfoEditFragment;
+import com.example.kickfor.team.TeamInfoGradeEditFragment;
 import com.example.kickfor.team.TeamInfoGradeFragment;
 import com.example.kickfor.team.TeamInterface;
 import com.example.kickfor.team.TeamMemberList;
@@ -54,6 +56,7 @@ import com.tencent.mm.sdk.openapi.IWXAPI;
 import com.tencent.mm.sdk.openapi.WXAPIFactory;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -77,6 +80,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.PopupWindow.OnDismissListener;
+import android.widget.Adapter;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
@@ -102,6 +106,7 @@ public class HomePageActivity extends FragmentActivity implements HandlerListene
 	public boolean fromViewPager=false;
 	
 	private long ctime=0;
+	private boolean isSocketClose=false;
 	
 	private ViewPager viewPager=null;
 	private List<Fragment> fragmentList1=new ArrayList<Fragment>();
@@ -207,7 +212,9 @@ public class HomePageActivity extends FragmentActivity implements HandlerListene
 	public static final int GET_CODE = 75;
 	public static final int SET_PSW = 76;
 	public static final int SET_NEW_PSW = 77;
-	public static final int LOG_OUT = 0;
+	public static final int LOG_OUT = 78;
+	public static final int CHANGE_TEAM_INFO = 79;
+	public static final int CHANGE_TEAM_GRADE = 80;
 	
 	
 	@Override
@@ -432,8 +439,8 @@ public class HomePageActivity extends FragmentActivity implements HandlerListene
 	public void settings(){
 		SettingsFragment settings = new SettingsFragment();
 		FragmentTransaction tx = fm.beginTransaction();
-		tx.replace(R.id.content, settings);
-		tx.hide(bar);
+		tx.setCustomAnimations(R.animator.slide_in_right, R.animator.slide_out_left, R.animator.slide_in_left, R.animator.slide_out_right);
+		tx.replace(R.id.main, settings);
 		tx.addToBackStack(null);
 		tx.commit();
 		
@@ -465,6 +472,10 @@ public class HomePageActivity extends FragmentActivity implements HandlerListene
 	private void showDown(){
 		fcontent.setVisibility(View.VISIBLE);
 		fbar.setVisibility(View.VISIBLE);
+	}
+	
+	public void setBar(boolean enable){
+		bar.setEnable(enable);
 	}
 	
 	public void removeVague(){
@@ -543,8 +554,21 @@ public class HomePageActivity extends FragmentActivity implements HandlerListene
 		tx.commit();
 	}
 
-
-
+	
+	public void openTeamInfoEdit(String teamid, String authority){
+		int r=Integer.parseInt(authority);
+		if(r>=2){
+			Bundle bundle=new Bundle();
+			bundle.putString("teamid", teamid);
+			TeamInfoEditFragment tmp=new TeamInfoEditFragment();
+			tmp.setArguments(bundle);
+			FragmentTransaction tx=fm.beginTransaction();
+			tx.setCustomAnimations(R.animator.slide_in_right, R.animator.slide_out_left, R.animator.slide_in_left, R.animator.slide_out_right);
+			tx.replace(R.id.main, tmp);
+			tx.addToBackStack(null);
+			tx.commit();
+		}
+	}
 
 
 	public void onBarCheck(int index) {
@@ -606,6 +630,16 @@ public class HomePageActivity extends FragmentActivity implements HandlerListene
 	public void openTeams(String teamid){
 		back();
 		showAll();
+		if(fm.findFragmentById(R.id.content)!=null){
+			FragmentTransaction tx=fm.beginTransaction();
+			tx.remove(fm.findFragmentById(R.id.content));
+			tx.commit();
+		}
+		if(fm.findFragmentById(R.id.title)!=null){
+			FragmentTransaction tx=fm.beginTransaction();
+			tx.remove(fm.findFragmentById(R.id.title));
+			tx.commit();
+		}
 		bar.initChecked(R.id.bar_team);
 		isInitTeam=initTeam(isInitTeam);
 		if(teamid.equals(teamid1)){
@@ -753,10 +787,6 @@ public class HomePageActivity extends FragmentActivity implements HandlerListene
 			tx.replace(R.id.main, changingRoomChat);
 			tx.addToBackStack(null);
 			tx.commit();
-			TeamFragment tf=(TeamFragment)fragmentList1.get(viewPager.getCurrentItem());
-			if(tf!=null && tf.isVisible()){
-				tf.setEnable(true);
-			}
 			break;
 		}
 		case R.id.tv_rematch:{
@@ -770,10 +800,6 @@ public class HomePageActivity extends FragmentActivity implements HandlerListene
 			tx.replace(R.id.main, matchReviewList);
 			tx.addToBackStack(null);
 			tx.commit();
-			TeamFragment tf=(TeamFragment)fragmentList1.get(viewPager.getCurrentItem());
-			if(tf!=null && tf.isVisible()){
-				tf.setEnable(true);
-			}
 			break;
 		}
 		case R.id.team_info_up:{
@@ -786,26 +812,29 @@ public class HomePageActivity extends FragmentActivity implements HandlerListene
 			tx.replace(R.id.main, tmp);
 			tx.addToBackStack(null);
 			tx.commit();
-			TeamFragment tf=(TeamFragment)fragmentList1.get(viewPager.getCurrentItem());
-			if(tf!=null && tf.isVisible()){
-				tf.setEnable(true);
-			}
 			break;
 		}
 		case R.id.tv_prematch:{
-			MatchPreviewFragment previewMatch=new MatchPreviewFragment();
 			Bundle bundle=new Bundle();
 			bundle.putString("teamid", teamid);
 			bundle.putInt("authority", Integer.parseInt(authority));
-			previewMatch.setArguments(bundle);
-			FragmentTransaction tx=fm.beginTransaction();
-			tx.setCustomAnimations(R.animator.slide_in_right, R.animator.slide_out_left, R.animator.slide_in_left, R.animator.slide_out_right);
-			tx.replace(R.id.main, previewMatch);
-			tx.addToBackStack(null);
-			tx.commit();
-			TeamFragment tf=(TeamFragment)fragmentList1.get(viewPager.getCurrentItem());
-			if(tf!=null && tf.isVisible()){
-				tf.setEnable(true);
+			if(Tools.hasUnkickedMatch(this, teamid)){
+				MatchPreviewFragment previewMatch=new MatchPreviewFragment();
+				previewMatch.setArguments(bundle);
+				FragmentTransaction tx=fm.beginTransaction();
+				tx.setCustomAnimations(R.animator.slide_in_right, R.animator.slide_out_left, R.animator.slide_in_left, R.animator.slide_out_right);
+				tx.replace(R.id.main, previewMatch);
+				tx.addToBackStack(null);
+				tx.commit();
+			}
+			else{
+				PrematchStartFragment tmp=new PrematchStartFragment();
+				tmp.setArguments(bundle);
+				FragmentTransaction tx=fm.beginTransaction();
+				tx.setCustomAnimations(R.animator.slide_in_right, R.animator.slide_out_left, R.animator.slide_in_left, R.animator.slide_out_right);
+				tx.replace(R.id.main, tmp);
+				tx.addToBackStack(null);
+				tx.commit();
 			}
 			break;
 		}
@@ -819,10 +848,6 @@ public class HomePageActivity extends FragmentActivity implements HandlerListene
 			tx.replace(R.id.main, tmp);
 			tx.addToBackStack(null);
 			tx.commit();
-			TeamFragment tf=(TeamFragment)fragmentList1.get(viewPager.getCurrentItem());
-			if(tf!=null && tf.isVisible()){
-				tf.setEnable(true);
-			}
 			break;
 		}
 		case R.id.iv_team_1_image:{
@@ -837,23 +862,14 @@ public class HomePageActivity extends FragmentActivity implements HandlerListene
 			bundle.putString("teamid", teamid);
 			tmp.setArguments(bundle);
 			FragmentTransaction tx=fm.beginTransaction();
-			tx.hide(bar);
 			tx.replace(R.id.title, teamInfoTitle, "teaminfo");
-			tx.replace(R.id.content, tmp);
+			tx.replace(R.id.down, tmp);
+			tx.addToBackStack(null);
 			tx.commit();
-			closeViewPager();
-			TeamFragment tf=(TeamFragment)fragmentList1.get(viewPager.getCurrentItem());
-			if(tf!=null && tf.isVisible()){
-				tf.setEnable(true);
-			}
 			break;
 		}
 		case R.id.tv_hall_fame:{
 			openFame(HallOfFameFragment.FIRST_OPEN, teamid, authority, null);
-			TeamFragment tf=(TeamFragment)fragmentList1.get(viewPager.getCurrentItem());
-			if(tf!=null && tf.isVisible()){
-				tf.setEnable(true);
-			}
 			break;
 		}
 		}
@@ -888,7 +904,6 @@ public class HomePageActivity extends FragmentActivity implements HandlerListene
 			break;
 		}
 		case R.id.iv_team1:{
-			selectImage=2;
 			sendImage(2);
 			break;
 		}
@@ -1111,6 +1126,9 @@ public class HomePageActivity extends FragmentActivity implements HandlerListene
 				tx.commit();
 				hideDown();
 			}
+			else{
+				Toast.makeText(this, "暂无下一场比赛预告", Toast.LENGTH_SHORT).show();
+			}
 			break;
 		}
 		
@@ -1255,6 +1273,25 @@ public class HomePageActivity extends FragmentActivity implements HandlerListene
 	}
 
 
+	public void openEditTeamHistory(Bundle bundle){
+		TeamInfoGradeEditFragment tmp=new TeamInfoGradeEditFragment();
+		tmp.setArguments(bundle);
+		FragmentTransaction tx=fm.beginTransaction();
+		tx.setCustomAnimations(R.animator.slide_in_right, R.animator.slide_out_left, R.animator.slide_in_left, R.animator.slide_out_right);
+		tx.replace(R.id.main, tmp);
+		tx.addToBackStack(null);
+		tx.commit();
+	}
+	
+	public void openEditTeamHonor(Bundle bundle){
+		EditTeamGradeFragment tmp=new EditTeamGradeFragment();
+		tmp.setArguments(bundle);
+		FragmentTransaction tx=fm.beginTransaction();
+		tx.setCustomAnimations(R.animator.slide_in_right, R.animator.slide_out_left, R.animator.slide_in_left, R.animator.slide_out_right);
+		tx.replace(R.id.main, tmp);
+		tx.addToBackStack(null);
+		tx.commit();
+	}
 
 	public void openChangingRoomManager(String teamid, String authority){
 		Bundle bundle=new Bundle();
@@ -1323,7 +1360,8 @@ public class HomePageActivity extends FragmentActivity implements HandlerListene
 			bundle.putString("teamid", teamid);
 			tmp.setArguments(bundle);
 			FragmentTransaction tx=fm.beginTransaction();
-			tx.replace(R.id.content, tmp, "team_info_member");
+			tx.replace(R.id.down, tmp, "team_info_member");
+			tx.addToBackStack(null);
 			tx.commit();
 			break;
 		}
@@ -1336,7 +1374,8 @@ public class HomePageActivity extends FragmentActivity implements HandlerListene
 			bundle.putString("authority", authority);
 			tmp.setArguments(bundle);
 			FragmentTransaction tx=fm.beginTransaction();
-			tx.replace(R.id.content, tmp, "team_info_grade");
+			tx.replace(R.id.down, tmp, "team_info_grade");
+			tx.addToBackStack(null);
 			tx.commit();
 			Map<String, Object> map=new HashMap<String, Object>();
 			map.put("request", "get grade");
@@ -1427,7 +1466,12 @@ public class HomePageActivity extends FragmentActivity implements HandlerListene
 
 	public void getInPosition(String position, int state) {
 		// TODO Auto-generated method stub
-		SelectPositionFragment selectPosition=new SelectPositionFragment(phone, state, position);
+		Bundle bundle=new Bundle();
+		bundle.putString("position", position);
+		bundle.putString("phone", phone);
+		bundle.putInt("state", state);
+		SelectPositionFragment selectPosition=new SelectPositionFragment();
+		selectPosition.setArguments(bundle);
 		FragmentTransaction tx=fm.beginTransaction();
 		tx.setCustomAnimations(R.animator.slide_in_right, R.animator.slide_out_left, R.animator.slide_in_left, R.animator.slide_out_right);
 		tx.replace(R.id.main, selectPosition);
@@ -1484,6 +1528,12 @@ public class HomePageActivity extends FragmentActivity implements HandlerListene
 					tmp.setImage(bitmap);
 				}
 			}
+			else if(selectImage==4){
+				if(fm.findFragmentById(R.id.main) instanceof TeamInfoEditFragment){
+					TeamInfoEditFragment tmp=(TeamInfoEditFragment)fm.findFragmentById(R.id.main);
+					tmp.setImage(bitmap);
+				}
+			}
 			
 		}
 	}
@@ -1493,7 +1543,9 @@ public class HomePageActivity extends FragmentActivity implements HandlerListene
 		// TODO Auto-generated method stub
 		switch(requestCode){
 		case IMAGE_REQUEST_CODE:
-			startPhotoZoom(data.getData());
+			if(data!=null && data.getData()!=null){
+				startPhotoZoom(data.getData());
+			}
 			break;
 		case CAMERA_REQUEST_CODE:
 			if(Tools.hasSdcard()){
@@ -1651,8 +1703,14 @@ public class HomePageActivity extends FragmentActivity implements HandlerListene
 		FindPasswordsFragment tmp=new FindPasswordsFragment();
 		tmp.setArguments(bundle);
 		FragmentTransaction tx=fm.beginTransaction();
-		//tx.setCustomAnimations(R.animator.slide_in_right, R.animator.slide_out_left, R.animator.slide_in_left, R.animator.slide_out_right);
-		tx.replace(R.id.content, tmp);
+		if(fm.findFragmentById(R.id.main) instanceof SettingsFragment){
+			tx.setCustomAnimations(R.animator.slide_in_right, R.animator.slide_out_left, R.animator.slide_in_left, R.animator.slide_out_right);
+			tx.replace(R.id.main, tmp);
+		}
+		else{
+			tx.setCustomAnimations(R.animator.slide_in_right, R.animator.slide_out_left, R.animator.slide_in_left, R.animator.slide_out_right);
+			tx.replace(R.id.content, tmp);
+		}
 		tx.addToBackStack(null);
 		tx.commit();
 	}
@@ -1686,6 +1744,10 @@ public class HomePageActivity extends FragmentActivity implements HandlerListene
 		unregisterReceiver(networkReceiver);
 		SQLHelper helper=SQLHelper.getInstance(this);
 		helper.closeDb();
+		if(isSocketClose==false){
+			closeSocket();
+			isSocketClose=true;
+		}
 		System.out.println("on destroy on destroy");
 	}
 	
@@ -1817,7 +1879,12 @@ public class HomePageActivity extends FragmentActivity implements HandlerListene
 		case RESPONSE_NAME:{
 			removeVague();
 			Bundle bundle=msg.getData();
-			SelectPositionFragment selectPosition=new SelectPositionFragment(bundle.getString("phone"), 1, "");
+			Bundle bundle0=new Bundle();
+			bundle0.putString("phone", bundle.getString("phone"));
+			bundle0.putString("position", "");
+			bundle0.putInt("state", 1);
+			SelectPositionFragment selectPosition=new SelectPositionFragment();
+			selectPosition.setArguments(bundle0);
 			FragmentTransaction tx=fm.beginTransaction();
 			tx.setCustomAnimations(R.animator.slide_in_right, R.animator.slide_out_left, R.animator.slide_in_left, R.animator.slide_out_right);
 			tx.replace(R.id.content, selectPosition);
@@ -1828,7 +1895,12 @@ public class HomePageActivity extends FragmentActivity implements HandlerListene
 		case RESPONSE_POSITION1:{
 			removeVague();
 			Bundle bundle=msg.getData();
-			SelectPositionFragment selectPosition=new SelectPositionFragment(bundle.getString("phone"), 2, "");
+			Bundle bundle0=new Bundle();
+			bundle0.putString("phone", bundle.getString("phone"));
+			bundle0.putString("position", "");
+			bundle0.putInt("state", 2);
+			SelectPositionFragment selectPosition=new SelectPositionFragment();
+			selectPosition.setArguments(bundle0);
 			FragmentTransaction tx=fm.beginTransaction();
 			tx.setCustomAnimations(R.animator.slide_in_right, R.animator.slide_out_left, R.animator.slide_in_left, R.animator.slide_out_right);
 			tx.replace(R.id.content, selectPosition);
@@ -1923,7 +1995,7 @@ public class HomePageActivity extends FragmentActivity implements HandlerListene
 			else{
 				if(networkHasChanged==false){
 					//back();
-					System.out.println("????????????????");
+					System.out.println("22222222222222222222222222222222222222222222222");
 					bar=new BarFragment();
 					Bundle bundle0=new Bundle();
 					bundle0.putInt("state", TitleFragment.HOMEPAGE_TITLE);
@@ -1941,6 +2013,9 @@ public class HomePageActivity extends FragmentActivity implements HandlerListene
 					transaction.replace(R.id.content, homepage);
 					transaction.commit();
 					removeVague();
+				}
+				else{
+					System.out.println("33333333333333333333333333333333333333333333");
 				}
 			}
 			
@@ -2177,8 +2252,8 @@ public class HomePageActivity extends FragmentActivity implements HandlerListene
 		}
 		case GET_TEAM_HONOR:{
 			Bundle bundle=msg.getData();
-			if(fm.findFragmentById(R.id.content) instanceof TeamInfoGradeFragment && ((TeamInfoGradeFragment)fm.findFragmentById(R.id.content)).getTeamid().equals(bundle.getString("teamid"))){
-				TeamInfoGradeFragment tmp=(TeamInfoGradeFragment)fm.findFragmentById(R.id.content);
+			if(fm.findFragmentById(R.id.down) instanceof TeamInfoGradeFragment && ((TeamInfoGradeFragment)fm.findFragmentById(R.id.down)).getTeamid().equals(bundle.getString("teamid"))){
+				TeamInfoGradeFragment tmp=(TeamInfoGradeFragment)fm.findFragmentById(R.id.down);
 				tmp.setList((List<HonorInfo>)msg.obj);
 				tmp.setData(bundle.getString("p1"), bundle.getString("p2"), bundle.getString("p3"), bundle.getString("p4"));
 			}
@@ -2218,7 +2293,11 @@ public class HomePageActivity extends FragmentActivity implements HandlerListene
 				Map<String, Object> map=(Map<String, Object>)msg.obj;
 				String teamid=map.get("teamid").toString();
 				map.remove("teamid");
-				OtherTeamFragment otherTeam=new OtherTeamFragment(this, teamid, map);
+				Bundle bundle=new Bundle();
+				bundle.putString("teamid", teamid);
+				bundle.putBundle("map", Tools.convertMapToBundle(map));
+				OtherTeamFragment otherTeam=new OtherTeamFragment();
+				otherTeam.setArguments(bundle);
 				otherTeam.setImage(searchList.getTeamImage());
 				FragmentTransaction tx=fm.beginTransaction();
 				tx.hide(upTitle);
@@ -2240,8 +2319,34 @@ public class HomePageActivity extends FragmentActivity implements HandlerListene
 			break;
 		}
 		case UPDATED_MATCH:{
+			String teamid=msg.obj.toString();
+			int authority=0;
+			if(teamid.equals(teamid1)){
+				authority=Integer.parseInt(authority1);
+			}
+			else if(teamid.equals(teamid2)){
+				authority=Integer.parseInt(authority2);
+			}
+			else if(teamid.equals(teamid3)){
+				authority=Integer.parseInt(authority3);
+			}
 			if(fm.findFragmentById(R.id.main) instanceof EditPreviewFragment){
-				onBackPressed();
+				back();
+				Bundle bundle=new Bundle();
+				bundle.putString("teamid", teamid);
+				bundle.putInt("authority", authority);
+				MatchPreviewFragment previewMatch=new MatchPreviewFragment();
+				previewMatch.setArguments(bundle);
+				FragmentTransaction tx=fm.beginTransaction();
+				tx.setCustomAnimations(R.animator.slide_in_right, R.animator.slide_out_left, R.animator.slide_in_left, R.animator.slide_out_right);
+				tx.replace(R.id.main, previewMatch);
+				tx.addToBackStack(null);
+				tx.commit();
+				TeamFragment tf=(TeamFragment)fragmentList1.get(viewPager.getCurrentItem());
+				if(tf!=null && tf.isVisible()){
+					tf.setEnable(false);
+				}
+				bar.setEnable(false);
 			}
 			break;
 		}
@@ -2700,9 +2805,34 @@ public class HomePageActivity extends FragmentActivity implements HandlerListene
 		}
 		case DELETE_PREVIEW:{
 			String teamid=msg.getData().getString("teamid");
+			int authority=0;
+			if(teamid.equals(teamid1)){
+				authority=Integer.parseInt(authority1);
+			}
+			else if(teamid.equals(teamid2)){
+				authority=Integer.parseInt(authority2);
+			}
+			else if(teamid.equals(teamid3)){
+				authority=Integer.parseInt(authority3);
+			}
 			if(fm.findFragmentById(R.id.main) instanceof EditPreviewFragment && ((EditPreviewFragment)fm.findFragmentById(R.id.main)).getTeamid().equals(teamid)){
 				removeVague();
-				onBackPressed();
+				back();
+				Bundle bundle=new Bundle();
+				bundle.putString("teamid", teamid);
+				bundle.putInt("authority", authority);
+				PrematchStartFragment tmp=new PrematchStartFragment();
+				tmp.setArguments(bundle);
+				FragmentTransaction tx=fm.beginTransaction();
+				tx.setCustomAnimations(R.animator.slide_in_right, R.animator.slide_out_left, R.animator.slide_in_left, R.animator.slide_out_right);
+				tx.replace(R.id.main, tmp);
+				tx.addToBackStack(null);
+				tx.commit();
+				TeamFragment tf=(TeamFragment)fragmentList1.get(viewPager.getCurrentItem());
+				if(tf!=null && tf.isVisible()){
+					tf.setEnable(false);
+				}
+				bar.setEnable(false);
 			}
 			break;
 		}
@@ -2823,18 +2953,25 @@ public class HomePageActivity extends FragmentActivity implements HandlerListene
 		}
 		case UPDATE_FAME:{
 			String teamid=msg.obj.toString();
-			String authority=null;
-			if(teamid.equals(teamid1)){
-				authority=authority1;
+			if(fm.findFragmentById(R.id.main) instanceof HallOfFameFragment && ((HallOfFameFragment)fm.findFragmentById(R.id.main)).getTeamid().equals(teamid)){
+				String authority=null;
+				if(teamid.equals(teamid1)){
+					authority=authority1;
+				}
+				else if(teamid.equals(teamid2)){
+					authority=authority2;
+				}
+				else if(teamid.equals(teamid3)){
+					authority=authority3;
+				}
+				back();
+				openFame(HallOfFameFragment.FIRST_OPEN, teamid, authority, null);
+				TeamFragment tf=(TeamFragment)fragmentList1.get(viewPager.getCurrentItem());
+				if(tf!=null && tf.isVisible()){
+					tf.setEnable(false);
+				}
+				bar.setEnable(false);
 			}
-			else if(teamid.equals(teamid2)){
-				authority=authority2;
-			}
-			else if(teamid.equals(teamid3)){
-				authority=authority3;
-			}
-			back();
-			openFame(HallOfFameFragment.FIRST_OPEN, teamid, authority, null);
 			break;
 		}
 		case GET_CODE:{
@@ -2857,12 +2994,11 @@ public class HomePageActivity extends FragmentActivity implements HandlerListene
 			break;
 		}
 		case SET_PSW:{
-			Map<String, Object> map=(Map<String, Object>)msg.obj;
 			back();
 			break;
 		}
 		case SET_NEW_PSW:{
-			if(fm.findFragmentById(R.id.content) instanceof FindPasswordsFragment){
+			if(fm.findFragmentById(R.id.main) instanceof FindPasswordsFragment){
 				back();
 			}
 			break;
@@ -2870,6 +3006,37 @@ public class HomePageActivity extends FragmentActivity implements HandlerListene
 		case LOG_OUT:{
 			close();
 			Toast.makeText(this, "您的帐号在别处登录，请检查", Toast.LENGTH_LONG).show();
+			break;
+		}
+		case CHANGE_TEAM_INFO:{
+			String teamid=msg.obj.toString();
+			int current=viewPager.getCurrentItem();
+			if(current>=1){
+				if(fragmentList1.get(current-1) instanceof TeamFragment && ((TeamFragment)fragmentList1.get(current-1)).getTeamid().equals(teamid)){
+					TeamFragment tmp=(TeamFragment)fragmentList1.get(current-1);
+					tmp.initiate();
+					mAdapter.notifyDataSetChanged();
+				}
+			}
+			if(current<=1){
+				if(fragmentList1.get(current+1) instanceof TeamFragment && ((TeamFragment)fragmentList1.get(current+1)).getTeamid().equals(teamid)){
+					TeamFragment tmp=(TeamFragment)fragmentList1.get(current+1);
+					tmp.initiate();
+					mAdapter.notifyDataSetChanged();
+				}
+			}
+			if(fragmentList1.get(current) instanceof TeamFragment && ((TeamFragment)fragmentList1.get(current)).getTeamid().equals(teamid)){
+				TeamFragment tmp=(TeamFragment)fragmentList1.get(current);
+				tmp.initiate();
+				mAdapter.notifyDataSetChanged();
+			}
+			back();
+			break;
+		}
+		case CHANGE_TEAM_GRADE:{
+			if(fm.findFragmentById(R.id.main) instanceof EditTeamGradeFragment || fm.findFragmentById(R.id.main) instanceof TeamInfoGradeEditFragment){
+				onBackPressed();
+			}
 			break;
 		}
 		}
@@ -2954,6 +3121,12 @@ public class HomePageActivity extends FragmentActivity implements HandlerListene
 			updateTitleAndBar();
 			System.out.println("6.5");
 		}
+		else if((fm.findFragmentById(R.id.content) instanceof RegisterFragment &&
+				((RegisterFragment)fm.findFragmentById(R.id.content)).getState()!=RegisterFragment.NAME) || 
+				fm.findFragmentById(R.id.content) instanceof SelectPositionFragment){
+			System.out.println("6.7");
+			backPressed();
+		}
 		else if(fm.findFragmentById(R.id.content) instanceof RegisterFragment && ((RegisterFragment)fm.findFragmentById(R.id.content)).getState()==RegisterFragment.NAME){
 			RegisterFragment register=(RegisterFragment)fm.findFragmentById(R.id.content);
 			openVague(WAIT_LOGIN);
@@ -2985,19 +3158,55 @@ public class HomePageActivity extends FragmentActivity implements HandlerListene
 		
 			System.out.println("7");
 		}
+		else if(fm.findFragmentById(R.id.main) instanceof TeamInfoEditFragment){
+			backPressed();
+			System.out.println("7.5");
+		}
+		else if(fm.findFragmentById(R.id.main) instanceof EditTeamGradeFragment || fm.findFragmentById(R.id.main) instanceof TeamInfoGradeEditFragment){
+			backPressed();
+			String teamid=((TeamInterface)fm.findFragmentById(R.id.main)).getTeamid();
+			Map<String, Object> map=new HashMap<String, Object>();
+			map.put("request", "get grade");
+			map.put("teamid", teamid);
+			Runnable r=new ClientWrite(Tools.JsonEncode(map));
+			new Thread(r).start();
+			System.out.println("7.7");
+		}
 		else if(fm.findFragmentById(R.id.title) instanceof TitleFragment && ((TitleFragment)fm.findFragmentById(R.id.title)).getState()==TitleFragment.TEAM_INFO_TITLE){
-			FragmentTransaction tx=fm.beginTransaction();
-			tx.remove(fm.findFragmentById(R.id.content)).remove(fm.findFragmentById(R.id.title)).show(bar).commit();
-			resetViewPager();
+			back();
+			TeamFragment tf=(TeamFragment)fragmentList1.get(viewPager.getCurrentItem());
+			if(tf!=null && tf.isVisible()){
+				tf.setEnable(true);
+			}
+			bar.setEnable(true);
 			System.out.println("8");
 		}
 		else if(fm.findFragmentById(R.id.main) instanceof MatchReviewFragment){
 			backPressed();
+			TeamFragment tf=(TeamFragment)fragmentList1.get(viewPager.getCurrentItem());
+			if(tf!=null && tf.isVisible()){
+				tf.setEnable(true);
+			}
+			bar.setEnable(true);
 			System.out.println("9");
 		}
 		else if(fm.findFragmentById(R.id.main) instanceof MatchPreviewFragment && ((MatchPreviewFragment)fm.findFragmentById(R.id.main)).getAuthority()!=-1){
 			backPressed();
+			TeamFragment tf=(TeamFragment)fragmentList1.get(viewPager.getCurrentItem());
+			if(tf!=null && tf.isVisible()){
+				tf.setEnable(true);
+			}
+			bar.setEnable(true);
 			System.out.println("10");
+		}
+		else if(fm.findFragmentById(R.id.main) instanceof PrematchStartFragment){
+			backPressed();
+			TeamFragment tf=(TeamFragment)fragmentList1.get(viewPager.getCurrentItem());
+			if(tf!=null && tf.isVisible()){
+				tf.setEnable(true);
+			}
+			bar.setEnable(true);
+			System.out.println("10.5");
 		}
 		else if(fm.findFragmentById(R.id.main) instanceof EditPreviewFragment){
 			EditPreviewFragment tmp=(EditPreviewFragment)fm.findFragmentById(R.id.main);
@@ -3062,6 +3271,11 @@ public class HomePageActivity extends FragmentActivity implements HandlerListene
 		}
 		else if(fm.findFragmentById(R.id.main) instanceof ShooterAssisterFragment){
 			backPressed();
+			TeamFragment tf=(TeamFragment)fragmentList1.get(viewPager.getCurrentItem());
+			if(tf!=null && tf.isVisible()){
+				tf.setEnable(true);
+			}
+			bar.setEnable(true);
 			System.out.println("14");
 		}
 		else if(fm.findFragmentById(R.id.main) instanceof ChatFragment){
@@ -3069,11 +3283,25 @@ public class HomePageActivity extends FragmentActivity implements HandlerListene
 				showAll();
 				needShow=false;
 			}
+			else{
+				if(fragmentList1.get(viewPager.getCurrentItem()) instanceof TeamFragment){
+					TeamFragment tf=(TeamFragment)fragmentList1.get(viewPager.getCurrentItem());
+					if(tf!=null && tf.isVisible()){
+						tf.setEnable(true);
+					}
+				}
+				bar.setEnable(true);
+			}
 			backPressed();
 			System.out.println("15");
 		}
 		else if(fm.findFragmentById(R.id.main) instanceof MatchLogFragment){
 			backPressed();
+			TeamFragment tf=(TeamFragment)fragmentList1.get(viewPager.getCurrentItem());
+			if(tf!=null && tf.isVisible()){
+				tf.setEnable(true);
+			}
+			bar.setEnable(true);
 			System.out.println("16");
 		}
 		else if(fm.findFragmentById(R.id.main) instanceof MatchReviewDetailFragment){
@@ -3092,11 +3320,44 @@ public class HomePageActivity extends FragmentActivity implements HandlerListene
 		}
 		else if(fm.findFragmentById(R.id.main) instanceof HallOfFameFragment){
 			System.out.println("19.5");
+			TeamFragment tf=(TeamFragment)fragmentList1.get(viewPager.getCurrentItem());
+			if(tf!=null && tf.isVisible()){
+				tf.setEnable(true);
+			}
+			bar.setEnable(true);
 			backPressed();
+		}
+		else if(fm.findFragmentById(R.id.main) instanceof SelectPositionFragment && ((SelectPositionFragment)fm.findFragmentById(R.id.main)).getState()==0){
+			System.out.println("19.7");
+			String position=((SelectPositionFragment)fm.findFragmentById(R.id.main)).getPosition();
+			backPressed();
+			while(!(fm.findFragmentById(R.id.main) instanceof HallOfFameFragment)){
+				System.out.println("wait");
+			}
+			((HallOfFameFragment)fm.findFragmentById(R.id.main)).setPosition(position);
+		}
+		else if(fm.findFragmentById(R.id.main) instanceof FindPasswordsFragment || fm.findFragmentById(R.id.content) instanceof FindPasswordsFragment){
+			backPressed();
+			System.out.println("19.9");
 		}
 		else if(viewPager.isShown() && !(fm.findFragmentById(R.id.main) instanceof TeamInterface && !(fm.findFragmentById(R.id.down) instanceof TeamInterface))){
 			moveTaskToBack(false);  
 			System.out.println("20");
+		}
+		else if(fm.findFragmentById(R.id.content) instanceof MoreFragment && (fm.findFragmentById(R.id.main) instanceof MoreProtocols
+				|| fm.findFragmentById(R.id.main) instanceof AboutusFragment || fm.findFragmentById(R.id.main) instanceof FeedbackFragment
+				|| fm.findFragmentById(R.id.main) instanceof SettingsFragment)){
+			MoreFragment tmp=(MoreFragment)fm.findFragmentById(R.id.content);
+			tmp.setEnable(true);
+			setBar(true);
+			backPressed();
+			System.out.println("22");
+		}
+		else if(fm.findFragmentById(R.id.content) instanceof SearchItemFragment && fm.findFragmentById(R.id.main) instanceof HomePageFragment){
+			SearchItemFragment tmp=(SearchItemFragment)fm.findFragmentById(R.id.content);
+			tmp.setEnable(true);
+			backPressed();
+			System.out.println("23");
 		}
 		else{
 			super.onBackPressed();
@@ -3134,7 +3395,10 @@ public class HomePageActivity extends FragmentActivity implements HandlerListene
 
 	
 	public void close(){
-		closeSocket();
+		if(isSocketClose==false){
+			closeSocket();
+			isSocketClose=true;
+		}
 		Map<String, Object> tmp=new HashMap<String, Object>();
 		tmp.put("phone", "");
 		tmp.put("passwords", "");
@@ -3155,18 +3419,23 @@ public class HomePageActivity extends FragmentActivity implements HandlerListene
 						&& ((IdentificationInterface)fm.getFragments().get(n)).getFragmentLevel()!=IdentificationInterface.MAIN_LEVEL ){
 					backPressed();
 				}
+				else if(fm.getFragments().get(n)!=null && fm.getFragments().get(n) instanceof IdentificationInterface 
+						&& ((IdentificationInterface)fm.getFragments().get(n)).getFragmentLevel()==IdentificationInterface.MAIN_LEVEL ){
+					break;
+				}
 				n--;
+			}
+			if(fragmentList1!=null && fragmentList1.size()>0 &&viewPager!=null && fragmentList1.get(viewPager.getCurrentItem()) instanceof TeamFragment){
+				TeamFragment tf=(TeamFragment)fragmentList1.get(viewPager.getCurrentItem());
+				if(tf!=null && tf.isVisible()){
+					tf.setEnable(true);
+				}
+			}
+			if(bar!=null){
+				bar.setEnable(true);
 			}
 		}
 	}
 	
-	public void formationEdit(){
-		FormationEditFragment formationEdit = new FormationEditFragment();
-		FragmentTransaction tx=fm.beginTransaction();
-		tx.setCustomAnimations(R.animator.slide_in_right, R.animator.slide_out_left, R.animator.slide_in_left, R.animator.slide_out_right);
-		tx.replace(R.id.main, formationEdit);
-		tx.addToBackStack(null);
-		tx.commit();
-	}
 	
 }

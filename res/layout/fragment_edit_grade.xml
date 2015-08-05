@@ -1,0 +1,153 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#f0f0f0"
+    android:orientation="vertical">
+    <RelativeLayout
+        android:id="@+id/edit_history_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/title_style" >
+
+        <ImageView
+            android:id="@+id/edit_history_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:background="@drawable/select_unselected_3"
+            android:padding="15dip"
+            android:src="@drawable/back" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/edit_history_back"
+            android:alpha="1"
+            android:paddingTop="12dip"
+            android:paddingBottom="12dip"
+            android:text="荣誉编辑"
+            android:textColor="#ffffff"
+            android:textSize="15sp" />
+    </RelativeLayout>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <LinearLayout
+		        android:layout_width="match_parent"
+		        android:layout_height="wrap_content"
+		        android:orientation="horizontal"
+		        android:background="#ebf2ff"
+		        android:paddingLeft="15dp"
+		        android:paddingRight="15dp">
+		
+		        <TextView
+		            android:layout_width="0dip"
+		            android:layout_height="wrap_content"
+		            android:layout_marginRight="10dip"
+		            android:layout_weight="1.5"
+		            android:gravity="left"
+		            android:maxLength="4"
+		            android:text="年份"
+		            android:textColor="#333333"
+		            android:textSize="15sp" />
+		
+		        <TextView
+		            android:layout_width="0dip"
+		            android:layout_height="wrap_content"
+		            android:layout_marginRight="10dip"
+		            android:layout_weight="3.24"
+		            android:gravity="left"
+		            android:padding="3dip"
+		            android:text="比赛名称"
+		            android:textColor="#333333"
+		            android:textSize="15sp" />
+		
+		        <TextView
+		            android:layout_width="0dip"
+		            android:layout_height="wrap_content"
+		            android:layout_weight="1"
+		            android:gravity="left"
+		            android:layout_marginRight="25dip"
+		            android:padding="3dip"
+		            android:text="成绩"
+		            android:textColor="#333333"
+		            android:textSize="15sp" />
+		    </LinearLayout>
+		
+		    <ListView
+		        android:id="@+id/edit_history_honor"
+		        android:layout_width="match_parent"
+		        android:divider="@null"
+		        android:background="@drawable/rect_4"
+		        android:layout_height="match_parent" />
+		    <View
+		        android:layout_width="match_parent"
+		        android:layout_height="0.5dip"
+		        android:background="#dedede"/>
+		    <RelativeLayout
+		        android:id="@+id/edit_history_new"
+		        android:layout_width="match_parent"
+		        android:layout_height="wrap_content"
+		        android:paddingTop="10dip"
+		        android:background="@drawable/btn_style_selector_1"
+		        android:paddingBottom="10dip">
+		        <TextView
+		            android:layout_width="70dip"
+		            android:layout_height="wrap_content"
+		            android:layout_centerInParent="true"
+		            android:drawableLeft="@drawable/edit_add"
+		            android:gravity="center"
+		            android:text="新增"
+		            android:textColor="#333333"
+		            android:textSize="15sp"/>
+		    </RelativeLayout>
+		    <View
+		        android:layout_width="match_parent"
+		        android:layout_height="0.5dip"
+		        android:background="#dedede"/>
+		    <RelativeLayout
+	            android:layout_width="match_parent"
+	            android:layout_height="wrap_content"
+	            android:layout_marginBottom="20dp"
+	            android:layout_marginLeft="20dp"
+	            android:layout_marginRight="20dip"
+	            android:layout_marginTop="20dp">
+	
+	            <TextView
+	                android:id="@+id/edit_history_cancel"
+	                android:layout_width="wrap_content"
+	                android:layout_height="wrap_content"
+	                android:layout_alignParentLeft="true"
+	                android:background="@drawable/btn_style_selector_2"
+	                android:gravity="center"
+	                android:paddingBottom="5dp"
+	                android:paddingLeft="35dp"
+	                android:paddingRight="35dp"
+	                android:paddingTop="5dp"
+	                android:text="取消"
+	                android:textColor="#ffffff"
+	                android:textSize="17sp" />
+	
+	            <TextView
+	                android:id="@+id/edit_history_ensure"
+	                android:layout_width="wrap_content"
+	                android:layout_height="wrap_content"
+	                android:layout_alignParentRight="true"
+	                android:background="@drawable/btn_style_selector"
+	                android:gravity="center"
+	                android:paddingBottom="5dp"
+	                android:paddingLeft="35dp"
+	                android:paddingRight="35dp"
+	                android:paddingTop="5dp"
+	                android:text="确定"
+	                android:textColor="#ffffff"
+	                android:textSize="17sp" />
+	        </RelativeLayout>
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

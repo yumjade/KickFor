@@ -1,0 +1,82 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/prematch_start" >
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:alpha="0.5"
+        android:background="#000000" />
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="100dip"
+        android:alpha="1"
+        android:gravity="center"
+        android:text="无最新比赛预告"
+        android:textColor="#ffffff"
+        android:textSize="25sp" />
+
+    <TextView
+        android:id="@+id/prematch_start_text1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="150dip"
+        android:alpha="1"
+        android:gravity="center"
+        android:text="您的兄弟们已经磨鞋擦脚迫不及待地准备迎接\n下一次比赛的挑战了。"
+        android:textColor="#ffffff"
+        android:textSize="14sp" />
+    <TextView
+        android:id="@+id/prematch_start_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/prematch_start_text1"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dip"
+        android:alpha="1"
+        android:gravity="center"
+        android:text="赶紧发布预告，让亚平宁之师时刻准备着！"
+        android:textColor="#ffffff"
+        android:textSize="14sp" />
+    <TextView
+        android:id="@+id/prematch_start_no"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="50dip"
+        android:layout_marginLeft="5dip"
+        android:layout_marginRight="5dip"
+        android:layout_marginTop="10dip"
+        android:alpha="1"
+        android:background="@drawable/btn_style_selector_1"
+        android:clickable="true"
+        android:gravity="center"
+        android:text="休养生息，暂不比赛"
+        android:textColor="#333333"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/prematch_start_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/prematch_start_no"
+        android:layout_marginLeft="5dip"
+        android:layout_marginRight="5dip"
+        android:layout_marginTop="10dip"
+        android:alpha="1"
+        android:background="@drawable/btn_style_selector"
+        android:clickable="true"
+        android:gravity="center"
+        android:text="发布比赛预告"
+        android:textColor="#ffffff"
+        android:textSize="16sp" />
+
+</RelativeLayout>

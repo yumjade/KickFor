@@ -71,7 +71,7 @@
         android:layout_below="@id/rr_rr"
         android:layout_marginTop="10dip"
         android:layout_marginLeft="10dip"
-        android:text="验证码已发送至您的手机号186*******391上，5分钟内输入有效。"
+        android:text=""
         android:layout_centerHorizontal="true"
         android:textColor="#6e6e6e"
         android:textSize="12sp"/>

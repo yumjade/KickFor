@@ -62,6 +62,7 @@ public class HallOfFmeAdapter extends BaseAdapter {
 			viewHolder.position=(TextView)convertView.findViewById(R.id.team_position);
 			viewHolder.date=(TextView)convertView.findViewById(R.id.attended_time);
 			viewHolder.intruduction=(TextView)convertView.findViewById(R.id.fame_intruduction);
+			viewHolder.number=(TextView)convertView.findViewById(R.id.fame_shirt);
 			viewHolder.edit.setOnClickListener(new OnClickListener(){
 
 				@Override
@@ -82,6 +83,7 @@ public class HallOfFmeAdapter extends BaseAdapter {
 		viewHolder.position.setText(item.getPosition());
 		viewHolder.date.setText(item.getDate());
 		viewHolder.intruduction.setText(item.getIntruduction());
+		viewHolder.number.setText(item.getNumber());
 		if(authority>=2){
 			viewHolder.edit.setVisibility(View.VISIBLE);
 			viewHolder.edit.setTag(item);
@@ -99,6 +101,7 @@ public class HallOfFmeAdapter extends BaseAdapter {
 		public TextView position=null;
 		public TextView date=null;
 		public TextView intruduction=null;
+		public TextView number=null;
 	}
 
 }
