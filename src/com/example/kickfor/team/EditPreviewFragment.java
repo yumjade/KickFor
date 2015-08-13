@@ -280,46 +280,49 @@ public class EditPreviewFragment extends Fragment implements TeamInterface, Iden
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				name=nameText.getText().toString();
-				place=placeText.getText().toString();
-				date=dateText.getText().toString();
-				time=timeText.getText().toString();
-				type=typeText.getText().toString();
-				person=personText.getText().toString();
-				if(name.isEmpty()){
+				String name1=nameText.getText().toString();
+				String place1=placeText.getText().toString();
+				String date1=dateText.getText().toString();
+				String time1=timeText.getText().toString();
+				String type1=typeText.getText().toString();
+				String person1=personText.getText().toString();
+				if(name1.isEmpty()){
 					Toast.makeText(context, "对手姓名不能为空", Toast.LENGTH_SHORT).show();
 				}
-				else if(place.isEmpty()){
+				else if(place1.isEmpty()){
 					Toast.makeText(context, "场地不能为空", Toast.LENGTH_SHORT).show();
 				}
-				else if(date.isEmpty()){
+				else if(date1.isEmpty()){
 					Toast.makeText(context, "比赛日期不能为空", Toast.LENGTH_SHORT).show();
 				}
-				else if(time.isEmpty()){
+				else if(time1.isEmpty()){
 					Toast.makeText(context, "比赛时间不能为空", Toast.LENGTH_SHORT).show();
 				}
-				else if(Tools.compareDateAndTime(date, time)){
+				else if(Tools.compareDateAndTime(date1, time1)){
 					Toast.makeText(context, "您无法穿越踢比赛", Toast.LENGTH_SHORT).show();
 					dateText.setText("");
 					timeText.setText("");
 				}
-				else if(type.isEmpty()){
+				else if(type1.isEmpty()){
 					Toast.makeText(context, "比赛性质不能为空", Toast.LENGTH_SHORT).show();
 				}
-				else if(person.isEmpty()){
+				else if(person1.isEmpty()){
 					Toast.makeText(context, "赛制不能为空", Toast.LENGTH_SHORT).show();
+				}
+				else if(name.equals(name1) && place.equals(place1) && date.equals(date1) && time.equals(time1) && type.equals(type1) && person.equals(person1)){
+					((HomePageActivity)getActivity()).onBackPressed();
 				}
 				else{
 					setEnable(false);
 					Map<String, Object> tmp=new HashMap<String, Object>();
 					tmp.put("againstid", againstid);
-					tmp.put("againstname", name);
-					tmp.put("place", place);
-					tmp.put("date", date);
-					tmp.put("time", time);
+					tmp.put("againstname", name1);
+					tmp.put("place", place1);
+					tmp.put("date", date1);
+					tmp.put("time", time1);
 					tmp.put("status", "u");
-					tmp.put("type", type);
-					tmp.put("person", person);
+					tmp.put("type", type1);
+					tmp.put("person", person1);
 					if(id==-1){
 						tmp.put("id", id);
 					}

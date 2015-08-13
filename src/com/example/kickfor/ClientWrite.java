@@ -16,18 +16,18 @@ public class ClientWrite implements Runnable{
 
 	
 	public void run(){
-		try{
-			this.socket=SocketSingleton.getInstance().getSocket();
-			System.out.println(message);
-			out=new PrintWriter(socket.getOutputStream(),false);
-			out.println(this.message);
-			out.flush();
-			Thread.sleep(1000);
-		}catch(Exception e){
-			e.printStackTrace();
+		synchronized(this){
+			try{
+				this.socket=SocketSingleton.getInstance().getSocket();
+				System.out.println(message);
+				out=new PrintWriter(socket.getOutputStream(),false);
+				out.println(this.message);
+				out.flush();
+				Thread.sleep(1000);
+			}catch(Exception e){
+				e.printStackTrace();
+			}
 		}
-		
-		
 	}
 	
 

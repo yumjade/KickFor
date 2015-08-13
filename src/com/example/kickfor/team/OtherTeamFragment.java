@@ -14,6 +14,7 @@ import java.util.Map;
 
 
 
+
 import com.example.kickfor.ClientWrite;
 import com.example.kickfor.HomePageActivity;
 import com.example.kickfor.R;
@@ -91,7 +92,11 @@ public class OtherTeamFragment extends Fragment implements OnClickListener, Iden
 		return IdentificationInterface.SECOND_LEVEL;
 	}
 	
-
+	@Override
+	public void setEnable(boolean enable) {
+		// TODO Auto-generated method stub
+		
+	}
 	
 	private void init(){
 		this.context=getActivity();

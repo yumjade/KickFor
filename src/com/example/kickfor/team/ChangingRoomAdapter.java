@@ -250,16 +250,23 @@ public class ChangingRoomAdapter extends BaseAdapter implements OnClickListener{
 		Map<String, Object> tmp=new HashMap<String, Object>();
 		if(id==R.id.manage_authority){
 			if(type==JOIN_IN){
-				((TextView)view).setAlpha((float) 0.6);
-				mList.get(position).pb2=true;
-				v.pb2.setVisibility(View.VISIBLE);
-				HomePageActivity ac=(HomePageActivity)context;;
-				ac.openProgressBarWait(HomePageActivity.WAIT_PROGRESSBAR, v, mList.get(position));
-				tmp.put("request", "agree join");
-				tmp.put("phone", v.phone);
-				tmp.put("teamid", v.teamid);
-				Runnable r=new ClientWrite(Tools.JsonEncode(tmp));
-				new Thread(r).start();
+				if(v.number.getText().toString().isEmpty()){
+					Toast.makeText(context, "请点击球衣，为新队员分配号码", Toast.LENGTH_SHORT).show();
+					v.setEnable(true);
+				}
+				else{
+					((TextView)view).setAlpha((float) 0.6);
+					mList.get(position).pb2=true;
+					v.pb2.setVisibility(View.VISIBLE);
+					HomePageActivity ac=(HomePageActivity)context;;
+					ac.openProgressBarWait(HomePageActivity.WAIT_PROGRESSBAR, v, mList.get(position));
+					tmp.put("request", "agree join");
+					tmp.put("phone", v.phone);
+					tmp.put("teamid", v.teamid);
+					tmp.put("number", v.number.getText().toString());
+					Runnable r=new ClientWrite(Tools.JsonEncode(tmp));
+					new Thread(r).start();
+				}
 			}
 			else{
 				String str=v.name.getText().toString();

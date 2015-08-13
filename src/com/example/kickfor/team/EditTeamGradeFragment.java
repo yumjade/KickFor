@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
@@ -55,7 +56,28 @@ public class EditTeamGradeFragment extends Fragment implements TeamInterface, Id
 		}
 	}
 	
-	
+	@Override
+	public void setEnable(boolean enable) {
+		// TODO Auto-generated method stub
+		if(addNew!=null){
+			addNew.setEnabled(enable);
+			cancel.setEnabled(enable);
+			ensure.setEnabled(enable);
+			for(int i=0; i<mListView.getChildCount(); i++){
+				View view=mListView.getChildAt(i);
+				ImageView c=(ImageView)view.findViewById(R.id.honor_cancel);
+				TextView year=(TextView)view.findViewById(R.id.honor_year);
+				TextView result=(TextView)view.findViewById(R.id.honor_result);
+				EditText e=(EditText)view.findViewById(R.id.honor_name);
+				if(c!=null && year!=null && result!=null && e!=null){
+					c.setEnabled(enable);
+					year.setEnabled(enable);
+					result.setEnabled(enable);
+					e.setEnabled(enable);
+				}
+			}
+		}
+	}
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -119,6 +141,7 @@ public class EditTeamGradeFragment extends Fragment implements TeamInterface, Id
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
+				setEnable(false);
 				((HomePageActivity)getActivity()).onBackPressed();
 			}
 			
@@ -130,6 +153,7 @@ public class EditTeamGradeFragment extends Fragment implements TeamInterface, Id
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 				boolean noNull=true;
+				setEnable(false);
 				Map<String, Object> map=new HashMap<String, Object>();
 				map.put("request", "change result");
 				map.put("teamid", teamid);
@@ -153,6 +177,7 @@ public class EditTeamGradeFragment extends Fragment implements TeamInterface, Id
 					if(item.getUpdateName().isEmpty() || item.getUpdateYear().isEmpty() || item.getUpdateResult().isEmpty()){
 						noNull=false;
 						Toast.makeText(context, "您有条目未完善", Toast.LENGTH_SHORT).show();
+						setEnable(true);
 						break;
 					}
 				}
@@ -170,6 +195,7 @@ public class EditTeamGradeFragment extends Fragment implements TeamInterface, Id
 					map.put("number", mList.size()+mList1.size());
 					Runnable r=new ClientWrite(Tools.JsonEncode(map));
 					new Thread(r).start();
+					((HomePageActivity)getActivity()).openVague(HomePageActivity.WAIT_EDIT_TEAM_GRADE);
 				}
 			}
 			

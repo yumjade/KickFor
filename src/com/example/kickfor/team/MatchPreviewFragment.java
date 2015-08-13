@@ -19,6 +19,7 @@ import java.util.Map;
 
 
 
+
 import com.example.kickfor.ClientWrite;
 import com.example.kickfor.HomePageActivity;
 import com.example.kickfor.HomePageInterface;
@@ -71,6 +72,12 @@ public class MatchPreviewFragment extends Fragment implements TeamInterface, Hom
 	private ImageView back=null;
 	
 	@Override
+	public void setEnable(boolean enable) {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	@Override
 	public int getFragmentLevel() {
 		// TODO Auto-generated method stub
 		return IdentificationInterface.SECOND_LEVEL;
@@ -81,7 +88,7 @@ public class MatchPreviewFragment extends Fragment implements TeamInterface, Hom
 	}
 	
 	public void setAttendanceInfo(String info){
-		this.info=this.info+info+";";
+		this.info=this.info+info+"   ;";
 		setAttendance();
 		SQLHelper helper=SQLHelper.getInstance(context);
 		Cursor cursor=helper.select("matches", new String[]{"ensure"}, "id=? and teamid=?", new String[]{String.valueOf(id), teamid}, null);
@@ -299,8 +306,6 @@ public class MatchPreviewFragment extends Fragment implements TeamInterface, Hom
 				ll.setPadding(10, 10, 10, 0);
 				attendance.addView(ll, j, params);
 			}
-			TextView v=new TextView(getActivity());
-			v.setText(list0.get(i));
 			if((i/4)!=j){
 				j=i/4;
 				LinearLayout ll=new LinearLayout(getActivity());
@@ -309,6 +314,8 @@ public class MatchPreviewFragment extends Fragment implements TeamInterface, Hom
 				ll.setPadding(10, 30, 10, 0);
 				attendance.addView(ll, j, params);
 			}
+			TextView v=new TextView(getActivity());
+			v.setText(list0.get(i));
 			LinearLayout.LayoutParams params=new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
 			params.weight=1;
 			((LinearLayout)attendance.getChildAt(j)).addView(v, params);

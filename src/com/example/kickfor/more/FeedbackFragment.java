@@ -16,6 +16,12 @@ public class FeedbackFragment extends Fragment implements MoreInterface, Identif
 	private ImageView feedback;
 
 	@Override
+	public void setEnable(boolean enable) {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	@Override
 	public int getFragmentLevel() {
 		return IdentificationInterface.SECOND_LEVEL;
 	}

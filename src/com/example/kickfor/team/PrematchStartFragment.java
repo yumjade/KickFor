@@ -30,6 +30,12 @@ public class PrematchStartFragment extends Fragment implements TeamInterface, Id
 		// TODO Auto-generated method stub
 		return IdentificationInterface.SECOND_LEVEL;
 	}
+	
+	@Override
+	public void setEnable(boolean enable) {
+		// TODO Auto-generated method stub
+		
+	}
 
 	@Override
 	public String getTeamid() {

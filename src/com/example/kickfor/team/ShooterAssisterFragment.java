@@ -47,6 +47,12 @@ public class ShooterAssisterFragment extends Fragment implements OnClickListener
 		return IdentificationInterface.SECOND_LEVEL;
 	}
 	
+	@Override
+	public void setEnable(boolean enable) {
+		// TODO Auto-generated method stub
+		
+	}
+	
 	private void init(){
 		Bundle bundle=getArguments();
 		context=getActivity();
@@ -125,7 +131,7 @@ public class ShooterAssisterFragment extends Fragment implements OnClickListener
 			Cursor cursor=helper.select(tableName, new String[]{"name", "number", "goal", "attendance"}, null, null, "goal desc, attendance asc, assist desc");
 			int index=1;
 			while(cursor.moveToNext()){
-				ShooterAssister item=new ShooterAssister(true, index+cursor.getString(0)+cursor.getString(1), cursor.getString(2), cursor.getString(3));
+				ShooterAssister item=new ShooterAssister(true, index+cursor.getString(0), cursor.getString(2), cursor.getString(3));
 				mList.add(item);
 				index=index+1;
 			}
@@ -142,7 +148,7 @@ public class ShooterAssisterFragment extends Fragment implements OnClickListener
 			Cursor cursor=helper.select(tableName, new String[]{"name", "number", "assist", "attendance"}, null, null, "assist desc, attendance asc, goal desc");
 			int index=1;
 			while(cursor.moveToNext()){
-				ShooterAssister item=new ShooterAssister(false, index+cursor.getString(0)+cursor.getString(1), cursor.getString(2), cursor.getString(3));
+				ShooterAssister item=new ShooterAssister(false, index+cursor.getString(0), cursor.getString(2), cursor.getString(3));
 				mList.add(item);
 				index=index+1;
 			}

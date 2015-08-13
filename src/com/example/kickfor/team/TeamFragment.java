@@ -4,6 +4,7 @@ package com.example.kickfor.team;
 import com.example.kickfor.HomePageActivity;
 import com.example.kickfor.R;
 import com.example.kickfor.SQLHelper;
+import com.example.kickfor.Tools;
 import com.example.kickfor.utils.IdentificationInterface;
 
 import android.database.Cursor;
@@ -24,7 +25,6 @@ public class TeamFragment extends Fragment implements OnClickListener, TeamInter
 	
 	private ImageView teamImage=null;
 	private TextView teamName=null;
-//	private RelativeLayout teamHornor=null;
 	private RelativeLayout teamInfoUp=null;
 	private RelativeLayout teamInfoDown=null;
 	private TextView teamMatchNumber=null;
@@ -38,6 +38,7 @@ public class TeamFragment extends Fragment implements OnClickListener, TeamInter
 	private TextView teamReMatch=null;
 	private TextView teamHallOfFame=null;
 	
+	private TextView checkNetWork=null;
 	
 	private String teamid=null;
 	private String authority=null;
@@ -58,7 +59,16 @@ public class TeamFragment extends Fragment implements OnClickListener, TeamInter
 	}
 
 
-
+	public void setNetWorkCheckOpen(boolean open){
+		if(checkNetWork!=null){
+			if(open==true){
+				checkNetWork.setVisibility(View.VISIBLE);
+			}
+			else{	
+				checkNetWork.setVisibility(View.GONE);
+			}
+		}
+	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -67,6 +77,27 @@ public class TeamFragment extends Fragment implements OnClickListener, TeamInter
 		init();
 		View view=inflater.inflate(R.layout.fragment_team1, container, false);
 		
+		checkNetWork=(TextView)view.findViewById(R.id.team_network);
+		if(Tools.isConnect(getActivity())){
+			checkNetWork.setVisibility(View.GONE);
+		}
+		else{
+			checkNetWork.setVisibility(View.VISIBLE);
+		}
+		checkNetWork.setOnClickListener(new OnClickListener(){
+
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				if(Tools.isConnect(getActivity())){
+					checkNetWork.setVisibility(View.GONE);
+				}
+				else{
+					((HomePageActivity)getActivity()).openCheckNetwork();
+				}
+			}
+			
+		});
 			teamImage=(ImageView)view.findViewById(R.id.iv_team_1_image);
 			teamName=(TextView)view.findViewById(R.id.tv_team_name);
 //			teamHornor=(RelativeLayout)view.findViewById(R.id.team_honor);
@@ -139,15 +170,18 @@ public class TeamFragment extends Fragment implements OnClickListener, TeamInter
 
 	
 	
+
+
 	public void setEnable(boolean enable){
-		teamImage.setEnabled(enable);
-//		teamHornor.setEnabled(enable);
-		teamInfoUp.setEnabled(enable);
-		teamInfoDown.setEnabled(enable);
-		teamChangingRoom.setEnabled(enable);
-		teamPreMatch.setEnabled(enable);
-		teamReMatch.setEnabled(enable);
-		teamHallOfFame.setEnabled(enable);
+		if(teamid!=null && teamImage!=null){
+			teamImage.setEnabled(enable);
+			teamInfoUp.setEnabled(enable);
+			teamInfoDown.setEnabled(enable);
+			teamChangingRoom.setEnabled(enable);
+			teamPreMatch.setEnabled(enable);
+			teamReMatch.setEnabled(enable);
+			teamHallOfFame.setEnabled(enable);
+		}
 	}
 
 }

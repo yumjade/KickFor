@@ -52,6 +52,12 @@ public class TeamCreateFragment extends Fragment implements OnClickListener, Ide
 	
 	
 	@Override
+	public void setEnable(boolean enable) {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	@Override
 	public int getFragmentLevel() {
 		// TODO Auto-generated method stub
 		if(resource==R.layout.fragment_team_create1){

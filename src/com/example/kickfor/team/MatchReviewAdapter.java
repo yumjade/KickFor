@@ -115,6 +115,7 @@ public class MatchReviewAdapter extends BaseAdapter{
 			}
 			else if(item.getStatus().equals("k")){
 				viewHolder.score.setText(item.getSocre());
+				viewHolder.score.setTextColor(Color.parseColor("#000000"));
 			}
 		}
 		else{

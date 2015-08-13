@@ -18,9 +18,8 @@ import com.example.kickfor.pullableview.PullableListView;
 import com.example.kickfor.utils.IdentificationInterface;
 import com.example.kickfor.R;
 
-import android.app.AlertDialog;
+
 import android.content.Context;
-import android.content.DialogInterface;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -29,17 +28,11 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemLongClickListener;
-import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.ListAdapter;
 import android.widget.TextView;
 
 public class ChatFragment extends Fragment implements HomePageInterface, IdentificationInterface{
@@ -79,6 +72,13 @@ public class ChatFragment extends Fragment implements HomePageInterface, Identif
 		return IdentificationInterface.SECOND_LEVEL;
 	}
 
+	@Override
+	public void setEnable(boolean enable) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
 
 
 
@@ -107,6 +107,17 @@ public class ChatFragment extends Fragment implements HomePageInterface, Identif
 		}
 		String str = ((TextMessageBody) message.getBody()).getMessage();
 		if(type.equals(GROUP_CHAT)){
+			String phone=message.getFrom();
+			SQLHelper helper=SQLHelper.getInstance(context);
+			Cursor cursor=helper.select("friends", new String[]{"image"}, "phone=?", new String[]{phone}, null);
+			if(cursor.moveToNext()){
+				if(!cursor.getString(0).equals("-1")){
+					otherBitmap=BitmapFactory.decodeFile(cursor.getString(0));
+				}
+				else{
+					otherBitmap=BitmapFactory.decodeResource(getResources(), R.drawable.team_default);
+				}
+			}
 			setData(str, date, groupid, message.getMsgTime(), message.getMsgId());
 		}
 		else{
@@ -155,6 +166,7 @@ public class ChatFragment extends Fragment implements HomePageInterface, Identif
 		// TODO Auto-generated method stub
 		init();
 		System.out.println("dfgssaaaaaaaaa");
+		System.out.println("group id= "+new PreferenceData(context).getData(new String[]{phone}).get(phone).toString());
 		View view = inflater.inflate(R.layout.fragment_msg, container, false);
 		pullToRefreshLayout = (PullToRefreshLayout) view.findViewById(R.id.refresh_view);
 		sendButton = (TextView) view.findViewById(R.id.chat_send);

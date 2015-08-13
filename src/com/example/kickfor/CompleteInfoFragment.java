@@ -2,8 +2,10 @@ package com.example.kickfor;
 
 
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import com.example.kickfor.utils.IdentificationInterface;
@@ -22,16 +24,32 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnFocusChangeListener;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ListAdapter;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RadioGroup.OnCheckedChangeListener;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class CompleteInfoFragment extends Fragment implements OnClickListener, HomePageInterface, IdentificationInterface{
+	
+	private String teamid1=null;
+	private String teamid2=null;
+	private String teamid3=null;
+	
+	private String name1=null;
+	private String name2=null;
+	private String name3=null;
+	
+	private String teamid=null;
+	
+	private List<String> items=null;
+	private List<String> items1=null;
 	
 	private RelativeLayout photoButton=null;
 	private TextView ensureButton=null;
@@ -96,6 +114,8 @@ public class CompleteInfoFragment extends Fragment implements OnClickListener, H
 		context=getActivity();
 		Bundle bundle=getArguments();
 		phone=bundle.getString("phone");
+		items=new ArrayList<String>();
+		items1=new ArrayList<String>();
 	}
 	
 	@Override
@@ -130,7 +150,6 @@ public class CompleteInfoFragment extends Fragment implements OnClickListener, H
 		completeInfo = (ScrollView) view.findViewById(R.id.sv_complete_info);
 		completeInfo.setFocusableInTouchMode(true);
 		
-		
 		initiate();
 		initiateImage();
 		
@@ -144,6 +163,37 @@ public class CompleteInfoFragment extends Fragment implements OnClickListener, H
 				}
 				else if(checkedId==R.id.rb_female){
 					bit="f";
+				}
+			}
+			
+		});
+		
+		team1.setOnClickListener(new OnClickListener(){
+
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				if(items.size()>0 && items1.size()>0){
+					AlertDialog.Builder builder = new AlertDialog.Builder(context);
+					builder.setTitle("选择母队");
+					ListAdapter catalogsAdapter = new ArrayAdapter<String>(context, R.layout.match_type_item, items);
+					builder.setAdapter(catalogsAdapter, new DialogInterface.OnClickListener(){
+					    public void onClick(DialogInterface arg0, int arg1) {
+					        team1.setText(items.get(arg1));
+					        teamid=items1.get(arg1);
+					        PreferenceData pd=new PreferenceData(context);
+					        String phone=pd.getData(new String[]{"phone"}).get("phone").toString();
+					        SQLHelper helper=SQLHelper.getInstance(context);
+					        Cursor cursor=helper.select("f_"+teamid, new String[]{"number"}, "phone=?", new String[]{phone}, null);
+					        if(cursor.moveToNext()){
+					        	number.setText(cursor.getString(0));
+					        }
+					    }
+					});
+					builder.show();
+				}
+				else{
+					Toast.makeText(context, "您未加入或创建球队", Toast.LENGTH_SHORT).show();
 				}
 			}
 			
@@ -231,7 +281,9 @@ public class CompleteInfoFragment extends Fragment implements OnClickListener, H
 		map.put("height", height.getText());
 		map.put("weight", weight.getText());
 		map.put("city", city.getText());
-		map.put("number1", number.getText());
+		if(teamid!=null){
+			map.put("team1", teamid);
+		}
 		map.put("district", district.getText());
 		map.put("year", year);
 		map.put("month", month);
@@ -242,16 +294,37 @@ public class CompleteInfoFragment extends Fragment implements OnClickListener, H
 	
 	private void initiate(){
 		SQLHelper helper=SQLHelper.getInstance(context);
-		String[] names=new String[]{"name", "team1", "sex", "weight", "height", "year", "month", "day", "number1", "city", "district", "position1", "position2"};
+		String[] names=new String[]{"name", "team1", "sex", "weight", "height", "year", "month", "day", "number1", "city", "district", "position1", "position2", "team2", "team3"};
 		Cursor cursor=helper.select("ich", names, "phone=?", new String[]{"host"}, null);
 		if(cursor.moveToNext()){
+			teamid1=cursor.getString(1);
+			teamid2=cursor.getString(13);
+			teamid3=cursor.getString(14);
+			Cursor tcursor1=helper.select("teams", new String[]{"name"}, "teamid=?", new String[]{teamid1}, null);
+			if(tcursor1.moveToNext()){
+				name1=tcursor1.getString(0);
+				items.add(name1);
+				items1.add(teamid1);
+			}
+			Cursor tcursor2=helper.select("teams", new String[]{"name"}, "teamid=?", new String[]{teamid2}, null);
+			if(tcursor2.moveToNext()){
+				name2=tcursor2.getString(0);
+				items.add(name2);
+				items1.add(teamid2);
+			}
+			Cursor tcursor3=helper.select("teams", new String[]{"name"}, "teamid=?", new String[]{teamid3}, null);
+			if(tcursor3.moveToNext()){
+				name3=tcursor3.getString(0);
+				items.add(name3);
+				items1.add(teamid3);
+			}
 			name.setText(cursor.getString(0));
 			String str=cursor.getString(1);
 			Cursor cursor1=helper.select("teams", new String[]{"name"}, "teamid=?", new String[]{str}, null);
 			if(cursor1.moveToNext()){
 				str=cursor1.getString(0);
 			}
-			team1.setText(str);
+			team1.setText(str.isEmpty()? "选择母队": str);
 			bit=cursor.getString(2);
 			if(bit.equals("m")){
 				female.setChecked(false);
@@ -272,12 +345,20 @@ public class CompleteInfoFragment extends Fragment implements OnClickListener, H
 				day=String.valueOf(Calendar.getInstance().get(Calendar.DAY_OF_MONTH));
 			}
 			birth.setText(year+"  年  "+month+"  月  "+day+"  日  ");
-			number.setText(cursor.getString(8));
+			PreferenceData pd=new PreferenceData(context);
+	        String phone=pd.getData(new String[]{"phone"}).get("phone").toString();
+	        number.setText("");
+	        if(!teamid1.isEmpty()){
+	        	Cursor cursor2=helper.select("f_"+teamid1, new String[]{"number"}, "phone=?", new String[]{phone}, null);
+		        if(cursor2.moveToNext()){
+		        	number.setText(cursor2.getString(0));
+		        }
+	        }
 			city.setText(cursor.getString(9));
 			district.setText(cursor.getString(10));
 			position1Text="擅长踢："+cursor.getString(11);
 			position1.setText(position1Text);
-			position2Text="勉强踢"+cursor.getString(12);
+			position2Text="勉强踢："+cursor.getString(12);
 			position2.setText(position2Text);
 		}	
 	}

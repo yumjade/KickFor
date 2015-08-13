@@ -66,6 +66,12 @@ public class SettingsFragment extends Fragment implements MoreInterface, OnClick
 	}
 	
 	@Override
+	public void setEnable(boolean enable) {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.fragment_conversation_settings, container, false);
 		

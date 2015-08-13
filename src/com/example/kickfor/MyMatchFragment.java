@@ -11,6 +11,8 @@ import java.util.Map;
 
 
 
+
+
 import com.example.kickfor.team.MatchReviewEntity;
 import com.example.kickfor.utils.IdentificationInterface;
 
@@ -36,6 +38,12 @@ public class MyMatchFragment extends Fragment implements HomePageInterface, Iden
 	private String teamid=null;
 	private String phone=null;
 	private int index=0;
+	
+	@Override
+	public void setEnable(boolean enable) {
+		// TODO Auto-generated method stub
+		
+	}
 	
 	@Override
 	public int getFragmentLevel() {
@@ -110,12 +118,21 @@ public class MyMatchFragment extends Fragment implements HomePageInterface, Iden
 			}
 		}
 		else{
-			if(mList.size()>0){
-				mList.remove(mList.size()-1);
-				index=mList.size();
-				MyMatchEntity item=new MyMatchEntity(teamid, -1);
-				item.setData(phone, null, String.valueOf(index), "0", "0", null);
-				mList.add(item);
+			if(teamid.equals(this.teamid)){
+				if(mList.size()>0){
+					mList.remove(mList.size()-1);
+					index=mList.size();
+					MyMatchEntity item=new MyMatchEntity(teamid, -1);
+					item.setData(phone, null, String.valueOf(index), "0", "0", null);
+					mList.add(item);
+					if(adapter!=null){
+						adapter.notifyDataSetChanged();
+					}
+				}
+			}
+			else{
+				this.teamid=teamid;
+				mList.clear();
 				if(adapter!=null){
 					adapter.notifyDataSetChanged();
 				}
@@ -160,8 +177,8 @@ public class MyMatchFragment extends Fragment implements HomePageInterface, Iden
 							teamImg=BitmapFactory.decodeResource(getResources(), R.drawable.team_default);
 						}
 					}
-					Map<String, Object> map=new HashMap<String, Object>();
 					MatchReviewEntity entity=new MatchReviewEntity(id, date, Tools.bitmapToString(teamImg), teamName, againstName, goals, lost);
+					((HomePageActivity)getActivity()).openVague(HomePageActivity.WAIT_REVIEW_LIST);
 					((HomePageActivity)getActivity()).reviewDetail(item.getTeamId(), entity, "-1");
 				}
 			}

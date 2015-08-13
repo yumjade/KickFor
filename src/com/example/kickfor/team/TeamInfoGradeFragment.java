@@ -43,6 +43,12 @@ public class TeamInfoGradeFragment extends Fragment implements OnClickListener, 
 	private Context context=null;
 	
 	@Override
+	public void setEnable(boolean enable) {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	@Override
 	public int getFragmentLevel() {
 		// TODO Auto-generated method stub
 		return IdentificationInterface.SECOND_LEVEL;

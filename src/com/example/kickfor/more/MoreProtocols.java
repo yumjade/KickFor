@@ -23,6 +23,12 @@ public class MoreProtocols extends Fragment implements MoreInterface, Identifica
 	private ImageView back=null;
 	
 	@Override
+	public void setEnable(boolean enable) {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	@Override
 	public int getFragmentLevel() {
 		// TODO Auto-generated method stub
 		return IdentificationInterface.SECOND_LEVEL;

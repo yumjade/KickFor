@@ -2,10 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.kickfor"
     android:versionCode="1"
-    android:versionName="1.0" >
+    android:versionName="1.0.1" >
 
     <uses-sdk
-        android:minSdkVersion="12"
+        android:minSdkVersion="13"
         android:targetSdkVersion="21" />
 
     <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
@@ -45,6 +45,8 @@
         android:theme="@style/AppTheme" >
         <activity
             android:name=".HomePageActivity"
+            android:screenOrientation="portrait"
+            android:configChanges="orientation|keyboardHidden|screenSize"
             android:launchMode="singleTask" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

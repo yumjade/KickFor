@@ -38,6 +38,7 @@ public class HomePageFragment extends Fragment implements OnClickListener, HomeP
 	private RelativeLayout infoButton2=null;
 	private TextView infoButton3=null;
 	
+	
 	private TextView name=null;
 	private TextView valuePower=null;
 	private TextView valueSpeed=null;
@@ -91,6 +92,11 @@ public class HomePageFragment extends Fragment implements OnClickListener, HomeP
 	private int max=0;
 	private String strNext=null;
 	
+	
+	
+	
+
+
 	@Override
 	public int getFragmentLevel() {
 		// TODO Auto-generated method stub
@@ -113,19 +119,23 @@ public class HomePageFragment extends Fragment implements OnClickListener, HomeP
 		}
 	}
 
-	public void setEnable(boolean enable, String phone){
+	public void setEnable(boolean enable){
 		if(phone.equals("host")){
-			capacityButton.setEnabled(enable);
-			infoButton1.setEnabled(enable);
-			infoButton2.setEnabled(enable);
-			infoButton3.setEnabled(enable);
+			if(capacityButton!=null){
+				capacityButton.setEnabled(enable);
+				infoButton1.setEnabled(enable);
+				infoButton2.setEnabled(enable);
+				infoButton3.setEnabled(enable);
+			}
 		}
 		else{
-			titleBack.setEnabled(enable);
-			infoButton2.setEnabled(enable);
-			infoButton3.setEnabled(enable);
-			button1.setEnabled(enable);
-			button2.setEnabled(enable);
+			if(titleBack!=null){
+				titleBack.setEnabled(enable);
+				infoButton2.setEnabled(enable);
+				infoButton3.setEnabled(enable);
+				button1.setEnabled(enable);
+				button2.setEnabled(enable);
+			}
 		}
 		
 	}
@@ -149,6 +159,7 @@ public class HomePageFragment extends Fragment implements OnClickListener, HomeP
 		
 	}
 
+	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
@@ -353,6 +364,7 @@ public class HomePageFragment extends Fragment implements OnClickListener, HomeP
 			((HomePageActivity)getActivity()).openProgressBarWait(HomePageActivity.WAIT_SIGNIN, pb, null);
 			}
 			else{
+				setEnable(false);
 				((HomePageActivity)getActivity()).onHomePageClick(v, phone);
 			}
 		}
@@ -406,7 +418,7 @@ public class HomePageFragment extends Fragment implements OnClickListener, HomeP
 				break;
 			}
 			case R.id.other_evaluate:{
-				setEnable(false, this.phone);
+				setEnable(false);
 				if(isFriend){
 					Map<String, Object> map=new HashMap<String, Object>();
 					map.put("request", "evaluate info");
@@ -417,7 +429,7 @@ public class HomePageFragment extends Fragment implements OnClickListener, HomeP
 				}
 				else{
 					Toast.makeText(getActivity(), "成为好友才能评分哦", Toast.LENGTH_LONG).show();
-					setEnable(true, this.phone);
+					setEnable(true);
 				}
 				break;
 			}

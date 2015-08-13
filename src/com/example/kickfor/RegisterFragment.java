@@ -66,6 +66,11 @@ public class RegisterFragment extends Fragment implements IdentificationInterfac
 		return IdentificationInterface.SECOND_LEVEL;
 	}
 	
+	@Override
+	public void setEnable(boolean enable) {
+		// TODO Auto-generated method stub
+		
+	}
 	
 	private void init(){
 		context=getActivity();
@@ -363,7 +368,7 @@ public class RegisterFragment extends Fragment implements IdentificationInterfac
 					tmp.put("request", "user login");
 					tmp.put("date", Tools.getDate1());
 					SQLHelper helper=SQLHelper.getInstance(getActivity());
-					Cursor cursor=helper.select("ich", new String[]{"image"}, "phone=?", new String[]{phone}, null);
+					Cursor cursor=helper.select("ich", new String[]{"image"}, "phone=?", new String[]{"host"}, null);
 					if(cursor.moveToNext()){
 						String imgPath=cursor.getString(0);
 						if(imgPath!=null && Tools.isFileExist(imgPath)!=false){

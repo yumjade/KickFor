@@ -24,6 +24,11 @@ public class TeamMemberList extends Fragment implements TeamInterface, Identific
 	private String teamid=null;
 	private TeamMemberAdapter adapter=null;
 	
+	@Override
+	public void setEnable(boolean enable) {
+		// TODO Auto-generated method stub
+		
+	}
 	
 	@Override
 	public int getFragmentLevel() {

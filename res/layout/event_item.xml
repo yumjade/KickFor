@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <RelativeLayout
+        android:id="@+id/btn_info2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/rect_10"
+        android:paddingBottom="10dip" >
+
+        <TextView
+            android:id="@+id/tv_event_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginLeft="20dip"
+            android:layout_marginTop="10dip"
+            android:paddingBottom="5dip"
+            android:paddingTop="5dip"
+            android:text="赛事名称"
+            android:textColor="#333333"
+            android:textSize="15sp" />
+
+        <EditText
+            android:id="@+id/et_event_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@id/tv_event_name"
+            android:layout_alignTop="@id/tv_event_name"
+            android:layout_marginLeft="10dip"
+            android:layout_marginRight="15dip"
+            android:layout_toRightOf="@id/tv_event_name"
+            android:background="@drawable/bg_edittext_normal"
+            android:gravity="center_vertical"
+            android:inputType="text"
+            android:textColor="#333333"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/tv_winning_year"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@id/tv_event_name"
+            android:layout_below="@id/tv_event_name"
+            android:layout_marginTop="10dip"
+            android:paddingBottom="5dip"
+            android:paddingTop="5dip"
+            android:text="获奖年份"
+            android:textColor="#333333"
+            android:textSize="15sp" />
+
+        <EditText
+            android:id="@+id/et_winning_year"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@id/tv_winning_year"
+            android:layout_alignLeft="@id/et_event_name"
+            android:layout_alignRight="@id/et_event_name"
+            android:layout_alignTop="@id/tv_winning_year"
+            android:background="@drawable/bg_edittext"
+            android:gravity="center_vertical"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/tv_final_rank"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@id/tv_event_name"
+            android:layout_below="@id/tv_winning_year"
+            android:layout_marginTop="10dip"
+            android:paddingBottom="5dip"
+            android:paddingTop="5dip"
+            android:text="最终名次"
+            android:textColor="#333333"
+            android:textSize="15sp" />
+
+        <EditText
+            android:id="@+id/et_final_rank"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@id/et_winning_year"
+            android:layout_alignRight="@id/et_winning_year"
+            android:layout_alignTop="@id/tv_final_rank"
+            android:layout_toRightOf="@id/tv_final_rank"
+            android:background="@drawable/bg_edittext"
+            android:gravity="center_vertical"
+            android:textColor="#333333"
+            android:textSize="15sp" />
+    </RelativeLayout>
+
+</LinearLayout>

@@ -43,7 +43,7 @@
                 android:id="@+id/search_bar_view"
                 layout="@layout/search_bar_with_padding" />
 
-            <com.example.kickfor.KickForListView
+            <ListView
                 android:id="@+id/kick_for_list"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -54,7 +54,7 @@
                 android:divider="@color/divider_list"
                 android:dividerHeight="1px"
                 android:fastScrollEnabled="false" >
-            </com.example.kickfor.KickForListView>
+            </ListView>
 
             <com.example.kickfor.utils.Sidebar
                 android:id="@+id/sidebar"

@@ -18,9 +18,6 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
-import android.widget.RadioGroup.OnCheckedChangeListener;
 import android.widget.TextView;
 
 public class BarFragment extends Fragment implements OnClickListener, IdentificationInterface{
@@ -34,7 +31,7 @@ public class BarFragment extends Fragment implements OnClickListener, Identifica
 	private TextView myKickForText=null;
 	private TextView dot=null;
 	private TextView team=null;
-//	private RadioButton lobby=null;
+	private TextView lobby=null;
 	private TextView more=null;
 	
 	
@@ -55,11 +52,12 @@ public class BarFragment extends Fragment implements OnClickListener, Identifica
 		bar=(LinearLayout)view.findViewById(R.id.action_bar);
 		myKickFor=(FrameLayout)view.findViewById(R.id.bar_home_f);
 		team=(TextView)view.findViewById(R.id.bar_team);
-//		lobby=(RadioButton)view.findViewById(R.id.bar_lobby);
+		lobby=(TextView)view.findViewById(R.id.bar_lobby);
 		more=(TextView)view.findViewById(R.id.bar_more);
 		myKickForText.setOnClickListener(this);
 		team.setOnClickListener(this);
 		more.setOnClickListener(this);
+		lobby.setOnClickListener(this);
 		initChecked(-1);
 		setDot(false);
 		return view;
@@ -69,6 +67,7 @@ public class BarFragment extends Fragment implements OnClickListener, Identifica
 		myKickForText.setEnabled(enable);
 		team.setEnabled(enable);
 		more.setEnabled(enable);
+		lobby.setEnabled(enable);
 	}
 	
 	public void setDot(boolean show){
@@ -104,14 +103,14 @@ public class BarFragment extends Fragment implements OnClickListener, Identifica
 			break;
 		case R.id.bar_home:
 			setChecked(R.id.bar_home);
+			((HomePageActivity)getActivity()).onBarCheck(arg1);
 			break;
 		case R.id.bar_team:
 			setChecked(R.id.bar_team);
 			break;
-//		case R.id.bar_lobby:
-//			lobby.setChecked(true);
-//			setChecked(R.id.bar_lobby);
-//			break;
+		case R.id.bar_lobby:
+			setChecked(R.id.bar_lobby);
+			break;
 		case R.id.bar_more:
 			setChecked(R.id.bar_more);
 			break;
@@ -132,8 +131,10 @@ public class BarFragment extends Fragment implements OnClickListener, Identifica
 			team.setBackgroundDrawable(null);
 			Drawable drawable1= getResources().getDrawable(R.drawable.team_unselected);
 			team.setCompoundDrawablesWithIntrinsicBounds(null, drawable1, null, null);
-//			lobby.setTextColor(Color.parseColor("#ffffff"));
-//			lobby.setBackgroundDrawable(null);
+			lobby.setTextColor(Color.parseColor("#ffffff"));
+			lobby.setBackgroundDrawable(null);
+			Drawable drawable3= getResources().getDrawable(R.drawable.lobby_unselected);
+			lobby.setCompoundDrawablesWithIntrinsicBounds(null, drawable3, null, null);
 			more.setTextColor(Color.parseColor("#ffffff"));
 			more.setBackgroundDrawable(null);
 			Drawable drawable2= getResources().getDrawable(R.drawable.more_unselected);
@@ -149,25 +150,35 @@ public class BarFragment extends Fragment implements OnClickListener, Identifica
 			team.setBackgroundColor(Color.parseColor("#000000"));
 			Drawable drawable1= getResources().getDrawable(R.drawable.team_selected);
 			team.setCompoundDrawablesWithIntrinsicBounds(null, drawable1, null, null);
-//			lobby.setTextColor(Color.parseColor("#ffffff"));
-//			lobby.setBackgroundDrawable(null);
+			lobby.setTextColor(Color.parseColor("#ffffff"));
+			lobby.setBackgroundDrawable(null);
+			Drawable drawable3= getResources().getDrawable(R.drawable.lobby_unselected);
+			lobby.setCompoundDrawablesWithIntrinsicBounds(null, drawable3, null, null);
 			more.setTextColor(Color.parseColor("#ffffff"));
 			more.setBackgroundDrawable(null);
 			Drawable drawable2= getResources().getDrawable(R.drawable.more_unselected);
 			more.setCompoundDrawablesWithIntrinsicBounds(null, drawable2, null, null);
 			break;
 		}
-//		case R.id.bar_lobby:{
-//			myKickFor.setTextColor(Color.parseColor("#ffffff"));
-//			myKickFor.setBackgroundDrawable(null);
-//			team.setTextColor(Color.parseColor("#ffffff"));
-//			team.setBackgroundDrawable(null);
-//			lobby.setTextColor(Color.parseColor("#22a100"));
-//			lobby.setBackgroundColor(Color.parseColor("#000000"));
-//			more.setTextColor(Color.parseColor("#ffffff"));
-//			more.setBackgroundDrawable(null);
-//			break;
-//		}
+		case R.id.bar_lobby:{
+			myKickForText.setTextColor(Color.parseColor("#ffffff"));
+			myKickForText.setBackgroundDrawable(null);
+			Drawable drawable= getResources().getDrawable(R.drawable.mykickfor_unselected);
+			myKickForText.setCompoundDrawablesWithIntrinsicBounds(null, drawable, null, null);
+			team.setTextColor(Color.parseColor("#ffffff"));
+			team.setBackgroundDrawable(null);
+			Drawable drawable1= getResources().getDrawable(R.drawable.team_unselected);
+			team.setCompoundDrawablesWithIntrinsicBounds(null, drawable1, null, null);
+			lobby.setTextColor(Color.parseColor("#22a100"));
+			lobby.setBackgroundColor(Color.parseColor("#000000"));
+			Drawable drawable3= getResources().getDrawable(R.drawable.lobby_selected);
+			lobby.setCompoundDrawablesWithIntrinsicBounds(null, drawable3, null, null);
+			more.setTextColor(Color.parseColor("#ffffff"));
+			more.setBackgroundDrawable(null);
+			Drawable drawable2= getResources().getDrawable(R.drawable.more_unselected);
+			more.setCompoundDrawablesWithIntrinsicBounds(null, drawable2, null, null);
+			break;
+		}
 		case R.id.bar_more:{
 			myKickForText.setTextColor(Color.parseColor("#ffffff"));
 			myKickForText.setBackgroundDrawable(null);
@@ -177,8 +188,10 @@ public class BarFragment extends Fragment implements OnClickListener, Identifica
 			team.setBackgroundDrawable(null);
 			Drawable drawable1= getResources().getDrawable(R.drawable.team_unselected);
 			team.setCompoundDrawablesWithIntrinsicBounds(null, drawable1, null, null);
-//			lobby.setTextColor(Color.parseColor("#ffffff"));
-//			lobby.setBackgroundDrawable(null);
+			lobby.setTextColor(Color.parseColor("#ffffff"));
+			lobby.setBackgroundDrawable(null);
+			Drawable drawable3= getResources().getDrawable(R.drawable.lobby_unselected);
+			lobby.setCompoundDrawablesWithIntrinsicBounds(null, drawable3, null, null);
 			more.setTextColor(Color.parseColor("#22a100"));
 			more.setBackgroundColor(Color.parseColor("#000000"));
 			Drawable drawable2= getResources().getDrawable(R.drawable.more_selected);

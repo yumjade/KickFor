@@ -80,7 +80,7 @@ public class KickforHXSDKHelper extends HXSDKHelper{
     private CallReceiver callReceiver;
     
     /**
-     * 鐢ㄦ潵璁板綍foreground Activity
+     * 閻€劍娼电拋鏉跨秿foreground Activity
      */
     private List<Activity> activityList = new ArrayList<Activity>();
     
@@ -111,16 +111,16 @@ public class KickforHXSDKHelper extends HXSDKHelper{
             callReceiver = new CallReceiver();
         }
 
-        //娉ㄥ唽閫氳瘽骞挎挱鎺ユ敹鑰�
+        //濞夈劌鍞介柅姘崇樈楠炴寧鎸遍幒銉︽暪閼帮拷
         appContext.registerReceiver(callReceiver, callFilter);    
-        //娉ㄥ唽娑堟伅浜嬩欢鐩戝惉
+        //濞夈劌鍞藉☉鍫熶紖娴滃娆㈤惄鎴濇儔
         initEventListener();
     }
     
     /**
-     * 全局事件监听
-     * 因为可能会有UI页面先处理到这个消息，所以一般如果UI页面已经处理，这里就不需要再次处�?
-     * activityList.size() <= 0 意味�?�?有页面都已经在后台运行，或�?�已经离�?Activity Stack
+     * 鍏ㄥ眬浜嬩欢鐩戝惉
+     * 鍥犱负鍙兘浼氭湁UI椤甸潰鍏堝鐞嗗埌杩欎釜娑堟伅锛屾墍浠ヤ竴鑸鏋淯I椤甸潰宸茬粡澶勭悊锛岃繖閲屽氨涓嶉渶瑕佸啀娆″锟�?
+     * activityList.size() <= 0 鎰忓懗锟�?锟�?鏈夐〉闈㈤兘宸茬粡鍦ㄥ悗鍙拌繍琛岋紝鎴栵拷?锟藉凡缁忕锟�?Activity Stack
      */
     protected void initEventListener() {
     	System.out.println("actuaally done");
@@ -138,7 +138,7 @@ public class KickforHXSDKHelper extends HXSDKHelper{
                 
                 switch (event.getEvent()) {
                 case EventNewMessage:
-                    //搴旂敤鍦ㄥ悗鍙帮紝涓嶉渶瑕佸埛鏂癠I,閫氱煡鏍忔彁�?烘柊娑堟�?
+                    //鎼存梻鏁ら崷銊ユ倵閸欏府绱濇稉宥夋付鐟曚礁鍩涢弬鐧營,闁氨鐓￠弽蹇斿絹锟�?鐑樻煀濞戝牊锟�?
                     if(activityList.size() <= 0){
                         HXSDKHelper.getInstance().getNotifier().onNewMsg(message);
                     }
@@ -155,14 +155,14 @@ public class KickforHXSDKHelper extends HXSDKHelper{
                 case EventNewCMDMessage:
                 {
                     
-                    EMLog.d(TAG, "�?跺埌閫忎紶娑堟伅");
-                    //鑾峰彇娑堟伅body
+                    EMLog.d(TAG, "锟�?璺哄煂闁繋绱跺☉鍫熶紖");
+                    //閼惧嘲褰囧☉鍫熶紖body
                     CmdMessageBody cmdMsgBody = (CmdMessageBody) message.getBody();
-                    final String action = cmdMsgBody.action;//鑾峰彇鑷畾涔塧ction
+                    final String action = cmdMsgBody.action;//閼惧嘲褰囬懛顏勭暰娑斿¨ction
                     
-                    //鑾峰彇鎵╁睍灞炴�� 姝ゅ鐪佺暐
+                    //閼惧嘲褰囬幍鈺佺潔鐏炵偞锟斤拷 濮濄倕顦╅惇浣烘殣
                     //message.getStringAttribute("");
-                    EMLog.d(TAG, String.format("透传消息：action:%s,message:%s", action,message.toString()));
+                    EMLog.d(TAG, String.format("閫忎紶娑堟伅锛歛ction:%s,message:%s", action,message.toString()));
                     final String str = appContext.getString(R.string.receive_the_passthrough);
                     
                     final String CMD_TOAST_BROADCAST = "easemob.demo.cmd.toast";
@@ -178,7 +178,7 @@ public class KickforHXSDKHelper extends HXSDKHelper{
                             }
                         };
                         
-                      //娉ㄥ唽骞挎挱鎺ユ敹鑰�?
+                      //濞夈劌鍞介獮鎸庢尡閹恒儲鏁归懓锟�?
                         appContext.registerReceiver(broadCastReceiver,cmdFilter);
                     }
 
@@ -211,7 +211,7 @@ public class KickforHXSDKHelper extends HXSDKHelper{
             
             private void showToast(String value){
                 if(!registered){
-                  //娉ㄥ唽骞挎挱鎺ユ敹鑰�?
+                  //濞夈劌鍞介獮鎸庢尡閹恒儲鏁归懓锟�?
                     appContext.registerReceiver(new BroadcastReceiver(){
 
                         @Override
@@ -262,18 +262,18 @@ public class KickforHXSDKHelper extends HXSDKHelper{
     }
 
     /**
-     * 鑷畾涔夐�氱煡鏍忔彁绀哄唴瀹�
+     * 閼奉亜鐣炬稊澶愶拷姘辩叀閺嶅繑褰佺粈鍝勫敶鐎癸拷
      * @return
      */
     @Override
     protected HXNotificationInfoProvider getNotificationListener() {
-        //鍙互瑕嗙洊榛樿鐨勮缃�
+        //閸欘垯浜掔憰鍡欐磰姒涙顓婚惃鍕啎缂冿拷
         return new HXNotificationInfoProvider() {
             
             @Override
             public String getTitle(EMMessage message) {
-              //淇敼鏍囬,杩欓噷浣跨敤榛樿�?
-            	String name="系统";
+              //娣囶喗鏁奸弽鍥暯,鏉╂瑩鍣锋担璺ㄦ暏姒涙锟�?
+            	String name="";
             	SQLHelper helper=SQLHelper.getInstance(appContext);
             	if(message.getChatType().equals(ChatType.Chat)){
             		String phone=message.getFrom();
@@ -291,6 +291,10 @@ public class KickforHXSDKHelper extends HXSDKHelper{
 						String key=iter.next();
 						if(map.get(key) instanceof String && map.get(key).toString().equals(groupid)){
 							name=key;
+							Cursor cursor=helper.select("teams", new String[]{"name"}, "teamid=?", new String[]{name}, null);
+							if(cursor.moveToNext()){
+								name=cursor.getString(0);
+							}
 							break;
 						}
 					}
@@ -300,14 +304,14 @@ public class KickforHXSDKHelper extends HXSDKHelper{
             
             @Override
             public int getSmallIcon(EMMessage message) {
-              //璁剧疆灏忓浘鏍囷紝杩欓噷涓洪粯璁�?
-                return R.drawable.ic_kickfor;
+              //鐠佸墽鐤嗙亸蹇撴禈閺嶅浄绱濇潻娆撳櫡娑撴椽绮拋锟�?
+                return R.drawable.ic_launcher;
             }
             
             @Override
             public String getDisplayedText(EMMessage message) {
-                // 璁剧疆鐘舵�佹爮鐨勬秷鎭彁�?猴紝鍙互鏍规嵁message鐨勭被鍨嬪仛鐩稿簲鎻愮ず
-            	String name="系统";
+                // 鐠佸墽鐤嗛悩鑸碉拷浣圭埉閻ㄥ嫭绉烽幁顖涘絹锟�?鐚寸礉閸欘垯浜掗弽瑙勫祦message閻ㄥ嫮琚崹瀣粵閻╃绨查幓鎰仛
+            	String name="";
             	SQLHelper helper=SQLHelper.getInstance(appContext);
             	if(message.getChatType().equals(ChatType.Chat)){
             		String phone=message.getFrom();
@@ -324,7 +328,11 @@ public class KickforHXSDKHelper extends HXSDKHelper{
 					while(iter.hasNext()){
 						String key=iter.next();
 						if(map.get(key) instanceof String && map.get(key).toString().equals(groupid)){
-							name=key+"更衣室";
+							name=key;
+							Cursor cursor=helper.select("teams", new String[]{"name"}, "teamid=?", new String[]{name}, null);
+							if(cursor.moveToNext()){
+								name=cursor.getString(0);
+							}
 							break;
 						}
 					}
@@ -332,7 +340,7 @@ public class KickforHXSDKHelper extends HXSDKHelper{
             	String text="";
                 String ticker = CommonUtils.getMessageDigest(message, appContext);
                 if(message.getType() == Type.TXT){
-                    ticker = ticker.replaceAll("\\[.{2,3}\\]", "[表情]");
+                    ticker = ticker.replaceAll("\\[.{2,3}\\]", "[琛ㄦ儏]");
                     text=((TextMessageBody)message.getBody()).getMessage();
                 }
                 
@@ -342,22 +350,22 @@ public class KickforHXSDKHelper extends HXSDKHelper{
             @Override
             public String getLatestText(EMMessage message, int fromUsersNum, int messageNum) {
             	return ((TextMessageBody)message.getBody()).getMessage();
-                // return fromUsersNum + "个基友，发来�?" + messageNum + "条消�?";
+                // return fromUsersNum + "涓熀鍙嬶紝鍙戞潵锟�?" + messageNum + "鏉℃秷锟�?";
             }
 
             
             @Override
             public Intent getLaunchIntent(EMMessage message) {
-                //设置点击通知栏跳转事�?
+                //璁剧疆鐐瑰嚮閫氱煡鏍忚烦杞簨锟�?
                 Intent intent = new Intent(appContext, HomePageActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT);
                 ChatType chatType = message.getChatType();
-                if(chatType == ChatType.Chat) { // 单聊信息
+                if(chatType == ChatType.Chat) { // 鍗曡亰淇℃伅
                     intent.putExtra("phone", message.getFrom());
                     intent.putExtra("type", ChatFragment.PEORSON_CHAT);
                 } 
                 else if(chatType == ChatType.GroupChat){
-                	intent.putExtra("groupId", message.getTo());
+                	intent.putExtra("groupid", message.getTo());
                     intent.putExtra("type", ChatFragment.GROUP_CHAT);
                 }
                 return intent;
@@ -399,7 +407,7 @@ public class KickforHXSDKHelper extends HXSDKHelper{
                 
                 String chatUsename = null;
                 List<String> notNotifyIds = null;
-                // 鑾峰彇璁剧疆鐨勪笉鎻愮ず鏂版秷鎭殑鐢ㄦ埛鎴栬�呯兢缁刬ds
+                // 閼惧嘲褰囩拋鍓х枂閻ㄥ嫪绗夐幓鎰仛閺傜増绉烽幁顖滄畱閻€劍鍩涢幋鏍拷鍛參缂佸埇ds
                 if (message.getChatType() == ChatType.Chat) {
                     chatUsename = message.getFrom();
                     notNotifyIds = ((KickforHXSDKModel) hxModel).getDisabledGroups();
@@ -409,7 +417,7 @@ public class KickforHXSDKHelper extends HXSDKHelper{
                 }
 
                 if (notNotifyIds == null || !notNotifyIds.contains(chatUsename)) {
-                    // 鍒ゆ柇app鏄惁鍦ㄥ悗鍙�
+                    // 閸掋倖鏌嘺pp閺勵垰鎯侀崷銊ユ倵閸欙拷
                     if (!EasyUtils.isAppRunningForeground(appContext)) {
                         EMLog.d(TAG, "app is running in backgroud");
                         sendNotification(message, false);
@@ -432,7 +440,7 @@ public class KickforHXSDKHelper extends HXSDKHelper{
     }
     
     /**
-     * 鑾峰彇鍐呭瓨涓ソ鍙媢ser list
+     * 閼惧嘲褰囬崘鍛摠娑擃厼銈介崣濯er list
      *
      * @return
      */
@@ -445,7 +453,7 @@ public class KickforHXSDKHelper extends HXSDKHelper{
     }
 
     /**
-     * 璁剧疆濂藉弸user list鍒板唴�?�樹�?
+     * 鐠佸墽鐤嗘總钘夊几user list閸掓澘鍞达拷?锟芥ü锟�?
      *
      * @param contactList
      */

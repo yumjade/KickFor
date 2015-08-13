@@ -50,7 +50,11 @@ public class FindPasswordsFragment extends Fragment implements MoreInterface, Id
 	
 	private Timer timer=null;
 	
-	
+	@Override
+	public void setEnable(boolean enable) {
+		// TODO Auto-generated method stub
+		
+	}
 	
 	@Override
 	public int getFragmentLevel() {
@@ -259,6 +263,15 @@ public class FindPasswordsFragment extends Fragment implements MoreInterface, Id
 			psw1Text=(EditText)view.findViewById(R.id.reset_psd_new);
 			psw2Text=(EditText)view.findViewById(R.id.reset_psd_new1);
 			ensure=(TextView)view.findViewById(R.id.reset_psd_next);
+			back.setOnClickListener(new OnClickListener(){
+
+				@Override
+				public void onClick(View arg0) {
+					// TODO Auto-generated method stub
+					((HomePageActivity)getActivity()).onBackPressed();
+				}
+				
+			});
 			ensure.setOnClickListener(new OnClickListener(){
 
 				@Override

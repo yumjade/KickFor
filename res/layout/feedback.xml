@@ -36,6 +36,24 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="100dp"
         android:src="@drawable/contact_us" />
+    
+    <TextView 
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="踢否科技"
+        android:textSize="20sp"
+        android:layout_marginTop="10dp"
+        android:layout_gravity="center_horizontal"
+        android:textColor="#333333"/>
+    
+    <TextView 
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="微信服务号：kickfortech"
+        android:textSize="15sp"
+        android:layout_marginTop="3dp"
+        android:layout_gravity="center_horizontal"
+        android:textColor="#9e9e9e"/>
 
     <TextView
         android:id="@+id/feedback_text"
@@ -43,7 +61,6 @@
         android:layout_height="wrap_content"
         android:lineSpacingExtra="5dip"
         android:lineSpacingMultiplier="1.2"
-        android:layout_marginTop="10dp"
         android:paddingBottom="10dip"
         android:paddingLeft="50dip"
         android:paddingRight="50dip"

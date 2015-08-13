@@ -75,6 +75,7 @@ public class ShowCapacitiyFragment extends Fragment implements OnClickListener, 
 	private IWXAPI api;
 	private String teamid;
 	
+	
 	@Override
 	public int getFragmentLevel() {
 		// TODO Auto-generated method stub
@@ -163,9 +164,11 @@ public class ShowCapacitiyFragment extends Fragment implements OnClickListener, 
 			setBarColor(defence, defenceValue, Integer.parseInt(cursor.getString(10)));
 			text.setText("已有"+n+"人给您评分，点击分享邀请更多好友来为您的足球水平进行评分");
 		}
-		Cursor cursor1=helper.select("f_"+teamid, new String[]{"number"}, "phone=?", new String[]{phone}, null);
-		if(cursor1.moveToNext()){
-			number.setText(cursor1.getString(0));
+		if(!teamid.isEmpty()){
+			Cursor cursor1=helper.select("f_"+teamid, new String[]{"number"}, "phone=?", new String[]{phone}, null);
+			if(cursor1.moveToNext()){
+				number.setText(cursor1.getString(0));
+			}
 		}
 	}
 	
@@ -248,7 +251,8 @@ public class ShowCapacitiyFragment extends Fragment implements OnClickListener, 
 		value.setText(""+progress);
 	}
 	
-	private void setEnable(boolean enable){
+	@Override
+	public void setEnable(boolean enable){
 		back.setEnabled(enable);
 		share.setEnabled(enable);
 		evaluate.setEnabled(enable);

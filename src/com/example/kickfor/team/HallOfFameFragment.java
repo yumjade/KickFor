@@ -10,6 +10,7 @@ import java.util.Map;
 
 
 
+
 import com.example.kickfor.ClientWrite;
 import com.example.kickfor.HomePageActivity;
 import com.example.kickfor.R;
@@ -92,6 +93,12 @@ public class HallOfFameFragment extends Fragment implements TeamInterface, Ident
 		if(bundle.containsKey("entity")){
 			this.entity=(HallofFame)bundle.getSerializable("entity");
 		}
+		
+	}
+	
+	@Override
+	public void setEnable(boolean enable) {
+		// TODO Auto-generated method stub
 		
 	}
 	
@@ -261,6 +268,8 @@ public class HallOfFameFragment extends Fragment implements TeamInterface, Ident
 						Toast.makeText(context, "ÕÕÆ¬²»ÄÜÎª¿Õ", Toast.LENGTH_SHORT).show();
 					}
 					else{
+						setEnable(false);
+						((HomePageActivity)getActivity()).openVague(HomePageActivity.WAIT_EDIT_FAME);
 						map.put("request", "update fame");
 						map.put("name", editName.getText().toString());
 						map.put("position", editPosition.getText().toString());

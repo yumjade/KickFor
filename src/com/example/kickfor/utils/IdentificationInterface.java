@@ -6,5 +6,7 @@ public interface IdentificationInterface {
 	public static final int SECOND_LEVEL=1;
 	
 	public abstract int getFragmentLevel();
+	
+	public abstract void setEnable(boolean enable);
 		
 }

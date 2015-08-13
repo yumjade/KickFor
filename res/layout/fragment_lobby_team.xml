@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+	<com.example.kickfor.pullableview.PullToRefreshLayout
+        android:id="@+id/lobby_refresh_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <include layout="@layout/refresh_head" />
+
+        <com.example.kickfor.pullableview.PullableListView
+            android:id="@+id/lobby_content_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#ffffff"
+            android:divider="#00000000" />
+
+        <include layout="@layout/load_more" />
+    </com.example.kickfor.pullableview.PullToRefreshLayout>
+</RelativeLayout>

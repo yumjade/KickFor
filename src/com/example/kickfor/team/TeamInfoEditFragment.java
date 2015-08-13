@@ -27,6 +27,7 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class TeamInfoEditFragment extends Fragment implements TeamInterface, IdentificationInterface{
 	
@@ -56,6 +57,15 @@ public class TeamInfoEditFragment extends Fragment implements TeamInterface, Ide
 	}
 
 
+	@Override
+	public void setEnable(boolean enable) {
+		// TODO Auto-generated method stub
+		if(confirmation!=null){
+			confirmation.setEnabled(enable);
+			photo.setEnabled(enable);
+			foundTime.setEnabled(enable);
+		}
+	}
 
 	@Override
 	public String getTeamid() {
@@ -144,21 +154,40 @@ public class TeamInfoEditFragment extends Fragment implements TeamInterface, Ide
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				Map<String, Object> map=new HashMap<String, Object>();
-				map.put("request", "change team info");
-				map.put("teamid", teamid);
-				map.put("name", teamName.getText().toString());
-				map.put("city", city.getText().toString());
-				map.put("district", district.getText().toString());
-				map.put("number", number.getText().toString());
-				map.put("year", year);
-				map.put("month", month);
-				map.put("day", day);
-				if(isNewImage==true){
-					map.put("image", Tools.bitmapToString(bitmap));
+				if(teamName.getText().toString().isEmpty()){
+					Toast.makeText(context, "球队名字不能为空", Toast.LENGTH_SHORT).show();
 				}
-				Runnable r=new ClientWrite(Tools.JsonEncode(map));
-				new Thread(r).start();
+				else if(city.getText().toString().isEmpty()){
+					Toast.makeText(context, "城市名不能为空", Toast.LENGTH_SHORT).show();
+				}
+				else if(district.getText().toString().isEmpty()){
+					Toast.makeText(context, "地区名不能为空", Toast.LENGTH_SHORT).show();
+				}
+				else if(number.getText().toString().isEmpty()){
+					Toast.makeText(context, "人数不能为空", Toast.LENGTH_SHORT).show();
+				}
+				else if(year.isEmpty()){
+					Toast.makeText(context, "成立时间不能为空", Toast.LENGTH_SHORT).show();
+				}
+				else{
+					setEnable(false);
+					Map<String, Object> map=new HashMap<String, Object>();
+					map.put("request", "change team info");
+					map.put("teamid", teamid);
+					map.put("name", teamName.getText().toString());
+					map.put("city", city.getText().toString());
+					map.put("district", district.getText().toString());
+					map.put("number", number.getText().toString());
+					map.put("year", year);
+					map.put("month", month);
+					map.put("day", day);
+					if(isNewImage==true){
+						map.put("image", Tools.bitmapToString(bitmap));
+					}
+					Runnable r=new ClientWrite(Tools.JsonEncode(map));
+					new Thread(r).start();
+					((HomePageActivity)getActivity()).openVague(HomePageActivity.WAIT_EDIT_TEAM_INFO);
+				}
 			}
 			
 		});

@@ -27,8 +27,16 @@ import java.util.Map;
 
 
 
+
+
+
+
+
+
 import com.easemob.chat.EMChatManager;
 import com.easemob.chat.EMConversation;
+import com.easemob.chat.EMMessage;
+import com.easemob.chat.TextMessageBody;
 import com.example.kickfor.utils.IdentificationInterface;
 
 import android.app.Activity;
@@ -65,13 +73,24 @@ public class TitleFragment extends Fragment implements IdentificationInterface{
 	protected static final int PREVIEW_MATCH=7;
 	protected static final int TEAM_INFO_TITLE=9;
 	protected static final int KICKFOR_LIFE_TITLE=10;
+	protected static final int LOBBY_TITLE=11;
 	
 	private int state=0;
 	
 	@Override
-	public int getFragmentLevel() {
+	public void setEnable(boolean enable) {
 		// TODO Auto-generated method stub
 		if(state==HOMEPAGE_TITLE){
+			myHomepageButton.setEnabled(enable);
+			myMessage.setEnabled(enable);
+			myFriend.setEnabled(enable);
+		}
+	}
+	
+	@Override
+	public int getFragmentLevel() {
+		// TODO Auto-generated method stub
+		if(state==HOMEPAGE_TITLE || state==LOBBY_TITLE){
 			return IdentificationInterface.MAIN_LEVEL;
 		}
 		else{
@@ -95,6 +114,7 @@ public class TitleFragment extends Fragment implements IdentificationInterface{
 	//PREVIEW_TITLE
 	private ImageView previewBack=null;
 	private ImageView previewNext=null;
+	private boolean noNext=false;
 	private int status=0;
 	//TEAM_INFO_TITLE
 	private ImageView back=null;
@@ -121,12 +141,24 @@ public class TitleFragment extends Fragment implements IdentificationInterface{
 	private TextView value3=null;
 	private TextView tabMemberList = null;
 	private TextView tabHistory = null;
+	//LOBBY_TITLE
+	private FrameLayout friend=null;
+	private FrameLayout team=null;
+	private ImageView lsrc1=null;
+	private ImageView lsrc2=null;
+	private TextView friendNumber=null;
+	private TextView teamNumber=null;
+	private TextView addMore=null;
+	private TextView friendText=null;
+	private TextView teamText=null;
+	
 	
 	private ImageView src1=null;
 	private ImageView src2=null;
 	private ImageView src3=null;
+	private TextView checkNetWork=null;
 	
-	
+	private boolean canAdd=false;
 	
 	private void init(){
 		this.context=getActivity();
@@ -141,12 +173,26 @@ public class TitleFragment extends Fragment implements IdentificationInterface{
 		if(bundle.containsKey("status")){
 			this.status=bundle.getInt("status");
 		}
-		
+		if(bundle.containsKey("nonext")){
+			this.noNext=bundle.getBoolean("nonext");
+		}
+		if(bundle.containsKey("canAdd")){
+			this.canAdd=bundle.getBoolean("canAdd");
+		}
 	}
 	
 	
 	
-	
+	public void setNetWorkCheckOpen(boolean open){
+		if(state==HOMEPAGE_TITLE && checkNetWork!=null){
+			if(open==true){
+				checkNetWork.setVisibility(View.VISIBLE);
+			}
+			else{	
+				checkNetWork.setVisibility(View.GONE);
+			}
+		}
+	}
 	
 	
 	public String getTitleText(){
@@ -220,6 +266,29 @@ public class TitleFragment extends Fragment implements IdentificationInterface{
 		
 		case HOMEPAGE_TITLE:{
 			view=inflater.inflate(R.layout.fragment_homepage_title,container,false);
+			
+			checkNetWork=(TextView)view.findViewById(R.id.title_network);
+			if(Tools.isConnect(getActivity())){
+				checkNetWork.setVisibility(View.GONE);
+			}
+			else{
+				checkNetWork.setVisibility(View.VISIBLE);
+			}
+			checkNetWork.setOnClickListener(new OnClickListener(){
+
+				@Override
+				public void onClick(View v) {
+					// TODO Auto-generated method stub
+					if(Tools.isConnect(getActivity())){
+						checkNetWork.setVisibility(View.GONE);
+					}
+					else{
+						((HomePageActivity)getActivity()).openCheckNetwork();
+					}
+				}
+				
+			});
+			
 			msgHint=(TextView)view.findViewById(R.id.msg_number_all);
 			src1=(ImageView)view.findViewById(R.id.src_1);
 			src2=(ImageView)view.findViewById(R.id.src_2);
@@ -286,53 +355,95 @@ public class TitleFragment extends Fragment implements IdentificationInterface{
 				
 			});
 			
-			/*group.setOnCheckedChangeListener(new OnCheckedChangeListener(){
+			
+			break;
+		}
+		case LOBBY_TITLE:{
+			view=inflater.inflate(R.layout.fragment_lobby_title, container, false);
+			friend=(FrameLayout)view.findViewById(R.id.lobby_myfriend);
+			friendText=(TextView)view.findViewById(R.id.lobby_friend_text);
+			team=(FrameLayout)view.findViewById(R.id.lobby_team);
+			teamText=(TextView)view.findViewById(R.id.lobby_team_text);
+			lsrc1=(ImageView)view.findViewById(R.id.lobby_src_1);
+			lsrc2=(ImageView)view.findViewById(R.id.lobby_src_2);
+			friendNumber=(TextView)view.findViewById(R.id.lobby_friend_msg);
+			friendNumber.setVisibility(View.GONE);
+			teamNumber=(TextView)view.findViewById(R.id.lobby_team_msg);
+			teamNumber.setVisibility(View.GONE);
+			checkNetWork=(TextView)view.findViewById(R.id.lobby_title_network);
+			addMore=(TextView)view.findViewById(R.id.lobby_team_add);
+			if(Tools.isConnect(getActivity())){
+				checkNetWork.setVisibility(View.GONE);
+			}
+			else{
+				checkNetWork.setVisibility(View.VISIBLE);
+			}
+			checkNetWork.setOnClickListener(new OnClickListener(){
 
 				@Override
-				public void onCheckedChanged(RadioGroup group, int checkedId) {
+				public void onClick(View v) {
 					// TODO Auto-generated method stub
-					switch(checkedId){
-					case R.id.btn_myhomepage:{
-						myHomepageButton.setTextColor(Color.parseColor("#ffffff"));
-						myMessage.setTextColor(Color.parseColor("#9e9e9e"));
-						myFriend.setTextColor(Color.parseColor("#9e9e9e"));
-						src1.setVisibility(View.VISIBLE);
-						src2.setVisibility(View.INVISIBLE);
-						src3.setVisibility(View.INVISIBLE);
-						((HomePageActivity)getActivity()).titleCommand(myHomepageButton, null, null);
-						break;
+					if(Tools.isConnect(getActivity())){
+						checkNetWork.setVisibility(View.GONE);
 					}
-					case R.id.relative_myMessage:{
-						myHomepageButton.setTextColor(Color.parseColor("#9e9e9e"));
-						myMessage.setTextColor(Color.parseColor("#ffffff"));
-						myFriend.setTextColor(Color.parseColor("#9e9e9e"));
-						src1.setVisibility(View.INVISIBLE);
-						src2.setVisibility(View.VISIBLE);
-						src3.setVisibility(View.INVISIBLE);
-						((HomePageActivity)getActivity()).titleCommand(myMessage, null, null);
-						break;
-					}
-					case R.id.btn_myFriends:{
-						myHomepageButton.setTextColor(Color.parseColor("#9e9e9e"));
-						myMessage.setTextColor(Color.parseColor("#9e9e9e"));
-						myFriend.setTextColor(Color.parseColor("#ffffff"));
-						src1.setVisibility(View.INVISIBLE);
-						src2.setVisibility(View.INVISIBLE);
-						src3.setVisibility(View.VISIBLE);
-						((HomePageActivity)getActivity()).titleCommand(myFriend, null, null);
-						break;
-					}
+					else{
+						((HomePageActivity)getActivity()).openCheckNetwork();
 					}
 				}
 				
-			});*/
-			
+			});
+			friendText.setOnClickListener(new OnClickListener(){
+
+				@Override
+				public void onClick(View v) {
+					// TODO Auto-generated method stub
+					friendText.setTextColor(Color.parseColor("#ffffff"));
+					teamText.setTextColor(Color.parseColor("#9e9e9e"));
+					lsrc1.setVisibility(View.VISIBLE);
+					lsrc2.setVisibility(View.INVISIBLE);
+					((HomePageActivity)getActivity()).titleCommand(friendText, null, null);
+					addMore.setVisibility(View.GONE);
+				}
+				
+			});
+			teamText.setOnClickListener(new OnClickListener(){
+
+				@Override
+				public void onClick(View v) {
+					// TODO Auto-generated method stub
+					friendText.setTextColor(Color.parseColor("#9e9e9e"));
+					teamText.setTextColor(Color.parseColor("#ffffff"));
+					lsrc1.setVisibility(View.INVISIBLE);
+					lsrc2.setVisibility(View.VISIBLE);
+					((HomePageActivity)getActivity()).titleCommand(teamText, null, null);
+					addMore.setVisibility(View.VISIBLE);
+				}
+				
+			});
+			if(canAdd==true){
+				addMore.setVisibility(View.VISIBLE);
+				addMore.setOnClickListener(new OnClickListener(){
+
+					@Override
+					public void onClick(View v) {
+						// TODO Auto-generated method stub
+						((HomePageActivity)getActivity()).titleCommand(addMore, null, null);
+					}
+					
+				});
+			}
+			else{
+				addMore.setVisibility(View.GONE);
+			}
 			break;
 		}
 		case PREVIEW_MATCH:{
 			view=inflater.inflate(R.layout.fragment_preview_title, container, false);
 			previewBack=(ImageView)view.findViewById(R.id.preview_left);
 			previewNext=(ImageView)view.findViewById(R.id.preview_right);
+			if(noNext==true){
+				previewNext.setVisibility(View.GONE);
+			}
 			if(status==3){
 				previewNext.setVisibility(View.GONE);
 			}
@@ -454,6 +565,10 @@ public class TitleFragment extends Fragment implements IdentificationInterface{
 			value1=(TextView)view.findViewById(R.id.kickfor_1);
 			value2=(TextView)view.findViewById(R.id.kickfor_2);
 			value3=(TextView)view.findViewById(R.id.kickfor_3);
+			theWhole.setBackgroundColor(Color.parseColor("#1d8700"));
+			value1.setBackgroundColor(Color.parseColor("#22a100"));
+			value2.setBackgroundColor(Color.parseColor("#22a100"));
+			value3.setBackgroundColor(Color.parseColor("#22a100"));
 			SQLHelper helper=SQLHelper.getInstance(context);
 			Cursor cursor=helper.select("ich", new String[]{"name", "image", "team1", "team2", "team3", "goal1", "goal2", "goal3", "assist1", "assist2", "assist3", "tmatch1", "tmatch2", "tmatch3"}, "phone=?", new String[]{"host"}, null);
 			cursor.moveToNext();
@@ -500,6 +615,10 @@ public class TitleFragment extends Fragment implements IdentificationInterface{
 						value1.setEnabled(false);
 						value2.setEnabled(true);
 						value3.setEnabled(true);
+						value1.setBackgroundColor(Color.parseColor("#1d8700"));
+						theWhole.setBackgroundColor(Color.parseColor("#22a100"));
+						value2.setBackgroundColor(Color.parseColor("#22a100"));
+						value3.setBackgroundColor(Color.parseColor("#22a100"));
 						((HomePageActivity)getActivity()).titleCommand(v, team1, null);
 					}
 					
@@ -525,6 +644,10 @@ public class TitleFragment extends Fragment implements IdentificationInterface{
 						value1.setEnabled(true);
 						value2.setEnabled(false);
 						value3.setEnabled(true);
+						value2.setBackgroundColor(Color.parseColor("#1d8700"));
+						theWhole.setBackgroundColor(Color.parseColor("#22a100"));
+						value1.setBackgroundColor(Color.parseColor("#22a100"));
+						value3.setBackgroundColor(Color.parseColor("#22a100"));
 						((HomePageActivity)getActivity()).titleCommand(v, team2, null);
 					}
 					
@@ -550,6 +673,10 @@ public class TitleFragment extends Fragment implements IdentificationInterface{
 						value1.setEnabled(true);
 						value2.setEnabled(true);
 						value3.setEnabled(false);
+						value3.setBackgroundColor(Color.parseColor("#1d8700"));
+						theWhole.setBackgroundColor(Color.parseColor("#22a100"));
+						value1.setBackgroundColor(Color.parseColor("#22a100"));
+						value2.setBackgroundColor(Color.parseColor("#22a100"));
 						((HomePageActivity)getActivity()).titleCommand(v, team3, null);
 					}
 					
@@ -573,6 +700,10 @@ public class TitleFragment extends Fragment implements IdentificationInterface{
 					value1.setEnabled(true);
 					value2.setEnabled(true);
 					value3.setEnabled(true);
+					theWhole.setBackgroundColor(Color.parseColor("#1d8700"));
+					value1.setBackgroundColor(Color.parseColor("#22a100"));
+					value2.setBackgroundColor(Color.parseColor("#22a100"));
+					value3.setBackgroundColor(Color.parseColor("#22a100"));
 					((HomePageActivity)getActivity()).titleCommand(v, "all", null);
 				}
 				
@@ -594,33 +725,162 @@ public class TitleFragment extends Fragment implements IdentificationInterface{
 		while(cursor.moveToNext()){
 			String phone=cursor.getString(0);
 			EMConversation conversation = EMChatManager.getInstance().getConversation(phone);
-			msgNumber=msgNumber+conversation.getUnreadMsgCount();
+			int num=conversation.getUnreadMsgCount();
+			if(num>0){
+				EMMessage message=conversation.getLastMessage();
+				TextMessageBody t=(TextMessageBody)message.getBody();
+				Map<String, Object> temp=new HashMap<String, Object>();
+				Cursor tmpCursor=helper.select("friends", new String[]{"name", "image"}, "phone=?", new String[]{phone}, null);
+				if(tmpCursor.moveToNext()){
+					temp.put("id", phone);
+					temp.put("type", String.valueOf(ListsFragment.TYPE_FRIEND_MESSAGE));
+					temp.put("name", tmpCursor.getString(0));
+					temp.put("date", Tools.getData(message.getMsgTime()));
+					temp.put("message", t.getMessage());
+					temp.put("result", "u");
+					Cursor tmpCursor1=helper.select("systemtable", new String[]{"i"}, "id=? and type=?", new String[]{phone, String.valueOf(ListsFragment.TYPE_FRIEND_MESSAGE)}, null);
+					if(tmpCursor1.moveToNext()){
+						temp.put("i", tmpCursor1.getInt(0));
+					}
+					else{
+						Cursor tmpCursor2=helper.select("systemtable", new String[]{"max(i)"}, null, null, null);
+						if(tmpCursor2.moveToNext()){
+							int maxid=tmpCursor2.getInt(0);
+							temp.put("i", maxid+1);
+						}
+					}
+					String image=tmpCursor.getString(1).toString();
+					if(!(image.equals("-1"))){
+						temp.put("image", image);
+					}
+					else{
+						temp.put("image", "-1");
+					}
+					helper.update(Tools.getContentValuesFromMap(temp, null), "systemtable", (Integer)temp.get("i"));
+				}
+			}
+			msgNumber=msgNumber+num;
 		}
 		Cursor cursor1=helper.select("ich", new String[]{"team1", "team2", "team3"}, "phone=?", new String[]{"host"}, null);
 		if(cursor1.moveToNext()){
 			String teamid1=cursor1.getString(0);
 			String teamid2=cursor1.getString(1);
 			String teamid3=cursor1.getString(2);
+			
+			Map<String, Object> temp=new HashMap<String, Object>();
 			PreferenceData pd=new PreferenceData(context);
 			if(!teamid1.isEmpty()){
+				temp.clear();
 				Map<String, Object> map=pd.getData(new String[]{teamid1});
 				if(!map.get(teamid1).toString().isEmpty()){
 					EMConversation conversation = EMChatManager.getInstance().getConversation(map.get(teamid1).toString());
-					msgNumber=msgNumber+conversation.getUnreadMsgCount();
+					int num=conversation.getUnreadMsgCount();
+					if(num>0){
+						EMMessage message=conversation.getLastMessage();
+						TextMessageBody t=(TextMessageBody)message.getBody();
+						Cursor tmpCursor=helper.select("friends", new String[]{"name", "image"}, "phone=?", new String[]{message.getFrom()}, null);
+						if(tmpCursor.moveToNext()){
+							temp.put("id", message.getFrom());
+							temp.put("teamid", teamid1);
+							temp.put("type", String.valueOf(ListsFragment.TYPE_TEAM1_CHANGINGROOM));
+							Cursor tmpCursor0=helper.select("teams", new String[]{"name"}, "teamid=?", new String[]{teamid1}, null);
+							if(tmpCursor0.moveToNext()){
+								temp.put("name", tmpCursor0.getString(0));
+							}
+							temp.put("date", Tools.getData(message.getMsgTime()));
+							temp.put("message", tmpCursor.getString(0)+": "+t.getMessage());
+							temp.put("result", "u");
+							Cursor tmpCursor1=helper.select("systemtable", new String[]{"i"}, "teamid=? and type=?", new String[]{teamid1, String.valueOf(ListsFragment.TYPE_TEAM1_CHANGINGROOM)}, null);
+							if(tmpCursor1.moveToNext()){
+								temp.put("i", tmpCursor1.getInt(0));
+							}
+							else{
+								Cursor tmpCursor2=helper.select("systemtable", new String[]{"max(i)"}, null, null, null);
+								if(tmpCursor2.moveToNext()){
+									int maxid=tmpCursor2.getInt(0);
+									temp.put("i", maxid+1);
+								}
+							}
+							helper.update(Tools.getContentValuesFromMap(temp, null), "systemtable", (Integer)temp.get("i"));
+						}
+					}
+					msgNumber=msgNumber+num;
 				}
 			}
 			if(!teamid2.isEmpty()){
+				temp.clear();
 				Map<String, Object> map=pd.getData(new String[]{teamid2});
 				if(!map.get(teamid2).toString().isEmpty()){
 					EMConversation conversation = EMChatManager.getInstance().getConversation(map.get(teamid2).toString());
-					msgNumber=msgNumber+conversation.getUnreadMsgCount();
+					int num=conversation.getUnreadMsgCount();
+					if(num>0){
+						EMMessage message=conversation.getLastMessage();
+						TextMessageBody t=(TextMessageBody)message.getBody();
+						Cursor tmpCursor=helper.select("friends", new String[]{"name", "image"}, "phone=?", new String[]{message.getFrom()}, null);
+						if(tmpCursor.moveToNext()){
+							temp.put("id", message.getFrom());
+							temp.put("teamid", teamid2);
+							temp.put("type", String.valueOf(ListsFragment.TYPE_TEAM2_CHANGINGROOM));
+							Cursor tmpCursor0=helper.select("teams", new String[]{"name"}, "teamid=?", new String[]{teamid2}, null);
+							if(tmpCursor0.moveToNext()){
+								temp.put("name", tmpCursor0.getString(0));
+							}
+							temp.put("date", Tools.getData(message.getMsgTime()));
+							temp.put("message", tmpCursor.getString(0)+": "+t.getMessage());
+							temp.put("result", "u");
+							Cursor tmpCursor1=helper.select("systemtable", new String[]{"i"}, "teamid=? and type=?", new String[]{teamid2, String.valueOf(ListsFragment.TYPE_TEAM1_CHANGINGROOM)}, null);
+							if(tmpCursor1.moveToNext()){
+								temp.put("i", tmpCursor1.getInt(0));
+							}
+							else{
+								Cursor tmpCursor2=helper.select("systemtable", new String[]{"max(i)"}, null, null, null);
+								if(tmpCursor2.moveToNext()){
+									int maxid=tmpCursor2.getInt(0);
+									temp.put("i", maxid+1);
+								}
+							}
+							helper.update(Tools.getContentValuesFromMap(temp, null), "systemtable", (Integer)temp.get("i"));
+						}
+					}
+					msgNumber=msgNumber+num;
 				}
 			}
 			if(!teamid3.isEmpty()){
+				temp.clear();
 				Map<String, Object> map=pd.getData(new String[]{teamid3});
 				if(!map.get(teamid3).toString().isEmpty()){
 					EMConversation conversation = EMChatManager.getInstance().getConversation(map.get(teamid3).toString());
-					msgNumber=msgNumber+conversation.getUnreadMsgCount();
+					int num=conversation.getUnreadMsgCount();
+					if(num>0){
+						EMMessage message=conversation.getLastMessage();
+						TextMessageBody t=(TextMessageBody)message.getBody();
+						Cursor tmpCursor=helper.select("friends", new String[]{"name", "image"}, "phone=?", new String[]{message.getFrom()}, null);
+						if(tmpCursor.moveToNext()){
+							temp.put("id", message.getFrom());
+							temp.put("teamid", teamid3);
+							temp.put("type", String.valueOf(ListsFragment.TYPE_TEAM3_CHANGINGROOM));
+							Cursor tmpCursor0=helper.select("teams", new String[]{"name"}, "teamid=?", new String[]{teamid3}, null);
+							if(tmpCursor0.moveToNext()){
+								temp.put("name", tmpCursor0.getString(0));
+							}
+							temp.put("date", Tools.getData(message.getMsgTime()));
+							temp.put("message", tmpCursor.getString(0)+": "+t.getMessage());
+							temp.put("result", "u");
+							Cursor tmpCursor1=helper.select("systemtable", new String[]{"i"}, "teamid=? and type=?", new String[]{teamid3, String.valueOf(ListsFragment.TYPE_TEAM1_CHANGINGROOM)}, null);
+							if(tmpCursor1.moveToNext()){
+								temp.put("i", tmpCursor1.getInt(0));
+							}
+							else{
+								Cursor tmpCursor2=helper.select("systemtable", new String[]{"max(i)"}, null, null, null);
+								if(tmpCursor2.moveToNext()){
+									int maxid=tmpCursor2.getInt(0);
+									temp.put("i", maxid+1);
+								}
+							}
+							helper.update(Tools.getContentValuesFromMap(temp, null), "systemtable", (Integer)temp.get("i"));
+						}
+					}
+					msgNumber=msgNumber+num;
 				}
 			}
 		}

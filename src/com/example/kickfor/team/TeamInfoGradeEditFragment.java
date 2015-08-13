@@ -45,6 +45,15 @@ public class TeamInfoGradeEditFragment extends Fragment implements TeamInterface
 	}
 	
 	@Override
+	public void setEnable(boolean enable) {
+		// TODO Auto-generated method stub
+		if(confirmation!=null){
+			confirmation.setEnabled(enable);
+			cancel.setEnabled(enable);
+		}
+	}
+	
+	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		init();
 		View view = inflater.inflate(R.layout.fragment_edit_history, container, false);
@@ -72,6 +81,7 @@ public class TeamInfoGradeEditFragment extends Fragment implements TeamInterface
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
+				setEnable(false);
 				p1=startup.getText().toString();
 				p2=evolution.getText().toString();
 				p3=expansion.getText().toString();
@@ -89,6 +99,7 @@ public class TeamInfoGradeEditFragment extends Fragment implements TeamInterface
 				map.put("p4", p4);
 				Runnable r=new ClientWrite(Tools.JsonEncode(map));
 				new Thread(r).start();
+				((HomePageActivity)getActivity()).openVague(HomePageActivity.WAIT_EDIT_TEAM_PROCESS);
 			}
 			
 		});
@@ -98,6 +109,7 @@ public class TeamInfoGradeEditFragment extends Fragment implements TeamInterface
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
+				setEnable(false);
 				((HomePageActivity)getActivity()).onBackPressed();
 			}
 			

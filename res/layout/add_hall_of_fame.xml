@@ -3,6 +3,15 @@
     android:layout_height="match_parent"
     android:background="#f0f0f0"
     android:orientation="vertical" >
+    
+       <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -23,266 +32,278 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toRightOf="@id/fame_back"
-            android:paddingTop="12dip"
             android:paddingBottom="12dip"
+            android:paddingTop="12dip"
             android:text="名人堂资料添加"
             android:textColor="#ffffff"
             android:textSize="15sp" />
     </RelativeLayout>
 
-    <ImageView
-        android:id="@+id/fame_add_photo"
-        android:layout_width="65dip"
-        android:layout_height="65dip"
-        android:layout_gravity="left"
-        android:layout_marginBottom="20dp"
-        android:layout_marginLeft="20dip"
-        android:layout_marginTop="20dip"
-        android:background="@drawable/team_register_image" />
+ 
 
-    <LinearLayout
-        android:id="@+id/ll_name_number"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="10dip"
-        android:layout_marginRight="10dip"
-        android:orientation="horizontal" >
+            <ImageView
+                android:id="@+id/fame_add_photo"
+                android:layout_width="65dip"
+                android:layout_height="65dip"
+                android:layout_gravity="left"
+                android:layout_marginBottom="20dp"
+                android:layout_marginLeft="20dip"
+                android:layout_marginTop="20dip"
+                android:background="@drawable/team_register_image" />
 
-            <RelativeLayout
-		        android:layout_width="0dip"
-		        android:layout_height="wrap_content"
-		        android:layout_weight="1"
-		        android:paddingTop="10dip"
-		        android:paddingBottom="10dip"
-		        android:paddingLeft="10dip"
-		        android:layout_marginRight="5dip"
-		        android:background="#ffffff">
-		        <TextView
-		            android:id="@+id/qiuyuanxingming"
-		            android:layout_width="wrap_content"
-		            android:layout_height="wrap_content"
-		            android:layout_alignParentLeft="true"
-		            android:text="姓名"
-		            android:textColor="#333333"/>
-		        <EditText
-		            android:id="@+id/et_fame_name"
-		            android:layout_width="match_parent"
-		            android:layout_height="wrap_content"
-		            android:layout_toRightOf="@id/qiuyuanxingming"
-		            android:layout_marginLeft="10dip"
-		            android:inputType="text"
-		            android:textColor="#9e9e9e"
-		            android:textSize="15sp"
-		            android:background="@null"/>
-    	</RelativeLayout>
+            <LinearLayout
+                android:id="@+id/ll_name_number"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dip"
+                android:layout_marginRight="10dip"
+                android:orientation="horizontal" >
 
-        <RelativeLayout
-		        android:layout_width="0dip"
-		        android:layout_height="wrap_content"
-		        android:layout_weight="1"
-		        android:paddingTop="10dip"
-		        android:paddingBottom="10dip"
-		        android:paddingLeft="10dip"
-		        android:layout_marginLeft="5dip"
-		        android:background="#ffffff">
-		        <TextView
-		            android:id="@+id/qiuyuanhaoma"
-		            android:layout_width="wrap_content"
-		            android:layout_height="wrap_content"
-		            android:layout_alignParentLeft="true"
-		            android:text="号码"
-		            android:textColor="#333333"/>
-		        <EditText
-		            android:id="@+id/et_fame_number"
-		            android:layout_width="match_parent"
-		            android:layout_height="wrap_content"
-		            android:layout_toRightOf="@id/qiuyuanhaoma"
-		            android:layout_marginLeft="10dip"
-		            android:inputType="number"
-		            android:textColor="#9e9e9e"
-		            android:textSize="15sp"
-		            android:background="@null"/>
-    	</RelativeLayout>
-    </LinearLayout>
+                <RelativeLayout
+                    android:layout_width="0dip"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="5dip"
+                    android:layout_weight="1"
+                    android:background="#ffffff"
+                    android:paddingBottom="10dip"
+                    android:paddingLeft="10dip"
+                    android:paddingTop="10dip" >
 
-    <RelativeLayout
-		        android:layout_width="match_parent"
-		        android:layout_height="wrap_content"
-		        android:paddingTop="10dip"
-		        android:layout_marginTop="10dip"
-		        android:layout_marginLeft="10dip"
-		        android:layout_marginRight="10dip"
-		        android:paddingBottom="10dip"
-		        android:paddingLeft="10dip"
-		        android:background="#ffffff">
-		        <TextView
-		            android:id="@+id/qiuyuanweizhi"
-		            android:layout_width="wrap_content"
-		            android:layout_height="wrap_content"
-		            android:layout_alignParentLeft="true"
-		            android:text="位置"
-		            android:textColor="#333333"/>
-		        <TextView
-		            android:id="@+id/et_fame_position"
-		            android:layout_width="match_parent"
-		            android:layout_height="wrap_content"
-		            android:layout_toRightOf="@id/qiuyuanweizhi"
-		            android:layout_marginLeft="10dip"
-		            android:textColor="#9e9e9e"
-		            android:textSize="15sp"
-		            android:background="@null"/>
-    	</RelativeLayout>
+                    <TextView
+                        android:id="@+id/qiuyuanxingming"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:text="姓名"
+                        android:textColor="#333333" />
 
-    <LinearLayout
-        android:id="@+id/ll_time"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dip"
-        android:layout_marginLeft="10dip"
-        android:layout_marginRight="10dip"
-        android:orientation="horizontal" >
+                    <EditText
+                        android:id="@+id/et_fame_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dip"
+                        android:layout_toRightOf="@id/qiuyuanxingming"
+                        android:background="@null"
+                        android:inputType="text"
+                        android:textColor="#9e9e9e"
+                        android:textSize="15sp" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="0dip"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dip"
+                    android:layout_weight="1"
+                    android:background="#ffffff"
+                    android:paddingBottom="10dip"
+                    android:paddingLeft="10dip"
+                    android:paddingTop="10dip" >
+
+                    <TextView
+                        android:id="@+id/qiuyuanhaoma"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:text="号码"
+                        android:textColor="#333333" />
+
+                    <EditText
+                        android:id="@+id/et_fame_number"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dip"
+                        android:layout_toRightOf="@id/qiuyuanhaoma"
+                        android:background="@null"
+                        android:inputType="number"
+                        android:textColor="#9e9e9e"
+                        android:textSize="15sp" />
+                </RelativeLayout>
+            </LinearLayout>
 
             <RelativeLayout
-		        android:layout_width="0dip"
-		        android:layout_height="wrap_content"
-		        android:layout_weight="1"
-		        android:paddingTop="10dip"
-		        android:paddingBottom="10dip"
-		        android:paddingLeft="10dip"
-		        android:layout_marginRight="5dip"
-		        android:background="#ffffff">
-		        <TextView
-		            android:id="@+id/qiuyuankaishi"
-		            android:layout_width="wrap_content"
-		            android:layout_height="wrap_content"
-		            android:layout_alignParentLeft="true"
-		            android:text="效力于"
-		            android:textColor="#333333"/>
-		        <TextView
-		            android:id="@+id/et_fame_time"
-		            android:layout_width="match_parent"
-		            android:layout_height="wrap_content"
-		            android:layout_toRightOf="@id/qiuyuankaishi"
-		            android:layout_marginLeft="10dip"
-		            android:inputType="text"
-		            android:textColor="#9e9e9e"
-		            android:textSize="15sp"
-		            android:background="@null"/>
-    	</RelativeLayout>
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dip"
+                android:layout_marginRight="10dip"
+                android:layout_marginTop="10dip"
+                android:background="#ffffff"
+                android:paddingBottom="10dip"
+                android:paddingLeft="10dip"
+                android:paddingTop="10dip" >
 
-        <RelativeLayout
-		        android:layout_width="0dip"
-		        android:layout_height="wrap_content"
-		        android:layout_weight="1"
-		        android:paddingTop="10dip"
-		        android:paddingBottom="10dip"
-		        android:paddingLeft="10dip"
-		        android:layout_marginLeft="5dip"
-		        android:background="#ffffff">
-		        <TextView
-		            android:id="@+id/qiuyuanjieshu"
-		            android:layout_width="wrap_content"
-		            android:layout_height="wrap_content"
-		            android:layout_alignParentLeft="true"
-		            android:text="效力至"
-		            android:textColor="#333333"/>
-		        <TextView
-		            android:id="@+id/et_fame_time_end"
-		            android:layout_width="match_parent"
-		            android:layout_height="wrap_content"
-		            android:layout_toRightOf="@id/qiuyuanjieshu"
-		            android:layout_marginLeft="10dip"
-		            android:inputType="number"
-		            android:textColor="#9e9e9e"
-		            android:textSize="15sp"
-		            android:background="@null"/>
-    	</RelativeLayout>
-    </LinearLayout>
+                <TextView
+                    android:id="@+id/qiuyuanweizhi"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:text="位置"
+                    android:textColor="#333333" />
 
-    <EditText
-        android:id="@+id/et_fame_text"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginTop="10dp"
-        android:background="@drawable/bg_edittext"
-        android:clickable="true"
-        android:gravity="top|left"
-        android:hint="说说他的丰功伟绩"
-        android:paddingBottom="80dip"
-        android:paddingLeft="10dip"
-        android:paddingRight="10dip"
-        android:paddingTop="10dip"
-        android:maxLength="140"
-        android:textColor="#333333"
-        android:textSize="15sp" />
+                <TextView
+                    android:id="@+id/et_fame_position"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dip"
+                    android:layout_toRightOf="@id/qiuyuanweizhi"
+                    android:background="@null"
+                    android:textColor="#9e9e9e"
+                    android:textSize="15sp" />
+            </RelativeLayout>
 
-    <LinearLayout
-        android:layout_width="300dp"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
-        android:orientation="horizontal" >
+            <LinearLayout
+                android:id="@+id/ll_time"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dip"
+                android:layout_marginRight="10dip"
+                android:layout_marginTop="10dip"
+                android:orientation="horizontal" >
 
-        <TextView
-            android:id="@+id/hall_confirmation"
-            android:layout_width="0dip"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="10dip"
-            android:layout_marginLeft="20dip"
-            android:layout_marginRight="35dip"
-            android:layout_marginTop="20dip"
-            android:layout_weight="1"
-            android:alpha="1"
-            android:background="@drawable/btn_style_selector"
-            android:clickable="true"
-            android:gravity="center"
-            android:text="确认"
-            android:textColor="#ffffff"
-            android:textSize="15sp" />
+                <RelativeLayout
+                    android:layout_width="0dip"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="5dip"
+                    android:layout_weight="1"
+                    android:background="#ffffff"
+                    android:paddingBottom="10dip"
+                    android:paddingLeft="10dip"
+                    android:paddingTop="10dip" >
 
-        <TextView
-            android:id="@+id/hall_cancel"
-            android:layout_width="0dip"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="10dip"
-            android:layout_marginLeft="5dip"
-            android:layout_marginRight="10dip"
-            android:layout_marginTop="20dip"
-            android:layout_weight="1"
-            android:alpha="1"
-            android:background="@drawable/btn_style_selector_2"
-            android:clickable="true"
-            android:gravity="center"
-            android:text="取消"
-            android:textColor="#ffffff"
-            android:textSize="15sp" />
-    </LinearLayout>
-    
-    <LinearLayout
-        android:layout_width="300dp"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
-        android:orientation="horizontal" >
+                    <TextView
+                        android:id="@+id/qiuyuankaishi"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:text="效力于"
+                        android:textColor="#333333" />
 
-        <TextView
-            android:id="@+id/hall_delete"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_marginBottom="20dip"
-            android:layout_marginLeft="20dip"
-            android:layout_marginRight="10dip"
-            android:layout_weight="1"
-            android:alpha="1"
-            android:background="@drawable/btn_style_selector_3"
-            android:clickable="true"
-            android:gravity="center"
-            android:text="删除"
-            android:textColor="#ffffff"
-            android:textSize="15sp" />
+                    <TextView
+                        android:id="@+id/et_fame_time"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dip"
+                        android:layout_toRightOf="@id/qiuyuankaishi"
+                        android:background="@null"
+                        android:inputType="text"
+                        android:textColor="#9e9e9e"
+                        android:textSize="15sp" />
+                </RelativeLayout>
 
-    </LinearLayout>
-    
+                <RelativeLayout
+                    android:layout_width="0dip"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dip"
+                    android:layout_weight="1"
+                    android:background="#ffffff"
+                    android:paddingBottom="10dip"
+                    android:paddingLeft="10dip"
+                    android:paddingTop="10dip" >
+
+                    <TextView
+                        android:id="@+id/qiuyuanjieshu"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:text="效力至"
+                        android:textColor="#333333" />
+
+                    <TextView
+                        android:id="@+id/et_fame_time_end"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dip"
+                        android:layout_toRightOf="@id/qiuyuanjieshu"
+                        android:background="@null"
+                        android:inputType="number"
+                        android:textColor="#9e9e9e"
+                        android:textSize="15sp" />
+                </RelativeLayout>
+            </LinearLayout>
+
+            <EditText
+                android:id="@+id/et_fame_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/bg_edittext"
+                android:clickable="true"
+                android:gravity="top|left"
+                android:hint="说说他的丰功伟绩"
+                android:maxLength="140"
+                android:paddingBottom="80dip"
+                android:paddingLeft="10dip"
+                android:paddingRight="10dip"
+                android:paddingTop="10dip"
+                android:textColor="#333333"
+                android:textSize="15sp" />
+
+            <LinearLayout
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:orientation="horizontal" >
+
+                <TextView
+                    android:id="@+id/hall_confirmation"
+                    android:layout_width="0dip"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dip"
+                    android:layout_marginLeft="20dip"
+                    android:layout_marginRight="35dip"
+                    android:layout_marginTop="20dip"
+                    android:layout_weight="1"
+                    android:alpha="1"
+                    android:background="@drawable/btn_style_selector"
+                    android:clickable="true"
+                    android:gravity="center"
+                    android:text="确认"
+                    android:textColor="#ffffff"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/hall_cancel"
+                    android:layout_width="0dip"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dip"
+                    android:layout_marginLeft="5dip"
+                    android:layout_marginRight="10dip"
+                    android:layout_marginTop="20dip"
+                    android:layout_weight="1"
+                    android:alpha="1"
+                    android:background="@drawable/btn_style_selector_2"
+                    android:clickable="true"
+                    android:gravity="center"
+                    android:text="取消"
+                    android:textColor="#ffffff"
+                    android:textSize="15sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:orientation="horizontal" >
+
+                <TextView
+                    android:id="@+id/hall_delete"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginBottom="20dip"
+                    android:layout_marginLeft="20dip"
+                    android:layout_marginRight="10dip"
+                    android:layout_weight="1"
+                    android:alpha="1"
+                    android:background="@drawable/btn_style_selector_3"
+                    android:clickable="true"
+                    android:gravity="center"
+                    android:text="删除"
+                    android:textColor="#ffffff"
+                    android:textSize="15sp" />
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
 
 </LinearLayout>

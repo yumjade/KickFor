@@ -114,8 +114,8 @@ public class HomePageEntity implements Serializable{
 		defence=map.get("defence").toString();
 		birth=(map.get("year").toString().isEmpty() || map.get("month").toString().isEmpty())? "生日": map.get("year")+"."+map.get("month");
 		place=map.get("city").toString().isEmpty()? "地区": map.get("city").toString();
-		weight=map.get("weight").toString().isEmpty()? "体重": map.get("weight").toString();
-		height=map.get("height").toString().isEmpty()? "身高": map.get("height").toString();
+		weight=map.get("weight").toString().isEmpty()? "体重": map.get("weight").toString()+"kg";
+		height=map.get("height").toString().isEmpty()? "身高": map.get("height").toString()+"cm";
 		position=map.get("position1").toString().isEmpty()? "位置": map.get("position1").toString();
 		team1=map.containsKey("team1") && !(map.get("team1").toString().isEmpty())? map.get("team1").toString(): "球队";
 		String team2=map.containsKey("team2")? map.get("team2").toString(): "";
@@ -271,7 +271,7 @@ public class HomePageEntity implements Serializable{
 			defence=cursor.getString(6);
 			birth=cursor.getString(7).isEmpty() || cursor.getString(8).isEmpty()? "生日": cursor.getString(7)+"."+cursor.getString(8);
 			place=cursor.getString(9).isEmpty()? "地区": cursor.getString(9);
-			weight=cursor.getString(10).isEmpty()? "体重": cursor.getString(10)+"Kg";
+			weight=cursor.getString(10).isEmpty()? "体重": cursor.getString(10)+"kg";
 			height=cursor.getString(11).isEmpty()? "身高": cursor.getString(11)+"cm";
 			team1=cursor.getString(12);
 			Cursor cursor1=helper.select("teams", new String[]{"name"}, "teamid=?", new String[]{team1}, null);

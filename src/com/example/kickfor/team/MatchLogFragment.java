@@ -49,6 +49,12 @@ public class MatchLogFragment extends Fragment implements TeamInterface, Identif
 	}
 	
 	@Override
+	public void setEnable(boolean enable) {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
@@ -74,7 +80,7 @@ public class MatchLogFragment extends Fragment implements TeamInterface, Identif
 	
 	public void setData(Map<String, Object> map){
 		Iterator<String> iter=map.keySet().iterator();
-		int totalMatch=map.keySet().size();
+		int totalMatch=0;
 		int win=0;
 		int pull=0;
 		int defeat=0;
@@ -88,6 +94,7 @@ public class MatchLogFragment extends Fragment implements TeamInterface, Identif
 			defeat=defeat+Integer.parseInt(temp.get("defeat").toString());
 			totalGoal=totalGoal+Integer.parseInt(temp.get("goals").toString());
 			totalLost=totalLost+Integer.parseInt(temp.get("lost").toString());
+			totalMatch=totalMatch+Integer.parseInt(temp.get("number").toString());
 			MatchLogEntity item=new MatchLogEntity(temp.get("type").toString(), temp.get("number").toString(), temp.get("result").toString(), temp.get("goals").toString(), temp.get("lost").toString());
 			mList.add(item);
 		}

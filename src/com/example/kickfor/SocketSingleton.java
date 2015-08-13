@@ -41,6 +41,7 @@ public class SocketSingleton {
 		if(instance!=null){
 			try{
 				socket.close();
+				instance=null;
 			}catch(Exception e){
 				e.printStackTrace();
 			}

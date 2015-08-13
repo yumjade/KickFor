@@ -52,7 +52,7 @@
     	android:background="@drawable/bar"
         android:drawableTop="@drawable/selected_unselected_5"
         android:button="@null"/>
-    <!-- <RadioButton 
+    <TextView 
         android:id="@+id/bar_lobby"
         android:layout_width="0dip"
         android:layout_height="wrap_content"
@@ -65,7 +65,7 @@
     	android:paddingBottom="10dip"
     	android:background="@drawable/bar"
         android:drawableTop="@drawable/selected_unselected_6"
-        android:button="@null"/> -->
+        android:button="@null"/>
     <TextView 
         android:id="@+id/bar_more"
         android:layout_width="0dip"

@@ -19,7 +19,7 @@ public class VagueFragment implements Runnable{
 	public void run() {
 		// TODO Auto-generated method stub
 		try{
-			Thread.sleep(30000);
+			Thread.sleep(3000);
 		}catch(Exception e){
 			e.printStackTrace();
 		}

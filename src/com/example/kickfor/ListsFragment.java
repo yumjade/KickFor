@@ -152,6 +152,9 @@ public class ListsFragment extends Fragment implements HomePageInterface, Identi
 			Map<String, Object> tmp=new HashMap<String, Object>();
 			while(cursor.moveToNext()){
 				tmp.clear();
+				if(cursor.getString(0)==null){
+					System.out.println("name======"+cursor.getString(1)+"   message==="+cursor.getString(5));
+				}
 				int type=Integer.parseInt(cursor.getString(0));
 				switch(type){
 				case TYPE_FRIEND_MESSAGE:{
@@ -379,6 +382,19 @@ public class ListsFragment extends Fragment implements HomePageInterface, Identi
 			Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		init();
+		
+		
+		//
+		SQLHelper helper=SQLHelper.getInstance(context);
+		Cursor t=helper.select("systemtable", new String[]{"type", "message"}, "result=?", new String[]{"u"}, null);
+		System.out.println("begin to show");
+		while(t.moveToNext()){
+			System.out.println("type= "+t.getString(0)+"    "+"message= "+t.getString(1));
+		}
+		
+		//
+		
+		
 		System.out.println("state=="+state);
 		View view=null;
 		if(state==TYPE_FRIEND_LIST){
@@ -427,6 +443,18 @@ public class ListsFragment extends Fragment implements HomePageInterface, Identi
 					break;
 				}
 				case TYPE_MESSAGE_LIST:{
+					((HomePageActivity)getActivity()).selectList(item);
+					break;
+				}
+				case TYPE_TEAM1_CHANGINGROOM:{
+					((HomePageActivity)getActivity()).selectList(item);
+					break;
+				}
+				case TYPE_TEAM2_CHANGINGROOM:{
+					((HomePageActivity)getActivity()).selectList(item);
+					break;
+				}
+				case TYPE_TEAM3_CHANGINGROOM:{
 					((HomePageActivity)getActivity()).selectList(item);
 					break;
 				}

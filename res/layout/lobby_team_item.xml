@@ -1,0 +1,112 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginLeft="10dip"
+    android:layout_marginRight="10dip"
+    android:orientation="vertical" >
+   
+    
+    <RelativeLayout
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:paddingTop="10dp" >
+	
+	    <ImageView
+	        android:id="@+id/lobby_team_photo"
+	        android:layout_width="40dip"
+	        android:layout_height="40dip"
+	        android:layout_alignParentLeft="true"
+	        android:src="@drawable/team_default" />
+	
+	    <TextView
+	        android:id="@+id/lobby_team_name"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_alignTop="@id/lobby_team_photo"
+	        android:layout_marginLeft="10dip"
+	        android:layout_marginTop="3dp"
+	        android:layout_toRightOf="@id/lobby_team_photo"
+	        android:gravity="center"
+	        android:text="蓝翔足球俱乐部"
+	        android:textColor="#333333"
+	        android:textSize="16sp" />
+	
+	    <TextView
+	        android:id="@+id/lobby_team_city"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_alignLeft="@id/lobby_team_name"
+	        android:layout_alignBottom="@id/lobby_team_photo"
+	        android:text="山东      济南"
+	        android:layout_marginTop="10dp"
+	        android:textColor="#6e6e6e"
+	        android:textSize="13sp" />
+	
+	    <TextView
+	        android:id="@+id/lobby_team_date"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_alignParentRight="true"
+	        android:layout_alignTop="@id/lobby_team_name"
+	        android:gravity="top"
+	        android:layout_marginRight="10dp"
+	        android:text="4月21日"
+	        android:textColor="#9e9e9e"
+	        android:textSize="13sp" />
+	
+	    <TextView
+	        android:id="@+id/lobby_team_type"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_alignBottom="@id/lobby_team_photo"
+	        android:layout_alignRight="@id/lobby_team_date"
+	        android:gravity="center"
+	        android:text="招人"
+	        android:textColor="#6e6e6e"
+	        android:textSize="13sp"
+	        android:textStyle="bold" />
+	    <TextView
+		    android:id="@+id/lobby_team_text"
+		    android:layout_below="@id/lobby_team_type"
+		    android:layout_width="match_parent"
+		    android:layout_marginTop="10dip"
+		    android:layout_height="wrap_content"
+		    android:textSize="12sp"
+		    android:textColor="#333333"
+		    android:text="球队目前每周固定参加XX联赛，需要一名门将和一名强力中锋"/>
+	    <TextView
+	        android:id="@+id/lobby_team_cancel"
+	        android:layout_below="@id/lobby_team_text"
+	        android:layout_alignLeft="@id/lobby_team_photo"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:textColor="#ffffff"
+	        android:textSize="13sp"
+	        android:text="删除"
+	        android:padding="5dip"
+	        android:layout_marginTop="10dip"
+	        android:background="@drawable/btn_style_selector_4"/>
+	    <TextView
+	        android:id="@+id/lobby_team_reply"
+	        android:layout_below="@id/lobby_team_text"
+	        android:layout_alignRight="@id/lobby_team_date"
+	        android:layout_alignParentRight="true"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:textColor="#636363"
+	        android:textSize="13sp"
+	        android:text="回复"
+	        android:layout_marginTop="10dip"
+	        android:padding="5dip"/>
+	</RelativeLayout>
+	<LinearLayout
+	    android:id="@+id/lobby_team_layout"
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:background="#f0f0f0"
+	    android:layout_marginTop="10dip"
+	    android:orientation="vertical"
+	    android:padding="10dip">
+	    
+	</LinearLayout>
+</LinearLayout>

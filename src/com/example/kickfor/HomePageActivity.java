@@ -8,6 +8,8 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import cn.jpush.android.api.JPushInterface;
 
@@ -17,6 +19,11 @@ import com.easemob.chat.EMChatManager;
 import com.easemob.chat.EMMessage;
 import com.easemob.chat.EMMessage.ChatType;
 import com.easemob.chat.TextMessageBody;
+import com.example.kickfor.lobby.LobbyInterface;
+import com.example.kickfor.lobby.LobbyTeamAddFragment;
+import com.example.kickfor.lobby.LobbyTeamEntity;
+import com.example.kickfor.lobby.LobbyTeamFragment;
+import com.example.kickfor.lobby.LobbyTeamReplyFragment;
 import com.example.kickfor.more.AboutusFragment;
 import com.example.kickfor.more.FeedbackFragment;
 import com.example.kickfor.more.FindPasswordsFragment;
@@ -56,15 +63,18 @@ import com.tencent.mm.sdk.openapi.IWXAPI;
 import com.tencent.mm.sdk.openapi.WXAPIFactory;
 
 import android.app.AlertDialog;
-import android.content.Context;
+import android.content.ComponentName;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.ActivityInfo;
+import android.content.res.Configuration;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -80,9 +90,9 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.PopupWindow.OnDismissListener;
-import android.widget.Adapter;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
+import android.widget.ViewFlipper;
 
 public class HomePageActivity extends FragmentActivity implements HandlerListener{
 	
@@ -99,7 +109,7 @@ public class HomePageActivity extends FragmentActivity implements HandlerListene
 	
 	private EMEventListener listener=null;
 	private PreferenceData pd=null;
-	private FragmentManager fm=null;
+	public FragmentManager fm=null;
 	private static RealTimeHandler mRealTimeHandler=null;
 	private RelativeLayout vague=null;
 	private int selectImage;
@@ -108,8 +118,8 @@ public class HomePageActivity extends FragmentActivity implements HandlerListene
 	private long ctime=0;
 	private boolean isSocketClose=false;
 	
-	private ViewPager viewPager=null;
-	private List<Fragment> fragmentList1=new ArrayList<Fragment>();
+	public ViewPager viewPager=null;
+	public List<Fragment> fragmentList1=new ArrayList<Fragment>();
 	private boolean isInitTeam=false;
 	
 	private FragmentStatePagerAdapter mAdapter=null;
@@ -132,6 +142,7 @@ public class HomePageActivity extends FragmentActivity implements HandlerListene
 	private boolean needToShowMain;
 	private IWXAPI api=null;
 
+	private Timer mTimer=null;
 	
 	protected static final String IMAGE_FILE_NAME="faceImage.jpg";
 	protected static final int IMAGE_REQUEST_CODE=0;
@@ -181,7 +192,7 @@ public class HomePageActivity extends FragmentActivity implements HandlerListene
 	protected static final int WAIT_COMPLETE=44;
 	protected static final int WAIT_TEAM_CREATE=45;
 	public static final int WAIT_ADD_NEW=46;
-	protected static final int WAIT_TEAM=47;
+	public static final int WAIT_TEAM=47;
 	public static final int WAIT_UPLOAD_MATCH=48;
 	protected static final int WAIT_PREMATCH=49;
 	public static final int WAIT_PROGRESSBAR=50;
@@ -215,17 +226,53 @@ public class HomePageActivity extends FragmentActivity implements HandlerListene
 	public static final int LOG_OUT = 78;
 	public static final int CHANGE_TEAM_INFO = 79;
 	public static final int CHANGE_TEAM_GRADE = 80;
+	public static final int WAIT_EDIT_TEAM_INFO = 81;
+	public static final int WAIT_EDIT_TEAM_PROCESS = 82;
+	public static final int WAIT_EDIT_TEAM_GRADE = 83;
+	public static final int WAIT_EDIT_FAME = 84;
+	public static final int UPDATE_REVIEW_MATCH = 85;
+	public static final int WAIT_UPDATE_REVIEW = 86;
+	protected static final int LOBBY_TEAM = 87;
+	protected static final int AUTHORITY = 88;
+	protected static final int OK_THEME = 89;
 	
+	private ViewFlipper allFlipper=null;
+	
+	public static final int SPLASH_LENGTH = 3000;
+
+	
+	private Handler handler = new Handler(){
+    	@Override
+    	public void handleMessage(Message msg) {
+    		// TODO Auto-generated method stub
+    		switch (msg.what) {
+    		case 1:
+    			allFlipper.setDisplayedChild(1);
+    			break;
+    		}
+    	}
+    };
+
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
+		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_homepage);
 		
 		api = WXAPIFactory.createWXAPI(this, Constant.APP_ID, true);
 		api.registerApp(Constant.APP_ID);
+
+		
+		allFlipper = (ViewFlipper) findViewById(R.id.allflipper);
+		 new Handler().postDelayed(new Runnable() {
+				@Override
+				public void run() {
+					handler.sendEmptyMessage(1);
+				}
+	        }, SPLASH_LENGTH);
 
 		
 		networkReceiver=new NetWorkBroadcastReceiver(this);
@@ -399,7 +446,7 @@ public class HomePageActivity extends FragmentActivity implements HandlerListene
 			tmp.put("phone", phone);
 			tmp.put("passwords", passwords);
 			tmp.put("rid", JPushInterface.getRegistrationID(getApplicationContext()));
-			Cursor cursor=helper.select("ich", new String[]{"image"}, "phone=?", new String[]{phone}, null);
+			Cursor cursor=helper.select("ich", new String[]{"image"}, "phone=?", new String[]{"host"}, null);
 			if(cursor.moveToNext()){
 				String imgPath=cursor.getString(0);
 				if(imgPath!=null && Tools.isFileExist(imgPath)!=false){
@@ -416,11 +463,25 @@ public class HomePageActivity extends FragmentActivity implements HandlerListene
 		ftitle=(FrameLayout)findViewById(R.id.title);
 		fcontent=(FrameLayout)findViewById(R.id.content);
 		fbar=(FrameLayout)findViewById(R.id.bar);
-		vague=(RelativeLayout)findViewById(R.id.vague_b);	
+		vague=(RelativeLayout)findViewById(R.id.vague_b);
+		
+		mTimer=new Timer();
+		mTimer.schedule(new TimerTask(){
+
+			@Override
+			public void run() {
+				// TODO Auto-generated method stub
+				Map<String, Object> map=new HashMap<String, Object>();
+				map.put("request", "heart");
+				Runnable r=new ClientWrite(Tools.JsonEncode(map));
+				new Thread(r).start();
+			}
+			
+		}, 1000, 10000);
 	}
 	
 	public void initReader(){
-		reader=new ClientReader(mRealTimeHandler.getHandler(), getApplicationContext());
+		reader=new ClientReader(mRealTimeHandler.getHandler(), this);
 		new Thread(reader).start();
 	}
 	
@@ -528,7 +589,11 @@ public class HomePageActivity extends FragmentActivity implements HandlerListene
 
 
 	
-
+	 @Override
+	 public void onConfigurationChanged(Configuration newConfig) {
+		 
+		 super.onConfigurationChanged(newConfig);
+	 }
 
 
 
@@ -590,10 +655,25 @@ public class HomePageActivity extends FragmentActivity implements HandlerListene
 			closeViewPager();
 			break;
 		}
-//		case R.id.bar_lobby:{
-//			
-//			break;
-//		}
+		case R.id.bar_lobby:{
+			Bundle bundle0=new Bundle();
+			if(authority1.equals("0") && authority2.equals("0") && authority3.equals("0")){
+				bundle0.putBoolean("canAdd", false);
+			}
+			else{
+				bundle0.putBoolean("canAdd", true);
+			}
+			bundle0.putInt("state", TitleFragment.LOBBY_TITLE);
+			TitleFragment lobbyTitle=new TitleFragment();
+			lobbyTitle.setArguments(bundle0);
+			LobbyTeamFragment tmp=new LobbyTeamFragment();
+			FragmentTransaction tx=fm.beginTransaction();
+			tx.replace(R.id.title, lobbyTitle);
+			tx.replace(R.id.content, tmp);
+			tx.commit();
+			closeViewPager();
+			break;
+		}
 		case R.id.bar_team:{
 			if(fm.findFragmentById(R.id.content)!=null){
 				FragmentTransaction tx=fm.beginTransaction();
@@ -687,87 +767,88 @@ public class HomePageActivity extends FragmentActivity implements HandlerListene
 		if(isInitTeam==false){
 			fragmentList1.clear();
 			boolean isCreatedTeam=false;
-			if(authority1.equals("4") || authority2.equals("4") || authority3.equals("4")){
-				isCreatedTeam=true;
-			}
-			
-			if(teamid1.isEmpty()){
-				TeamCreateFragment tmp=new TeamCreateFragment();
-				Bundle bundle=new Bundle();
-				bundle.putBoolean("isCreatedTeam", isCreatedTeam);
-				bundle.putInt("resource", R.layout.fragment_team_create1);
-				tmp.setArguments(bundle);
-				fragmentList1.add(tmp);
-			}
-			else{
-				TeamFragment tmp=new TeamFragment();
-				Bundle bundle=new Bundle();
-				bundle.putString("teamid", teamid1);
-				bundle.putString("authority", authority1);
-				tmp.setArguments(bundle);
-				fragmentList1.add(tmp);
-			}
-			
-			if(teamid2.isEmpty()){
-				TeamCreateFragment tmp=new TeamCreateFragment();
-				Bundle bundle=new Bundle();
-				bundle.putBoolean("isCreatedTeam", isCreatedTeam);
-				bundle.putInt("resource", R.layout.fragment_team_create1);
-				tmp.setArguments(bundle);
-				fragmentList1.add(tmp);
-			}
-			else{
-				TeamFragment tmp=new TeamFragment();
-				Bundle bundle=new Bundle();
-				bundle.putString("teamid", teamid2);
-				bundle.putString("authority", authority2);
-				tmp.setArguments(bundle);
-				fragmentList1.add(tmp);
-			}
-			if(teamid3.isEmpty()){
-				TeamCreateFragment tmp=new TeamCreateFragment();
-				Bundle bundle=new Bundle();
-				bundle.putBoolean("isCreatedTeam", isCreatedTeam);
-				bundle.putInt("resource", R.layout.fragment_team_create1);
-				tmp.setArguments(bundle);
-				fragmentList1.add(tmp);
-			}
-			else{
-				TeamFragment tmp=new TeamFragment();
-				Bundle bundle=new Bundle();
-				bundle.putString("teamid", teamid3);
-				bundle.putString("authority", authority3);
-				tmp.setArguments(bundle);
-				fragmentList1.add(tmp);
-			}
-			
-			if(mAdapter==null){
-				mAdapter=new FragmentStatePagerAdapter(fm){
+			if(authority1!=null && authority2!=null && authority3!=null && teamid1!=null && teamid2!=null && teamid3!=null){
+				if(authority1.equals("4") || authority2.equals("4") || authority3.equals("4")){
+					isCreatedTeam=true;
+				}
+				
+				if(teamid1.isEmpty()){
+					TeamCreateFragment tmp=new TeamCreateFragment();
+					Bundle bundle=new Bundle();
+					bundle.putBoolean("isCreatedTeam", isCreatedTeam);
+					bundle.putInt("resource", R.layout.fragment_team_create1);
+					tmp.setArguments(bundle);
+					fragmentList1.add(tmp);
+				}
+				else{
+					TeamFragment tmp=new TeamFragment();
+					Bundle bundle=new Bundle();
+					bundle.putString("teamid", teamid1);
+					bundle.putString("authority", authority1);
+					tmp.setArguments(bundle);
+					fragmentList1.add(tmp);
+				}
+				
+				if(teamid2.isEmpty()){
+					TeamCreateFragment tmp=new TeamCreateFragment();
+					Bundle bundle=new Bundle();
+					bundle.putBoolean("isCreatedTeam", isCreatedTeam);
+					bundle.putInt("resource", R.layout.fragment_team_create1);
+					tmp.setArguments(bundle);
+					fragmentList1.add(tmp);
+				}
+				else{
+					TeamFragment tmp=new TeamFragment();
+					Bundle bundle=new Bundle();
+					bundle.putString("teamid", teamid2);
+					bundle.putString("authority", authority2);
+					tmp.setArguments(bundle);
+					fragmentList1.add(tmp);
+				}
+				if(teamid3.isEmpty()){
+					TeamCreateFragment tmp=new TeamCreateFragment();
+					Bundle bundle=new Bundle();
+					bundle.putBoolean("isCreatedTeam", isCreatedTeam);
+					bundle.putInt("resource", R.layout.fragment_team_create1);
+					tmp.setArguments(bundle);
+					fragmentList1.add(tmp);
+				}
+				else{
+					TeamFragment tmp=new TeamFragment();
+					Bundle bundle=new Bundle();
+					bundle.putString("teamid", teamid3);
+					bundle.putString("authority", authority3);
+					tmp.setArguments(bundle);
+					fragmentList1.add(tmp);
+				}
+				
+				if(mAdapter==null){
+					mAdapter=new FragmentStatePagerAdapter(fm){
 
-					@Override
-					public Fragment getItem(int arg0) {
-						// TODO Auto-generated method stub
-						return fragmentList1.get(arg0);
-					}
+						@Override
+						public Fragment getItem(int arg0) {
+							// TODO Auto-generated method stub
+							return fragmentList1.get(arg0);
+						}
 
-					@Override
-					public int getCount() {
-						// TODO Auto-generated method stub
-						return fragmentList1.size();
-					}
+						@Override
+						public int getCount() {
+							// TODO Auto-generated method stub
+							return fragmentList1.size();
+						}
 
-					@Override
-					public int getItemPosition(Object object) {
-						// TODO Auto-generated method stub
-						return PagerAdapter.POSITION_NONE;
-					}
-				};
-				viewPager.setAdapter(mAdapter);
-			}
-			else{
-				mAdapter.notifyDataSetChanged();
-			}
-			
+						@Override
+						public int getItemPosition(Object object) {
+							// TODO Auto-generated method stub
+							return PagerAdapter.POSITION_NONE;
+						}
+					};
+					viewPager.setAdapter(mAdapter);
+				}
+				else{
+					mAdapter.notifyDataSetChanged();
+				}
+			}	
 		}
 		return true;
 	}
@@ -1017,6 +1098,11 @@ public class HomePageActivity extends FragmentActivity implements HandlerListene
 	
 	public void onHomePageClick(View v, String phone) {
 		// TODO Auto-generated method stub
+		bar.setEnable(false);
+		if(fm.findFragmentById(R.id.title) instanceof TitleFragment){
+			TitleFragment tmp=(TitleFragment)fm.findFragmentById(R.id.title);
+			tmp.setEnable(false);
+		}
 		switch(v.getId()){
 		case R.id.btn_mycapacity:{
 			Map<String, Object> map=new HashMap<String, Object>();
@@ -1128,6 +1214,15 @@ public class HomePageActivity extends FragmentActivity implements HandlerListene
 			}
 			else{
 				Toast.makeText(this, "暂无下一场比赛预告", Toast.LENGTH_SHORT).show();
+				bar.setEnable(true);
+				if(fm.findFragmentById(R.id.title) instanceof TitleFragment){
+					TitleFragment tmp=(TitleFragment)fm.findFragmentById(R.id.title);
+					tmp.setEnable(true);
+				}
+				if(fm.findFragmentById(R.id.content) instanceof HomePageFragment){
+					HomePageFragment tmp=(HomePageFragment)fm.findFragmentById(R.id.content);
+					tmp.setEnable(true);
+				}
 			}
 			break;
 		}
@@ -1151,6 +1246,7 @@ public class HomePageActivity extends FragmentActivity implements HandlerListene
 			Bundle bundle0=new Bundle();
 			bundle0.putInt("state", TitleFragment.PREVIEW_MATCH);
 			bundle0.putInt("status", status);
+			bundle0.putBoolean("nonext", true);
 			TitleFragment tmpTitle=new TitleFragment();
 			tmpTitle.setArguments(bundle0);
 			MatchPreviewFragment previewMatch=new MatchPreviewFragment();
@@ -1167,6 +1263,8 @@ public class HomePageActivity extends FragmentActivity implements HandlerListene
 		}
 	}
 
+	
+	
 	public void openChat(String phone, String state){
 		Bundle bundle=new Bundle();
 		bundle.putString("phone", phone);
@@ -1323,6 +1421,29 @@ public class HomePageActivity extends FragmentActivity implements HandlerListene
 	public void titleCommand(View v, String extra1, String extra2) {
 		int id=v.getId();
 		switch(id){
+		case R.id.lobby_team_add:{
+			Bundle bundle=new Bundle();
+			bundle.putString("phone", this.phone);
+			LobbyTeamAddFragment add=new LobbyTeamAddFragment();
+			add.setArguments(bundle);
+			FragmentTransaction tx=fm.beginTransaction();
+			tx.setCustomAnimations(R.animator.slide_in_right, R.animator.slide_out_left, R.animator.slide_in_left, R.animator.slide_out_right);
+			tx.replace(R.id.main, add);
+			tx.addToBackStack(null);
+			tx.commit();
+			break;
+		}
+		case R.id.lobby_friend_text:{
+			
+			break;
+		}
+		case R.id.lobby_team_text:{
+			LobbyTeamFragment tmp=new LobbyTeamFragment();
+			FragmentTransaction tx=fm.beginTransaction();
+			tx.replace(R.id.content, tmp);
+			tx.commit();
+			break;
+		}
 		case R.id.btn_myhomepage:{
 			HomePageFragment homepage=new HomePageFragment();
 			Bundle bundle=new Bundle();
@@ -1464,6 +1585,16 @@ public class HomePageActivity extends FragmentActivity implements HandlerListene
 
 	}
 
+	public void openLobbyTeamReply(Bundle bundle){
+		FragmentTransaction tx=fm.beginTransaction();
+		LobbyTeamReplyFragment tmp=new LobbyTeamReplyFragment();
+		tmp.setArguments(bundle);
+		tx.setCustomAnimations(R.animator.slide_in_right, R.animator.slide_out_left, R.animator.slide_in_left, R.animator.slide_out_right);
+		tx.replace(R.id.main, tmp);
+		tx.addToBackStack(null);
+		tx.commit();
+	}
+	
 	public void getInPosition(String position, int state) {
 		// TODO Auto-generated method stub
 		Bundle bundle=new Bundle();
@@ -1631,11 +1762,53 @@ public class HomePageActivity extends FragmentActivity implements HandlerListene
 			openChat(item.getPhone(), ChatFragment.PEORSON_CHAT);
 			hideAll();
 			needShow=true;
-			
+			break;
+		}
+		case ListsFragment.TYPE_TEAM1_CHANGINGROOM:{
+			String teamid=item.getPhone();
+			openGroupChat(item.getPhone());
+			hideAll();
+			needShow=true;
+			break;
+		}
+		case ListsFragment.TYPE_TEAM2_CHANGINGROOM:{
+			openGroupChat(item.getPhone());
+			hideAll();
+			needShow=true;
+			break;
+		}
+		case ListsFragment.TYPE_TEAM3_CHANGINGROOM:{
+			openGroupChat(item.getPhone());
+			hideAll();
+			needShow=true;
 			break;
 		}
 		}
 		
+	}
+	
+	public void openGroupChat(String teamid){
+		String authority=null;
+		if(teamid.equals(teamid1)){
+			authority=authority1;
+		}
+		else if(teamid.equals(teamid2)){
+			authority=authority2;
+		}
+		else if(teamid.equals(teamid3)){
+			authority=authority3;
+		}
+		Bundle bundle=new Bundle();
+		bundle.putString("phone", teamid);
+		bundle.putString("type", "0");
+		bundle.putString("authority", authority);
+		ChatFragment changingRoomChat=new ChatFragment();
+		changingRoomChat.setArguments(bundle);
+		FragmentTransaction tx=fm.beginTransaction();
+		tx.setCustomAnimations(R.animator.slide_in_right, R.animator.slide_out_left, R.animator.slide_in_left, R.animator.slide_out_right);
+		tx.replace(R.id.main, changingRoomChat);
+		tx.addToBackStack(null);
+		tx.commit();
 	}
 	
 	public void aboutus(){
@@ -1659,6 +1832,7 @@ public class HomePageActivity extends FragmentActivity implements HandlerListene
 	
 	public void openFame(boolean type, String teamid, String authority, HallofFame entity){
 		if(type==HallOfFameFragment.FIRST_OPEN){
+			openVague(WAIT_TEAM);
 			Map<String, Object> map=new HashMap<String, Object>();
 			map.put("request", "get fame");
 			map.put("teamid", teamid);
@@ -1748,6 +1922,7 @@ public class HomePageActivity extends FragmentActivity implements HandlerListene
 			closeSocket();
 			isSocketClose=true;
 		}
+		mTimer.cancel();
 		System.out.println("on destroy on destroy");
 	}
 	
@@ -1784,16 +1959,19 @@ public class HomePageActivity extends FragmentActivity implements HandlerListene
 					tx.commit();
 					String groupid=intent.getStringExtra("groupid");
 					String teamid=null;
-					Map<String, Object> map=pd.getData();
-					Iterator<String> iter=map.keySet().iterator();
-					while(iter.hasNext()){
-						String key=iter.next();
-						if(map.get(key) instanceof String && map.get(key).toString().equals(groupid)){
-							teamid=key;
-							break;
-						}
+					Map<String, Object> map=new PreferenceData(this).getData(new String[]{teamid1, teamid2, teamid3});
+					
+					if(map.containsKey(teamid1) && map.get(teamid1).toString().equals(groupid)){
+						teamid=teamid1;
 					}
-					openChat(teamid, ChatFragment.PEORSON_CHAT);
+					else if(map.containsKey(teamid2) && map.get(teamid2).toString().equals(groupid)){
+						teamid=teamid2;
+					}
+					else if(map.containsKey(teamid3) && map.get(teamid3).toString().equals(groupid)){
+						teamid=teamid3;
+					}
+					System.out.println("teamid  groupid===="+teamid);
+					openGroupChat(teamid);
 				}
 				else if(type.equals("update_review")){
 					String teamid=intent.getStringExtra("teamid");
@@ -1808,13 +1986,13 @@ public class HomePageActivity extends FragmentActivity implements HandlerListene
 				else if(type.equals("new_match")){
 					String teamid=intent.getStringExtra("teamid");
 					back();
-					bar.initChecked(R.id.bar_home);
+					//bar.initChecked(R.id.bar_home);
 					openPreview(teamid);
 				}
 				else if(type.equals("someone_join")){
 					String teamid=intent.getStringExtra("teamid");
 					back();
-					bar.initChecked(R.id.bar_team);
+					//bar.initChecked(R.id.bar_team);
 					openTeams(teamid);
 					String authority="";
 					if(teamid.endsWith(teamid1)){
@@ -1942,6 +2120,7 @@ public class HomePageActivity extends FragmentActivity implements HandlerListene
 			teamid1=bundle.getString("teamid1");
 			teamid2=bundle.getString("teamid2");
 			teamid3=bundle.getString("teamid3");
+			Tools.getGroupIdForHuan(mRealTimeHandler.getHandler(), new String[]{teamid1, teamid2, teamid3});
 			authority1=bundle.getString("authority1");
 			authority2=bundle.getString("authority2");
 			authority3=bundle.getString("authority3");
@@ -2016,6 +2195,45 @@ public class HomePageActivity extends FragmentActivity implements HandlerListene
 				}
 				else{
 					System.out.println("33333333333333333333333333333333333333333333");
+					removeVague();
+					if(viewPager!=null && fragmentList1!=null && fragmentList1.size()>0){
+						Iterator<Fragment> iter=fragmentList1.iterator();
+						while(iter.hasNext()){
+							Fragment f=iter.next();
+							if(f instanceof IdentificationInterface){
+								IdentificationInterface tmp=(IdentificationInterface)f;
+								tmp.setEnable(true);
+							}
+							if(f instanceof TeamFragment){
+								TeamFragment tmp=(TeamFragment)f;
+								tmp.setNetWorkCheckOpen(false);
+							}
+						}
+					}
+					
+					if(fm.findFragmentById(R.id.title)!=null && fm.findFragmentById(R.id.title) instanceof IdentificationInterface){
+						((IdentificationInterface)fm.findFragmentById(R.id.title)).setEnable(true);
+						if(fm.findFragmentById(R.id.title) instanceof TitleFragment){
+							TitleFragment tmp=(TitleFragment)fm.findFragmentById(R.id.title);
+							tmp.setNetWorkCheckOpen(false);
+						}
+					}
+					
+					if(fm.findFragmentById(R.id.main)!=null && fm.findFragmentById(R.id.main) instanceof IdentificationInterface){
+						((IdentificationInterface)fm.findFragmentById(R.id.main)).setEnable(true);
+					}
+					
+					if(fm.findFragmentById(R.id.bar)!=null && fm.findFragmentById(R.id.bar) instanceof IdentificationInterface){
+						((IdentificationInterface)fm.findFragmentById(R.id.bar)).setEnable(true);
+					}
+					
+					if(fm.findFragmentById(R.id.content)!=null && fm.findFragmentById(R.id.content) instanceof IdentificationInterface){
+						((IdentificationInterface)fm.findFragmentById(R.id.content)).setEnable(true);
+					}
+					
+					if(fm.findFragmentById(R.id.down)!=null && fm.findFragmentById(R.id.down) instanceof IdentificationInterface){
+						((IdentificationInterface)fm.findFragmentById(R.id.down)).setEnable(true);
+					}
 				}
 			}
 			
@@ -2112,10 +2330,26 @@ public class HomePageActivity extends FragmentActivity implements HandlerListene
 			break;
 		}
 		case COMPLETED_INFORMATION:{
+			if(msg.arg1==1){
+				Bundle bundle=msg.getData();
+				teamid1=bundle.getString("teamid1");
+				teamid2=bundle.getString("teamid2");
+				teamid3=bundle.getString("teamid3");
+				authority1=bundle.getString("authority1");
+				authority2=bundle.getString("authority2");
+				authority3=bundle.getString("authority3");
+				initTeam(false);
+			}
 			removeVague();
 			if(fm.findFragmentById(R.id.main) instanceof CompleteInfoFragment){
 				showAll();
 				((HomePageFragment)fm.findFragmentById(R.id.content)).updateView();
+				((HomePageFragment)fm.findFragmentById(R.id.content)).setEnable(true);
+				if(fm.findFragmentById(R.id.title) instanceof TitleFragment){
+					TitleFragment tmp=(TitleFragment)fm.findFragmentById(R.id.title);
+					tmp.setEnable(true);
+				}
+				bar.setEnable(true);
 				backPressed();
 			}
 			break;
@@ -2342,9 +2576,11 @@ public class HomePageActivity extends FragmentActivity implements HandlerListene
 				tx.replace(R.id.main, previewMatch);
 				tx.addToBackStack(null);
 				tx.commit();
-				TeamFragment tf=(TeamFragment)fragmentList1.get(viewPager.getCurrentItem());
-				if(tf!=null && tf.isVisible()){
-					tf.setEnable(false);
+				if(fragmentList1.get(viewPager.getCurrentItem()) instanceof TeamFragment){
+					TeamFragment tf=(TeamFragment)fragmentList1.get(viewPager.getCurrentItem());
+					if(tf!=null && tf.isVisible()){
+						tf.setEnable(false);
+					}
 				}
 				bar.setEnable(false);
 			}
@@ -2375,12 +2611,12 @@ public class HomePageActivity extends FragmentActivity implements HandlerListene
 				case 0:{
 					if(fragmentList1.get(0) instanceof TeamFragment){
 						TeamFragment tmp=(TeamFragment)fragmentList1.get(0);
-						if(tmp.getTeamid().equals(teamid))
+						if(tmp.getTeamid()!=null && tmp.getTeamid().equals(teamid))
 							tmp.initiate();
 					}
 					if(fragmentList1.get(1) instanceof TeamFragment){
 						TeamFragment tmp=(TeamFragment)fragmentList1.get(1);
-						if(tmp.getTeamid().equals(teamid))
+						if(tmp.getTeamid()!=null && tmp.getTeamid().equals(teamid))
 							tmp.initiate();
 					}
 					break;
@@ -2388,17 +2624,17 @@ public class HomePageActivity extends FragmentActivity implements HandlerListene
 				case 1:{
 					if(fragmentList1.get(0) instanceof TeamFragment){
 						TeamFragment tmp=(TeamFragment)fragmentList1.get(0);
-						if(tmp.getTeamid().equals(teamid))
+						if(tmp.getTeamid()!=null && tmp.getTeamid().equals(teamid))
 							tmp.initiate();
 					}
 					if(fragmentList1.get(1) instanceof TeamFragment){
 						TeamFragment tmp=(TeamFragment)fragmentList1.get(1);
-						if(tmp.getTeamid().equals(teamid))
+						if(tmp.getTeamid()!=null && tmp.getTeamid().equals(teamid))
 							tmp.initiate();
 					}
 					if(fragmentList1.get(2) instanceof TeamFragment){
 						TeamFragment tmp=(TeamFragment)fragmentList1.get(2);
-						if(tmp.getTeamid().equals(teamid))
+						if(tmp.getTeamid()!=null && tmp.getTeamid().equals(teamid))
 							tmp.initiate();
 					}
 					break;
@@ -2406,12 +2642,12 @@ public class HomePageActivity extends FragmentActivity implements HandlerListene
 				case 2:{
 					if(fragmentList1.get(1) instanceof TeamFragment){
 						TeamFragment tmp=(TeamFragment)fragmentList1.get(1);
-						if(tmp.getTeamid().equals(teamid))
+						if(tmp.getTeamid()!=null && tmp.getTeamid().equals(teamid))
 							tmp.initiate();
 					}
 					if(fragmentList1.get(2) instanceof TeamFragment){
 						TeamFragment tmp=(TeamFragment)fragmentList1.get(2);
-						if(tmp.getTeamid().equals(teamid))
+						if(tmp.getTeamid()!=null && tmp.getTeamid().equals(teamid))
 							tmp.initiate();
 					}
 					break;
@@ -2484,6 +2720,10 @@ public class HomePageActivity extends FragmentActivity implements HandlerListene
 				tmp.setEnable(true);
 				Toast.makeText(this, "用户名或密码错误", Toast.LENGTH_SHORT).show();
 			}
+			else{
+				close();
+				Toast.makeText(this, "用户名或密码错误", Toast.LENGTH_SHORT).show();
+			}
 			break;
 		}
 		case WAIT_LOGIN:{
@@ -2491,6 +2731,7 @@ public class HomePageActivity extends FragmentActivity implements HandlerListene
 			if(fm.findFragmentById(R.id.content) instanceof LoginFragment){
 				LoginFragment tmp=(LoginFragment)fm.findFragmentById(R.id.content);
 				tmp.setEnable(true);
+				Toast.makeText(this, "网络状态不佳，操作未成功", Toast.LENGTH_SHORT).show();
 			}
 			break;
 		}
@@ -2507,6 +2748,7 @@ public class HomePageActivity extends FragmentActivity implements HandlerListene
 			if(fm.findFragmentById(R.id.main) instanceof MatchReviewFragment){
 				MatchReviewFragment tmp=(MatchReviewFragment)fm.findFragmentById(R.id.main);
 				tmp.setEnable(true);
+				Toast.makeText(this, "网络状态不佳，操作未成功", Toast.LENGTH_SHORT).show();
 			}
 			break;
 		}
@@ -2515,6 +2757,7 @@ public class HomePageActivity extends FragmentActivity implements HandlerListene
 			if(fm.findFragmentById(R.id.content) instanceof SearchItemFragment){
 				SearchItemFragment tmp=(SearchItemFragment)fm.findFragmentById(R.id.content);
 				tmp.setEnable(true);
+				Toast.makeText(this, "网络状态不佳，操作未成功", Toast.LENGTH_SHORT).show();
 			}
 			break;
 		}
@@ -2523,6 +2766,7 @@ public class HomePageActivity extends FragmentActivity implements HandlerListene
 			if(fm.findFragmentById(R.id.content) instanceof RegisterFragment && ((RegisterFragment)fm.findFragmentById(R.id.content)).getState()==RegisterFragment.PHONE_PASSWORDS){
 				RegisterFragment tmp=(RegisterFragment)fm.findFragmentById(R.id.content);
 				tmp.setEnable(RegisterFragment.PHONE_PASSWORDS, true);
+				Toast.makeText(this, "网络状态不佳，操作未成功", Toast.LENGTH_SHORT).show();
 			}
 			break;
 		}
@@ -2531,6 +2775,7 @@ public class HomePageActivity extends FragmentActivity implements HandlerListene
 			if(fm.findFragmentById(R.id.content) instanceof RegisterFragment && ((RegisterFragment)fm.findFragmentById(R.id.content)).getState()==RegisterFragment.IDENTIFYING_CODE){
 				RegisterFragment tmp=(RegisterFragment)fm.findFragmentById(R.id.content);
 				tmp.setEnable(RegisterFragment.IDENTIFYING_CODE, true);
+				Toast.makeText(this, "网络状态不佳，操作未成功", Toast.LENGTH_SHORT).show();
 			}
 			break;
 		}
@@ -2540,6 +2785,7 @@ public class HomePageActivity extends FragmentActivity implements HandlerListene
 				RegisterFragment tmp=(RegisterFragment)fm.findFragmentById(R.id.content);
 				tmp.setEnable(RegisterFragment.PHONE_PASSWORDS, true);
 				tmp.reset(RegisterFragment.PHONE_PASSWORDS);
+				Toast.makeText(this, "网络状态不佳，操作未成功", Toast.LENGTH_SHORT).show();
 			}
 			break;
 		}
@@ -2548,6 +2794,7 @@ public class HomePageActivity extends FragmentActivity implements HandlerListene
 			if(fm.findFragmentById(R.id.content) instanceof RegisterFragment && ((RegisterFragment)fm.findFragmentById(R.id.content)).getState()==RegisterFragment.NAME){
 				RegisterFragment tmp=(RegisterFragment)fm.findFragmentById(R.id.content);
 				tmp.setEnable(RegisterFragment.NAME, true);
+				Toast.makeText(this, "网络状态不佳，操作未成功", Toast.LENGTH_SHORT).show();
 			}
 			break;
 		}
@@ -2556,10 +2803,12 @@ public class HomePageActivity extends FragmentActivity implements HandlerListene
 			if(fm.findFragmentById(R.id.main) instanceof SelectPositionFragment){
 				SelectPositionFragment tmp=(SelectPositionFragment)fm.findFragmentById(R.id.main);
 				tmp.setEnable(true);
+				Toast.makeText(this, "网络状态不佳，操作未成功", Toast.LENGTH_SHORT).show();
 			}
 			if(fm.findFragmentById(R.id.content) instanceof SelectPositionFragment){
 				SelectPositionFragment tmp=(SelectPositionFragment)fm.findFragmentById(R.id.content);
 				tmp.setEnable(true);
+				Toast.makeText(this, "网络状态不佳，操作未成功", Toast.LENGTH_SHORT).show();
 			}
 			break;
 		}
@@ -2568,6 +2817,7 @@ public class HomePageActivity extends FragmentActivity implements HandlerListene
 			if(fm.findFragmentById(R.id.content) instanceof RegisterFragment && ((RegisterFragment)fm.findFragmentById(R.id.content)).getState()==RegisterFragment.CITY_DISTRICT){
 				RegisterFragment tmp=(RegisterFragment)fm.findFragmentById(R.id.content);
 				tmp.setEnable(RegisterFragment.CITY_DISTRICT, true);
+				Toast.makeText(this, "网络状态不佳，操作未成功", Toast.LENGTH_SHORT).show();
 			}
 			break;
 		}
@@ -2576,6 +2826,7 @@ public class HomePageActivity extends FragmentActivity implements HandlerListene
 			if(fm.findFragmentById(R.id.content) instanceof RegisterFragment && ((RegisterFragment)fm.findFragmentById(R.id.content)).getState()==RegisterFragment.COMPLETE){
 				RegisterFragment tmp=(RegisterFragment)fm.findFragmentById(R.id.content);
 				tmp.setEnable(RegisterFragment.COMPLETE, true);
+				Toast.makeText(this, "网络状态不佳，操作未成功", Toast.LENGTH_SHORT).show();
 			}
 			break;
 		}
@@ -2584,6 +2835,7 @@ public class HomePageActivity extends FragmentActivity implements HandlerListene
 			if(fm.findFragmentById(R.id.content) instanceof TeamCreateFragment && ((TeamCreateFragment)fm.findFragmentById(R.id.content)).getResourceId()==R.layout.fragment_team_create5){
 				TeamCreateFragment tmp=(TeamCreateFragment)fm.findFragmentById(R.id.content);
 				tmp.setEnable(R.layout.fragment_team_create5, true);
+				Toast.makeText(this, "网络状态不佳，操作未成功", Toast.LENGTH_SHORT).show();
 			}
 			break;
 		}
@@ -2592,14 +2844,18 @@ public class HomePageActivity extends FragmentActivity implements HandlerListene
 			if(fm.findFragmentById(R.id.main) instanceof MatchReviewFragment){
 				MatchReviewFragment tmp=(MatchReviewFragment)fm.findFragmentById(R.id.main);
 				tmp.setEnable(true);
+				Toast.makeText(this, "网络状态不佳，操作未成功", Toast.LENGTH_SHORT).show();
 			}
 			break;
 		}
 		case WAIT_TEAM:{
 			removeVague();
-			TeamFragment tf=(TeamFragment)fragmentList1.get(viewPager.getCurrentItem());
-			if(tf!=null && tf.isVisible()){
-				tf.setEnable(true);
+			if(fragmentList1.get(viewPager.getCurrentItem()) instanceof TeamFragment && !(fm.findFragmentById(R.id.main) instanceof IdentificationInterface)){
+				TeamFragment tf=(TeamFragment)fragmentList1.get(viewPager.getCurrentItem());
+				if(tf!=null && tf.isVisible()){
+					tf.setEnable(true);
+				}
+				bar.setEnable(true);
 			}
 			break;
 		}
@@ -2608,6 +2864,7 @@ public class HomePageActivity extends FragmentActivity implements HandlerListene
 			if(fm.findFragmentById(R.id.main) instanceof EditReviewFragment){
 				EditReviewFragment tmp=(EditReviewFragment)fm.findFragmentById(R.id.main);
 				tmp.setEnable(true);
+				Toast.makeText(this, "网络状态不佳，操作未成功", Toast.LENGTH_SHORT).show();
 			}
 			break;
 		}
@@ -2616,6 +2873,25 @@ public class HomePageActivity extends FragmentActivity implements HandlerListene
 			if(fm.findFragmentById(R.id.main) instanceof EvaluationCapacityFragment && ((EvaluationCapacityFragment)fm.findFragmentById(R.id.main)).getPhone().equals(this.phone)){
 				EvaluationCapacityFragment tmp=(EvaluationCapacityFragment)fm.findFragmentById(R.id.main);
 				tmp.setEnable(true);
+				Toast.makeText(this, "网络状态不佳，操作未成功", Toast.LENGTH_SHORT).show();
+			}
+			break;
+		}
+		case WAIT_EDIT_TEAM_GRADE:{
+			removeVague();
+			if(fm.findFragmentById(R.id.main) instanceof EditTeamGradeFragment){
+				EditTeamGradeFragment tmp=(EditTeamGradeFragment)fm.findFragmentById(R.id.main);
+				tmp.setEnable(true);
+				Toast.makeText(this, "网络状态不佳，操作未成功", Toast.LENGTH_SHORT).show();
+			}
+			break;
+		}
+		case WAIT_EDIT_TEAM_INFO:{
+			removeVague();
+			if(fm.findFragmentById(R.id.main) instanceof TeamInfoEditFragment){
+				TeamInfoEditFragment tmp=(TeamInfoEditFragment)fm.findFragmentById(R.id.main);
+				tmp.setEnable(true);
+				Toast.makeText(this, "网络状态不佳，操作未成功", Toast.LENGTH_SHORT).show();
 			}
 			break;
 		}
@@ -2638,6 +2914,7 @@ public class HomePageActivity extends FragmentActivity implements HandlerListene
 			if(fm.findFragmentById(R.id.main) instanceof EditPreviewFragment){
 				EditPreviewFragment tmp=(EditPreviewFragment)fm.findFragmentById(R.id.main);
 				tmp.setEnable(true);
+				Toast.makeText(this, "网络状态不佳，操作未成功", Toast.LENGTH_SHORT).show();
 			}
 			break;
 		}
@@ -2645,14 +2922,34 @@ public class HomePageActivity extends FragmentActivity implements HandlerListene
 			if(msg.obj!=null && msg.obj instanceof ChangingRoomAdapter.ViewHolder){
 				ChangingRoomAdapter.ViewHolder tmp=(ChangingRoomAdapter.ViewHolder)msg.obj;
 				tmp.setEnable(true);
+				Toast.makeText(this, "网络状态不佳，操作未成功", Toast.LENGTH_SHORT).show();
+			}
+			break;
+		}
+		case WAIT_EDIT_TEAM_PROCESS:{
+			removeVague();
+			if(fm.findFragmentById(R.id.main) instanceof TeamInfoGradeEditFragment){
+				TeamInfoGradeEditFragment tmp=(TeamInfoGradeEditFragment)fm.findFragmentById(R.id.main);
+				tmp.setEnable(true);
+				Toast.makeText(this, "网络状态不佳，操作未成功", Toast.LENGTH_SHORT).show();
 			}
 			break;
 		}
 		case WAIT_COMPLETE_INFO:{
+			removeVague();
 			if(fm.findFragmentById(R.id.main) instanceof CompleteInfoFragment){	
 				CompleteInfoFragment tmp=(CompleteInfoFragment)fm.findFragmentById(R.id.main);
 				tmp.setEnable(true);
-				removeVague();
+				Toast.makeText(this, "网络状态不佳，操作未成功", Toast.LENGTH_SHORT).show();
+			}
+			break;
+		}
+		case WAIT_EDIT_FAME:{
+			removeVague();
+			if(fm.findFragmentById(R.id.main) instanceof HallOfFameFragment && ((HallOfFameFragment)fm.findFragmentById(R.id.main)).getResourceId()==R.layout.add_hall_of_fame){	
+				HallOfFameFragment tmp=(HallOfFameFragment)fm.findFragmentById(R.id.main);
+				tmp.setEnable(true);
+				Toast.makeText(this, "网络状态不佳，操作未成功", Toast.LENGTH_SHORT).show();
 			}
 			break;
 		}
@@ -2687,39 +2984,16 @@ public class HomePageActivity extends FragmentActivity implements HandlerListene
 			authority2=bundle.getString("authority2");
 			authority3=bundle.getString("authority3");
 			if(viewPager!=null){
-				Iterator<Fragment> iter=fragmentList1.iterator();
-				while(iter.hasNext()){
-					Fragment f=iter.next();
-					if(f instanceof TeamFragment){
-						TeamFragment tmp=(TeamFragment)f;
-						if(tmp.getTeamid().equals(teamid)){
-							int position=fragmentList1.indexOf(tmp);
-							fragmentList1.remove(position);
-							boolean isCreatedTeam=false;
-							if(authority1.equals("4") || authority2.equals("4") || authority3.equals("4")){
-								isCreatedTeam=true;
-							}
-							TeamCreateFragment tmp1=new TeamCreateFragment();
-							Bundle bundle1=new Bundle();
-							bundle1.putBoolean("isCreatedTeam", isCreatedTeam);
-							bundle1.putInt("resource", R.layout.fragment_team_create1);
-							tmp1.setArguments(bundle1);
-							fragmentList1.add(position, tmp1);
-							if(mAdapter!=null){
-								mAdapter.notifyDataSetChanged();
-							}
-							break;
-						}
-					}
-				}
+				initTeam(false);
 			}
 			break;
 		}
 		case WAIT_EVALUATE_INFO:{
+			removeVague();
 			if(fm.findFragmentById(R.id.content) instanceof HomePageFragment){
 				HomePageFragment tmp=(HomePageFragment)fm.findFragmentById(R.id.content);
-				tmp.setEnable(true, "host");
-				removeVague();
+				tmp.setEnable(true);
+				bar.setEnable(true);
 			}
 			break;
 		}
@@ -2738,6 +3012,8 @@ public class HomePageActivity extends FragmentActivity implements HandlerListene
 					tx.addToBackStack(null);
 					tx.commit();
 					hideAll();
+					h.setEnable(true);
+					bar.setEnable(true);
 				}
 			}
 			if(fm.findFragmentById(R.id.main) instanceof HomePageFragment){
@@ -2745,7 +3021,7 @@ public class HomePageActivity extends FragmentActivity implements HandlerListene
 				if(h.getPhone().equals(phone) && !phone.equals("host")){
 					boolean isEvaluate=bundle.getBoolean("isEvaluate");
 					if(isEvaluate==true){
-						h.setEnable(true, phone);
+						h.setEnable(true);
 						Toast.makeText(this, "您已对该好友评分", Toast.LENGTH_LONG).show();
 					}
 					else{
@@ -2760,6 +3036,23 @@ public class HomePageActivity extends FragmentActivity implements HandlerListene
 			if(fm.findFragmentById(R.id.content) instanceof HomePageFragment && ((HomePageFragment)fm.findFragmentById(R.id.content)).getPhone().equals("host")){
 				HomePageFragment tmp=(HomePageFragment)fm.findFragmentById(R.id.content);
 				tmp.setR(true);
+				removeVague();
+			}
+			break;
+		}
+		case UPDATE_REVIEW_MATCH:{
+			removeVague();
+			if(fm.findFragmentById(R.id.main) instanceof EditReviewFragment){
+				onBackPressed();
+			}
+			break;
+		}
+		case WAIT_UPDATE_REVIEW:{
+			removeVague();
+			if(fm.findFragmentById(R.id.main) instanceof EditReviewFragment){
+				EditReviewFragment tmp=(EditReviewFragment)fm.findFragmentById(R.id.main);
+				tmp.setEnable(true);
+				Toast.makeText(this, "网络状态不佳，操作未成功", Toast.LENGTH_SHORT).show();
 			}
 			break;
 		}
@@ -2779,12 +3072,15 @@ public class HomePageActivity extends FragmentActivity implements HandlerListene
 			Bundle bundle=msg.getData();
 			if(bundle.containsKey(teamid1)){
 				map.put(teamid1, bundle.getString(teamid1));
+				System.out.println("groupid1= "+bundle.getString(teamid1)+" while teamid= "+teamid1);
 			}
 			if(bundle.containsKey(teamid2)){
 				map.put(teamid2, bundle.getString(teamid2));
+				System.out.println("groupid2= "+bundle.getString(teamid2)+" while teamid= "+teamid2);
 			}
 			if(bundle.containsKey(teamid3)){
 				map.put(teamid3, bundle.getString(teamid3));
+				System.out.println("groupid3= "+bundle.getString(teamid3)+" while teamid= "+teamid3);
 			}
 			pd.save(map);
 			if(fm.findFragmentById(R.id.title) instanceof TitleFragment && ((TitleFragment)fm.findFragmentById(R.id.title)).getState()==TitleFragment.HOMEPAGE_TITLE){
@@ -2796,11 +3092,23 @@ public class HomePageActivity extends FragmentActivity implements HandlerListene
 			break;
 		}
 		case WAIT_DELETE_PREVIEW:{
+			removeVague();
 			if(fm.findFragmentById(R.id.main) instanceof EditPreviewFragment){
 				EditPreviewFragment tmp=(EditPreviewFragment)fm.findFragmentById(R.id.main);
-				removeVague();
 				tmp.setEnable(true);
+				Toast.makeText(this, "网络状态不佳，操作未成功", Toast.LENGTH_SHORT).show();
 			}
+			break;
+		}
+		case AUTHORITY:{
+			Bundle bundle=msg.getData();
+			teamid1=bundle.getString("teamid1");
+			teamid2=bundle.getString("teamid2");
+			teamid3=bundle.getString("teamid3");
+			authority1=bundle.getString("authority1");
+			authority2=bundle.getString("authority2");
+			authority3=bundle.getString("authority3");
+			initTeam(false);
 			break;
 		}
 		case DELETE_PREVIEW:{
@@ -2828,9 +3136,11 @@ public class HomePageActivity extends FragmentActivity implements HandlerListene
 				tx.replace(R.id.main, tmp);
 				tx.addToBackStack(null);
 				tx.commit();
-				TeamFragment tf=(TeamFragment)fragmentList1.get(viewPager.getCurrentItem());
-				if(tf!=null && tf.isVisible()){
-					tf.setEnable(false);
+				if(fragmentList1.get(viewPager.getCurrentItem()) instanceof TeamFragment){
+					TeamFragment tf=(TeamFragment)fragmentList1.get(viewPager.getCurrentItem());
+					if(tf!=null && tf.isVisible()){
+						tf.setEnable(false);
+					}
 				}
 				bar.setEnable(false);
 			}
@@ -2882,17 +3192,18 @@ public class HomePageActivity extends FragmentActivity implements HandlerListene
 				tx.replace(R.id.main, matchReviewList);
 				tx.addToBackStack(null);
 				tx.commit();
-				TeamFragment tf=(TeamFragment)fragmentList1.get(viewPager.getCurrentItem());
-				if(tf!=null && tf.isVisible()){
-					tf.setEnable(true);
+				if(fragmentList1.get(viewPager.getCurrentItem()) instanceof TeamFragment){
+					TeamFragment tf=(TeamFragment)fragmentList1.get(viewPager.getCurrentItem());
+					if(tf!=null && tf.isVisible()){
+						tf.setEnable(true);
+					}
 				}
-				System.out.println("3333333333333333");
 				reviewDetail(teamid, (MatchReviewEntity)bundle0.getSerializable("entity"), authority);
-				System.out.println("444444444444444444");
 			}
 			break;
 		}
 		case GET_FAME:{
+			removeVague();
 			Map<String, Object> map=(Map<String, Object>)msg.obj;
 			if(msg.arg1==0){
 				//开新登录页
@@ -2966,9 +3277,11 @@ public class HomePageActivity extends FragmentActivity implements HandlerListene
 				}
 				back();
 				openFame(HallOfFameFragment.FIRST_OPEN, teamid, authority, null);
-				TeamFragment tf=(TeamFragment)fragmentList1.get(viewPager.getCurrentItem());
-				if(tf!=null && tf.isVisible()){
-					tf.setEnable(false);
+				if(fragmentList1.get(viewPager.getCurrentItem()) instanceof TeamFragment){
+					TeamFragment tf=(TeamFragment)fragmentList1.get(viewPager.getCurrentItem());
+					if(tf!=null && tf.isVisible()){
+						tf.setEnable(false);
+					}
 				}
 				bar.setEnable(false);
 			}
@@ -3012,29 +3325,49 @@ public class HomePageActivity extends FragmentActivity implements HandlerListene
 			String teamid=msg.obj.toString();
 			int current=viewPager.getCurrentItem();
 			if(current>=1){
-				if(fragmentList1.get(current-1) instanceof TeamFragment && ((TeamFragment)fragmentList1.get(current-1)).getTeamid().equals(teamid)){
+				if(fragmentList1.get(current-1) instanceof TeamFragment && ((TeamFragment)fragmentList1.get(current-1)).getTeamid()!=null && ((TeamFragment)fragmentList1.get(current-1)).getTeamid().equals(teamid)){
 					TeamFragment tmp=(TeamFragment)fragmentList1.get(current-1);
 					tmp.initiate();
 					mAdapter.notifyDataSetChanged();
 				}
 			}
 			if(current<=1){
-				if(fragmentList1.get(current+1) instanceof TeamFragment && ((TeamFragment)fragmentList1.get(current+1)).getTeamid().equals(teamid)){
+				if(fragmentList1.get(current+1) instanceof TeamFragment && ((TeamFragment)fragmentList1.get(current+1)).getTeamid()!=null && ((TeamFragment)fragmentList1.get(current+1)).getTeamid().equals(teamid)){
 					TeamFragment tmp=(TeamFragment)fragmentList1.get(current+1);
 					tmp.initiate();
 					mAdapter.notifyDataSetChanged();
 				}
 			}
-			if(fragmentList1.get(current) instanceof TeamFragment && ((TeamFragment)fragmentList1.get(current)).getTeamid().equals(teamid)){
+			if(fragmentList1.get(current) instanceof TeamFragment && ((TeamFragment)fragmentList1.get(current)).getTeamid()!=null&& ((TeamFragment)fragmentList1.get(current)).getTeamid().equals(teamid)){
 				TeamFragment tmp=(TeamFragment)fragmentList1.get(current);
 				tmp.initiate();
 				mAdapter.notifyDataSetChanged();
 			}
+			removeVague();
 			back();
 			break;
 		}
 		case CHANGE_TEAM_GRADE:{
+			removeVague();
 			if(fm.findFragmentById(R.id.main) instanceof EditTeamGradeFragment || fm.findFragmentById(R.id.main) instanceof TeamInfoGradeEditFragment){
+				onBackPressed();
+			}
+			break;
+		}
+		case LOBBY_TEAM:{
+			removeVague();
+			if(fm.findFragmentById(R.id.content) instanceof LobbyTeamFragment){
+				int index=msg.arg1;
+				List<LobbyTeamEntity> list=(List<LobbyTeamEntity>)msg.obj;
+				LobbyTeamFragment tmp=(LobbyTeamFragment)fm.findFragmentById(R.id.content);
+				if(index==tmp.getIndex()){
+					tmp.setData(list);
+				}
+			}
+		}
+		case OK_THEME:{
+			removeVague();
+			if(fm.findFragmentById(R.id.main) instanceof LobbyTeamAddFragment || fm.findFragmentById(R.id.main) instanceof LobbyTeamReplyFragment){
 				onBackPressed();
 			}
 			break;
@@ -3058,6 +3391,18 @@ public class HomePageActivity extends FragmentActivity implements HandlerListene
 		}
 	}
 
+	public void openCheckNetwork(){
+		Intent intent=null;
+        if(android.os.Build.VERSION.SDK_INT>10){
+            intent = new Intent(android.provider.Settings.ACTION_WIRELESS_SETTINGS);
+        }else{
+            intent = new Intent();
+            ComponentName component = new ComponentName("com.android.settings","com.android.settings.WirelessSettings");
+            intent.setComponent(component);
+            intent.setAction("android.intent.action.VIEW");
+        }
+        startActivity(intent);
+	}
 
 	@Override 
 	public boolean onKeyDown(int keyCode, KeyEvent event) { 
@@ -3076,15 +3421,19 @@ public class HomePageActivity extends FragmentActivity implements HandlerListene
 	@Override
 	public void onBackPressed() {
 		// TODO Auto-generated method stub
-		if(fm.findFragmentById(R.id.content) instanceof HomePageFragment && !(fm.findFragmentById(R.id.down) instanceof HomePageInterface) && !(fm.findFragmentById(R.id.main) instanceof HomePageInterface) && ((HomePageFragment)fm.findFragmentById(R.id.content)).getPhone().equals("host")){
+		if(fm.findFragmentById(R.id.content) instanceof HomePageFragment && !(fm.findFragmentById(R.id.down) instanceof IdentificationInterface) && !(fm.findFragmentById(R.id.main) instanceof IdentificationInterface) && ((HomePageFragment)fm.findFragmentById(R.id.content)).getPhone().equals("host")){
 			moveTaskToBack(false);  
 			System.out.println("1");
 		}
-		else if(fm.findFragmentById(R.id.content) instanceof ListsFragment && !(fm.findFragmentById(R.id.main) instanceof HomePageInterface) && !(fm.findFragmentById(R.id.main) instanceof TeamInterface)){
+		else if(fm.findFragmentById(R.id.content) instanceof ListsFragment && !(fm.findFragmentById(R.id.main) instanceof IdentificationInterface) && !(fm.findFragmentById(R.id.down) instanceof IdentificationInterface)){
 			moveTaskToBack(false); 
 			System.out.println("2");
 		}
-		else if(fm.findFragmentById(R.id.content) instanceof MoreFragment && !(fm.findFragmentById(R.id.main) instanceof MoreInterface)){
+		else if(fm.findFragmentById(R.id.content) instanceof LobbyInterface && !(fm.findFragmentById(R.id.main) instanceof IdentificationInterface) && !(fm.findFragmentById(R.id.down) instanceof IdentificationInterface)){
+			moveTaskToBack(false); 
+			System.out.println("2.5");
+		}
+		else if(fm.findFragmentById(R.id.content) instanceof MoreFragment && !(fm.findFragmentById(R.id.down) instanceof IdentificationInterface) && !(fm.findFragmentById(R.id.main) instanceof IdentificationInterface)){
 			moveTaskToBack(false); 
 			System.out.println("3");
 		}
@@ -3092,24 +3441,39 @@ public class HomePageActivity extends FragmentActivity implements HandlerListene
 			showAll();
 			((HomePageFragment)fm.findFragmentById(R.id.content)).updateView();
 			backPressed();
+			if(fm.findFragmentById(R.id.title) instanceof TitleFragment){
+				TitleFragment tmp=(TitleFragment)fm.findFragmentById(R.id.title);
+				tmp.setEnable(true);
+			}
 			System.out.println("4");
 		}
 		else if(fm.findFragmentById(R.id.down) instanceof MyMatchFragment){
 			showDown();
 			backPressed();
 			System.out.println("5");
+			bar.setEnable(true);
+			if(fm.findFragmentById(R.id.content) instanceof HomePageFragment){
+				HomePageFragment tmp=(HomePageFragment)fm.findFragmentById(R.id.content);
+				tmp.setEnable(true);
+			}
 		}
 		else if(fm.findFragmentById(R.id.down) instanceof MatchPreviewFragment && ((MatchPreviewFragment)fm.findFragmentById(R.id.down)).getAuthority()==-1){
 			if(needToShowMain==true){
 				showMain();
 				hideTitle();
+				System.out.println("5.5");
 			}
 			else{
 				showTitle();
 				showDown();
+				bar.setEnable(true);
+				if(fm.findFragmentById(R.id.content) instanceof HomePageFragment){
+					HomePageFragment tmp=(HomePageFragment)fm.findFragmentById(R.id.content);
+					tmp.setEnable(true);
+				}
+				System.out.println("6");
 			}
 			backPressed();
-			System.out.println("6");
 		}
 		else if(fm.findFragmentById(R.id.main) instanceof ListsFragment){
 			showAll();
@@ -3139,7 +3503,7 @@ public class HomePageActivity extends FragmentActivity implements HandlerListene
 			tmp.put("date", Tools.getDate1());
 			tmp.put("rid", JPushInterface.getRegistrationID(getApplicationContext()));
 			SQLHelper helper=SQLHelper.getInstance(this);
-			Cursor cursor=helper.select("ich", new String[]{"image"}, "phone=?", new String[]{phone}, null);
+			Cursor cursor=helper.select("ich", new String[]{"image"}, "phone=?", new String[]{"host"}, null);
 			if(cursor.moveToNext()){
 				String imgPath=cursor.getString(0);
 				if(imgPath!=null && Tools.isFileExist(imgPath)!=false){
@@ -3174,36 +3538,44 @@ public class HomePageActivity extends FragmentActivity implements HandlerListene
 		}
 		else if(fm.findFragmentById(R.id.title) instanceof TitleFragment && ((TitleFragment)fm.findFragmentById(R.id.title)).getState()==TitleFragment.TEAM_INFO_TITLE){
 			back();
-			TeamFragment tf=(TeamFragment)fragmentList1.get(viewPager.getCurrentItem());
-			if(tf!=null && tf.isVisible()){
-				tf.setEnable(true);
+			if(fragmentList1.get(viewPager.getCurrentItem()) instanceof TeamFragment){
+				TeamFragment tf=(TeamFragment)fragmentList1.get(viewPager.getCurrentItem());
+				if(tf!=null && tf.isVisible()){
+					tf.setEnable(true);
+				}
 			}
 			bar.setEnable(true);
 			System.out.println("8");
 		}
 		else if(fm.findFragmentById(R.id.main) instanceof MatchReviewFragment){
 			backPressed();
-			TeamFragment tf=(TeamFragment)fragmentList1.get(viewPager.getCurrentItem());
-			if(tf!=null && tf.isVisible()){
-				tf.setEnable(true);
+			if(fragmentList1.get(viewPager.getCurrentItem()) instanceof TeamFragment){
+				TeamFragment tf=(TeamFragment)fragmentList1.get(viewPager.getCurrentItem());
+				if(tf!=null && tf.isVisible()){
+					tf.setEnable(true);
+				}
 			}
 			bar.setEnable(true);
 			System.out.println("9");
 		}
 		else if(fm.findFragmentById(R.id.main) instanceof MatchPreviewFragment && ((MatchPreviewFragment)fm.findFragmentById(R.id.main)).getAuthority()!=-1){
 			backPressed();
-			TeamFragment tf=(TeamFragment)fragmentList1.get(viewPager.getCurrentItem());
-			if(tf!=null && tf.isVisible()){
-				tf.setEnable(true);
+			if(fragmentList1.get(viewPager.getCurrentItem()) instanceof TeamFragment){
+				TeamFragment tf=(TeamFragment)fragmentList1.get(viewPager.getCurrentItem());
+				if(tf!=null && tf.isVisible()){
+					tf.setEnable(true);
+				}
 			}
 			bar.setEnable(true);
 			System.out.println("10");
 		}
 		else if(fm.findFragmentById(R.id.main) instanceof PrematchStartFragment){
 			backPressed();
-			TeamFragment tf=(TeamFragment)fragmentList1.get(viewPager.getCurrentItem());
-			if(tf!=null && tf.isVisible()){
-				tf.setEnable(true);
+			if(fragmentList1.get(viewPager.getCurrentItem()) instanceof TeamFragment){
+				TeamFragment tf=(TeamFragment)fragmentList1.get(viewPager.getCurrentItem());
+				if(tf!=null && tf.isVisible()){
+					tf.setEnable(true);
+				}
 			}
 			bar.setEnable(true);
 			System.out.println("10.5");
@@ -3266,14 +3638,26 @@ public class HomePageActivity extends FragmentActivity implements HandlerListene
 								int which) {
 							backPressed();
 							showAll();
+							tmp.setEnable(true);
+							bar.setEnable(true);
+							if(fm.findFragmentById(R.id.title) instanceof TitleFragment){
+								TitleFragment tmp=(TitleFragment)fm.findFragmentById(R.id.title);
+								tmp.setEnable(true);
+							}
+							if(fm.findFragmentById(R.id.content) instanceof HomePageFragment){
+								HomePageFragment tmp=(HomePageFragment)fm.findFragmentById(R.id.content);
+								tmp.setEnable(true);
+							}
 						}
 					}).show();
 		}
 		else if(fm.findFragmentById(R.id.main) instanceof ShooterAssisterFragment){
 			backPressed();
-			TeamFragment tf=(TeamFragment)fragmentList1.get(viewPager.getCurrentItem());
-			if(tf!=null && tf.isVisible()){
-				tf.setEnable(true);
+			if(fragmentList1.get(viewPager.getCurrentItem()) instanceof TeamFragment){
+				TeamFragment tf=(TeamFragment)fragmentList1.get(viewPager.getCurrentItem());
+				if(tf!=null && tf.isVisible()){
+					tf.setEnable(true);
+				}
 			}
 			bar.setEnable(true);
 			System.out.println("14");
@@ -3297,9 +3681,11 @@ public class HomePageActivity extends FragmentActivity implements HandlerListene
 		}
 		else if(fm.findFragmentById(R.id.main) instanceof MatchLogFragment){
 			backPressed();
-			TeamFragment tf=(TeamFragment)fragmentList1.get(viewPager.getCurrentItem());
-			if(tf!=null && tf.isVisible()){
-				tf.setEnable(true);
+			if(fragmentList1.get(viewPager.getCurrentItem()) instanceof TeamFragment){
+				TeamFragment tf=(TeamFragment)fragmentList1.get(viewPager.getCurrentItem());
+				if(tf!=null && tf.isVisible()){
+					tf.setEnable(true);
+				}
 			}
 			bar.setEnable(true);
 			System.out.println("16");
@@ -3320,9 +3706,11 @@ public class HomePageActivity extends FragmentActivity implements HandlerListene
 		}
 		else if(fm.findFragmentById(R.id.main) instanceof HallOfFameFragment){
 			System.out.println("19.5");
-			TeamFragment tf=(TeamFragment)fragmentList1.get(viewPager.getCurrentItem());
-			if(tf!=null && tf.isVisible()){
-				tf.setEnable(true);
+			if(fragmentList1.get(viewPager.getCurrentItem()) instanceof TeamFragment){
+				TeamFragment tf=(TeamFragment)fragmentList1.get(viewPager.getCurrentItem());
+				if(tf!=null && tf.isVisible()){
+					tf.setEnable(true);
+				}
 			}
 			bar.setEnable(true);
 			backPressed();

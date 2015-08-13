@@ -8,7 +8,12 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.Timer;
+import java.util.TimerTask;
 
+import cn.jpush.android.api.JPushInterface;
+
+import com.example.kickfor.lobby.LobbyTeamEntity;
 import com.example.kickfor.more.SearchItemEntity;
 import com.example.kickfor.team.HonorInfo;
 import com.example.kickfor.team.MatchReviewEntity;
@@ -34,6 +39,48 @@ public class ClientReader implements Runnable{
 	private String message=null;
 	private Context context=null;
 	private boolean ing=true;
+	
+	private long reConnectedTime=0;
+	private static Timer mTimer=null;
+	
+	private void setTimerTask(){
+		mTimer.schedule(new TimerTask(){
+
+			@Override
+			public void run() {
+				// TODO Auto-generated method stub
+				SocketSingleton.close();
+				HomePageActivity c=(HomePageActivity)context;
+				c.initReader();
+				c.setNetWorkStatus();
+				SQLHelper helper=SQLHelper.getInstance(context);
+				PreferenceData pd=new PreferenceData(context);
+				Map<String, Object> map=pd.getData(new String[]{"phone", "passwords"});
+				String phone=map.get("phone").toString();
+				String passwords=map.get("passwords").toString();
+				if((!phone.isEmpty()) && !(passwords.isEmpty())){
+					Map<String, Object> tmp=new HashMap<String, Object>();
+					tmp.put("request", "user login");
+					tmp.put("date", Tools.getDate1());
+					tmp.put("phone", phone);
+					tmp.put("passwords", passwords);
+					tmp.put("rid", JPushInterface.getRegistrationID(context));
+					Cursor cursor=helper.select("ich", new String[]{"image"}, "phone=?", new String[]{"host"}, null);
+					if(cursor.moveToNext()){
+						String imgPath=cursor.getString(0);
+						if(imgPath!=null && Tools.isFileExist(imgPath)!=false){
+							tmp.put("img", "1");
+						}
+					}
+					Runnable r=new ClientWrite(Tools.JsonEncode(tmp));
+					new Thread(r).start();
+					//Tools.loginHuanXin(phone, passwords);
+				}
+			}
+			
+		}, reConnectedTime, 10000);
+		
+	}
 	
 	public ClientReader(Handler handler, Context context){
 		this.handler=handler;
@@ -62,6 +109,15 @@ public class ClientReader implements Runnable{
 				while((size=size+in.read(bytes, size, length-size))!=length){
 					
 				}
+				
+				if(mTimer!=null){
+					mTimer.cancel();
+					mTimer=null;
+				}
+				mTimer=new Timer();
+				reConnectedTime=System.currentTimeMillis()+20000;
+				setTimerTask();
+				
 				message=new String(bytes, "UTF-8");
 				System.out.println(message);
 				Map<String, Object> map=Tools.getMapForJson(message);
@@ -278,6 +334,7 @@ public class ClientReader implements Runnable{
 					handler.sendMessage(msg);
 					break;
 				}
+				
 				case "team mate":{
 					SQLHelper helper=SQLHelper.getInstance(context);
 					String teamid=map.get("teamid").toString();
@@ -332,6 +389,20 @@ public class ClientReader implements Runnable{
 				}
 				case "sign_success":{
 					map.remove("request");
+					String score=map.get("score").toString();
+					String addup=map.get("addup").toString();
+					SQLHelper helper=SQLHelper.getInstance(context);
+					helper.update(Tools.getContentValuesFromMap(map, null), "ich", "host");
+					Bundle bundle=new Bundle();
+					bundle.putString("score", score);
+					bundle.putString("addup", addup);
+					Message msg=handler.obtainMessage();
+					msg.setData(bundle);
+					msg.what=HomePageActivity.SIGN_SUCCESS;
+					handler.sendMessage(msg);
+					break;
+				}
+				case "have_signed":{
 					String score=map.get("score").toString();
 					String addup=map.get("addup").toString();
 					SQLHelper helper=SQLHelper.getInstance(context);
@@ -408,8 +479,33 @@ public class ClientReader implements Runnable{
 				}
 				case "completed_information":{
 					Message msg=handler.obtainMessage();
+					if(map.containsKey("team1")){
+						Bundle bundle=new Bundle();
+						map.remove("request");
+						SQLHelper helper=SQLHelper.getInstance(context);
+						helper.update(Tools.getContentValuesFromMap(map, null), "ich", "host");
+						Cursor cursor=helper.select("ich", new String[]{"team1", "team2", "team3", "authority1", "authority2", "authority3"},  "phone=?", new String[]{"host"}, null);
+						cursor.moveToNext();
+						bundle.putString("teamid1", cursor.getString(0));
+						bundle.putString("teamid2", cursor.getString(1));
+						bundle.putString("teamid3", cursor.getString(2));
+						bundle.putString("authority1", cursor.getString(3));
+						bundle.putString("authority2", cursor.getString(4));
+						bundle.putString("authority3", cursor.getString(5));
+						msg.setData(bundle);
+						msg.arg1=1;
+					}
+					else{
+						msg.arg1=0;
+					}
 					msg.what=HomePageActivity.COMPLETED_INFORMATION;
 					handler.sendMessage(msg);
+					break;
+				}
+				case "update_info":{
+					map.remove("request");
+					SQLHelper helper=SQLHelper.getInstance(context);
+					helper.update(Tools.getContentValuesFromMap(map, null), "friends", map.get("phone").toString());
 					break;
 				}
 				case "completed_position":{
@@ -783,6 +879,7 @@ public class ClientReader implements Runnable{
 					String teamid=map.get("teamid").toString();
 					SQLHelper helper=SQLHelper.getInstance(context);
 					String index=Tools.getIndex(context, teamid, "host");
+					System.out.println("team index======"+index);
 					Map<String, Object> tmp1=new HashMap<String, Object>();
 					tmp1.put("team"+index, "");
 					tmp1.put("tmatch"+index, '0');
@@ -1041,6 +1138,9 @@ public class ClientReader implements Runnable{
 					if(cursor1.moveToNext()){
 						temp.put("name", "«Ú∂”œ˚œ¢");
 						temp.put("message", "some_one_join");
+						temp.put("type", String.valueOf(ListsFragment.TYPE_TEAMS_MESSAGE));
+						temp.put("teamid", teamid);
+						temp.put("id", phone);
 						Cursor cursor=helper.select("systemtable", new String[]{"i"}, "id=? and teamid=? and type=? and message=?", new String[]{phone, teamid, String.valueOf(ListsFragment.TYPE_TEAMS_MESSAGE), "apply_join"}, null);
 						if(cursor.moveToNext()){
 							temp.put("i", cursor.getInt(0));
@@ -1373,6 +1473,9 @@ public class ClientReader implements Runnable{
 						if(cursor.moveToNext()){
 							String fileName=cursor.getString(0);
 							Bitmap bitmap=Tools.stringtoBitmap(map.get("image").toString());
+							if(fileName.equals("-1")){
+								fileName=Environment.getExternalStorageDirectory().getPath()+"/KICKFOR/teams/"+teamid+".png";
+							}
 							System.out.println("fff============="+fileName);
 							Tools.saveBitmapToFile(bitmap, fileName);
 							map.remove("image");
@@ -1404,7 +1507,82 @@ public class ClientReader implements Runnable{
 					handler.sendMessage(msg);
 					break;
 				}
-				
+				case "update_review_match":{
+					Message msg=handler.obtainMessage();
+					msg.what=HomePageActivity.UPDATE_REVIEW_MATCH;
+					handler.sendMessage(msg);
+					break;
+				}
+				case "ok_authority":{
+					Bundle bundle=new Bundle();
+					map.remove("request");
+					SQLHelper helper=SQLHelper.getInstance(context);
+					helper.update(Tools.getContentValuesFromMap(map, null), "ich", "host");
+					Cursor cursor=helper.select("ich", new String[]{"team1", "team2", "team3", "authority1", "authority2", "authority3"}, "phone=?", new String[]{"host"}, null);
+					if(cursor.moveToNext()){
+						bundle.putString("teamid1", cursor.getString(0));
+						bundle.putString("teamid2", cursor.getString(1));
+						bundle.putString("teamid3", cursor.getString(2));
+						bundle.putString("authority1", cursor.getString(3));
+						bundle.putString("authority2", cursor.getString(4));
+						bundle.putString("authority3", cursor.getString(5));
+						Message msg=handler.obtainMessage();
+						msg.what=HomePageActivity.AUTHORITY;
+						msg.setData(bundle);
+						handler.sendMessage(msg);
+					}
+					break;
+				}
+				case "ok_replytheme":{
+					Message msg=handler.obtainMessage();
+					msg.what=HomePageActivity.OK_THEME;
+					handler.sendMessage(msg);
+					break;
+				}
+				case "ok_addtheme":{
+					Message msg=handler.obtainMessage();
+					msg.what=HomePageActivity.OK_THEME;
+					handler.sendMessage(msg);
+					break;
+				}
+				case "ok_getthemelist":{
+					map.remove("request");
+					int index=Integer.parseInt(map.get("index").toString());
+					List<LobbyTeamEntity> mList=new ArrayList<LobbyTeamEntity>();
+					List<String> list=Tools.jsonToList(map.get("themeArray").toString());
+					Iterator<String> iter=list.iterator();
+					while(iter.hasNext()){
+						String value=iter.next();
+						Map<String, Object>temp=Tools.getMapForJson(value);
+						String themekey=temp.get("themekey").toString();
+						String teamid=temp.get("teamid").toString();
+						String type=temp.get("type").toString();
+						String date=temp.get("createdate").toString();
+						String content=temp.get("content").toString();
+						String name=temp.get("name").toString();
+						String city=temp.get("city").toString();
+						String image=temp.get("image").toString();
+						LobbyTeamEntity entity=new LobbyTeamEntity(themekey, teamid, type, date, content, image.equals("-1")? BitmapFactory.decodeResource(context.getResources(), R.drawable.team_default): Tools.stringtoBitmap(image), name, city);
+						List<String> sublist=Tools.jsonToList(temp.get("replyArray").toString());
+						Iterator<String> subiter=sublist.iterator();
+						while(subiter.hasNext()){
+							Map<String, Object>subtemp=Tools.getMapForJson(subiter.next());
+							if(subtemp.get("isShowMemberName").toString().equals("0")){
+								entity.setReplyList(subtemp.get("replythemekey").toString(), subtemp.get("name").toString(), subtemp.get("content").toString());
+							}
+							else{
+								entity.setReplyList(subtemp.get("replythemekey").toString(), subtemp.get("ReplyName").toString(), subtemp.get("content").toString());
+							}
+						}
+						mList.add(entity);
+					}
+					Message msg=handler.obtainMessage();
+					msg.obj=mList;
+					msg.what=HomePageActivity.LOBBY_TEAM;
+					msg.arg1=index;
+					handler.sendMessage(msg);
+					break;
+				}
 				}
 				
 			}

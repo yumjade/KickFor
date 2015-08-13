@@ -437,7 +437,7 @@ public class EditReviewFragment extends Fragment implements TeamInterface, Ident
 					map.put("person", person.getText().toString());
 					Runnable r=new ClientWrite(Tools.JsonEncode(map));
 					new Thread(r).start();
-					((HomePageActivity)getActivity()).onBackPressed();
+					((HomePageActivity)getActivity()).openVague(HomePageActivity.WAIT_UPDATE_REVIEW);
 				}
 			}
 			
