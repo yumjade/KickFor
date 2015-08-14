@@ -1,16 +1,21 @@
 package com.example.kickfor;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
 import com.example.kickfor.utils.IdentificationInterface;
+import com.example.kickfor.wheelview.ScreenInfo;
+import com.example.kickfor.wheelview.WheelDate;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
-import android.os.Handler;
+import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,54 +23,46 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class FileEditFragment extends Fragment implements HomePageInterface, IdentificationInterface{
+public class FileEditFragment extends Fragment implements HomePageInterface, IdentificationInterface, HandlerListener{
 	
-	private String phone;
-	private String teamname;
-	private String position;
-	private String joindate;
-	private String exitdate;
-	private String inteam;
-	private String matchstr;
+	private String phone=null;
+	private String teamname=null;
+	private String position=null;
+	private String joindate=null;
+	private String exitdate=null;
+	private boolean inteam=false;
 	
-	private String eventname;
-	private String winningyear;
-	private String finalrank;
+	private int userarchivekey=-1;
 	
-	private ImageView back;
-	private TextView edit;
+	private ImageView back=null;
+	private TextView ensure=null;
 	
-	private EditText teamName;
-	private EditText fieldPosition;
-	private EditText joinTime;
-	private EditText leaveTime;
+	private EditText teamName=null;
+	private TextView fieldPosition=null;
+	private TextView joinTime=null;
+	private TextView leaveTime=null;
+	private TextView leaveTimeText=null;
 	
-	private ImageView inTeam;
-	private ImageView outTeam;
+	private ImageView inTeam=null;
+	private ImageView outTeam=null;
 	
-	private ListView listView;
-	private RelativeLayout add;
-	private EditText eventName;
-	private EditText winningYear;
-	private EditText finalRank;
+	private ListView listView=null;
+	private RelativeLayout add=null;
+	private TextView cancel=null;
 	
-	private Handler handler = new Handler();
 	
-	private FileEditAdapter adapter;
-	private List<File> mList=new ArrayList<File>();
+	private FileEditAdapter adapter=null;
+	private List<SubFile> mList=null;
 
 
 	
 	private Context context=null;
 	
-	private Boolean isOpen = true;
-
 	public String getPhone(){
 		return phone;
 	}
@@ -84,87 +81,190 @@ public class FileEditFragment extends Fragment implements HomePageInterface, Ide
 	}
 
 	private void init(){
-		Bundle bundle=getArguments();
+		mList=new ArrayList<SubFile>();
 		this.context=getActivity();
-		this.phone=bundle.getString("phone");
-		this.teamname=bundle.getString("teamname");
-		this.position=bundle.getString("position");
-		this.inteam=bundle.getString("inteam");
-		this.joindate=bundle.getString("joindate");
-		this.exitdate=bundle.getString("exitdate");
-		this.matchstr=bundle.getString("matchstr");
-//		this.eventname=bundle.getString("eventname");
-//		this.winningyear=bundle.getString("winningyear");
-//		this.finalrank=bundle.getString("finalrank");
+		Bundle bundle=getArguments();
+		FileEntity entity=(FileEntity)bundle.getSerializable("entity");
+		this.phone=entity.getPhone();
+		this.teamname=entity.getTeamName();
+		this.position=entity.getPosition();
+		this.inteam=entity.isInTeam();
+		this.joindate=entity.getJoinDate();
+		this.exitdate=entity.getExitDate();
+		this.userarchivekey=entity.getUserArchiveKey();
+		Iterator<SubFile> iter=entity.getMatch().iterator();
+		while(iter.hasNext()){
+			mList.add(iter.next());
+		}
 	}
 
 	
-//	public void setEnable(boolean enable) {
-//		back.setEnabled(enable);
-//		add.setEnabled(enable);
-//		for(int i=0; i<listView.getChildCount(); i++){
-//			View view = listView.getChildAt(i);
-//			eventName = (EditText)view.findViewById(R.id.et_event_name);
-//			winningYear = (EditText)view.findViewById(R.id.et_winning_year);
-//			finalRank = (EditText)view.findViewById(R.id.et_final_rank);
-//			eventName.setEnabled(enable);
-//			winningYear.setEnabled(enable);
-//			finalRank.setEnabled(enable);
-//		}
-//		listView.setEnabled(enable);
-//	}
+
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-//		init();
+		init();
 		View view = inflater.inflate(R.layout.file_edit, container, false);
+		leaveTimeText=(TextView)view.findViewById(R.id.tv_leave_time);
+		cancel=(TextView)view.findViewById(R.id.file_edit_cancel);
+		cancel.setOnClickListener(new OnClickListener(){
+
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				new AlertDialog.Builder(context)
+				.setTitle("您确认删除此档案吗？")
+				.setPositiveButton("确认删除",
+						new DialogInterface.OnClickListener() {
+							@Override
+							public void onClick(DialogInterface dialog,
+									int which) {
+								if(userarchivekey!=-1){
+									Map<String, Object> tmp=new HashMap<String, Object>();
+									tmp.put("request", "del userarchives");
+									tmp.put("userarchiveskey", userarchivekey);
+									Runnable r=new ClientWrite(Tools.JsonEncode(tmp));
+									new Thread(r).start();
+								}
+								else{
+									((HomePageActivity)getActivity()).onBackPressed();
+								}
+							}
+						})
+				.setNegativeButton("我点错了",
+						new DialogInterface.OnClickListener() {
+							@Override
+							public void onClick(DialogInterface dialog,
+									int which) {
+							}
+						}).show();
+			}
+			
+		});
 		back = (ImageView) view.findViewById(R.id.file_edit_back);
-		edit = (TextView) view.findViewById(R.id.detail_edit);
+		ensure = (TextView) view.findViewById(R.id.detail_edit);
 		teamName = (EditText) view.findViewById(R.id.et_edit_team_name);
-		fieldPosition = (EditText) view.findViewById(R.id.et_file_position);
-		
+		fieldPosition = (TextView) view.findViewById(R.id.et_file_position);
+		fieldPosition.setOnClickListener(new OnClickListener(){
+
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				((HomePageActivity)getActivity()).getInPosition(fieldPosition.getText().toString(), 4);
+			}
+			
+		});
 		inTeam = (ImageView) view.findViewById(R.id.iv_switch_open);
 		outTeam = (ImageView) view.findViewById(R.id.iv_switch_close);
 		
-		joinTime = (EditText) view.findViewById(R.id.et_join_time);
-		leaveTime = (EditText) view.findViewById(R.id.et_leave_time);
+		inTeam.setVisibility(View.GONE);
+		outTeam.setVisibility(View.VISIBLE);
+		inteam=false;
+		
+		inTeam.setOnClickListener(new OnClickListener(){
+
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				inTeam.setVisibility(View.GONE);
+				outTeam.setVisibility(View.VISIBLE);
+				inteam=false;
+				leaveTime.setVisibility(View.VISIBLE);
+				leaveTimeText.setVisibility(View.VISIBLE);
+			}
+			
+		});
+		
+		outTeam.setOnClickListener(new OnClickListener(){
+
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				outTeam.setVisibility(View.GONE);
+				inTeam.setVisibility(View.VISIBLE);
+				inteam=true;
+				leaveTime.setVisibility(View.GONE);
+				leaveTimeText.setVisibility(View.GONE);
+			}
+			
+		});
+		
+		joinTime = (TextView) view.findViewById(R.id.et_join_time);
+		joinTime.setOnClickListener(new OnClickListener(){
+
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				LayoutInflater inflater=LayoutInflater.from(context);
+				final View datepickerview=inflater.inflate(R.layout.datepicker, null);
+				final WheelDate wheelDate=new WheelDate(datepickerview);
+				ScreenInfo screenInfo=new ScreenInfo(getActivity());
+				wheelDate.screenheight=screenInfo.getHeight();
+				wheelDate.initDatePicker(2000, 1, 1);
+				new AlertDialog.Builder(context)
+				.setTitle("选择日期")
+				.setView(datepickerview)
+				.setPositiveButton("确定",
+						new DialogInterface.OnClickListener() {
+							@Override
+							public void onClick(DialogInterface dialog,
+									int which) {
+								joinTime.setText(wheelDate.getDate());
+								joindate=wheelDate.getDate();
+							}
+						})
+				.setNegativeButton("取消",
+						new DialogInterface.OnClickListener() {
+							@Override
+							public void onClick(DialogInterface dialog,
+									int which) {
+							}
+						}).show();
+			}
+		});
+		leaveTime = (TextView) view.findViewById(R.id.et_leave_time);
+		leaveTime.setOnClickListener(new OnClickListener(){
+
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				LayoutInflater inflater=LayoutInflater.from(context);
+				final View datepickerview=inflater.inflate(R.layout.datepicker, null);
+				final WheelDate wheelDate=new WheelDate(datepickerview);
+				ScreenInfo screenInfo=new ScreenInfo(getActivity());
+				wheelDate.screenheight=screenInfo.getHeight();
+				Calendar c=Calendar.getInstance();
+				wheelDate.initDatePicker(c.get(Calendar.YEAR), c.get(Calendar.MONTH), c.get(Calendar.DAY_OF_MONTH));
+				new AlertDialog.Builder(context)
+				.setTitle("选择日期")
+				.setView(datepickerview)
+				.setPositiveButton("确定",
+						new DialogInterface.OnClickListener() {
+							@Override
+							public void onClick(DialogInterface dialog,
+									int which) {
+								leaveTime.setText(wheelDate.getDate());
+								exitdate=wheelDate.getDate();
+							}
+						})
+				.setNegativeButton("取消",
+						new DialogInterface.OnClickListener() {
+							@Override
+							public void onClick(DialogInterface dialog,
+									int which) {
+							}
+						}).show();
+			}
+		});
 		listView = (ListView) view.findViewById(R.id.lv_match_more);
-		for (int i = 0; i < listView.getChildCount(); i++) {
-		     RelativeLayout layout = (RelativeLayout)listView.getChildAt(i);
-//		     eventName = (EditText) layout.findViewById(R.id.et_event_name);
-		     eventName = (EditText) listView.getAdapter().getItem(i);
-		     winningYear = (EditText) layout.findViewById(R.id.et_winning_year);
-		     finalRank = (EditText) layout.findViewById(R.id.et_final_rank);
-		}    
-		
-//		eventName = (EditText)view.findViewById(R.id.et_event_name);
-//		winningYear = (EditText)view.findViewById(R.id.et_winning_year);
-//		finalRank = (EditText)view.findViewById(R.id.et_final_rank);
-		
-		
+		  
 		
 		add = (RelativeLayout) view.findViewById(R.id.btn_add);
-		
-		adapter = new FileEditAdapter(getActivity(), R.layout.event_item, mList);
-		
+		adapter = new FileEditAdapter(context, mList, listView);
 		listView.setAdapter(adapter);
-		
 		Tools.setListViewHeight(listView);
-		
-		setList();
-//		if (isOpen) {
-//			isOpen = false;
-//			inTeam.setVisibility(View.INVISIBLE);
-//			outTeam.setVisibility(View.VISIBLE);
-//		} else {
-//			isOpen = true;
-//			inTeam.setVisibility(View.VISIBLE);
-//			outTeam.setVisibility(View.INVISIBLE);
-//		}
-		
-		
-		
+	
 		back.setOnClickListener(new OnClickListener() {
 			
 			@Override
@@ -178,36 +278,35 @@ public class FileEditFragment extends Fragment implements HomePageInterface, Ide
 			
 			@Override
 			public void onClick(View v) {
-				handler.postDelayed(new Runnable() {
-					
-					@Override
-					public void run() {
-						setList();
+				boolean canAdd=true;
+				Iterator<SubFile> iter=mList.iterator();
+				while(iter.hasNext()){
+					if(iter.next().isEmptyExist()){
+						canAdd=false;
+						break;
 					}
-				}, 100);
-				
+				}
+				if(canAdd==true){
+					SubFile item=new SubFile();
+					mList.add(item);
+					adapter.notifyDataSetChanged();
+					Tools.setListViewHeight(listView);
+				}
+				else{
+					Toast.makeText(context, "存在未完善条目", Toast.LENGTH_SHORT).show();
+				}
 			}
 		});
 		
-		edit.setOnClickListener(new OnClickListener() {
+		ensure.setOnClickListener(new OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
 				teamname = teamName.getText().toString();
 				position = fieldPosition.getText().toString();
 				joindate = joinTime.getText().toString();
-				exitdate = leaveTime.getText().toString();
-				System.out.println("exitdate = " + exitdate);
-//				System.out.println(eventName.getText().toString());
-//				System.out.println(winningYear.getText().toString());
-//				System.out.println(finalRank.getText().toString());
-				matchstr = eventName.getText().toString(); 
-//						+ winningYear.getText().toString() + finalRank.getText().toString();
-//				StringBuilder sb = new StringBuilder();
-//				matchstr = sb.append(eventName.getText().toString())
-//				.append(winningYear.getText().toString())
-//				.append(finalRank.getText().toString())
-//				.toString();
+				exitdate = inteam? "0000-00-00": leaveTime.getText().toString();
+
 				
 				if(teamname.isEmpty()){
 					Toast.makeText(getActivity(), "球队名称不能为空", Toast.LENGTH_SHORT).show();
@@ -221,54 +320,81 @@ public class FileEditFragment extends Fragment implements HomePageInterface, Ide
 				else if(exitdate.isEmpty()){
 					Toast.makeText(getActivity(), "离开时间不能为空", Toast.LENGTH_SHORT).show();
 				}else{
-					Map<String, Object> tmp=new HashMap<String, Object>();
-					tmp.put("phone", new PreferenceData(getActivity()).getData(new String[]{"phone"}).get("phone").toString());
-					tmp.put("request", "add userarchives");
-					tmp.put("teamname", teamname);
-					tmp.put("position", position);
-					tmp.put("joindate", joindate);
-					tmp.put("exitdate", exitdate);
-					tmp.put("mathstr", matchstr);
-		
-					Runnable r=new ClientWrite(Tools.JsonEncode(tmp));
-					new Thread(r).start();
-					((HomePageActivity)getActivity()).onBackPressed();
-					
+					String info="";
+					boolean canSend=true;
+					Iterator<SubFile> iter=mList.iterator();
+					while(iter.hasNext()){
+						SubFile temp=iter.next();
+						if(temp.isEmptyExist()){
+							Toast.makeText(context, "存在未完善条目", Toast.LENGTH_SHORT).show();
+							canSend=false;
+							break;
+						}
+						if(iter.hasNext()){
+							info=info+temp.getMatchName()+":"+temp.getYear()+":"+temp.getRanking()+",";
+						}
+						else{
+							info=info+temp.getMatchName()+":"+temp.getYear()+":"+temp.getRanking();
+						}
+					}
+					if(canSend==true){
+						Map<String, Object> tmp=new HashMap<String, Object>();
+						tmp.put("phone", phone);
+						tmp.put("request", userarchivekey==-1? "add userarchives" :"edit userarchives");
+						tmp.put("userarchiveskey", userarchivekey);
+						tmp.put("teamname", teamname);
+						tmp.put("inteam", inteam? "1": "0");
+						tmp.put("position", position);
+						tmp.put("joindate", joindate);
+						tmp.put("exitdate", exitdate);
+						tmp.put("matchstr", info);
+						Runnable r=new ClientWrite(Tools.JsonEncode(tmp));
+						new Thread(r).start();
+						((HomePageActivity)getActivity()).onBackPressed();
+					}
 				}
 			}
 		});
-		
+		initiate();
+		RealTimeHandler.getInstance().regist(this);
 		return view;
 	}
 	
-	public void loadData(){
+	
+	
+	@Override
+	public void onDestroy() {
+		// TODO Auto-generated method stub
+		System.out.print("FileEditFragment Destroyyyyyyyyyed");
+		super.onDestroy();
+	}
 
-			Map<String, Object> tmp = new HashMap<String, Object>();
-			Iterator<File> iter = mList.iterator();
-			while (iter.hasNext()) {
-				File item = iter.next();
-			
-				if (item.isChanged()) {
-					tmp.put("request", "add userarchives");
-					tmp.put("eventname", item.getEventName());
-					tmp.put("winningyear", item.getWinningYear());
-					tmp.put("finalrank", item.getFinalRank());
-					Runnable r = new ClientWrite(Tools.JsonEncode(tmp));
-					new Thread(r).start();
-				}
-			}
-		
+	@Override
+	public void onPause() {
+		// TODO Auto-generated method stub
+		RealTimeHandler.getInstance().unRegist(this);
+		super.onPause();
+	}
+
+	@Override
+	public void onChange(Message msg) {
+		// TODO Auto-generated method stub
+		if(msg.what==HomePageActivity.GET_ARCHIVES){
+			((HomePageActivity)getActivity()).onBackPressed();
+		}
+	}
+
+	public void setPosition(String position){
+		if(fieldPosition!=null){
+			fieldPosition.setText(position);
+		}
 	}
 	
-	private void setList(){
-//		mList.clear();
-		File item=new File( null, null, null,null, null,"", "", "");
-//		Map<String, Object> tmp=new HashMap<String, Object>();
-//		tmp.put("list_item_inputvalue", item);
-//		mCheckItemList.add(tmp);
-		mList.add(item);
-		adapter.notifyDataSetChanged();
-		Tools.setListViewHeight(listView);
+	private void initiate(){
+		teamName.setText(teamname);
+		fieldPosition.setText(position);
+		joinTime.setText(joindate);
+		leaveTime.setText(exitdate);
 	}
-
+	
 }

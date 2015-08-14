@@ -1,0 +1,38 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#ffffff" >
+
+    <ImageView
+        android:id="@+id/iv_skills_count"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="8dip"
+        android:src="@drawable/skills_number" />
+
+    <TextView
+        android:id="@+id/tv_skills_count"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="12"
+        android:padding="10dip"
+        android:layout_marginLeft="2dp"
+        android:layout_marginTop="2dp"
+        android:textColor="#ffffff"
+        android:textSize="15sp" />
+
+    <TextView
+        android:id="@+id/tv_skills_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@id/iv_skills_count"
+        android:layout_alignBottom="@id/iv_skills_count"
+        android:layout_toRightOf="@id/iv_skills_count"
+        android:text="牛尾巴过人"
+        android:padding="8dip"
+        android:layout_marginTop="5dp"
+        android:textColor="#333333"
+        android:drawableRight="@drawable/more_"
+        android:textSize="15sp" />
+
+</RelativeLayout>

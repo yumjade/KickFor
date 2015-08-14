@@ -39,6 +39,7 @@ public class HomePageEntity implements Serializable{
 	private String image=null;
 	private String date=null;
 	private boolean isFriend=false;
+	private int left=0;
 	private List<OthersMatchEntity> list=new ArrayList<OthersMatchEntity>();
 
 	private String againstname="нч";
@@ -46,6 +47,8 @@ public class HomePageEntity implements Serializable{
 	private String matchPlace="нч";
 	private String type="";
 	private String person="";
+	
+	private List<FileEntity> fList=new ArrayList<FileEntity>();
 	
 	public HomePageEntity(Context context, String phone){
 		helper=SQLHelper.getInstance(context);
@@ -243,6 +246,10 @@ public class HomePageEntity implements Serializable{
 		}
 	}
 	
+	public int getLeftNum(){
+		return left;
+	}
+	
 	private boolean initiateOthers(){
 		Cursor cursor=helper.select("friends", new String[]{"phone"}, "phone=?", new String[]{phone}, null);
 		if(cursor.moveToNext()){
@@ -251,6 +258,10 @@ public class HomePageEntity implements Serializable{
 		else{
 			return false;
 		}
+	}
+	
+	public List<FileEntity> getFileList(){
+		return fList;
 	}
 	
 	private boolean initiateMine(){
@@ -301,6 +312,7 @@ public class HomePageEntity implements Serializable{
 			addup=cursor.getString(29);
 			score=cursor.getString(30);
 			date=cursor.getString(31);
+			initiateFile();
 			return true;
 		}
 		else{
@@ -310,7 +322,17 @@ public class HomePageEntity implements Serializable{
 	}
 	
 	
-	
+	private void initiateFile(){
+		Cursor cursor=helper.select("archive", new String[]{"position", "teamname", "inteam", "joindate", "exitdate"}, null, null, "userarchiveskey desc");
+		left=cursor.getCount();
+		int i=0;
+		while(cursor.moveToNext() && i<2){
+			FileEntity file=new FileEntity(cursor.getString(0), cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4));
+			fList.add(file);
+			i=i+1;
+		}
+		left=left-fList.size();
+	}
 	
 
 }

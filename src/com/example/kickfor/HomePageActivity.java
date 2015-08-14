@@ -235,6 +235,7 @@ public class HomePageActivity extends FragmentActivity implements HandlerListene
 	protected static final int LOBBY_TEAM = 87;
 	protected static final int AUTHORITY = 88;
 	protected static final int OK_THEME = 89;
+	public static final int GET_ARCHIVES=90;
 	
 	private ViewFlipper allFlipper=null;
 	
@@ -1104,6 +1105,10 @@ public class HomePageActivity extends FragmentActivity implements HandlerListene
 			tmp.setEnable(false);
 		}
 		switch(v.getId()){
+		case R.id.rl_file:{
+			showFile();
+			break;
+		}
 		case R.id.btn_mycapacity:{
 			Map<String, Object> map=new HashMap<String, Object>();
 			map.put("request", "evaluate info");
@@ -1262,6 +1267,46 @@ public class HomePageActivity extends FragmentActivity implements HandlerListene
 			tx.commit();
 		}
 	}
+
+	public void editFile(FileEntity entity) {
+		FileEditFragment file = new FileEditFragment();
+		Bundle bundle = new Bundle();
+		bundle.putSerializable("entity", entity);
+		file.setArguments(bundle);
+		FragmentTransaction tx = fm.beginTransaction();
+		tx.setCustomAnimations(R.animator.slide_in_right, R.animator.slide_out_left, R.animator.slide_in_left, R.animator.slide_out_right);
+		tx.replace(R.id.main, file);
+		tx.addToBackStack(null);
+		tx.commit();
+	}
+	
+	public void showFile() {
+		FileShowFragment file = new FileShowFragment();
+		FragmentTransaction tx = fm.beginTransaction();
+		tx.setCustomAnimations(R.animator.slide_in_right, R.animator.slide_out_left, R.animator.slide_in_left, R.animator.slide_out_right);
+		tx.replace(R.id.main, file);
+		tx.addToBackStack(null);
+		tx.commit();
+	}
+	
+	public void selectFileList(List<FileEntity> list) {
+		Bundle bundle=new Bundle();
+		Iterator<FileEntity> iter=list.iterator();
+		int i=1;
+		while(iter.hasNext()){
+			bundle.putSerializable(String.valueOf(i), iter.next());
+			i++;
+		}
+		FileSelectFragment tmp = new FileSelectFragment();
+		tmp.setArguments(bundle);
+		FragmentTransaction tx = fm.beginTransaction();
+		tx.setCustomAnimations(R.animator.slide_in_right, R.animator.slide_out_left, R.animator.slide_in_left, R.animator.slide_out_right);
+		tx.replace(R.id.main, tmp);
+		tx.addToBackStack(null);
+		tx.commit();
+	}
+
+
 
 	
 	
@@ -1614,6 +1659,35 @@ public class HomePageActivity extends FragmentActivity implements HandlerListene
 
 
 
+	public void mySkills() {
+		MySkillsFragment skills = new MySkillsFragment();
+		FragmentTransaction tx = fm.beginTransaction();
+		tx.setCustomAnimations(R.animator.slide_in_right, R.animator.slide_out_left, R.animator.slide_in_left,
+				R.animator.slide_out_right);
+		tx.replace(R.id.main, skills);
+		tx.addToBackStack(null);
+		tx.commit();
+	}
+	
+	public void showMySkillsStyle() {
+		MySkillsStyleFragment skills = new MySkillsStyleFragment();
+		FragmentTransaction tx = fm.beginTransaction();
+		tx.setCustomAnimations(R.animator.slide_in_right, R.animator.slide_out_left, R.animator.slide_in_left,
+				R.animator.slide_out_right);
+		tx.replace(R.id.main, skills);
+		tx.addToBackStack(null);
+		tx.commit();
+	}
+	
+	public void selectSkills() {
+		SelectSkillsFragment skills = new SelectSkillsFragment();
+		FragmentTransaction tx = fm.beginTransaction();
+		tx.setCustomAnimations(R.animator.slide_in_right, R.animator.slide_out_left, R.animator.slide_in_left,
+				R.animator.slide_out_right);
+		tx.replace(R.id.main, skills);
+		tx.addToBackStack(null);
+		tx.commit();
+	}
 
 	
 	
@@ -3457,6 +3531,22 @@ public class HomePageActivity extends FragmentActivity implements HandlerListene
 				tmp.setEnable(true);
 			}
 		}
+		else if(fm.findFragmentById(R.id.main) instanceof FileShowFragment){
+			backPressed();
+			System.out.println("5.5");
+			if(fm.findFragmentById(R.id.title) instanceof TitleFragment){
+				TitleFragment tmp=(TitleFragment)fm.findFragmentById(R.id.title);
+				tmp.setEnable(true);
+			}
+			if(fm.findFragmentById(R.id.content) instanceof HomePageFragment){
+				HomePageFragment tmp=(HomePageFragment)fm.findFragmentById(R.id.content);
+				tmp.setEnable(true);
+			}
+			if(fm.findFragmentById(R.id.bar) instanceof BarFragment){
+				BarFragment tmp=(BarFragment)fm.findFragmentById(R.id.bar);
+				tmp.setEnable(true);
+			}
+		}
 		else if(fm.findFragmentById(R.id.down) instanceof MatchPreviewFragment && ((MatchPreviewFragment)fm.findFragmentById(R.id.down)).getAuthority()==-1){
 			if(needToShowMain==true){
 				showMain();
@@ -3723,6 +3813,15 @@ public class HomePageActivity extends FragmentActivity implements HandlerListene
 				System.out.println("wait");
 			}
 			((HallOfFameFragment)fm.findFragmentById(R.id.main)).setPosition(position);
+		}
+		else if(fm.findFragmentById(R.id.main) instanceof SelectPositionFragment && ((SelectPositionFragment)fm.findFragmentById(R.id.main)).getState()==4){
+			System.out.println("19.7");
+			String position=((SelectPositionFragment)fm.findFragmentById(R.id.main)).getPosition();
+			backPressed();
+			while(!(fm.findFragmentById(R.id.main) instanceof FileEditFragment)){
+				System.out.println("wait");
+			}
+			((FileEditFragment)fm.findFragmentById(R.id.main)).setPosition(position);
 		}
 		else if(fm.findFragmentById(R.id.main) instanceof FindPasswordsFragment || fm.findFragmentById(R.id.content) instanceof FindPasswordsFragment){
 			backPressed();

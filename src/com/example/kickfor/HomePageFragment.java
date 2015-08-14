@@ -14,19 +14,21 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class HomePageFragment extends Fragment implements OnClickListener, HomePageInterface, IdentificationInterface{
+public class HomePageFragment extends Fragment implements OnClickListener, HomePageInterface, IdentificationInterface, HandlerListener{
 
 	private HomePageEntity entity=null;
 	private String phone=null;
@@ -38,6 +40,7 @@ public class HomePageFragment extends Fragment implements OnClickListener, HomeP
 	private RelativeLayout infoButton2=null;
 	private TextView infoButton3=null;
 	
+	private LinearLayout fileLayout=null;
 	
 	private TextView name=null;
 	private TextView valuePower=null;
@@ -61,6 +64,9 @@ public class HomePageFragment extends Fragment implements OnClickListener, HomeP
 	private TextView addupText=null;
 	private TextView text=null;
 	private TextView zhugong=null;
+	
+	private RelativeLayout file=null;
+	private TextView fileLeft=null;
 	
 	private ProgressBar power=null;
 	private ProgressBar speed=null;
@@ -92,10 +98,17 @@ public class HomePageFragment extends Fragment implements OnClickListener, HomeP
 	private int max=0;
 	private String strNext=null;
 	
-	
-	
-	
 
+
+	@Override
+	public void onChange(Message msg) {
+		// TODO Auto-generated method stub
+		if(msg.what==HomePageActivity.GET_ARCHIVES){
+			if(name!=null){
+				updateView();
+			}
+		}
+	}
 
 	@Override
 	public int getFragmentLevel() {
@@ -113,9 +126,12 @@ public class HomePageFragment extends Fragment implements OnClickListener, HomeP
 	}
 	
 	public void updateView(){
-		if(phone.equals("host")){
-			entity=new HomePageEntity(getActivity(), "host");
-			initiateMine();
+		if(name!=null){
+			if(phone.equals("host")){
+				entity=new HomePageEntity(getActivity(), "host");
+				initiateMine();
+				initiateFile();
+			}
 		}
 	}
 
@@ -126,6 +142,7 @@ public class HomePageFragment extends Fragment implements OnClickListener, HomeP
 				infoButton1.setEnabled(enable);
 				infoButton2.setEnabled(enable);
 				infoButton3.setEnabled(enable);
+				file.setEnabled(enable);
 			}
 		}
 		else{
@@ -159,6 +176,29 @@ public class HomePageFragment extends Fragment implements OnClickListener, HomeP
 		
 	}
 
+	private void initiateFile(){
+		fileLayout.removeAllViews();
+		LayoutInflater inflater=LayoutInflater.from(getActivity());
+		List<FileEntity> list=entity.getFileList();
+		if(entity.getLeftNum()==0){
+			fileLeft.setText("赶紧点击添加档案吧");
+		}
+		else{
+			fileLeft.setText("还有"+entity.getLeftNum()+"段经历");
+		}
+		Iterator<FileEntity> iter=list.iterator();
+		while(iter.hasNext()){
+			FileEntity item=iter.next();
+			View v=inflater.inflate(R.layout.file_homepage_item, null);
+			TextView position=(TextView)v.findViewById(R.id.file_position);
+			TextView name=(TextView)v.findViewById(R.id.file_team_name);
+			TextView date=(TextView)v.findViewById(R.id.file_date);
+			position.setText(item.getPosition());
+			name.setText(item.getTeamName());
+			date.setText(item.getJoinDate()+" - "+item.getExitDate());
+			fileLayout.addView(v);
+		}
+	}
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -168,6 +208,10 @@ public class HomePageFragment extends Fragment implements OnClickListener, HomeP
 		View view=null;
 		if(this.phone.equals("host")){
 			view=inflater.inflate(R.layout.fragment_my_homepage, container, false);
+			fileLeft=(TextView)view.findViewById(R.id.homepage_left);
+			fileLayout=(LinearLayout)view.findViewById(R.id.homepage_file);
+			file=(RelativeLayout)view.findViewById(R.id.rl_file);
+			file.setOnClickListener(this);
 			name=(TextView)view.findViewById(R.id.tv_my_name);
 			gradeText=(TextView)view.findViewById(R.id.tv_grade);
 			pbGrade=(ProgressBar)view.findViewById(R.id.progress_grade);
@@ -206,6 +250,7 @@ public class HomePageFragment extends Fragment implements OnClickListener, HomeP
 			infoButton2.setOnClickListener(this);
 			infoButton3.setOnClickListener(this);
 			initiateMine();
+			initiateFile();
 			initGrade(entity.isSignedToday(), Integer.parseInt(entity.getAddUp()), Integer.parseInt(entity.getScore()));
 			
 			pbGrade.setOnClickListener(new OnClickListener() {
@@ -272,6 +317,7 @@ public class HomePageFragment extends Fragment implements OnClickListener, HomeP
 			gradeText=(TextView)view.findViewById(R.id.tv_other_grade);
 			initiateOthers();
 		}
+		RealTimeHandler.getInstance().regist(this);
 		return view;
 	}
 	
@@ -674,6 +720,13 @@ public class HomePageFragment extends Fragment implements OnClickListener, HomeP
 		progressBar.setProgress(progress);
 		
 		value.setText(""+progress);
+	}
+
+	@Override
+	public void onDestroy() {
+		// TODO Auto-generated method stub
+		RealTimeHandler.getInstance().unRegist(this);
+		super.onDestroy();
 	}
 	
 	

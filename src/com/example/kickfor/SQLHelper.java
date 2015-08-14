@@ -15,7 +15,7 @@ public class SQLHelper extends SQLiteOpenHelper implements Serializable{
 	 */
 	private static final long serialVersionUID = 10;
 	
-	private final static int DATABASE_VERSION=1;
+	private final static int DATABASE_VERSION=4;
 	private final static String TABLE_NAME1="ich";
 	private final static String TABLE_NAME2="teams";
 	private final static String PHONE="phone";
@@ -81,12 +81,22 @@ public class SQLHelper extends SQLiteOpenHelper implements Serializable{
 	    db.execSQL(sql4);
 	    String sql5="CREATE TABLE IF NOT EXISTS friends(phone varchar(11), name text, image text)";
 	    db.execSQL(sql5);
+	    String sql6="create table if not exists archive(userarchiveskey integer, uid varchar(11), teamname text, position text, inteam integer, joindate varchar(20), exitdate varchar(20));";
+	    db.execSQL(sql6);
+	    String sql7="create table if not exists archivematch(userarchivesmatchkey integer, uid varchar(11), userarchiveskey integer, matchname text, year varchar(4), ranking text);";
+	    db.execSQL(sql7);
 	}
 
 	@Override
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 		// TODO Auto-generated method stub
-		db.execSQL("DROP TABLE IF EXISTS"+TABLE_NAME1);
+		db.execSQL("DROP TABLE IF EXISTS "+TABLE_NAME1);
+		db.execSQL("DROP TABLE IF EXISTS "+TABLE_NAME2);
+		db.execSQL("DROP TABLE IF EXISTS matches");
+		db.execSQL("DROP TABLE IF EXISTS systemtable");
+		db.execSQL("DROP TABLE IF EXISTS friends");
+		db.execSQL("DROP TABLE IF EXISTS archive");
+		db.execSQL("DROP TABLE IF EXISTS archivematch");
 		onCreate(db);
 	}
 	
@@ -163,6 +173,20 @@ public class SQLHelper extends SQLiteOpenHelper implements Serializable{
         		return false;
         	}
     	}
+    	else if(tableName.equals("friends")){
+    		Cursor cursor=db.query(tableName, new String[]{"phone"}, "phone=?", new String[]{phone}, null, null, null);
+        	if(cursor.moveToNext()){
+        		db.update(tableName, values, "phone=?", new String[]{phone});
+        		return true;
+        	}
+        	else{
+        		if(!values.containsKey("image")){
+        			values.put("image", "-1");
+        		}
+        		db.insert(tableName, null, values);
+        		return false;
+        	}
+    	}
     	else{
     		Cursor cursor=db.query(tableName, new String[]{"phone"}, "phone=?", new String[]{phone}, null, null, null);
         	if(cursor.moveToNext()){
@@ -190,6 +214,17 @@ public class SQLHelper extends SQLiteOpenHelper implements Serializable{
         		return false;
         	}
     	}
+    	else if(tableName.equals("archive")){
+    		Cursor cursor=db.query(tableName, new String[]{"userarchiveskey"}, "userarchiveskey=?", new String[]{idd}, null, null, null);
+        	if(cursor.moveToNext()){
+        		db.update(tableName, values, "userarchiveskey=?", new String[]{idd});
+        		return true;
+        	}
+        	else{
+        		db.insert(tableName, null, values);
+        		return false;
+        	}
+    	}
     	else{
     		Cursor cursor=db.query(tableName, new String[]{"id"}, "id=?", new String[]{idd}, null, null, null);
         	if(cursor.moveToNext()){
@@ -200,6 +235,19 @@ public class SQLHelper extends SQLiteOpenHelper implements Serializable{
         		db.insert(tableName, null, values);
         		return false;
         	}
+    	}
+    }
+    
+    public boolean update(ContentValues values, int userarchivesmatchkey, int userarchiveskey){
+    	SQLiteDatabase db=getWritableDatabase();
+    	Cursor cursor=db.query("archivematch", new String[]{"userarchivesmatchkey"}, "userarchivesmatchkey=? and userarchiveskey=?", new String[]{String.valueOf(userarchivesmatchkey), String.valueOf(userarchiveskey)}, null, null, null);
+    	if(cursor.moveToNext()){
+    		db.update("archivematch", values, "userarchivesmatchkey=? and userarchiveskey=?", new String[]{String.valueOf(userarchivesmatchkey), String.valueOf(userarchiveskey)});
+    		return true;
+    	}
+    	else{
+    		db.insert("archivematch", null, values);
+    		return false;
     	}
     }
     

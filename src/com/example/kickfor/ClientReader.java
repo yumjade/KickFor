@@ -258,6 +258,21 @@ public class ClientReader implements Runnable{
 						if(temp.get("phone").equals(pd.getData(new String[]{"phone"}).get("phone"))){
 							temp.put("phone", "host");
 							if(temp.containsKey("userarchivesArray")){
+								helper.delete("archive", null, null);
+								helper.delete("archivematch", null, null);
+								List<String> list=Tools.jsonToList(temp.get("userarchivesArray").toString());
+								Iterator<String> iter1=list.iterator();
+								while(iter1.hasNext()){
+									Map<String, Object> tmpp=Tools.getMapForJson(iter1.next());
+									List<String> list1=Tools.jsonToList(tmpp.get("matchArray").toString());
+									Iterator<String> iter2=list1.iterator();
+									while(iter2.hasNext()){
+										Map<String, Object> t=Tools.getMapForJson(iter2.next());
+										helper.update(Tools.getContentValuesFromMap(t, null), Integer.parseInt(t.get("userarchivesmatchkey").toString()), Integer.parseInt(t.get("userarchiveskey").toString()));
+									}
+									tmpp.remove("matchArray");
+									helper.update(Tools.getContentValuesFromMap(tmpp, null), "archive", Integer.parseInt(tmpp.get("userarchiveskey").toString()));
+								}
 								temp.remove("userarchivesArray");
 							}
 							helper.update(Tools.getContentValuesFromMap(temp, null), "ich", temp.get("phone").toString());
@@ -1581,6 +1596,53 @@ public class ClientReader implements Runnable{
 					msg.what=HomePageActivity.LOBBY_TEAM;
 					msg.arg1=index;
 					handler.sendMessage(msg);
+					break;
+				}
+				case "ok_adduserarchives":{
+					Map<String, Object> temp=new HashMap<String, Object>();
+					temp.put("request", "get userarchives");
+					temp.put("phone", map.get("phone").toString());
+					Runnable r=new ClientWrite(Tools.JsonEncode(temp));
+					new Thread(r).start();
+					break;
+				}
+				case "ok_edituserarchives":{
+					Map<String, Object> temp=new HashMap<String, Object>();
+					temp.put("request", "get userarchives");
+					temp.put("phone", map.get("phone").toString());
+					Runnable r=new ClientWrite(Tools.JsonEncode(temp));
+					new Thread(r).start();
+					break;
+				}
+				case "ok_getuserarchives":{
+					map.remove("request");
+					SQLHelper helper=SQLHelper.getInstance(context);
+					helper.delete("archive", null, null);
+					helper.delete("archivematch", null, null);
+					Iterator<String> iter=map.keySet().iterator();
+					while(iter.hasNext()){
+						String key=iter.next();
+						Map<String, Object> temp=Tools.getMapForJson(map.get(key).toString());
+						List<String> list1=Tools.jsonToList(temp.get("matchArray").toString());
+						Iterator<String> iter2=list1.iterator();
+						while(iter2.hasNext()){
+							Map<String, Object> t=Tools.getMapForJson(iter2.next());
+							helper.update(Tools.getContentValuesFromMap(t, null), Integer.parseInt(t.get("userarchivesmatchkey").toString()), Integer.parseInt(t.get("userarchiveskey").toString()));
+						}
+						temp.remove("matchArray");
+						helper.update(Tools.getContentValuesFromMap(temp, null), "archive", Integer.parseInt(temp.get("userarchiveskey").toString()));
+					}
+					Message msg=handler.obtainMessage();
+					msg.what=HomePageActivity.GET_ARCHIVES;
+					handler.sendMessage(msg);
+					break;
+				}
+				case "ok_deluserarchives":{
+					Map<String, Object> temp=new HashMap<String, Object>();
+					temp.put("request", "get userarchives");
+					temp.put("phone", map.get("phone").toString());
+					Runnable r=new ClientWrite(Tools.JsonEncode(temp));
+					new Thread(r).start();
 					break;
 				}
 				}

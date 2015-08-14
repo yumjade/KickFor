@@ -39,7 +39,7 @@
             android:background="@drawable/rect_14"
             android:clickable="true"
             android:padding="5dip"
-            android:text="编辑"
+            android:text="完成"
             android:textColor="#ffffff"
             android:textSize="15sp" />
     </RelativeLayout>
@@ -50,9 +50,11 @@
         android:layout_height="match_parent"
         android:background="#f0f0f0" >
 
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" >
+            android:layout_height="wrap_content" 
+            android:paddingBottom="20dip"
+            android:orientation="vertical">
 
             <RelativeLayout
                 android:id="@+id/btn_info"
@@ -103,7 +105,7 @@
                     android:textColor="#333333"
                     android:textSize="15sp" />
 
-                <EditText
+                <TextView
                     android:id="@+id/et_file_position"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -120,7 +122,6 @@
                 android:id="@+id/complete_line2"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:layout_below="@id/btn_info"
                 android:layout_marginLeft="20dip"
                 android:layout_marginTop="10dip"
                 android:background="#f0f0f0" />
@@ -129,7 +130,6 @@
                 android:id="@+id/btn_info1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/complete_line2"
                 android:background="@drawable/rect_10"
                 android:paddingBottom="10dip" >
 
@@ -184,7 +184,7 @@
                     android:textColor="#333333"
                     android:textSize="15sp" />
 
-                <EditText
+                <TextView
                     android:id="@+id/et_join_time"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -210,7 +210,7 @@
                     android:textColor="#333333"
                     android:textSize="15sp" />
 
-                <EditText
+                <TextView
                     android:id="@+id/et_leave_time"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -228,7 +228,6 @@
                 android:id="@+id/complete_line3"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/btn_info1"
                 android:layout_marginBottom="10dp"
                 android:layout_marginTop="10dp"
                 android:background="#f0f0f0"
@@ -240,13 +239,13 @@
                 android:id="@+id/btn_info2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/complete_line3"
                 android:background="@drawable/rect_10"
                 android:paddingBottom="10dip" >
 
                 <ListView
                     android:id="@+id/lv_match_more"
                     android:layout_width="wrap_content"
+                    android:dividerHeight="20dip"
                     android:layout_height="wrap_content" >
                 </ListView>
             </RelativeLayout>
@@ -255,7 +254,6 @@
                 android:id="@+id/btn_add"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/btn_info2"
                 android:layout_marginBottom="10dip"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/rect_4"
@@ -280,11 +278,20 @@
                     android:layout_marginLeft="10dp"
                     android:layout_marginTop="10dp"
                     android:layout_toRightOf="@id/iv_file_add"
-                    android:text="新增"
+                    android:text="新增比赛经历"
                     android:textColor="#333333"
                     android:textSize="15sp" />
             </RelativeLayout>
-        </RelativeLayout>
+            <TextView
+                android:id="@+id/file_edit_cancel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="删除这份档案"
+                android:textSize="15sp"
+                android:textColor="#ffffff"
+                android:background="@drawable/btn_style_selector_2"/>
+        </LinearLayout>
     </ScrollView>
 
 </LinearLayout>

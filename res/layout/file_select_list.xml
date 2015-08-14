@@ -1,0 +1,72 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#f0f0f0" >
+
+    <RelativeLayout
+        android:id="@+id/file_select_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/title_style" >
+
+        <ImageView
+            android:id="@+id/file_select_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:background="@drawable/select_unselected_3"
+            android:padding="15dip"
+            android:src="@drawable/back" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/file_select_back"
+            android:alpha="1"
+            android:paddingBottom="12dip"
+            android:paddingTop="12dip"
+            android:text="选择待编辑档案"
+            android:textColor="#ffffff"
+            android:textSize="15sp" />
+        
+    </RelativeLayout>
+
+    <ListView
+        android:id="@+id/file_select_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
+        android:layout_below="@id/file_select_title"
+        android:layout_weight="100"
+        android:background="#f0f0f0"
+        android:divider="#f0f0f0"
+        android:dividerHeight="5dip" />
+
+    <RelativeLayout
+        android:id="@+id/file_add"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:layout_margin="10dp"
+        android:layout_below="@id/file_select_list"
+        android:background="@drawable/btn_style_selector"
+        android:gravity="center_horizontal"
+        android:padding="10dp" >
+
+        <ImageView
+            android:id="@+id/iv_file_select"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/file_add" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_toRightOf="@id/iv_file_select"
+            android:text="新增踢否足球档案"
+            android:textColor="#ffffff" />
+    </RelativeLayout>
+
+</RelativeLayout>

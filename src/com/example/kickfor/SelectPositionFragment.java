@@ -78,7 +78,12 @@ public class SelectPositionFragment extends Fragment implements OnClickListener,
 		View view=inflater.inflate(R.layout.fragment_position, container, false);
 		positionText=(TextView)view.findViewById(R.id.position_);
 		title=(TextView)view.findViewById(R.id.position_text);
-		title.setText("选择您的第"+state+"场上位置");
+		if(state!=0 && state!=4){
+			title.setText("选择您的第"+state+"场上位置");
+		}
+		else{
+			title.setText("请选择场上位置");
+		}
 		back=(ImageView)view.findViewById(R.id.position_back);
 		back.setOnClickListener(this);
 		striker=(CheckBox)view.findViewById(R.id.rb_striker);
@@ -150,7 +155,7 @@ public class SelectPositionFragment extends Fragment implements OnClickListener,
 		int id=v.getId();
 		if(id==R.id.btn_ensure1){
 			setEnable(false);
-			if(state==0){
+			if(state==0 || state==4){
 				((HomePageActivity)getActivity()).onBackPressed();
 			}
 			else{
