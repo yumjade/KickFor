@@ -418,6 +418,7 @@ public class ClientReader implements Runnable{
 					break;
 				}
 				case "have_signed":{
+					map.remove("request");
 					String score=map.get("score").toString();
 					String addup=map.get("addup").toString();
 					SQLHelper helper=SQLHelper.getInstance(context);
@@ -1643,6 +1644,26 @@ public class ClientReader implements Runnable{
 					temp.put("phone", map.get("phone").toString());
 					Runnable r=new ClientWrite(Tools.JsonEncode(temp));
 					new Thread(r).start();
+					break;
+				}
+				case "ok_getuserskills":{
+					List<String> list=Tools.jsonToList(map.get("userSkillArray").toString());
+					List<SkillsShowEntity> mList=new ArrayList<SkillsShowEntity>();
+					Iterator<String> iter=list.iterator();
+					while(iter.hasNext()){
+						Map<String, Object> temp=Tools.getMapForJson(iter.next());
+						String userskillkey=temp.get("userskillkey").toString();
+						String skillkey=temp.get("skillkey").toString();
+						String skillname=temp.get("skillname").toString();
+						String hasAgree=temp.get("hasAgree").toString();
+						String agreeNum=temp.get("agreeNum").toString();
+						SkillsShowEntity item=new SkillsShowEntity(userskillkey, skillkey, skillname, hasAgree, agreeNum);
+						mList.add(item);
+					}
+					Message msg=handler.obtainMessage();
+					msg.what=HomePageActivity.GET_USERSKILLS;
+					msg.obj=mList;
+					handler.sendMessage(msg);
 					break;
 				}
 				}

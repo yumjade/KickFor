@@ -236,6 +236,7 @@ public class HomePageActivity extends FragmentActivity implements HandlerListene
 	protected static final int AUTHORITY = 88;
 	protected static final int OK_THEME = 89;
 	public static final int GET_ARCHIVES=90;
+	public static final int GET_USERSKILLS=91;
 	
 	private ViewFlipper allFlipper=null;
 	
@@ -1109,6 +1110,13 @@ public class HomePageActivity extends FragmentActivity implements HandlerListene
 			showFile();
 			break;
 		}
+		case R.id.rl_skills:{
+			if(phone.equals("host")){
+				phone=this.phone;
+			}
+			openShowSkills(phone);
+			break;
+		}
 		case R.id.btn_mycapacity:{
 			Map<String, Object> map=new HashMap<String, Object>();
 			map.put("request", "evaluate info");
@@ -1659,8 +1667,24 @@ public class HomePageActivity extends FragmentActivity implements HandlerListene
 
 
 
-	public void mySkills() {
-		MySkillsFragment skills = new MySkillsFragment();
+	public void openSkillsDetail(String skillskey) {
+		Bundle bundle=new Bundle();
+		bundle.putString("skillskey", skillskey);
+		bundle.putString("phone", this.phone);
+		SkillsDetailFragment skills = new SkillsDetailFragment();
+		skills.setArguments(bundle);
+		FragmentTransaction tx = fm.beginTransaction();
+		tx.setCustomAnimations(R.animator.slide_in_right, R.animator.slide_out_left, R.animator.slide_in_left, R.animator.slide_out_right);
+		tx.replace(R.id.main, skills);
+		tx.addToBackStack(null);
+		tx.commit();
+	}
+	
+	public void openShowSkills(String phone) {
+		Bundle bundle=new Bundle();
+		bundle.putString("phone", phone);
+		SkillsShowFragment skills = new SkillsShowFragment();
+		skills.setArguments(bundle);
 		FragmentTransaction tx = fm.beginTransaction();
 		tx.setCustomAnimations(R.animator.slide_in_right, R.animator.slide_out_left, R.animator.slide_in_left,
 				R.animator.slide_out_right);
@@ -1669,18 +1693,8 @@ public class HomePageActivity extends FragmentActivity implements HandlerListene
 		tx.commit();
 	}
 	
-	public void showMySkillsStyle() {
-		MySkillsStyleFragment skills = new MySkillsStyleFragment();
-		FragmentTransaction tx = fm.beginTransaction();
-		tx.setCustomAnimations(R.animator.slide_in_right, R.animator.slide_out_left, R.animator.slide_in_left,
-				R.animator.slide_out_right);
-		tx.replace(R.id.main, skills);
-		tx.addToBackStack(null);
-		tx.commit();
-	}
-	
-	public void selectSkills() {
-		SelectSkillsFragment skills = new SelectSkillsFragment();
+	public void openSelectSkills() {
+		SkillsSelectFragment skills = new SkillsSelectFragment();
 		FragmentTransaction tx = fm.beginTransaction();
 		tx.setCustomAnimations(R.animator.slide_in_right, R.animator.slide_out_left, R.animator.slide_in_left,
 				R.animator.slide_out_right);

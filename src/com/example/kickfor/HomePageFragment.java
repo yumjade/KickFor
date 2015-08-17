@@ -74,6 +74,7 @@ public class HomePageFragment extends Fragment implements OnClickListener, HomeP
 	private ProgressBar stamina=null;
 	private ProgressBar attack=null;
 	private ProgressBar defence=null;
+	private RelativeLayout skillsBoard=null;
 	
 	private ListView mListView=null;
 	private List<OthersMatchEntity> mList=null;
@@ -208,6 +209,8 @@ public class HomePageFragment extends Fragment implements OnClickListener, HomeP
 		View view=null;
 		if(this.phone.equals("host")){
 			view=inflater.inflate(R.layout.fragment_my_homepage, container, false);
+			skillsBoard=(RelativeLayout)view.findViewById(R.id.rl_skills);
+			skillsBoard.setOnClickListener(this);
 			fileLeft=(TextView)view.findViewById(R.id.homepage_left);
 			fileLayout=(LinearLayout)view.findViewById(R.id.homepage_file);
 			file=(RelativeLayout)view.findViewById(R.id.rl_file);

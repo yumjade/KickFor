@@ -776,19 +776,20 @@
                 android:textColor="#ffffff"
                 android:textSize="12sp" />
 
-                <ListView
-                    android:id="@+id/lv_skills"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/tv_skills"
-                    android:layout_marginBottom="10dp" >
-                </ListView>
+            <LinearLayout 
+                android:id="@+id/homepage_skills"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tv_skills"
+                android:orientation="vertical">
+                
+            </LinearLayout>
 
             <RelativeLayout
                 android:id="@+id/rl_skills_add"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/lv_skills"
+                android:layout_below="@id/homepage_skills"
                 android:gravity="center_horizontal"
                 android:padding="10dp" >
 

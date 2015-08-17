@@ -15,10 +15,10 @@ public class SkillsAdapter extends BaseAdapter {
 	private Context context;
 	private int resource;
 	private LayoutInflater mInflater;
-	private List<Skills> list;
+	private List<SkillsEntity> list;
 	
 
-	public SkillsAdapter(Context context, int resource, List<Skills> list) {
+	public SkillsAdapter(Context context, int resource, List<SkillsEntity> list) {
 		this.context = context;
 		this.resource = resource;
 		mInflater = LayoutInflater.from(context);
@@ -43,7 +43,7 @@ public class SkillsAdapter extends BaseAdapter {
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		ViewHolder viewHolder = null;
-		Skills item = list.get(position);
+		SkillsEntity item = list.get(position);
 		if (convertView == null) {
 			viewHolder = new ViewHolder();
 			convertView = mInflater.inflate(resource, null);
@@ -65,16 +65,16 @@ public class SkillsAdapter extends BaseAdapter {
 			viewHolder.count.setText(String.valueOf(item.getCount()));
 			viewHolder.skillsName.setText(item.getSkillsName());
 		}
-		if (resource == R.layout.my_skills_style_item) {
+		if (resource == R.layout.skills_show_item) {
 			viewHolder.count.setText(String.valueOf(item.getCount()));
 			viewHolder.skillsName.setText(item.getSkillsName());
 		}
-		if (resource == R.layout.my_skills_style_item1) {
+		if (resource == R.layout.skills_select_item) {
 			viewHolder.skillsName.setText(item.getSkillsName());
 			viewHolder.selected.setImageBitmap(item.getSelected());
 			viewHolder.unselected.setImageBitmap(item.getUnselected());
 		}
-		if (resource == R.layout.my_skills_item) {
+		if (resource == R.layout.skills_detail_item) {
 			viewHolder.photo.setImageBitmap(item.getPhoto());;
 			viewHolder.name.setText(item.getName());
 			viewHolder.teamName.setText(item.getTeamName());

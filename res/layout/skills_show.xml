@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#f0f0f0"
+    android:orientation="vertical" >
+
+    <RelativeLayout
+        android:id="@+id/file_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/title_style" >
+
+        <ImageView
+            android:id="@+id/skills_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:background="@drawable/select_unselected_3"
+            android:padding="15dip"
+            android:src="@drawable/back" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/skills_back"
+            android:alpha="1"
+            android:paddingBottom="12dip"
+            android:paddingTop="12dip"
+            android:text="我的技能风格"
+            android:textColor="#ffffff"
+            android:textSize="15sp" />
+    </RelativeLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <TextView
+		        android:id="@+id/tv_my_name"
+		        android:layout_width="match_parent"
+		        android:layout_height="wrap_content"
+		        android:background="#ffffff"
+		        android:padding="10dp"
+		        android:text="谁认可了余辛迪的足球技能"
+		        android:textColor="#333333"
+		        android:textSize="20sp" />
+		
+		    <LinearLayout
+		        android:id="@+id/ll_other"
+		        android:layout_width="match_parent"
+		        android:layout_height="wrap_content"
+		        android:layout_marginBottom="10dp"
+		        android:background="#ffffff"
+		        android:orientation="horizontal" >
+		
+		        <LinearLayout
+		            android:layout_width="wrap_content"
+		            android:layout_height="wrap_content"
+		            android:layout_marginLeft="10dp"
+		            android:background="#ffffff"
+		            android:gravity="center_horizontal"
+		            android:orientation="vertical" >
+		
+		            <ImageView
+		                android:id="@+id/iv_photo"
+		                android:layout_width="wrap_content"
+		                android:layout_height="wrap_content"
+		                android:background="@drawable/team_default" />
+		
+		            <TextView
+		                android:id="@+id/tv_name"
+		                android:layout_width="wrap_content"
+		                android:layout_height="wrap_content"
+		                android:layout_marginBottom="5dp"
+		                android:layout_marginTop="5dp"
+		                android:text="小白兔"
+		                android:textColor="#333333"
+		                android:textSize="15sp" />
+		        </LinearLayout>
+		    </LinearLayout>
+		
+		    <ListView
+		        android:id="@+id/skills_list"
+		        android:layout_width="match_parent"
+		        android:layout_height="wrap_content"
+		        android:background="#ffffff" >
+		    </ListView>
+		
+		    <RelativeLayout
+		        android:id="@+id/skills_add"
+		        android:layout_width="match_parent"
+		        android:layout_height="wrap_content"
+		        android:layout_margin="10dp"
+		        android:layout_marginTop="20dp"
+		        android:background="@drawable/btn_style_selector"
+		        android:clickable="true"
+		        android:gravity="center_horizontal"
+		        android:padding="10dp" >
+		
+		        <ImageView
+		            android:id="@+id/iv_skills"
+		            android:layout_width="wrap_content"
+		            android:layout_height="wrap_content"
+		            android:src="@drawable/file_add" />
+		
+		        <TextView
+		            android:layout_width="wrap_content"
+		            android:layout_height="wrap_content"
+		            android:layout_marginLeft="8dp"
+		            android:layout_toRightOf="@id/iv_skills"
+		            android:text="新增踢否足球技能&amp;风格"
+		            android:textColor="#ffffff" />
+		    </RelativeLayout>   
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>
