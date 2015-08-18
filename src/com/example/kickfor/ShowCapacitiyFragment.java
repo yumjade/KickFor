@@ -6,6 +6,7 @@ import com.example.kickfor.utils.Constant;
 import com.example.kickfor.utils.CustomDialog;
 import com.example.kickfor.utils.IdentificationInterface;
 import com.example.kickfor.utils.SexangleView;
+import com.example.kickfor.utils.SexangleView2;
 import com.tencent.mm.sdk.openapi.IWXAPI;
 import com.tencent.mm.sdk.openapi.SendMessageToWX;
 import com.tencent.mm.sdk.openapi.WXAPIFactory;
@@ -63,6 +64,8 @@ public class ShowCapacitiyFragment extends Fragment implements OnClickListener, 
 	private TextView evaluate=null;
 	private TextView text=null;
 	
+	private SexangleView2 sexangle;
+	
 	private Bitmap bitmap=null;
 	
 	private int n=0;
@@ -75,10 +78,8 @@ public class ShowCapacitiyFragment extends Fragment implements OnClickListener, 
 	private IWXAPI api;
 	private String teamid;
 	
-	
 	@Override
 	public int getFragmentLevel() {
-		// TODO Auto-generated method stub
 		return IdentificationInterface.SECOND_LEVEL;
 	}
 	
@@ -104,20 +105,19 @@ public class ShowCapacitiyFragment extends Fragment implements OnClickListener, 
 		name=(TextView)view.findViewById(R.id.show_capacity_name1);
 		info=(TextView)view.findViewById(R.id.show_capacity_team1);
 		number=(TextView)view.findViewById(R.id.show_capacity_number1);
-		power=(ProgressBar)view.findViewById(R.id.show_capacity_power);
-		speed=(ProgressBar)view.findViewById(R.id.show_capacity_speed);
-		skills=(ProgressBar)view.findViewById(R.id.show_capacity_skills);
-		stamina=(ProgressBar)view.findViewById(R.id.show_capacity_stamina);
-		attack=(ProgressBar)view.findViewById(R.id.show_capacity_attack);
-		defence=(ProgressBar)view.findViewById(R.id.show_capacity_defence);
+		
 		powerValue=(TextView)view.findViewById(R.id.show_capacity_value4);
 		speedValue=(TextView)view.findViewById(R.id.show_capacity_value5);
 		skillsValue=(TextView)view.findViewById(R.id.show_capacity_value3);
 		staminaValue=(TextView)view.findViewById(R.id.show_capacity_value6);
 		attackValue=(TextView)view.findViewById(R.id.show_capacity_value1);
 		defenceValue=(TextView)view.findViewById(R.id.show_capacity_value2);
+		
 		evaluate=(TextView)view.findViewById(R.id.show_capacity_submit);
 		text=(TextView)view.findViewById(R.id.show_capacity_number_e);
+		sexangle = (SexangleView2) view.findViewById(R.id.iv_share_capacity_new);
+		
+		
 		
 		back.setOnClickListener(this);
 		share.setOnClickListener(this);
@@ -134,6 +134,10 @@ public class ShowCapacitiyFragment extends Fragment implements OnClickListener, 
 	}
 	
 	private void initiate(){
+		
+		String fontPath3="fonts/PGDQH.ttf";
+		Typeface other_tf=Typeface.createFromAsset(getActivity().getAssets(), fontPath3);
+		
 		SQLHelper helper=SQLHelper.getInstance(getActivity());
 		Cursor cursor=helper.select("ich", new String[]{"image", "name", "team1", "position1", "number1", "power", "speed", "skills", "stamina", "attack", "defence"}, "phone=?", new String[]{"host"}, null);
 		if(cursor.moveToNext()){
@@ -156,12 +160,23 @@ public class ShowCapacitiyFragment extends Fragment implements OnClickListener, 
 			}
 			info.setText(str.isEmpty()? "球队不详-位置不详": str+"—"+cursor.getString(3));
 			number.setText(cursor.getString(4));
-			setBarColor(power, powerValue, Integer.parseInt(cursor.getString(5)));
-			setBarColor(speed, speedValue, Integer.parseInt(cursor.getString(6)));
-			setBarColor(skills, skillsValue, Integer.parseInt(cursor.getString(7)));
-			setBarColor(stamina, staminaValue, Integer.parseInt(cursor.getString(8)));
-			setBarColor(attack, attackValue, Integer.parseInt(cursor.getString(9)));
-			setBarColor(defence, defenceValue, Integer.parseInt(cursor.getString(10)));
+			
+			attackValue.setText("" + Integer.parseInt(cursor.getString(9)));
+			attackValue.setTypeface(other_tf);
+			speedValue.setText("" + Integer.parseInt(cursor.getString(6)));
+			speedValue.setTypeface(other_tf);
+			staminaValue.setText("" + Integer.parseInt(cursor.getString(8)));
+			staminaValue.setTypeface(other_tf);
+			defenceValue.setText("" + Integer.parseInt(cursor.getString(10)));
+			defenceValue.setTypeface(other_tf);
+			powerValue.setText("" + Integer.parseInt(cursor.getString(5)));
+			powerValue.setTypeface(other_tf);
+			skillsValue.setText("" + Integer.parseInt(cursor.getString(7)));
+			skillsValue.setTypeface(other_tf);
+			
+			sexangle.setValue(Integer.parseInt(cursor.getString(9)), Integer.parseInt(cursor.getString(10)),
+					Integer.parseInt(cursor.getString(8)), Integer.parseInt(cursor.getString(5)),
+					Integer.parseInt(cursor.getString(7)), Integer.parseInt(cursor.getString(6)));
 			text.setText("已有"+n+"人给您评分，点击分享邀请更多好友来为您的足球水平进行评分");
 		}
 		if(!teamid.isEmpty()){
@@ -176,7 +191,6 @@ public class ShowCapacitiyFragment extends Fragment implements OnClickListener, 
 	
 	@Override
 	public void onClick(View arg0) {
-		// TODO Auto-generated method stub
 		int id=arg0.getId();
 		switch(id){
 		case R.id.show_capacity_back:{
@@ -266,6 +280,7 @@ public class ShowCapacitiyFragment extends Fragment implements OnClickListener, 
 	
 	private Bitmap getShareImage(){
 		Bitmap bitmap=null;
+		
 		String fontPath1="fonts/ZZGFLH.ttf";
 		String fontPath2="fonts/FZKTJT.ttf";
 		String fontPath3="fonts/PGDQH.ttf";
@@ -321,9 +336,10 @@ public class ShowCapacitiyFragment extends Fragment implements OnClickListener, 
 		time.setTypeface(other_tf);
 		n.setText("这是我在踢否平台上由"+this.n+"人评分得出的踢否\n足球战力值，你也快来踢否看看你在大家\n眼中的足球战力是多少吧！");
 		n.setTypeface(n_tf);
-//		kickfor.setTypeface(kickfor_tf);
 		kickfor.setTypeface(kickfor_tf, Typeface.ITALIC);
-		six.setValue(Integer.parseInt(this.attackValue.getText().toString()), Integer.parseInt(this.defenceValue.getText().toString()), Integer.parseInt(this.staminaValue.getText().toString()), Integer.parseInt(this.powerValue.getText().toString()), Integer.parseInt(this.skillsValue.getText().toString()), Integer.parseInt(this.speedValue.getText().toString()));
+		six.setValue(Integer.parseInt(this.attackValue.getText().toString()), Integer.parseInt(this.defenceValue.getText().toString()),
+				Integer.parseInt(this.staminaValue.getText().toString()), Integer.parseInt(this.powerValue.getText().toString()),
+				Integer.parseInt(this.skillsValue.getText().toString()), Integer.parseInt(this.speedValue.getText().toString()));
 		bitmap=Tools.convertViewToBitmap(view);
 		return bitmap;
 	}

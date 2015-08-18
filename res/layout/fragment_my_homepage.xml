@@ -21,7 +21,7 @@
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentTop="true"
                 android:layout_marginLeft="23dip"
-                android:layout_marginRight="7dip"
+                android:layout_marginRight="20dip"
                 android:layout_marginTop="15dip"
                 android:background="@drawable/team_default" />
 
@@ -42,18 +42,17 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"
-                android:layout_marginLeft="17dp"
                 android:layout_toRightOf="@id/iv_photo"
                 android:background="@drawable/rect2"
-                android:paddingBottom="15dip"
-                android:paddingTop="15dip" >
+                android:paddingBottom="10dip"
+                android:paddingTop="10dip" >
 
                 <ImageView
                     android:id="@+id/capacity_image"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
-                    android:layout_marginLeft="35dip"
+                    android:layout_marginLeft="45dip"
                     android:src="@drawable/my_capacity" />
 
                 <TextView
@@ -62,6 +61,7 @@
                     android:layout_alignBottom="@id/capacity_image"
                     android:layout_alignTop="@id/capacity_image"
                     android:layout_marginLeft="10dip"
+                    android:layout_marginTop="5dp"
                     android:layout_toRightOf="@id/capacity_image"
                     android:background="@null"
                     android:gravity="center"
@@ -70,262 +70,182 @@
                     android:textSize="15sp" />
             </RelativeLayout>
 
-            <LinearLayout
-                android:id="@+id/process_bar_1"
+            <RelativeLayout
+                android:id="@+id/rl_capacity"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignLeft="@id/btn_mycapacity"
-                android:layout_alignRight="@id/btn_mycapacity"
-                android:layout_below="@id/btn_mycapacity"
-                android:background="@drawable/rect_1"
-                android:orientation="horizontal"
-                android:paddingLeft="20dip"
-                android:paddingTop="10dip" >
+                android:layout_below="@id/btn_mycapacity" >
 
-                <TextView
-                    android:layout_width="0dip"
+                <RelativeLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="5dip"
-                    android:layout_weight="1"
-                    android:text="进攻"
-                    android:textSize="10sp" />
+                    android:background="@drawable/rect2"
+                    android:paddingBottom="8dip"
+                    android:paddingTop="8dip" >
 
-                <ProgressBar
-                    android:id="@+id/show_attack"
-                    style="?android:attr/progressBarStyleHorizontal"
-                    android:layout_width="0dip"
-                    android:layout_height="8dip"
-                    android:layout_marginTop="2dip"
-                    android:layout_weight="5"
-                    android:max="20"
-                    android:progress="17"
-                    android:progressDrawable="@drawable/progress_bar_style" />
+                    <ImageView
+                        android:id="@+id/iv_share_capacity"
+                        android:layout_width="120dp"
+                        android:layout_height="120dp"
+                        android:layout_centerInParent="true"
+                        android:src="@drawable/sexangle" />
 
-                <TextView
-                    android:id="@+id/value_attack"
-                    android:layout_width="0dip"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dip"
-                    android:layout_weight="1"
-                    android:text="15"
-                    android:textSize="10sp" />
-            </LinearLayout>
+                    <com.example.kickfor.utils.SexangleView3
+                        android:id="@+id/iv_share_capacity_new"
+                        android:layout_width="120dp"
+                        android:layout_height="120dp"
+                        android:layout_centerInParent="true" />
 
-            <LinearLayout
-                android:id="@+id/process_bar_2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignLeft="@id/process_bar_1"
-                android:layout_alignRight="@id/process_bar_1"
-                android:layout_below="@id/process_bar_1"
-                android:background="@drawable/rect_1"
-                android:orientation="horizontal"
-                android:paddingLeft="20dip"
-                android:paddingTop="10dip" >
+                    <TextView
+                        android:id="@+id/show_capacity_value1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignBaseline="@+id/textView1"
+                        android:layout_alignBottom="@+id/textView1"
+                        android:layout_toRightOf="@+id/textView1"
+                        android:text="15"
+                        android:textColor="#333333"
+                        android:textSize="10sp" />
 
-                <TextView
-                    android:layout_width="0dip"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="5dip"
-                    android:layout_weight="1"
-                    android:text="防守"
-                    android:textSize="10sp" />
+                    <TextView
+                        android:id="@+id/textView4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignBaseline="@+id/show_capacity_value3"
+                        android:layout_alignBottom="@+id/show_capacity_value3"
+                        android:layout_toLeftOf="@+id/show_capacity_value3"
+                        android:text="技术"
+                        android:textColor="#333333"
+                        android:textSize="10sp" />
 
-                <ProgressBar
-                    android:id="@+id/show_defence"
-                    style="?android:attr/progressBarStyleHorizontal"
-                    android:layout_width="0dip"
-                    android:layout_height="8dip"
-                    android:layout_marginTop="2dip"
-                    android:layout_weight="5"
-                    android:max="20"
-                    android:progress="5"
-                    android:progressDrawable="@drawable/progress_bar_style_1" />
+                    <TextView
+                        android:id="@+id/show_capacity_value5"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignBaseline="@+id/textView3"
+                        android:layout_alignBottom="@+id/textView3"
+                        android:layout_toRightOf="@+id/textView3"
+                        android:text="12"
+                        android:textColor="#333333"
+                        android:textSize="10sp" />
 
-                <TextView
-                    android:id="@+id/value_defence"
-                    android:layout_width="0dip"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dip"
-                    android:layout_weight="1"
-                    android:text="15"
-                    android:textSize="10sp" />
-            </LinearLayout>
+                    <TextView
+                        android:id="@+id/show_capacity_value6"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignBaseline="@+id/textView5"
+                        android:layout_alignBottom="@+id/textView5"
+                        android:layout_alignLeft="@+id/show_capacity_value5"
+                        android:text="9"
+                        android:textColor="#333333"
+                        android:textSize="10sp" />
 
-            <LinearLayout
-                android:id="@+id/process_bar_3"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignLeft="@id/process_bar_1"
-                android:layout_alignRight="@id/process_bar_1"
-                android:layout_below="@id/process_bar_2"
-                android:background="@drawable/rect_1"
-                android:orientation="horizontal"
-                android:paddingLeft="20dip"
-                android:paddingTop="10dip" >
+                    <TextView
+                        android:id="@+id/textView2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignLeft="@+id/textView1"
+                        android:layout_alignTop="@+id/show_capacity_value2"
+                        android:paddingTop="20dp"
+                        android:text="防守"
+                        android:textColor="#333333"
+                        android:textSize="10sp" />
 
-                <TextView
-                    android:layout_width="0dip"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="5dip"
-                    android:layout_weight="1"
-                    android:text="技术"
-                    android:textSize="10sp" />
+                    <TextView
+                        android:id="@+id/show_capacity_value4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/show_capacity_value3"
+                        android:layout_marginTop="55dp"
+                        android:layout_toRightOf="@+id/textView6"
+                        android:text="7"
+                        android:textColor="#333333"
+                        android:textSize="10sp" />
 
-                <ProgressBar
-                    android:id="@+id/show_skills"
-                    style="?android:attr/progressBarStyleHorizontal"
-                    android:layout_width="0dip"
-                    android:layout_height="8dip"
-                    android:layout_marginTop="2dip"
-                    android:layout_weight="5"
-                    android:max="20"
-                    android:progress="10"
-                    android:progressDrawable="@drawable/progress_bar_style_1" />
+                    <TextView
+                        android:id="@+id/textView6"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignBaseline="@+id/show_capacity_value4"
+                        android:layout_alignBottom="@+id/show_capacity_value4"
+                        android:layout_alignLeft="@+id/textView4"
+                        android:text="力量"
+                        android:textColor="#333333"
+                        android:textSize="10sp" />
 
-                <TextView
-                    android:id="@+id/value_skills"
-                    android:layout_width="0dip"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dip"
-                    android:layout_weight="1"
-                    android:text="15"
-                    android:textSize="10sp" />
-            </LinearLayout>
+                    <TextView
+                        android:id="@+id/textView1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignLeft="@+id/iv_share_capacity"
+                        android:layout_alignTop="@id/iv_share_capacity"
+                        android:layout_marginLeft="48dp"
+                        android:text="进攻"
+                        android:textColor="#333333"
+                        android:textSize="10sp" />
 
-            <LinearLayout
-                android:id="@+id/process_bar_4"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignLeft="@id/process_bar_1"
-                android:layout_alignRight="@id/process_bar_1"
-                android:layout_below="@id/process_bar_3"
-                android:background="@drawable/rect_1"
-                android:orientation="horizontal"
-                android:paddingLeft="20dip"
-                android:paddingTop="10dip" >
+                    <TextView
+                        android:id="@+id/textView5"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignBottom="@+id/show_capacity_value4"
+                        android:layout_alignTop="@id/show_capacity_value4"
+                        android:layout_alignLeft="@id/textView3"
+                        android:text="体能"
+                        android:textColor="#333333"
+                        android:textSize="10sp" />
+                    
+                    <TextView
+                        android:id="@+id/show_capacity_value2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignLeft="@+id/show_capacity_value1"
+                        android:layout_below="@+id/iv_share_capacity"
+                        android:paddingTop="20dp"
+                        android:text="8"
+                        android:textColor="#333333"
+                        android:textSize="10sp" />
 
-                <TextView
-                    android:layout_width="0dip"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="5dip"
-                    android:layout_weight="1"
-                    android:text="力量"
-                    android:textSize="10sp" />
+                    <TextView
+                        android:id="@+id/show_capacity_value3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignTop="@+id/iv_share_capacity"
+                        android:layout_marginRight="50dp"
+                        android:layout_marginTop="25dp"
+                        android:layout_toLeftOf="@+id/textView2"
+                        android:paddingTop="10dp"
+                        android:text="9"
+                        android:textColor="#333333"
+                        android:textSize="10sp" />
 
-                <ProgressBar
-                    android:id="@+id/show_power"
-                    style="?android:attr/progressBarStyleHorizontal"
-                    android:layout_width="0dip"
-                    android:layout_height="8dip"
-                    android:layout_marginTop="2dip"
-                    android:layout_weight="5"
-                    android:max="20"
-                    android:progress="11"
-                    android:progressDrawable="@drawable/progress_bar_style" />
+                    <TextView
+                        android:id="@+id/textView3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignBaseline="@+id/show_capacity_value3"
+                        android:layout_alignBottom="@+id/show_capacity_value3"
+                        android:layout_marginLeft="45dp"
+                        android:layout_toRightOf="@+id/show_capacity_value1"
+                        android:paddingTop="5dp"
+                        android:text="速度"
+                        android:textColor="#333333"
+                        android:textSize="10sp" />
 
-                <TextView
-                    android:id="@+id/value_power"
-                    android:layout_width="0dip"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dip"
-                    android:layout_weight="1"
-                    android:text="15"
-                    android:textSize="10sp" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/process_bar_5"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignLeft="@id/process_bar_1"
-                android:layout_alignRight="@id/process_bar_1"
-                android:layout_below="@id/process_bar_4"
-                android:background="@drawable/rect_1"
-                android:orientation="horizontal"
-                android:paddingLeft="20dip"
-                android:paddingTop="10dip" >
-
-                <TextView
-                    android:layout_width="0dip"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="5dip"
-                    android:layout_weight="1"
-                    android:text="速度"
-                    android:textSize="10sp" />
-
-                <ProgressBar
-                    android:id="@+id/show_speed"
-                    style="?android:attr/progressBarStyleHorizontal"
-                    android:layout_width="0dip"
-                    android:layout_height="8dip"
-                    android:layout_marginTop="2dip"
-                    android:layout_weight="5"
-                    android:max="20"
-                    android:progress="13"
-                    android:progressDrawable="@drawable/progress_bar_style" />
-
-                <TextView
-                    android:id="@+id/value_speed"
-                    android:layout_width="0dip"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dip"
-                    android:layout_weight="1"
-                    android:text="15"
-                    android:textSize="10sp" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/process_bar_6"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignLeft="@id/process_bar_1"
-                android:layout_alignRight="@id/process_bar_1"
-                android:layout_below="@id/process_bar_5"
-                android:background="@drawable/rect"
-                android:orientation="horizontal"
-                android:paddingBottom="10dip"
-                android:paddingLeft="20dip"
-                android:paddingTop="10dip" >
-
-                <TextView
-                    android:layout_width="0dip"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="5dip"
-                    android:layout_weight="1"
-                    android:text="体能"
-                    android:textSize="10sp" />
-
-                <ProgressBar
-                    android:id="@+id/show_stamina"
-                    style="?android:attr/progressBarStyleHorizontal"
-                    android:layout_width="0dip"
-                    android:layout_height="8dip"
-                    android:layout_marginTop="2dip"
-                    android:layout_weight="5"
-                    android:max="20"
-                    android:progress="3"
-                    android:progressDrawable="@drawable/progress_bar_style_1" />
-
-                <TextView
-                    android:id="@+id/value_stamina"
-                    android:layout_width="0dip"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dip"
-                    android:layout_weight="1"
-                    android:text="15"
-                    android:textSize="10sp" />
-            </LinearLayout>
+                </RelativeLayout>
+            </RelativeLayout>
 
             <TextView
                 android:id="@+id/tv_grade"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignTop="@+id/process_bar_3"
+                android:layout_below="@id/tv_my_name"
                 android:layout_marginTop="10dp"
-                android:layout_toLeftOf="@id/process_bar_4"
+                android:layout_toLeftOf="@id/btn_mycapacity"
                 android:background="@drawable/rect_15"
                 android:gravity="center"
+                android:paddingRight="10dp"
                 android:paddingTop="10dip"
                 android:text="Lv.1 新兵"
                 android:textColor="#333333"
@@ -339,7 +259,7 @@
                 android:layout_alignLeft="@id/tv_grade"
                 android:layout_alignRight="@id/tv_grade"
                 android:layout_below="@id/tv_grade"
-                android:layout_marginBottom="5dp"
+                android:layout_marginBottom="10dp"
                 android:layout_marginLeft="10dip"
                 android:layout_marginRight="10dip"
                 android:layout_marginTop="5dip"
@@ -349,10 +269,11 @@
                 android:id="@+id/homepage_signin"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignBottom="@id/process_bar_6"
+                android:layout_alignBottom="@id/rl_capacity"
+                android:layout_alignRight="@id/tv_grade"
                 android:layout_below="@+id/progress_grade"
-                android:layout_toLeftOf="@id/process_bar_6"
-                android:background="@drawable/rect_3" >
+                android:background="@drawable/rect_3"
+                android:paddingBottom="10dp" >
 
                 <TextView
                     android:id="@+id/homepage_zhongjian"
@@ -716,13 +637,12 @@
                 android:textColor="#ffffff"
                 android:textSize="12sp" />
 
-            <LinearLayout 
+            <LinearLayout
                 android:id="@+id/homepage_file"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/tv_file"
-                android:orientation="vertical">
-                
+                android:orientation="vertical" >
             </LinearLayout>
 
             <RelativeLayout
@@ -745,12 +665,12 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="8dp"
                     android:layout_toRightOf="@id/iv_file"
-                    android:textSize="15sp"
+                    android:text="还有1段经历"
                     android:textColor="#333333"
-                    android:text="还有1段经历" />
+                    android:textSize="15sp" />
             </RelativeLayout>
         </RelativeLayout>
-        
+
         <RelativeLayout
             android:id="@+id/rl_skills"
             android:layout_width="match_parent"
@@ -776,13 +696,12 @@
                 android:textColor="#ffffff"
                 android:textSize="12sp" />
 
-            <LinearLayout 
+            <LinearLayout
                 android:id="@+id/homepage_skills"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/tv_skills"
-                android:orientation="vertical">
-                
+                android:orientation="vertical" >
             </LinearLayout>
 
             <RelativeLayout
@@ -807,7 +726,6 @@
                     android:text="还有1个技能" />
             </RelativeLayout>
         </RelativeLayout>
-
 
         <View
             android:layout_width="fill_parent"

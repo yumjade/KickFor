@@ -9,9 +9,12 @@ import java.util.List;
 import java.util.Map;
 
 import com.example.kickfor.utils.IdentificationInterface;
+import com.example.kickfor.utils.SexangleView2;
+import com.example.kickfor.utils.SexangleView3;
 
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
+import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Message;
@@ -99,11 +102,10 @@ public class HomePageFragment extends Fragment implements OnClickListener, HomeP
 	private int max=0;
 	private String strNext=null;
 	
-
+	private SexangleView3 sexangle;
 
 	@Override
 	public void onChange(Message msg) {
-		// TODO Auto-generated method stub
 		if(msg.what==HomePageActivity.GET_ARCHIVES){
 			if(name!=null){
 				updateView();
@@ -113,7 +115,6 @@ public class HomePageFragment extends Fragment implements OnClickListener, HomeP
 
 	@Override
 	public int getFragmentLevel() {
-		// TODO Auto-generated method stub
 		if(phone.equals("host")){
 			return IdentificationInterface.MAIN_LEVEL;
 		}
@@ -204,7 +205,6 @@ public class HomePageFragment extends Fragment implements OnClickListener, HomeP
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
 		init();
 		View view=null;
 		if(this.phone.equals("host")){
@@ -219,12 +219,13 @@ public class HomePageFragment extends Fragment implements OnClickListener, HomeP
 			gradeText=(TextView)view.findViewById(R.id.tv_grade);
 			pbGrade=(ProgressBar)view.findViewById(R.id.progress_grade);
 			addupText=(TextView)view.findViewById(R.id.homepage_sign_text);
-			valuePower=(TextView)view.findViewById(R.id.value_power);
-			valueSpeed=(TextView)view.findViewById(R.id.value_speed);
-			valueSkills=(TextView)view.findViewById(R.id.value_skills);
-			valueStamina=(TextView)view.findViewById(R.id.value_stamina);
-			valueAttack=(TextView)view.findViewById(R.id.value_attack);
-			valueDefence=(TextView)view.findViewById(R.id.value_defence);
+			valuePower=(TextView)view.findViewById(R.id.show_capacity_value4);
+			valueSpeed=(TextView)view.findViewById(R.id.show_capacity_value5);
+			valueSkills=(TextView)view.findViewById(R.id.show_capacity_value3);
+			valueStamina=(TextView)view.findViewById(R.id.show_capacity_value6);
+			valueAttack=(TextView)view.findViewById(R.id.show_capacity_value1);
+			valueDefence=(TextView)view.findViewById(R.id.show_capacity_value2);
+			sexangle = (SexangleView3) view.findViewById(R.id.iv_share_capacity_new);
 			birthAndPlace=(TextView)view.findViewById(R.id.tv_info1);
 			weightAndHeight=(TextView)view.findViewById(R.id.tv_info2);
 			teamAndPosition=(TextView)view.findViewById(R.id.tv_info3);
@@ -232,12 +233,6 @@ public class HomePageFragment extends Fragment implements OnClickListener, HomeP
 			winRate=(TextView)view.findViewById(R.id.tv_win_rate);
 			totalGoal=(TextView)view.findViewById(R.id.tv_goal);
 			totalAssist=(TextView)view.findViewById(R.id.tv_assist);
-			power=(ProgressBar)view.findViewById(R.id.show_power);
-			speed=(ProgressBar)view.findViewById(R.id.show_speed);
-			skills=(ProgressBar)view.findViewById(R.id.show_skills);
-			stamina=(ProgressBar)view.findViewById(R.id.show_stamina);
-			attack=(ProgressBar)view.findViewById(R.id.show_attack);
-			defence=(ProgressBar)view.findViewById(R.id.show_defence);
 			imagePhoto=(ImageView)view.findViewById(R.id.iv_photo);
 			capacityButton=(RelativeLayout)view.findViewById(R.id.btn_mycapacity);
 			infoButton1=(RelativeLayout)view.findViewById(R.id.btn_info1);
@@ -286,19 +281,17 @@ public class HomePageFragment extends Fragment implements OnClickListener, HomeP
 			name=(TextView)view.findViewById(R.id.tv_other_name);
 			title=(TextView)view.findViewById(R.id.other_homepage_text);
 			titleBack=(ImageView)view.findViewById(R.id.other_homepage_back);
-			power=(ProgressBar)view.findViewById(R.id.show_other_power);
-			skills=(ProgressBar)view.findViewById(R.id.show_other_skills);
 			zhugong=(TextView)view.findViewById(R.id.other_zhugong);
-			stamina=(ProgressBar)view.findViewById(R.id.show_other_stamina);
-			speed=(ProgressBar)view.findViewById(R.id.show_other_speed);
-			attack=(ProgressBar)view.findViewById(R.id.show_other_attack);
-			defence=(ProgressBar)view.findViewById(R.id.show_other_defence);
-			valuePower=(TextView)view.findViewById(R.id.value_other_power);
-			valueAttack=(TextView)view.findViewById(R.id.value_other_attack);
-			valueStamina=(TextView)view.findViewById(R.id.value_other_stamina);
-			valueSpeed=(TextView)view.findViewById(R.id.value_other_speed);
-			valueDefence=(TextView)view.findViewById(R.id.value_other_defence);
-			valueSkills=(TextView)view.findViewById(R.id.value_other_skills);
+			
+			valuePower=(TextView)view.findViewById(R.id.show_capacity_value4);
+			valueSpeed=(TextView)view.findViewById(R.id.show_capacity_value5);
+			valueSkills=(TextView)view.findViewById(R.id.show_capacity_value3);
+			valueStamina=(TextView)view.findViewById(R.id.show_capacity_value6);
+			valueAttack=(TextView)view.findViewById(R.id.show_capacity_value1);
+			valueDefence=(TextView)view.findViewById(R.id.show_capacity_value2);
+			
+			sexangle = (SexangleView3) view.findViewById(R.id.iv_share_capacity_new);
+			
 			birthAndPlace=(TextView)view.findViewById(R.id.tv_other_info1);
 			weightAndHeight=(TextView)view.findViewById(R.id.tv_other_info2);
 			teamAndPosition=(TextView)view.findViewById(R.id.tv_other_info3);
@@ -326,14 +319,30 @@ public class HomePageFragment extends Fragment implements OnClickListener, HomeP
 	
 	
 	private void initiateMine(){
+		
+		String fontPath3="fonts/PGDQH.ttf";
+		Typeface other_tf=Typeface.createFromAsset(getActivity().getAssets(), fontPath3);
+		
 		imagePhoto.setImageBitmap(entity.getImage());
 		name.setText(entity.getName());
-		setBarColor(power, valuePower, Integer.parseInt(entity.getPower()));
-		setBarColor(skills, valueSkills, Integer.parseInt(entity.getSkills()));
-		setBarColor(stamina, valueStamina, Integer.parseInt(entity.getStamina()));
-		setBarColor(defence, valueDefence, Integer.parseInt(entity.getDefence()));
-		setBarColor(attack, valueAttack, Integer.parseInt(entity.getAttack()));
-		setBarColor(speed, valueSpeed, Integer.parseInt(entity.getSpeed()));
+		
+		valueAttack.setText("" + Integer.parseInt(entity.getAttack()));
+		valueAttack.setTypeface(other_tf);
+		valueSpeed.setText("" + Integer.parseInt(entity.getSpeed()));
+		valueSpeed.setTypeface(other_tf);
+		valueStamina.setText("" + Integer.parseInt(entity.getStamina()));
+		valueStamina.setTypeface(other_tf);
+		valueDefence.setText("" + Integer.parseInt(entity.getDefence()));
+		valueDefence.setTypeface(other_tf);
+		valuePower.setText("" + Integer.parseInt(entity.getPower()));
+		valuePower.setTypeface(other_tf);
+		valueSkills.setText("" + Integer.parseInt(entity.getSkills()));
+		valueSkills.setTypeface(other_tf);
+		
+		sexangle.setValue(Integer.parseInt(entity.getAttack()), Integer.parseInt(entity.getDefence()),
+				Integer.parseInt(entity.getStamina()), Integer.parseInt(entity.getPower()),
+				Integer.parseInt(entity.getSkills()), Integer.parseInt(entity.getSpeed()));
+		
 		birthAndPlace.setText(entity.getBirthAndPlace());
 		weightAndHeight.setText(entity.getWeightAndHeight());
 		teamAndPosition.setText(entity.getTeam1AndPosisiton());
@@ -400,7 +409,6 @@ public class HomePageFragment extends Fragment implements OnClickListener, HomeP
 	
 	@Override
 	public void onClick(View v) {
-		// TODO Auto-generated method stub
 		if(this.phone.equals("host")){
 			if(v.getId()==R.id.homepage_signin){
 			Map<String, Object> map=new HashMap<String, Object>();
@@ -714,7 +722,7 @@ public class HomePageFragment extends Fragment implements OnClickListener, HomeP
 	private void setBarColor(ProgressBar progressBar, TextView value, int progress){
 		if(progress<=10){
 			Drawable d=getResources().getDrawable(R.drawable.progress_bar_style_1);
-			progressBar.setProgressDrawable(d);
+//			progressBar.setProgressDrawable(d);
 		}
 		else{
 			Drawable d=getResources().getDrawable(R.drawable.progress_bar_style);

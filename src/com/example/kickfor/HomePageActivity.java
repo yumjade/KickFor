@@ -62,6 +62,7 @@ import com.example.kickfor.utils.IdentificationInterface;
 import com.tencent.mm.sdk.openapi.IWXAPI;
 import com.tencent.mm.sdk.openapi.WXAPIFactory;
 
+import android.R.bool;
 import android.app.AlertDialog;
 import android.content.ComponentName;
 import android.content.DialogInterface;
@@ -246,7 +247,6 @@ public class HomePageActivity extends FragmentActivity implements HandlerListene
 	private Handler handler = new Handler(){
     	@Override
     	public void handleMessage(Message msg) {
-    		// TODO Auto-generated method stub
     		switch (msg.what) {
     		case 1:
     			allFlipper.setDisplayedChild(1);
@@ -258,7 +258,6 @@ public class HomePageActivity extends FragmentActivity implements HandlerListene
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 		super.onCreate(savedInstanceState);
@@ -384,7 +383,6 @@ public class HomePageActivity extends FragmentActivity implements HandlerListene
 
 							@Override
 							public void run() {
-								// TODO Auto-generated method stub
 								tmp.changedData();
 							}
 							
@@ -397,7 +395,6 @@ public class HomePageActivity extends FragmentActivity implements HandlerListene
 
 							@Override
 							public void run() {
-								// TODO Auto-generated method stub
 								int msgNumber=tmp.setMsgNumberChanged();
 								tmp.remind(msgNumber);
 								System.out.println(""+msgNumber);
@@ -412,7 +409,6 @@ public class HomePageActivity extends FragmentActivity implements HandlerListene
 
 							@Override
 							public void run() {
-								// TODO Auto-generated method stub
 								ChatFragment tmp=(ChatFragment)fm.findFragmentById(R.id.main);
 								tmp.setMessage(message);
 							}
@@ -472,7 +468,6 @@ public class HomePageActivity extends FragmentActivity implements HandlerListene
 
 			@Override
 			public void run() {
-				// TODO Auto-generated method stub
 				Map<String, Object> map=new HashMap<String, Object>();
 				map.put("request", "heart");
 				Runnable r=new ClientWrite(Tools.JsonEncode(map));
@@ -639,7 +634,6 @@ public class HomePageActivity extends FragmentActivity implements HandlerListene
 
 
 	public void onBarCheck(int index) {
-		// TODO Auto-generated method stub
 		switch(index){
 		case R.id.bar_home:{
 			Bundle bundle0=new Bundle();
@@ -829,19 +823,16 @@ public class HomePageActivity extends FragmentActivity implements HandlerListene
 
 						@Override
 						public Fragment getItem(int arg0) {
-							// TODO Auto-generated method stub
 							return fragmentList1.get(arg0);
 						}
 
 						@Override
 						public int getCount() {
-							// TODO Auto-generated method stub
 							return fragmentList1.size();
 						}
 
 						@Override
 						public int getItemPosition(Object object) {
-							// TODO Auto-generated method stub
 							return PagerAdapter.POSITION_NONE;
 						}
 					};
@@ -856,7 +847,6 @@ public class HomePageActivity extends FragmentActivity implements HandlerListene
 	}
 	
 	public void teamCommand(View v, String teamid, String authority) {
-		// TODO Auto-generated method stub
 		switch(v.getId()){
 		case R.id.tv_changing_room:{
 			Bundle bundle=new Bundle();
@@ -961,7 +951,6 @@ public class HomePageActivity extends FragmentActivity implements HandlerListene
 
 
 	public void teamCreate(View v, boolean isCreatedTeam, TeamCreateFragment t) {
-		// TODO Auto-generated method stub
 		int id=v.getId();
 		switch(id){
 		case R.id.tv_newteam:{
@@ -1099,7 +1088,6 @@ public class HomePageActivity extends FragmentActivity implements HandlerListene
 	
 	
 	public void onHomePageClick(View v, String phone) {
-		// TODO Auto-generated method stub
 		bar.setEnable(false);
 		if(fm.findFragmentById(R.id.title) instanceof TitleFragment){
 			TitleFragment tmp=(TitleFragment)fm.findFragmentById(R.id.title);
@@ -1625,7 +1613,6 @@ public class HomePageActivity extends FragmentActivity implements HandlerListene
 
 	
 	public void sendImage(int selectImage) {
-		// TODO Auto-generated method stub
 		this.selectImage=selectImage;
 		MyPopupWindow popWindow=new MyPopupWindow(this);
 		backgroundAlpha(0.4f);
@@ -1649,7 +1636,6 @@ public class HomePageActivity extends FragmentActivity implements HandlerListene
 	}
 	
 	public void getInPosition(String position, int state) {
-		// TODO Auto-generated method stub
 		Bundle bundle=new Bundle();
 		bundle.putString("position", position);
 		bundle.putString("phone", phone);
@@ -1759,7 +1745,6 @@ public class HomePageActivity extends FragmentActivity implements HandlerListene
 
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		// TODO Auto-generated method stub
 		switch(requestCode){
 		case IMAGE_REQUEST_CODE:
 			if(data!=null && data.getData()!=null){
@@ -1792,7 +1777,6 @@ public class HomePageActivity extends FragmentActivity implements HandlerListene
 
 
 	public void selectList(MyFriend item) {
-		// TODO Auto-generated method stub
 		int id=Integer.parseInt(item.getType());
 		switch(id){
 		case ListsFragment.TYPE_FRIEND_LIST:{
@@ -1946,7 +1930,6 @@ public class HomePageActivity extends FragmentActivity implements HandlerListene
 	}
 
 	public void reviewDetail(String teamid, MatchReviewEntity item, String authority) {
-		// TODO Auto-generated method stub
 		MatchReviewDetailFragment matchReviewDetail=new MatchReviewDetailFragment();
 		Bundle bundle=new Bundle();
 		bundle.putString("teamid", teamid);
@@ -1979,7 +1962,6 @@ public class HomePageActivity extends FragmentActivity implements HandlerListene
 
 	@Override
 	protected void onResume() {
-		// TODO Auto-generated method stub
 		super.onResume();
 		mRealTimeHandler.regist(HomePageActivity.this);
 		EMChatManager.getInstance().registerEventListener(listener);	
@@ -1988,7 +1970,6 @@ public class HomePageActivity extends FragmentActivity implements HandlerListene
 	
 	@Override
 	protected void onPause() {
-		// TODO Auto-generated method stub
 		super.onPause();
 		mRealTimeHandler.unRegist(HomePageActivity.this);
 		EMChatManager.getInstance().unregisterEventListener(listener);
@@ -1999,7 +1980,6 @@ public class HomePageActivity extends FragmentActivity implements HandlerListene
 
 	@Override
 	protected void onDestroy() {
-		// TODO Auto-generated method stub
 		super.onDestroy();
 		EMChatManager.getInstance().logout();//此方法为同步方法
 		System.out.println("环信已关闭");
@@ -2020,7 +2000,6 @@ public class HomePageActivity extends FragmentActivity implements HandlerListene
 	
 	@Override
 	protected void onNewIntent(Intent intent) {
-		// TODO Auto-generated method stub
 		super.onNewIntent(intent);
 		if(intent!=null){
 			String type="";
@@ -2114,7 +2093,6 @@ public class HomePageActivity extends FragmentActivity implements HandlerListene
 	@SuppressWarnings("unchecked")
 	@Override
 	public void onChange(Message msg) {
-		// TODO Auto-generated method stub
 		switch (msg.what){
 		case RESPONSE_PHONE:{
 			removeVague();
@@ -3499,13 +3477,13 @@ public class HomePageActivity extends FragmentActivity implements HandlerListene
 			if(time-ctime<800){
 				Toast.makeText(this, "您的操作过于频繁", Toast.LENGTH_SHORT).show();
 				return true;
+				
 			}
 			ctime=time;
 		}
 		return super.onKeyDown(keyCode, event);
 	} 
 
-	
 	@Override
 	public void onBackPressed() {
 		// TODO Auto-generated method stub
@@ -3937,6 +3915,5 @@ public class HomePageActivity extends FragmentActivity implements HandlerListene
 			}
 		}
 	}
-	
 	
 }

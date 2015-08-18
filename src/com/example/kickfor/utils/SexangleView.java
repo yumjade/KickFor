@@ -59,7 +59,6 @@ public class SexangleView extends View {
 
 	public SexangleView(Context context) {
 		super(context);
-		// TODO Auto-generated constructor stub
 	}
 
 	public SexangleView(Context context, AttributeSet attrs) {
@@ -72,12 +71,10 @@ public class SexangleView extends View {
 
 	public SexangleView(Context context, AttributeSet attrs, int defStyleAttr) {
 		super(context, attrs, defStyleAttr);
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override
 	protected void onDraw(Canvas canvas) {
-		// TODO Auto-generated method stub
 		super.onDraw(canvas);
 		getDot();
 		if (paint == null) {
@@ -162,7 +159,6 @@ public class SexangleView extends View {
 
 	@Override
 	protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-		// TODO Auto-generated method stub
 		super.onMeasure(widthMeasureSpec, heightMeasureSpec);
 	}
 
