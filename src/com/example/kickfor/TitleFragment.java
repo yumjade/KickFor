@@ -79,7 +79,6 @@ public class TitleFragment extends Fragment implements IdentificationInterface{
 	
 	@Override
 	public void setEnable(boolean enable) {
-		// TODO Auto-generated method stub
 		if(state==HOMEPAGE_TITLE){
 			myHomepageButton.setEnabled(enable);
 			myMessage.setEnabled(enable);
@@ -89,7 +88,6 @@ public class TitleFragment extends Fragment implements IdentificationInterface{
 	
 	@Override
 	public int getFragmentLevel() {
-		// TODO Auto-generated method stub
 		if(state==HOMEPAGE_TITLE || state==LOBBY_TITLE){
 			return IdentificationInterface.MAIN_LEVEL;
 		}
@@ -148,7 +146,7 @@ public class TitleFragment extends Fragment implements IdentificationInterface{
 	private ImageView lsrc2=null;
 	private TextView friendNumber=null;
 	private TextView teamNumber=null;
-	private TextView addMore=null;
+	private RelativeLayout addMore=null;
 	private TextView friendText=null;
 	private TextView teamText=null;
 	
@@ -209,7 +207,6 @@ public class TitleFragment extends Fragment implements IdentificationInterface{
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
 		init();
 		View view=null;
 		switch(state){
@@ -221,7 +218,6 @@ public class TitleFragment extends Fragment implements IdentificationInterface{
 
 				@Override
 				public void onClick(View v) {
-					// TODO Auto-generated method stub
 					((HomePageActivity)getActivity()).onBackPressed();
 				}
 				
@@ -230,7 +226,6 @@ public class TitleFragment extends Fragment implements IdentificationInterface{
 
 				@Override
 				public void afterTextChanged(Editable arg0) {
-					// TODO Auto-generated method stub
 					Map<String, Object> tmp=new HashMap<String, Object>();
 					if(((HomePageActivity)getActivity()).fromViewPager==false){
 						tmp.put("request", "seek");
@@ -249,14 +244,12 @@ public class TitleFragment extends Fragment implements IdentificationInterface{
 				@Override
 				public void beforeTextChanged(CharSequence arg0, int arg1,
 						int arg2, int arg3) {
-					// TODO Auto-generated method stub
 					
 				}
 
 				@Override
 				public void onTextChanged(CharSequence s, int start,
 						int before, int count) {
-					// TODO Auto-generated method stub
 					
 				}
 				
@@ -278,7 +271,6 @@ public class TitleFragment extends Fragment implements IdentificationInterface{
 
 				@Override
 				public void onClick(View v) {
-					// TODO Auto-generated method stub
 					if(Tools.isConnect(getActivity())){
 						checkNetWork.setVisibility(View.GONE);
 					}
@@ -311,7 +303,6 @@ public class TitleFragment extends Fragment implements IdentificationInterface{
 
 				@Override
 				public void onClick(View arg0) {
-					// TODO Auto-generated method stub
 					myHomepageButton.setTextColor(Color.parseColor("#ffffff"));
 					myMessage.setTextColor(Color.parseColor("#9e9e9e"));
 					myFriend.setTextColor(Color.parseColor("#9e9e9e"));
@@ -327,7 +318,6 @@ public class TitleFragment extends Fragment implements IdentificationInterface{
 
 				@Override
 				public void onClick(View v) {
-					// TODO Auto-generated method stub
 					myHomepageButton.setTextColor(Color.parseColor("#9e9e9e"));
 					myMessage.setTextColor(Color.parseColor("#ffffff"));
 					myFriend.setTextColor(Color.parseColor("#9e9e9e"));
@@ -343,7 +333,6 @@ public class TitleFragment extends Fragment implements IdentificationInterface{
 
 				@Override
 				public void onClick(View v) {
-					// TODO Auto-generated method stub
 					myHomepageButton.setTextColor(Color.parseColor("#9e9e9e"));
 					myMessage.setTextColor(Color.parseColor("#9e9e9e"));
 					myFriend.setTextColor(Color.parseColor("#ffffff"));
@@ -360,18 +349,18 @@ public class TitleFragment extends Fragment implements IdentificationInterface{
 		}
 		case LOBBY_TITLE:{
 			view=inflater.inflate(R.layout.fragment_lobby_title, container, false);
-			friend=(FrameLayout)view.findViewById(R.id.lobby_myfriend);
-			friendText=(TextView)view.findViewById(R.id.lobby_friend_text);
-			team=(FrameLayout)view.findViewById(R.id.lobby_team);
+//			friend=(FrameLayout)view.findViewById(R.id.lobby_myfriend);
+//			friendText=(TextView)view.findViewById(R.id.lobby_friend_text);
+//			team=(FrameLayout)view.findViewById(R.id.lobby_team);
 			teamText=(TextView)view.findViewById(R.id.lobby_team_text);
-			lsrc1=(ImageView)view.findViewById(R.id.lobby_src_1);
-			lsrc2=(ImageView)view.findViewById(R.id.lobby_src_2);
-			friendNumber=(TextView)view.findViewById(R.id.lobby_friend_msg);
-			friendNumber.setVisibility(View.GONE);
-			teamNumber=(TextView)view.findViewById(R.id.lobby_team_msg);
-			teamNumber.setVisibility(View.GONE);
+//			lsrc1=(ImageView)view.findViewById(R.id.lobby_src_1);
+//			lsrc2=(ImageView)view.findViewById(R.id.lobby_src_2);
+//			friendNumber=(TextView)view.findViewById(R.id.lobby_friend_msg);
+//			friendNumber.setVisibility(View.GONE);
+//			teamNumber=(TextView)view.findViewById(R.id.lobby_team_msg);
+//			teamNumber.setVisibility(View.GONE);
 			checkNetWork=(TextView)view.findViewById(R.id.lobby_title_network);
-			addMore=(TextView)view.findViewById(R.id.lobby_team_add);
+			addMore=(RelativeLayout) view.findViewById(R.id.rl_publish);
 			if(Tools.isConnect(getActivity())){
 				checkNetWork.setVisibility(View.GONE);
 			}
@@ -382,7 +371,6 @@ public class TitleFragment extends Fragment implements IdentificationInterface{
 
 				@Override
 				public void onClick(View v) {
-					// TODO Auto-generated method stub
 					if(Tools.isConnect(getActivity())){
 						checkNetWork.setVisibility(View.GONE);
 					}
@@ -392,41 +380,38 @@ public class TitleFragment extends Fragment implements IdentificationInterface{
 				}
 				
 			});
-			friendText.setOnClickListener(new OnClickListener(){
-
-				@Override
-				public void onClick(View v) {
-					// TODO Auto-generated method stub
-					friendText.setTextColor(Color.parseColor("#ffffff"));
-					teamText.setTextColor(Color.parseColor("#9e9e9e"));
-					lsrc1.setVisibility(View.VISIBLE);
-					lsrc2.setVisibility(View.INVISIBLE);
-					((HomePageActivity)getActivity()).titleCommand(friendText, null, null);
-					addMore.setVisibility(View.GONE);
-				}
-				
-			});
-			teamText.setOnClickListener(new OnClickListener(){
-
-				@Override
-				public void onClick(View v) {
-					// TODO Auto-generated method stub
-					friendText.setTextColor(Color.parseColor("#9e9e9e"));
-					teamText.setTextColor(Color.parseColor("#ffffff"));
-					lsrc1.setVisibility(View.INVISIBLE);
-					lsrc2.setVisibility(View.VISIBLE);
-					((HomePageActivity)getActivity()).titleCommand(teamText, null, null);
-					addMore.setVisibility(View.VISIBLE);
-				}
-				
-			});
+//			friendText.setOnClickListener(new OnClickListener(){
+//
+//				@Override
+//				public void onClick(View v) {
+//					friendText.setTextColor(Color.parseColor("#ffffff"));
+//					teamText.setTextColor(Color.parseColor("#9e9e9e"));
+//					lsrc1.setVisibility(View.VISIBLE);
+//					lsrc2.setVisibility(View.INVISIBLE);
+//					((HomePageActivity)getActivity()).titleCommand(friendText, null, null);
+//					addMore.setVisibility(View.GONE);
+//				}
+//				
+//			});
+//			teamText.setOnClickListener(new OnClickListener(){
+//
+//				@Override
+//				public void onClick(View v) {
+//					friendText.setTextColor(Color.parseColor("#9e9e9e"));
+//					teamText.setTextColor(Color.parseColor("#ffffff"));
+//					lsrc1.setVisibility(View.INVISIBLE);
+//					lsrc2.setVisibility(View.VISIBLE);
+//					((HomePageActivity)getActivity()).titleCommand(teamText, null, null);
+//					addMore.setVisibility(View.VISIBLE);
+//				}
+//				
+//			});
 			if(canAdd==true){
 				addMore.setVisibility(View.VISIBLE);
 				addMore.setOnClickListener(new OnClickListener(){
 
 					@Override
 					public void onClick(View v) {
-						// TODO Auto-generated method stub
 						((HomePageActivity)getActivity()).titleCommand(addMore, null, null);
 					}
 					
@@ -452,7 +437,6 @@ public class TitleFragment extends Fragment implements IdentificationInterface{
 
 					@Override
 					public void onClick(View v) {
-						// TODO Auto-generated method stub
 						((HomePageActivity)getActivity()).previewCommand("right", status+1);
 					}
 					
@@ -462,7 +446,6 @@ public class TitleFragment extends Fragment implements IdentificationInterface{
 
 				@Override
 				public void onClick(View v) {
-					// TODO Auto-generated method stub
 					((HomePageActivity)getActivity()).previewCommand("left", status-1);
 				}
 				
@@ -508,7 +491,6 @@ public class TitleFragment extends Fragment implements IdentificationInterface{
 
 				@Override
 				public void onClick(View v) {
-					// TODO Auto-generated method stub
 					((HomePageActivity)getActivity()).openTeamInfoEdit(teamid, authority);
 				}
 				
@@ -517,7 +499,6 @@ public class TitleFragment extends Fragment implements IdentificationInterface{
 
 				@Override
 				public void onClick(View v) {
-					// TODO Auto-generated method stub
 					((HomePageActivity)getActivity()).onBackPressed();
 				}
 				
@@ -610,7 +591,6 @@ public class TitleFragment extends Fragment implements IdentificationInterface{
 
 					@Override
 					public void onClick(View v) {
-						// TODO Auto-generated method stub
 						theWhole.setEnabled(true);
 						value1.setEnabled(false);
 						value2.setEnabled(true);
@@ -639,7 +619,6 @@ public class TitleFragment extends Fragment implements IdentificationInterface{
 
 					@Override
 					public void onClick(View v) {
-						// TODO Auto-generated method stub
 						theWhole.setEnabled(true);
 						value1.setEnabled(true);
 						value2.setEnabled(false);
@@ -668,7 +647,6 @@ public class TitleFragment extends Fragment implements IdentificationInterface{
 
 					@Override
 					public void onClick(View v) {
-						// TODO Auto-generated method stub
 						theWhole.setEnabled(true);
 						value1.setEnabled(true);
 						value2.setEnabled(true);
@@ -686,7 +664,6 @@ public class TitleFragment extends Fragment implements IdentificationInterface{
 
 				@Override
 				public void onClick(View v) {
-					// TODO Auto-generated method stub
 					((Activity)context).onBackPressed();
 				}
 				
@@ -695,7 +672,6 @@ public class TitleFragment extends Fragment implements IdentificationInterface{
 
 				@Override
 				public void onClick(View v) {
-					// TODO Auto-generated method stub
 					theWhole.setEnabled(false);
 					value1.setEnabled(true);
 					value2.setEnabled(true);

@@ -53,19 +53,16 @@ public class FileEditAdapter extends BaseAdapter {
 
 	@Override
 	public int getCount() {
-		// TODO Auto-generated method stub
 		return mList.size();
 	}
 
 	@Override
 	public Object getItem(int position) {
-		// TODO Auto-generated method stub
 		return mList.get(position);
 	}
 
 	@Override
 	public long getItemId(int position) {
-		// TODO Auto-generated method stub
 		return position;
 	}
 	
@@ -86,7 +83,6 @@ public class FileEditAdapter extends BaseAdapter {
 
 				@Override
 				public void onClick(View v) {
-					// TODO Auto-generated method stub
 					final View vi=v;
 					int position=(Integer)vi.getTag();
 					mList.remove(position);
@@ -100,7 +96,6 @@ public class FileEditAdapter extends BaseAdapter {
 
 				@Override
 				public void onClick(View v) {
-					// TODO Auto-generated method stub
 					final TextView vi=(TextView)v;
 					int position=(Integer)v.getTag();
 					final SubFile item=mList.get(position);
@@ -122,7 +117,6 @@ public class FileEditAdapter extends BaseAdapter {
 
 				@Override
 				public void onClick(View v) {
-					// TODO Auto-generated method stub
 					final TextView vi=(TextView)v;
 					int position=(Integer)v.getTag();
 					final SubFile item=mList.get(position);

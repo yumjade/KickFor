@@ -2,6 +2,7 @@ package com.example.kickfor;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import android.content.Context;
@@ -31,12 +32,19 @@ public class FileEntity implements Serializable{
 		initiate(helper);
 	}
 	
-	public FileEntity(String position, String teamname, String inTeam, String joindate, String exitdate){
+	public FileEntity(String position, String teamname, String inTeam, String joindate, String exitdate, List<SubFile> list){
 		this.position=position;
 		this.teamname=teamname;
 		this.inTeam=inTeam.equals("1")? true: false;
 		this.joindate=joindate;
 		this.exitdate=exitdate;
+		if(list!=null){
+			mList=new ArrayList<SubFile>();
+			Iterator<SubFile> iter=list.iterator();
+			while(iter.hasNext()){
+				mList.add(iter.next());
+			}
+		}
 	}
 	
 	public void setData(String position, String teamname, String inTeam, String joindate, String exitdate){

@@ -113,6 +113,7 @@ public class SkillsShowFragment extends Fragment implements HomePageInterface, I
 	public void onChange(Message msg) {
 		// TODO Auto-generated method stub
 		if(msg.what==HomePageActivity.GET_USERSKILLS){
+			@SuppressWarnings("unchecked")
 			Iterator<SkillsShowEntity> iter=((List<SkillsShowEntity>)msg.obj).iterator();
 			while(iter.hasNext()){
 				mList.add(iter.next());
@@ -120,6 +121,23 @@ public class SkillsShowFragment extends Fragment implements HomePageInterface, I
 			if(adapter!=null){
 				adapter.notifyDataSetChanged();
 				Tools.setListViewHeight(listView);
+			}
+		}
+		else if(msg.what==HomePageActivity.OK_DELSKILLS){
+			Bundle bundle=msg.getData();
+			if(phone.equals(bundle.getString("phone"))){
+				Iterator<SkillsShowEntity> iter=mList.iterator();
+				while(iter.hasNext()){
+					SkillsShowEntity item=iter.next();
+					if(item.getSkillsKey().equals(bundle.getString("skillkey"))){
+						mList.remove(item);
+						break;
+					}
+				}
+				if(adapter!=null){
+					adapter.notifyDataSetChanged();
+					Tools.setListViewHeight(listView);
+				}
 			}
 		}
 	}

@@ -15,7 +15,7 @@ public class SQLHelper extends SQLiteOpenHelper implements Serializable{
 	 */
 	private static final long serialVersionUID = 10;
 	
-	private final static int DATABASE_VERSION=4;
+	private final static int DATABASE_VERSION=6;
 	private final static String TABLE_NAME1="ich";
 	private final static String TABLE_NAME2="teams";
 	private final static String PHONE="phone";
@@ -71,7 +71,7 @@ public class SQLHelper extends SQLiteOpenHelper implements Serializable{
 	public void onCreate(SQLiteDatabase db) {
 		// TODO Auto-generated method stub
 		System.out.println("create table ich and teams");
-		String sql1="CREATE TABLE IF NOT EXISTS "+TABLE_NAME1+"("+PHONE+" varchar(11),"+NAME+" text,"+HEIGHT+" text,"+WEIGHT+" text,"+POSITION1+" text,"+POSITION2+" text,"+CITY+" text,"+DISTRICT+" text,"+YEAR+" text,"+MONTH+" text,"+DAY+" text,"+SEX+" text,"+POWER+" text,"+SKILLS+" text,"+DEFENCE+" text,"+ATTACK+" text,"+STAMINA+" text,"+SPEED+" text,"+TEAM1+" text, teamid1 varchar(12), authority1 varchar(1), authority2 varchar(1), authority3 varchar(1), teamid2 varchar(12), teamid3 varchar(12), tmatch1 varchar(5), tmatch2 varchar(5), tmatch3 varchar(5), win1 varchar(5), win2 varchar(5), win3 varchar(5), "+TEAM2+" text,"+TEAM3+" text,"+GOAL1+" text,"+ASSIST1+" text,"+GOAL2+" text,"+ASSIST2+" text,"+GOAL3+" text,"+NUMBER1+" text,"+NUMBER2+" text,"+NUMBER3+" text,"+ASSIST3+" text,"+GRADES+" varchar(22),"+MESSAGE+" text,"+IMAGE+" text, n varchar(8), score varchar(8), addup varchar(8), date varchar(10));";
+		String sql1="CREATE TABLE IF NOT EXISTS "+TABLE_NAME1+"("+PHONE+" varchar(11),"+NAME+" text,"+HEIGHT+" text,"+WEIGHT+" text,"+POSITION1+" text,"+POSITION2+" text,"+CITY+" text,"+DISTRICT+" text,"+YEAR+" text,"+MONTH+" text,"+DAY+" text,"+SEX+" text,"+POWER+" text,"+SKILLS+" text,"+DEFENCE+" text,"+ATTACK+" text,"+STAMINA+" text,"+SPEED+" text,"+TEAM1+" text, teamid1 varchar(12), authority1 varchar(1), authority2 varchar(1), authority3 varchar(1), teamid2 varchar(12), teamid3 varchar(12), tmatch1 varchar(5), tmatch2 varchar(5), tmatch3 varchar(5), win1 varchar(5), win2 varchar(5), win3 varchar(5), "+TEAM2+" text,"+TEAM3+" text,"+GOAL1+" text,"+ASSIST1+" text,"+GOAL2+" text,"+ASSIST2+" text,"+GOAL3+" text,"+NUMBER1+" text,"+NUMBER2+" text,"+NUMBER3+" text,"+ASSIST3+" text,"+GRADES+" varchar(22),"+MESSAGE+" text,"+IMAGE+" text, n varchar(8), score varchar(8), addup varchar(8), date varchar(10), userskillsnum integer);";
 		db.execSQL(sql1);
 		String sql2="CREATE TABLE IF NOT EXISTS "+TABLE_NAME2+"(teamid varchar(12), "+NAME+" text,"+YEAR+" varchar(4),"+MONTH+" varchar(2),"+DAY+" varchar(2),"+CITY+" text,"+DISTRICT+" text, number varchar(2),"+IMAGE+" text, honor varchar(30), hall text, win varchar(10), goal varchar(10), assist varchar(10), lost varchar(10), totalmatch varchar(10), captain varchar(11), bestshooter text, bestassister text);";
 		db.execSQL(sql2);
@@ -85,6 +85,8 @@ public class SQLHelper extends SQLiteOpenHelper implements Serializable{
 	    db.execSQL(sql6);
 	    String sql7="create table if not exists archivematch(userarchivesmatchkey integer, uid varchar(11), userarchiveskey integer, matchname text, year varchar(4), ranking text);";
 	    db.execSQL(sql7);
+	    String sql8="create table if not exists skills(skillname text, agreeNum varchar(5));";
+	    db.execSQL(sql8);
 	}
 
 	@Override

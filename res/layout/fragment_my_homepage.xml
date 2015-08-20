@@ -190,12 +190,12 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignBottom="@+id/show_capacity_value4"
-                        android:layout_alignTop="@id/show_capacity_value4"
                         android:layout_alignLeft="@id/textView3"
+                        android:layout_alignTop="@id/show_capacity_value4"
                         android:text="体能"
                         android:textColor="#333333"
                         android:textSize="10sp" />
-                    
+
                     <TextView
                         android:id="@+id/show_capacity_value2"
                         android:layout_width="wrap_content"
@@ -232,7 +232,6 @@
                         android:text="速度"
                         android:textColor="#333333"
                         android:textSize="10sp" />
-
                 </RelativeLayout>
             </RelativeLayout>
 
@@ -554,10 +553,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignBottom="@id/tv_goal"
-                android:layout_alignTop="@id/tv_goal"
                 android:layout_marginLeft="3dip"
                 android:layout_toRightOf="@id/tv_goal"
                 android:gravity="bottom"
+                android:paddingBottom="2dp"
                 android:text="粒"
                 android:textColor="#333333"
                 android:textSize="10sp" />
@@ -592,8 +591,7 @@
                 android:id="@+id/home_li1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignBottom="@id/tv_assist"
-                android:layout_alignTop="@id/home_li"
+                android:layout_alignBottom="@id/tv_goal"
                 android:layout_marginLeft="3dip"
                 android:layout_toRightOf="@id/tv_assist"
                 android:gravity="bottom"
@@ -621,7 +619,7 @@
             android:layout_marginTop="10dp"
             android:background="@drawable/btn_style_1"
             android:clickable="true"
-            android:paddingBottom="15dip"
+            android:paddingBottom="5dip"
             android:paddingTop="5dip" >
 
             <TextView
@@ -637,26 +635,61 @@
                 android:textColor="#ffffff"
                 android:textSize="12sp" />
 
-            <LinearLayout
-                android:id="@+id/homepage_file"
+            <FrameLayout
+                android:id="@+id/fl_file"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/tv_file"
-                android:orientation="vertical" >
-            </LinearLayout>
+                android:layout_below="@id/tv_file" >
+
+                <LinearLayout
+                    android:id="@+id/homepage_file"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:orientation="vertical" >
+                </LinearLayout>
+
+                <RelativeLayout
+                    android:id="@+id/rl_no_file"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="5dp"
+                    android:gravity="center_horizontal"
+                    android:paddingTop="15dp" >
+
+                    <TextView
+                        android:id="@+id/file_no_file"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="20dp"
+                        android:gravity="center_horizontal"
+                        android:text="暂未添加档案"
+                        android:textColor="#333333"
+                        android:textSize="15sp" />
+
+                    <View
+                        android:layout_width="fill_parent"
+                        android:layout_height="0.5dp"
+                        android:layout_below="@id/file_no_file"
+                        android:background="#dedede" />
+                </RelativeLayout>
+            </FrameLayout>
 
             <RelativeLayout
                 android:id="@+id/rl_file_add"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/homepage_file"
-                android:gravity="center_horizontal"
-                android:padding="10dp" >
+                android:layout_below="@id/fl_file"
+                android:layout_marginTop="5dp"
+                android:gravity="center"
+                android:paddingBottom="12dp"
+                android:paddingTop="5dp" >
 
                 <ImageView
                     android:id="@+id/iv_file"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
                     android:src="@drawable/edit_add" />
 
                 <TextView
@@ -696,20 +729,57 @@
                 android:textColor="#ffffff"
                 android:textSize="12sp" />
 
-            <LinearLayout
-                android:id="@+id/homepage_skills"
+ 
+
+            <FrameLayout
+                android:id="@+id/fl_skills"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/tv_skills"
-                android:orientation="vertical" >
-            </LinearLayout>
+                android:layout_below="@id/tv_skills" >
+
+                <LinearLayout
+                    android:id="@+id/homepage_skills"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:orientation="vertical" >
+                </LinearLayout>
+
+                <RelativeLayout
+                    android:id="@+id/rl_no_skills"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="5dp"
+                    android:gravity="center_horizontal"
+                    android:paddingTop="15dp" >
+
+                    <TextView
+                        android:id="@+id/tv_no_skills"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="20dp"
+                        android:gravity="center_horizontal"
+                        android:text="暂未添加技能"
+                        android:textColor="#333333"
+                        android:textSize="15sp" />
+
+                    <View
+                        android:layout_width="fill_parent"
+                        android:layout_height="0.5dp"
+                        android:layout_below="@id/tv_no_skills"
+                        android:background="#dedede" />
+                </RelativeLayout>
+            </FrameLayout>
 
             <RelativeLayout
                 android:id="@+id/rl_skills_add"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/homepage_skills"
+                android:layout_below="@id/fl_skills"
                 android:gravity="center_horizontal"
+                android:paddingTop="5dp"
+                android:layout_marginTop="5dp"
+                android:paddingBottom="12dp"
                 android:padding="10dp" >
 
                 <ImageView
@@ -719,6 +789,7 @@
                     android:src="@drawable/edit_add" />
 
                 <TextView
+                    android:id="@+id/homepage_skills_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="8dp"
@@ -727,12 +798,6 @@
             </RelativeLayout>
         </RelativeLayout>
 
-        <View
-            android:layout_width="fill_parent"
-            android:layout_height="1dp"
-            android:layout_marginLeft="8dip"
-            android:layout_marginRight="8dip"
-            android:background="#dedede" />
 
         <TextView
             android:id="@+id/btn_info3"
@@ -740,6 +805,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="8dip"
             android:layout_marginRight="8dip"
+            android:layout_marginTop="10dp"
             android:background="@drawable/btn_style_7"
             android:drawableRight="@drawable/more_"
             android:gravity="center"

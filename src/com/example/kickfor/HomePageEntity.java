@@ -3,6 +3,7 @@ package com.example.kickfor;
 import java.io.Serializable;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -38,6 +39,7 @@ public class HomePageEntity implements Serializable{
 	private String score=null;
 	private String image=null;
 	private String date=null;
+	private int leftSkills=0;
 	private boolean isFriend=false;
 	private int left=0;
 	private List<OthersMatchEntity> list=new ArrayList<OthersMatchEntity>();
@@ -49,6 +51,7 @@ public class HomePageEntity implements Serializable{
 	private String person="";
 	
 	private List<FileEntity> fList=new ArrayList<FileEntity>();
+	private List<SkillsShowEntity> sList=new ArrayList<SkillsShowEntity>();
 	
 	public HomePageEntity(Context context, String phone){
 		helper=SQLHelper.getInstance(context);
@@ -154,6 +157,33 @@ public class HomePageEntity implements Serializable{
 			list.add(item3);
 		}
 		
+		if(map.containsKey("userarchivesArray")){
+			helper.delete("archive", null, null);
+			helper.delete("archivematch", null, null);
+			List<String> list=Tools.jsonToList(map.get("userarchivesArray").toString());
+			Iterator<String> iter1=list.iterator();
+			while(iter1.hasNext()){
+				Map<String, Object> tmpp=Tools.getMapForJson(iter1.next());
+				List<String> list1=Tools.jsonToList(tmpp.get("matchArray").toString());
+				Iterator<String> iter2=list1.iterator();
+				while(iter2.hasNext()){
+					Map<String, Object> t=Tools.getMapForJson(iter2.next());
+					helper.update(Tools.getContentValuesFromMap(t, null), Integer.parseInt(t.get("userarchivesmatchkey").toString()), Integer.parseInt(t.get("userarchiveskey").toString()));
+				}
+				tmpp.remove("matchArray");
+				helper.update(Tools.getContentValuesFromMap(tmpp, null), "archive", Integer.parseInt(tmpp.get("userarchiveskey").toString()));
+			}
+		}
+		if(map.containsKey("userSkillArray")){
+			helper.delete("skills", null, null);
+			List<String> list=Tools.jsonToList(map.get("userSkillArray").toString());
+			Iterator<String> iter2=list.iterator();
+			while(iter2.hasNext()){
+				Map<String, Object> tempp=Tools.getMapForJson(iter2.next());
+				helper.insert(Tools.getContentValuesFromMap(tempp, null), "skills");
+			}
+		}
+		
 	}
 	
 	public String getPhone(){
@@ -250,6 +280,14 @@ public class HomePageEntity implements Serializable{
 		return left;
 	}
 	
+	public int getLeftSkillsNum(){
+		return leftSkills;
+	}
+	
+	public List<SkillsShowEntity> getSkillsList(){
+		return sList;
+	}
+	
 	private boolean initiateOthers(){
 		Cursor cursor=helper.select("friends", new String[]{"phone"}, "phone=?", new String[]{phone}, null);
 		if(cursor.moveToNext()){
@@ -269,7 +307,7 @@ public class HomePageEntity implements Serializable{
 				                      "defence", "year", "month", "city", "weight", "height", 
 				                      "team1", "position1", "tmatch1", "tmatch2", "tmatch3", 
 				                      "goal1", "goal2", "goal3", "assist1", "assist2", "assist3", 
-				                      "win1", "win2", "win3", "image", "team2", "team3", "addup", "score", "date"};
+				                      "win1", "win2", "win3", "image", "team2", "team3", "addup", "score", "date", "userskillsnum"};
 		Cursor cursor=helper.select("ich", columns, "phone=?", new String[]{phone}, null);
 		if(cursor.moveToNext()){
 			name=cursor.getString(0).isEmpty()? "Unknown": cursor.getString(0);
@@ -312,7 +350,9 @@ public class HomePageEntity implements Serializable{
 			addup=cursor.getString(29);
 			score=cursor.getString(30);
 			date=cursor.getString(31);
+			leftSkills=cursor.getInt(32)-2>=0? (cursor.getInt(32)-1): 0;
 			initiateFile();
+			initiateSkills();
 			return true;
 		}
 		else{
@@ -321,13 +361,20 @@ public class HomePageEntity implements Serializable{
 		
 	}
 	
+	private void initiateSkills(){
+		Cursor cursor=helper.select("skills", new String[]{"skillname", "agreeNum"}, null, null, null);
+		while(cursor.moveToNext()){
+			SkillsShowEntity skills=new SkillsShowEntity("-1", "-1", cursor.getString(0), "1", cursor.getString(1));
+			sList.add(skills);
+		}
+	}
 	
 	private void initiateFile(){
 		Cursor cursor=helper.select("archive", new String[]{"position", "teamname", "inteam", "joindate", "exitdate"}, null, null, "userarchiveskey desc");
 		left=cursor.getCount();
 		int i=0;
 		while(cursor.moveToNext() && i<2){
-			FileEntity file=new FileEntity(cursor.getString(0), cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4));
+			FileEntity file=new FileEntity(cursor.getString(0), cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4), null);
 			fList.add(file);
 			i=i+1;
 		}

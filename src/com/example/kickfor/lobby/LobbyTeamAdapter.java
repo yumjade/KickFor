@@ -3,6 +3,7 @@ package com.example.kickfor.lobby;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.jar.Attributes.Name;
 
 import com.example.kickfor.ClientWrite;
 import com.example.kickfor.HomePageActivity;
@@ -10,6 +11,7 @@ import com.example.kickfor.R;
 import com.example.kickfor.Tools;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,6 +23,7 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import cn.jpush.android.data.l;
 
 public class LobbyTeamAdapter extends BaseAdapter{
 
@@ -36,25 +39,21 @@ public class LobbyTeamAdapter extends BaseAdapter{
 	
 	@Override
 	public int getCount() {
-		// TODO Auto-generated method stub
 		return mList.size();
 	}
 
 	@Override
 	public Object getItem(int arg0) {
-		// TODO Auto-generated method stub
 		return mList.get(arg0);
 	}
 
 	@Override
 	public long getItemId(int arg0) {
-		// TODO Auto-generated method stub
 		return arg0;
 	}
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
-		// TODO Auto-generated method stub
 		ViewHolder viewHolder=null;
 		WaitHolder waitHolder=null;
 		LobbyTeamEntity item=mList.get(position);
@@ -86,7 +85,6 @@ public class LobbyTeamAdapter extends BaseAdapter{
 
 					@Override
 					public void onClick(View v) {
-						// TODO Auto-generated method stub
 						
 					}
 					
@@ -96,7 +94,6 @@ public class LobbyTeamAdapter extends BaseAdapter{
 
 					@Override
 					public void onClick(View v) {
-						// TODO Auto-generated method stub
 						final View vi=v;
 						LobbyTeamEntity item=(LobbyTeamEntity)vi.getTag();
 						HomePageActivity h=(HomePageActivity)context;
@@ -148,7 +145,6 @@ public class LobbyTeamAdapter extends BaseAdapter{
 
 						@Override
 						public void onClick(View v) {
-							// TODO Auto-generated method stub
 							
 						}
 						
@@ -158,7 +154,6 @@ public class LobbyTeamAdapter extends BaseAdapter{
 
 						@Override
 						public void onClick(View v) {
-							// TODO Auto-generated method stub
 							final View vi=v;
 							LobbyTeamEntity item=(LobbyTeamEntity)vi.getTag();
 							HomePageActivity h=(HomePageActivity)context;
@@ -195,6 +190,12 @@ public class LobbyTeamAdapter extends BaseAdapter{
 				t.setText(fromName.get(i)+":"+content.get(i));
 				viewHolder.l.addView(t);
 			}
+			for (int i = 0; i < mList.size(); i++) {
+				if (viewHolder.l.getChildCount() != 0) {
+					viewHolder.l.setVisibility(View.VISIBLE);
+				}
+			}
+			
 			viewHolder.cancel.setTag(item);
 			viewHolder.reply.setTag(item);
 		}
@@ -232,7 +233,6 @@ public class LobbyTeamAdapter extends BaseAdapter{
 
 		@Override
 		public void onClick(View v) {
-			// TODO Auto-generated method stub
 			if(waitHolder.loadText.getText().toString().equals("加载更多")){
 				waitHolder.loadClick.setVisibility(View.GONE);
 				waitHolder.loadText.setText("正在加载");

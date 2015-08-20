@@ -68,16 +68,5 @@
             android:text="新增踢否足球档案"
             android:textColor="#ffffff" />
     </RelativeLayout>
-    
-    <TextView 
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/file_add"
-        android:layout_marginLeft="10dip"
-        android:layout_marginRight="10dip"
-        android:layout_marginTop="5dp"
-        android:textSize="15sp"
-        android:text="为自己记录下专属的足球档案，写下你足球生涯曾经的历史，让踢友们发现更加精彩的你！"
-        android:textColor="#999999"/>
 
 </RelativeLayout>

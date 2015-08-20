@@ -275,6 +275,16 @@ public class ClientReader implements Runnable{
 								}
 								temp.remove("userarchivesArray");
 							}
+							if(temp.containsKey("userSkillArray")){
+								helper.delete("skills", null, null);
+								List<String> list=Tools.jsonToList(temp.get("userSkillArray").toString());
+								Iterator<String> iter2=list.iterator();
+								while(iter2.hasNext()){
+									Map<String, Object> tempp=Tools.getMapForJson(iter2.next());
+									helper.insert(Tools.getContentValuesFromMap(tempp, null), "skills");
+								}
+								temp.remove("userSkillArray");
+							}
 							helper.update(Tools.getContentValuesFromMap(temp, null), "ich", temp.get("phone").toString());
 							System.out.println(temp.get("phone"));
 						}
@@ -1665,6 +1675,59 @@ public class ClientReader implements Runnable{
 					msg.obj=mList;
 					handler.sendMessage(msg);
 					break;
+				}
+				case "ok_getskillsdetail":{
+					Bundle bundle=new Bundle();
+					bundle.putString("name", map.get("name").toString());
+					Map<String, Object> tempp=Tools.getMapForJson(map.get("skillinfo").toString());
+					bundle.putString("skillkey", tempp.get("skillkey").toString());
+					bundle.putString("skillname", tempp.get("skillname").toString());
+					bundle.putString("introduce", tempp.get("introduce").toString());
+					List<String> list=Tools.jsonToList(map.get("agreeArray").toString());
+					List<SkillDetailEntity> mList=new ArrayList<SkillDetailEntity>();
+					Iterator<String> iter=list.iterator();
+					while(iter.hasNext()){
+						Map<String, Object> temp=Tools.getMapForJson(iter.next());
+						SkillDetailEntity item=new SkillDetailEntity(temp.get("phone").toString(), temp.get("name").toString(), temp.get("image").toString(), temp.get("team1").toString(), temp.get("position1").toString());
+						mList.add(item);
+					}
+					Message msg=handler.obtainMessage();
+					msg.setData(bundle);
+					msg.what=HomePageActivity.GET_SKILLS_DETAIL;
+					msg.obj=mList;
+					handler.sendMessage(msg);
+					break;
+				}
+				case "ok_delskills":{
+					Bundle bundle=new Bundle();
+					bundle.putString("phone", map.get("phone").toString());
+					bundle.putString("skillkey", map.get("skillkey").toString());
+					Message msg=handler.obtainMessage();
+					msg.setData(bundle);
+					msg.what=HomePageActivity.OK_DELSKILLS;
+					handler.sendMessage(msg);
+					break;
+				}
+				/*case "ok_addskills":{
+					Message msg=handler.obtainMessage();
+					msg.what=HomePageActivity.OK_ADD_SKILLS;
+					
+					break;
+				}*/
+				case "ok_getskills":{
+					List<SkillsSelectEntity> mList=new ArrayList<SkillsSelectEntity>();
+					List<String> list=Tools.jsonToList(map.get("userSkillArray").toString());
+					Iterator<String> iter=list.iterator();
+					while(iter.hasNext()){
+						Map<String, Object> temp=Tools.getMapForJson(iter.next());
+						SkillsSelectEntity item=new SkillsSelectEntity(temp.get("skillkey").toString(), temp.get("skillname").toString(), temp.get("hasSkill").toString());
+						mList.add(item);
+					}
+					Message msg=handler.obtainMessage();
+					msg.obj=mList;
+					msg.what=HomePageActivity.GET_SKILLS;
+					handler.sendMessage(msg);
+					break;	
 				}
 				}
 				

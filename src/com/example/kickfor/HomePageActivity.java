@@ -62,7 +62,6 @@ import com.example.kickfor.utils.IdentificationInterface;
 import com.tencent.mm.sdk.openapi.IWXAPI;
 import com.tencent.mm.sdk.openapi.WXAPIFactory;
 
-import android.R.bool;
 import android.app.AlertDialog;
 import android.content.ComponentName;
 import android.content.DialogInterface;
@@ -238,6 +237,9 @@ public class HomePageActivity extends FragmentActivity implements HandlerListene
 	protected static final int OK_THEME = 89;
 	public static final int GET_ARCHIVES=90;
 	public static final int GET_USERSKILLS=91;
+	public static final int GET_SKILLS_DETAIL=92;
+	public static final int OK_DELSKILLS=93;
+	public static final int GET_SKILLS=94;
 	
 	private ViewFlipper allFlipper=null;
 	
@@ -1462,7 +1464,7 @@ public class HomePageActivity extends FragmentActivity implements HandlerListene
 	public void titleCommand(View v, String extra1, String extra2) {
 		int id=v.getId();
 		switch(id){
-		case R.id.lobby_team_add:{
+		case R.id.rl_publish:{
 			Bundle bundle=new Bundle();
 			bundle.putString("phone", this.phone);
 			LobbyTeamAddFragment add=new LobbyTeamAddFragment();
@@ -1474,10 +1476,10 @@ public class HomePageActivity extends FragmentActivity implements HandlerListene
 			tx.commit();
 			break;
 		}
-		case R.id.lobby_friend_text:{
-			
-			break;
-		}
+//		case R.id.lobby_friend_text:{
+//			
+//			break;
+//		}
 		case R.id.lobby_team_text:{
 			LobbyTeamFragment tmp=new LobbyTeamFragment();
 			FragmentTransaction tx=fm.beginTransaction();
@@ -1672,8 +1674,7 @@ public class HomePageActivity extends FragmentActivity implements HandlerListene
 		SkillsShowFragment skills = new SkillsShowFragment();
 		skills.setArguments(bundle);
 		FragmentTransaction tx = fm.beginTransaction();
-		tx.setCustomAnimations(R.animator.slide_in_right, R.animator.slide_out_left, R.animator.slide_in_left,
-				R.animator.slide_out_right);
+		tx.setCustomAnimations(R.animator.slide_in_right, R.animator.slide_out_left, R.animator.slide_in_left, R.animator.slide_out_right);
 		tx.replace(R.id.main, skills);
 		tx.addToBackStack(null);
 		tx.commit();
@@ -1682,8 +1683,7 @@ public class HomePageActivity extends FragmentActivity implements HandlerListene
 	public void openSelectSkills() {
 		SkillsSelectFragment skills = new SkillsSelectFragment();
 		FragmentTransaction tx = fm.beginTransaction();
-		tx.setCustomAnimations(R.animator.slide_in_right, R.animator.slide_out_left, R.animator.slide_in_left,
-				R.animator.slide_out_right);
+		tx.setCustomAnimations(R.animator.slide_in_right, R.animator.slide_out_left, R.animator.slide_in_left, R.animator.slide_out_right);
 		tx.replace(R.id.main, skills);
 		tx.addToBackStack(null);
 		tx.commit();
@@ -3475,18 +3475,16 @@ public class HomePageActivity extends FragmentActivity implements HandlerListene
 		if ((keyCode == KeyEvent.KEYCODE_BACK)) { 
 			long time=new Date().getTime();
 			if(time-ctime<800){
-				Toast.makeText(this, "您的操作过于频繁", Toast.LENGTH_SHORT).show();
 				return true;
-				
 			}
 			ctime=time;
 		}
 		return super.onKeyDown(keyCode, event);
 	} 
 
+	
 	@Override
 	public void onBackPressed() {
-		// TODO Auto-generated method stub
 		if(fm.findFragmentById(R.id.content) instanceof HomePageFragment && !(fm.findFragmentById(R.id.down) instanceof IdentificationInterface) && !(fm.findFragmentById(R.id.main) instanceof IdentificationInterface) && ((HomePageFragment)fm.findFragmentById(R.id.content)).getPhone().equals("host")){
 			moveTaskToBack(false);  
 			System.out.println("1");
@@ -3526,6 +3524,22 @@ public class HomePageActivity extends FragmentActivity implements HandlerListene
 		else if(fm.findFragmentById(R.id.main) instanceof FileShowFragment){
 			backPressed();
 			System.out.println("5.5");
+			if(fm.findFragmentById(R.id.title) instanceof TitleFragment){
+				TitleFragment tmp=(TitleFragment)fm.findFragmentById(R.id.title);
+				tmp.setEnable(true);
+			}
+			if(fm.findFragmentById(R.id.content) instanceof HomePageFragment){
+				HomePageFragment tmp=(HomePageFragment)fm.findFragmentById(R.id.content);
+				tmp.setEnable(true);
+			}
+			if(fm.findFragmentById(R.id.bar) instanceof BarFragment){
+				BarFragment tmp=(BarFragment)fm.findFragmentById(R.id.bar);
+				tmp.setEnable(true);
+			}
+		}
+		else if(fm.findFragmentById(R.id.main) instanceof SkillsShowFragment){
+			backPressed();
+			System.out.println("5.7");
 			if(fm.findFragmentById(R.id.title) instanceof TitleFragment){
 				TitleFragment tmp=(TitleFragment)fm.findFragmentById(R.id.title);
 				tmp.setEnable(true);
@@ -3915,5 +3929,6 @@ public class HomePageActivity extends FragmentActivity implements HandlerListene
 			}
 		}
 	}
+	
 	
 }

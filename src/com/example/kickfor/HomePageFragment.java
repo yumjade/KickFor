@@ -9,7 +9,6 @@ import java.util.List;
 import java.util.Map;
 
 import com.example.kickfor.utils.IdentificationInterface;
-import com.example.kickfor.utils.SexangleView2;
 import com.example.kickfor.utils.SexangleView3;
 
 import android.app.ProgressDialog;
@@ -19,10 +18,13 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Message;
 import android.support.v4.app.Fragment;
+import android.util.TypedValue;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.view.ViewGroup.LayoutParams;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -44,6 +46,11 @@ public class HomePageFragment extends Fragment implements OnClickListener, HomeP
 	private TextView infoButton3=null;
 	
 	private LinearLayout fileLayout=null;
+	private LinearLayout skillsLayout=null;
+	private RelativeLayout noFile;
+	private RelativeLayout noSkills;
+	
+	private TextView skillsText=null;
 	
 	private TextView name=null;
 	private TextView valuePower=null;
@@ -133,6 +140,7 @@ public class HomePageFragment extends Fragment implements OnClickListener, HomeP
 				entity=new HomePageEntity(getActivity(), "host");
 				initiateMine();
 				initiateFile();
+				initiateSkills();
 			}
 		}
 	}
@@ -182,6 +190,11 @@ public class HomePageFragment extends Fragment implements OnClickListener, HomeP
 		fileLayout.removeAllViews();
 		LayoutInflater inflater=LayoutInflater.from(getActivity());
 		List<FileEntity> list=entity.getFileList();
+		if (list.size() == 0) {
+			noFile.setVisibility(View.VISIBLE);
+		}else {
+			noFile.setVisibility(View.INVISIBLE);
+		}
 		if(entity.getLeftNum()==0){
 			fileLeft.setText("赶紧点击添加档案吧");
 		}
@@ -202,6 +215,38 @@ public class HomePageFragment extends Fragment implements OnClickListener, HomeP
 		}
 	}
 	
+	private void initiateSkills(){
+		skillsLayout.removeAllViews();
+		LayoutInflater inflater=LayoutInflater.from(getActivity());
+		List<SkillsShowEntity> list=entity.getSkillsList();
+		if (list.size() == 0) {
+			noSkills.setVisibility(View.VISIBLE);
+		}else {
+			noSkills.setVisibility(View.INVISIBLE);
+		}
+		if(entity.getLeftSkillsNum()==0){
+			skillsText.setText("赶紧点击添加技能吧");
+		}
+		else{
+			skillsText.setText("还有"+entity.getLeftSkillsNum()+"个技能");
+		}
+		Iterator<SkillsShowEntity> iter=list.iterator();
+		while(iter.hasNext()){
+			SkillsShowEntity item=iter.next();
+			View v=inflater.inflate(R.layout.skills_show_item, null);
+			View line=(View)v.findViewById(R.id.skills_show_line);
+			line.setVisibility(View.VISIBLE);
+			TextView name=(TextView)v.findViewById(R.id.skills_show_name);
+			name.setCompoundDrawables(null, null, null, null);
+			TextView number=(TextView)v.findViewById(R.id.skills_show_count);
+			name.setText(item.getSkillsName());
+			name.setTextSize(TypedValue.COMPLEX_UNIT_SP, 15);
+			name.setGravity(Gravity.CENTER);
+			number.setText(item.getAgreeNum());
+			skillsLayout.addView(v);
+		}
+	}
+	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
@@ -213,19 +258,26 @@ public class HomePageFragment extends Fragment implements OnClickListener, HomeP
 			skillsBoard.setOnClickListener(this);
 			fileLeft=(TextView)view.findViewById(R.id.homepage_left);
 			fileLayout=(LinearLayout)view.findViewById(R.id.homepage_file);
+			noFile = (RelativeLayout) view.findViewById(R.id.rl_no_file);
+			skillsLayout=(LinearLayout)view.findViewById(R.id.homepage_skills);
+			skillsText=(TextView)view.findViewById(R.id.homepage_skills_text);
+			noSkills = (RelativeLayout) view.findViewById(R.id.rl_no_skills);
 			file=(RelativeLayout)view.findViewById(R.id.rl_file);
 			file.setOnClickListener(this);
 			name=(TextView)view.findViewById(R.id.tv_my_name);
 			gradeText=(TextView)view.findViewById(R.id.tv_grade);
 			pbGrade=(ProgressBar)view.findViewById(R.id.progress_grade);
 			addupText=(TextView)view.findViewById(R.id.homepage_sign_text);
+			
 			valuePower=(TextView)view.findViewById(R.id.show_capacity_value4);
 			valueSpeed=(TextView)view.findViewById(R.id.show_capacity_value5);
 			valueSkills=(TextView)view.findViewById(R.id.show_capacity_value3);
 			valueStamina=(TextView)view.findViewById(R.id.show_capacity_value6);
 			valueAttack=(TextView)view.findViewById(R.id.show_capacity_value1);
 			valueDefence=(TextView)view.findViewById(R.id.show_capacity_value2);
+			
 			sexangle = (SexangleView3) view.findViewById(R.id.iv_share_capacity_new);
+			
 			birthAndPlace=(TextView)view.findViewById(R.id.tv_info1);
 			weightAndHeight=(TextView)view.findViewById(R.id.tv_info2);
 			teamAndPosition=(TextView)view.findViewById(R.id.tv_info3);
@@ -249,6 +301,7 @@ public class HomePageFragment extends Fragment implements OnClickListener, HomeP
 			infoButton3.setOnClickListener(this);
 			initiateMine();
 			initiateFile();
+			initiateSkills();
 			initGrade(entity.isSignedToday(), Integer.parseInt(entity.getAddUp()), Integer.parseInt(entity.getScore()));
 			
 			pbGrade.setOnClickListener(new OnClickListener() {
@@ -325,7 +378,7 @@ public class HomePageFragment extends Fragment implements OnClickListener, HomeP
 		
 		imagePhoto.setImageBitmap(entity.getImage());
 		name.setText(entity.getName());
-		
+
 		valueAttack.setText("" + Integer.parseInt(entity.getAttack()));
 		valueAttack.setTypeface(other_tf);
 		valueSpeed.setText("" + Integer.parseInt(entity.getSpeed()));
@@ -342,7 +395,7 @@ public class HomePageFragment extends Fragment implements OnClickListener, HomeP
 		sexangle.setValue(Integer.parseInt(entity.getAttack()), Integer.parseInt(entity.getDefence()),
 				Integer.parseInt(entity.getStamina()), Integer.parseInt(entity.getPower()),
 				Integer.parseInt(entity.getSkills()), Integer.parseInt(entity.getSpeed()));
-		
+			
 		birthAndPlace.setText(entity.getBirthAndPlace());
 		weightAndHeight.setText(entity.getWeightAndHeight());
 		teamAndPosition.setText(entity.getTeam1AndPosisiton());
@@ -722,7 +775,7 @@ public class HomePageFragment extends Fragment implements OnClickListener, HomeP
 	private void setBarColor(ProgressBar progressBar, TextView value, int progress){
 		if(progress<=10){
 			Drawable d=getResources().getDrawable(R.drawable.progress_bar_style_1);
-//			progressBar.setProgressDrawable(d);
+			progressBar.setProgressDrawable(d);
 		}
 		else{
 			Drawable d=getResources().getDrawable(R.drawable.progress_bar_style);
@@ -735,7 +788,6 @@ public class HomePageFragment extends Fragment implements OnClickListener, HomeP
 
 	@Override
 	public void onDestroy() {
-		// TODO Auto-generated method stub
 		RealTimeHandler.getInstance().unRegist(this);
 		super.onDestroy();
 	}

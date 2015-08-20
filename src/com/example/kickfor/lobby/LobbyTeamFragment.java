@@ -30,7 +30,7 @@ import android.widget.TextView;
 public class LobbyTeamFragment extends Fragment implements
 		IdentificationInterface, LobbyInterface{
 
-	private int num = 1;
+	private int num = 5;
 	private int start = 0;
 
 	private PullableListView mListView = null;
@@ -42,13 +42,11 @@ public class LobbyTeamFragment extends Fragment implements
 
 	@Override
 	public int getFragmentLevel() {
-		// TODO Auto-generated method stub
 		return IdentificationInterface.MAIN_LEVEL;
 	}
 
 	@Override
 	public void setEnable(boolean enable) {
-		// TODO Auto-generated method stub
 
 	}
 
@@ -60,7 +58,6 @@ public class LobbyTeamFragment extends Fragment implements
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
 		init();
 		View view = inflater.inflate(R.layout.fragment_lobby_team, container,
 				false);
@@ -79,7 +76,6 @@ public class LobbyTeamFragment extends Fragment implements
 
 			@Override
 			public void onRefresh(final PullToRefreshLayout pullToRefreshLayout) {
-				// TODO Auto-generated method stub
 				Map<String, Object> map = new HashMap<String, Object>();
 				map.put("request", "get themelist");
 				map.put("pstart", 0);
@@ -91,7 +87,13 @@ public class LobbyTeamFragment extends Fragment implements
 
 			@Override
 			public void onLoadMore(final PullToRefreshLayout pullToRefreshLayout) {
-				// TODO Auto-generated method stub
+				LobbyTeamEntity load=new LobbyTeamEntity("-1", String.valueOf(start), String.valueOf(num));
+				Map<String, Object> map=new HashMap<String, Object>();
+				map.put("request", "get themelist");
+				map.put("pstart", load.getStart());
+				map.put("pnum", load.getNum());
+				Runnable r=new ClientWrite(Tools.JsonEncode(map));
+				new Thread(r).start();
 				new Handler() {
 					@Override
 					public void handleMessage(Message msg) {

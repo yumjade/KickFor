@@ -1,34 +1,44 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal"
-    android:paddingTop="10dip"
+    android:orientation="vertical"
+    android:paddingTop="5dip"
     android:paddingBottom="10dip"
     android:background="#ffffff" >
 
-
-    <TextView
-        android:id="@+id/skills_show_count"
-        android:layout_width="30dip"
-        android:layout_height="30dip"
-        android:text="12"
-        android:layout_gravity="center_vertical"
-        android:gravity="center"
-        android:layout_marginLeft="10dip"
-        android:background="@drawable/skills_number"
-        android:textColor="#ffffff"
-        android:textSize="15sp" />
-
-    <TextView
-        android:id="@+id/skills_show_name"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical"
-        android:text="牛尾巴过人"
-        android:layout_marginLeft="10dip"
-        android:layout_marginRight="15dip"
-        android:textColor="#333333"
-        android:drawableRight="@drawable/more_"
-        android:textSize="15sp" />
-
+    	android:layout_height="wrap_content"
+    	android:orientation="horizontal">
+        <TextView
+	        android:id="@+id/skills_show_count"
+	        android:layout_width="30dip"
+	        android:layout_height="30dip"
+	        android:text="12"
+	        android:layout_gravity="center_vertical"
+	        android:gravity="center"
+	        android:layout_marginLeft="10dip"
+	        android:background="@drawable/skills_number"
+	        android:textColor="#ffffff"
+	        android:textSize="15sp" />
+	
+	    <TextView
+	        android:id="@+id/skills_show_name"
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:layout_gravity="center_vertical"
+	        android:text="牛尾巴过人"
+	        android:layout_marginLeft="10dip"
+	        android:layout_marginRight="15dip"
+	        android:textColor="#333333"
+	        android:drawableRight="@drawable/more_"
+	        android:textSize="15sp" />
+    </LinearLayout>
+    <View 
+        android:id="@+id/skills_show_line"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="1dip"
+        android:layout_marginTop="15dp"
+        android:background="#f0f0f0"/>
 </LinearLayout>
