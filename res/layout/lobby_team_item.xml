@@ -110,7 +110,6 @@
         android:layout_marginRight="10dip"
         android:layout_marginTop="10dip"
         android:background="#f0f0f0"
-        android:visibility="gone"
         android:orientation="vertical"
         android:padding="10dip" >
     </LinearLayout>

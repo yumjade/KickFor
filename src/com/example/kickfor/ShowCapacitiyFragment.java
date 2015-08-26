@@ -13,6 +13,7 @@ import com.tencent.mm.sdk.openapi.WXAPIFactory;
 import com.tencent.mm.sdk.openapi.WXImageObject;
 import com.tencent.mm.sdk.openapi.WXMediaMessage;
 import com.tencent.mm.sdk.platformtools.Util;
+import com.tencent.stat.StatService;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -381,6 +382,8 @@ public class ShowCapacitiyFragment extends Fragment implements OnClickListener, 
 		req.message = msg;
 		req.scene = isFriend ? SendMessageToWX.Req.WXSceneSession : SendMessageToWX.Req.WXSceneTimeline;
 		api.sendReq(req);
+		
+		StatService.trackCustomEvent(getActivity(), "share_count", "OK");
 
 	}
 	

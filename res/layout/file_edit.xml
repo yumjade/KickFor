@@ -240,12 +240,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/rect_10"
-                android:paddingBottom="10dip" >
+ >
 
                 <ListView
                     android:id="@+id/lv_match_more"
                     android:layout_width="wrap_content"
-                    android:dividerHeight="20dip"
+                    android:dividerHeight="10dip"
+                    android:divider="#f0f0f0"
                     android:layout_height="wrap_content" >
                 </ListView>
             </RelativeLayout>
@@ -287,6 +288,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
                 android:text="删除这份档案"
                 android:textSize="15sp"
                 android:textColor="#ffffff"

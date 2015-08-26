@@ -7,7 +7,10 @@ import java.util.List;
 import java.util.Map;
 
 import com.example.kickfor.ClientWrite;
+import com.example.kickfor.HandlerListener;
+import com.example.kickfor.HomePageActivity;
 import com.example.kickfor.R;
+import com.example.kickfor.RealTimeHandler;
 import com.example.kickfor.Tools;
 import com.example.kickfor.pullableview.PullToRefreshLayout;
 import com.example.kickfor.pullableview.PullableListView;
@@ -27,8 +30,7 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-public class LobbyTeamFragment extends Fragment implements
-		IdentificationInterface, LobbyInterface{
+public class LobbyTeamFragment extends Fragment implements IdentificationInterface, LobbyInterface, HandlerListener{
 
 	private int num = 5;
 	private int start = 0;
@@ -58,6 +60,7 @@ public class LobbyTeamFragment extends Fragment implements
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
+		RealTimeHandler.getInstance().regist(this);
 		init();
 		View view = inflater.inflate(R.layout.fragment_lobby_team, container,
 				false);
@@ -87,11 +90,10 @@ public class LobbyTeamFragment extends Fragment implements
 
 			@Override
 			public void onLoadMore(final PullToRefreshLayout pullToRefreshLayout) {
-				LobbyTeamEntity load=new LobbyTeamEntity("-1", String.valueOf(start), String.valueOf(num));
 				Map<String, Object> map=new HashMap<String, Object>();
 				map.put("request", "get themelist");
-				map.put("pstart", load.getStart());
-				map.put("pnum", load.getNum());
+				map.put("pstart", String.valueOf(start));
+				map.put("pnum", String.valueOf(num));
 				Runnable r=new ClientWrite(Tools.JsonEncode(map));
 				new Thread(r).start();
 				new Handler() {
@@ -105,6 +107,15 @@ public class LobbyTeamFragment extends Fragment implements
 		}, 4);
 		
 		return view;
+	}
+
+	
+	
+	@Override
+	public void onDestroy() {
+		// TODO Auto-generated method stub
+		RealTimeHandler.getInstance().unRegist(this);
+		super.onDestroy();
 	}
 
 	public int getIndex() {
@@ -127,10 +138,7 @@ public class LobbyTeamFragment extends Fragment implements
 		}
 		int end=start+num;
 		start=start + mList.size();
-		if(start==end){
-			LobbyTeamEntity load=new LobbyTeamEntity("-1", String.valueOf(start), String.valueOf(num));
-			this.mList.add(load);
-		}
+		
 		if (adapter != null) {
 			adapter.notifyDataSetChanged();
 		}
@@ -141,5 +149,24 @@ public class LobbyTeamFragment extends Fragment implements
 			}
 		}.sendEmptyMessageDelayed(0, 1000);
 	}
+
+	@Override
+	public void onChange(Message msg) {
+		// TODO Auto-generated method stub
+		if(msg.what==HomePageActivity.LOBBY_TEAM){
+			((HomePageActivity)getActivity()).removeVague();
+			int index=msg.arg1;
+			@SuppressWarnings("unchecked")
+			List<LobbyTeamEntity> list=(List<LobbyTeamEntity>)msg.obj;
+			if(index==0){
+				start=0;
+			}
+			if(index==getIndex()){
+				setData(list);
+			}
+		}
+	}
+	
+	
 
 }

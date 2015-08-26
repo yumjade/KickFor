@@ -1,6 +1,7 @@
 package com.example.kickfor;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import com.example.kickfor.utils.IdentificationInterface;
@@ -25,6 +26,7 @@ public class FileShowFragment extends Fragment implements HomePageInterface,Iden
 	private ListView mListView=null;
 	private TextView edit=null;
 	private Context context=null;
+	private boolean isMine=true;
 
 	private List<FileEntity> mList = null;
 	private FileShowAdapter adapter;
@@ -59,8 +61,17 @@ public class FileShowFragment extends Fragment implements HomePageInterface,Iden
 	}
 
 	private void init(){
+		Bundle bundle=getArguments();
 		this.context=getActivity();
 		this.mList=new ArrayList<FileEntity>();
+		if(bundle!=null){
+			isMine=false;
+			Iterator<String> iter=bundle.keySet().iterator();
+			while(iter.hasNext()){
+				FileEntity item=(FileEntity)bundle.getSerializable(iter.next());
+				mList.add(item);
+			}
+		}
 	}
 
 	@Override
@@ -86,7 +97,12 @@ public class FileShowFragment extends Fragment implements HomePageInterface,Iden
 				((HomePageActivity) getActivity()).selectFileList(mList);
 			}
 		});
-		initiate();
+		if(isMine==true){
+			initiate();
+		}
+		else{
+			edit.setVisibility(View.GONE);
+		}
 		RealTimeHandler.getInstance().regist(this);
 		return view;
 	}

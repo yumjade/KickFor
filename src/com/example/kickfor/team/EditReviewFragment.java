@@ -422,7 +422,7 @@ public class EditReviewFragment extends Fragment implements TeamInterface, Ident
 						index=index+1;
 					}
 					map.put("member", String.valueOf(index-1));
-					map.put("request", "update review match");
+					map.put("request", "update review match1");
 					map.put("againstid", againstid);
 					map.put("againstname", againstNameEdit.getText().toString());
 					map.put("goals", String.valueOf(goals));

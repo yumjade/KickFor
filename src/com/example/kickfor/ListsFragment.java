@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.easemob.chat.EMChatManager;
+import com.easemob.chat.EMConversation;
 import com.example.kickfor.utils.IdentificationInterface;
 import com.example.kickfor.utils.Sidebar;
 
@@ -73,7 +74,6 @@ public class ListsFragment extends Fragment implements HomePageInterface, Identi
 	
 	@Override
 	public int getFragmentLevel() {
-		// TODO Auto-generated method stub
 		if(state==TYPE_FRIEND_LIST || state==TYPE_MESSAGE_LIST){
 			return IdentificationInterface.MAIN_LEVEL;
 		}
@@ -200,6 +200,7 @@ public class ListsFragment extends Fragment implements HomePageInterface, Identi
 					break;
 				}
 				case TYPE_TEAM2_CHANGINGROOM:{
+					System.out.println("system i======"+cursor.getInt(6));
 					tmp.put("type", cursor.getString(0));
 					tmp.put("name", cursor.getString(1));
 					tmp.put("image", BitmapFactory.decodeResource(getResources(), R.drawable.changingroom_message));
@@ -239,7 +240,6 @@ public class ListsFragment extends Fragment implements HomePageInterface, Identi
 
 				@Override
 				public void onClick(View v) {
-					// TODO Auto-generated method stub
 					getActivity().onBackPressed();
 				}
 				
@@ -272,7 +272,6 @@ public class ListsFragment extends Fragment implements HomePageInterface, Identi
 
 				@Override
 				public void onClick(View v) {
-					// TODO Auto-generated method stub
 					getActivity().onBackPressed();
 				}
 				
@@ -299,7 +298,6 @@ public class ListsFragment extends Fragment implements HomePageInterface, Identi
 
 				@Override
 				public void onClick(View v) {
-					// TODO Auto-generated method stub
 					getActivity().onBackPressed();
 				}
 				
@@ -380,7 +378,6 @@ public class ListsFragment extends Fragment implements HomePageInterface, Identi
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
 		init();
 		
 		
@@ -425,7 +422,6 @@ public class ListsFragment extends Fragment implements HomePageInterface, Identi
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int position,
 					long arg3) {
-				// TODO Auto-generated method stub
 				MyFriend item=mList.get(position);
 				switch(state){
 				case TYPE_FRIEND_LIST:{
@@ -586,7 +582,6 @@ public class ListsFragment extends Fragment implements HomePageInterface, Identi
 			@Override
 			public boolean onItemLongClick(AdapterView<?> arg0, View arg1,
 					int position, long arg3) {
-				// TODO Auto-generated method stub
 				final MyFriend item=mList.get(position);
 				if(!(item.getType().equals(String.valueOf(TYPE_FRIEND_APPLY_ALL)) || item.getType().equals(String.valueOf(TYPE_SYSTEM_MESSAGE_ALL)) || item.getType().equals(String.valueOf(TYPE_TEAMS_MESSAGE_ALL)))){
 					if(item.getType().equals(String.valueOf(TYPE_FRIEND_LIST))){
@@ -627,6 +622,23 @@ public class ListsFragment extends Fragment implements HomePageInterface, Identi
 											int which) {
 										SQLHelper helper=SQLHelper.getInstance(context);
 										helper.delete("systemtable", "i=?", new String[]{String.valueOf(item.getIndex())});
+										if(Integer.parseInt(item.getType())==TYPE_TEAM1_CHANGINGROOM ||
+												Integer.parseInt(item.getType())==TYPE_TEAM2_CHANGINGROOM ||
+												Integer.parseInt(item.getType())==TYPE_TEAM3_CHANGINGROOM){
+											String groupid=new PreferenceData(context).getData(new String[]{item.getPhone()}).get(item.getPhone()).toString();
+											EMConversation conversation = EMChatManager.getInstance().getConversation(groupid);
+											conversation.resetUnreadMsgCount();
+										}
+										else if(Integer.parseInt(item.getType())==TYPE_FRIEND_MESSAGE){
+											EMConversation conversation = EMChatManager.getInstance().getConversation(item.getPhone());
+											conversation.resetUnreadMsgCount();
+										}
+										if(getFragmentManager().findFragmentById(R.id.title) instanceof TitleFragment){
+											TitleFragment tmp=(TitleFragment)getFragmentManager().findFragmentById(R.id.title);
+											if(tmp.getState()==TitleFragment.HOMEPAGE_TITLE){
+												tmp.remind(tmp.setMsgNumberChanged());
+											}
+										}
 										mList.remove(item);
 										adapter.notifyDataSetChanged();
 									}
@@ -642,7 +654,7 @@ public class ListsFragment extends Fragment implements HomePageInterface, Identi
 					}
 				}
 				
-				return false;
+				return true;
 			}
 			
 		});

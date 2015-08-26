@@ -31,14 +31,12 @@ public class MoreFragment extends Fragment implements IdentificationInterface{
 	
     @Override
 	public int getFragmentLevel() {
-		// TODO Auto-generated method stub
 		return IdentificationInterface.MAIN_LEVEL;
 	}
     
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
 		View view=inflater.inflate(R.layout.fragment_more, container, false);
 		mListView=(ListView)view.findViewById(R.id.more_list);
 		initiate();
@@ -49,7 +47,6 @@ public class MoreFragment extends Fragment implements IdentificationInterface{
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
 					long arg3) {
-				// TODO Auto-generated method stub
 				int index=mList.get(arg2).getNumber();
 				switch(index){
 				case 1:
@@ -76,6 +73,10 @@ public class MoreFragment extends Fragment implements IdentificationInterface{
 					((HomePageActivity)getActivity()).setBar(false);
 					((HomePageActivity)getActivity()).settings();
 					break;
+				case 6:
+					((HomePageActivity)getActivity()).formationEdit();
+
+				
 				}
 			}
 			
@@ -94,6 +95,7 @@ public class MoreFragment extends Fragment implements IdentificationInterface{
 		mList.add(new MoreItem("服务协议",BitmapFactory.decodeResource(getResources(), R.drawable.more_item_service), 3));
 		mList.add(new MoreItem("意见反馈",BitmapFactory.decodeResource(getResources(), R.drawable.more_item_suggest), 4));
 		mList.add(new MoreItem("设置",BitmapFactory.decodeResource(getResources(), R.drawable.more_item_control), 5));
+		mList.add(new MoreItem("阵型编辑",BitmapFactory.decodeResource(getResources(), R.drawable.more_item_control), 6));
 	}
 	
 	static class MoreAdapter extends BaseAdapter{
@@ -109,25 +111,21 @@ public class MoreFragment extends Fragment implements IdentificationInterface{
 		
 		@Override
 		public int getCount() {
-			// TODO Auto-generated method stub
 			return mList.size();
 		}
 
 		@Override
 		public Object getItem(int position) {
-			// TODO Auto-generated method stub
 			return mList.get(position);
 		}
 
 		@Override
 		public long getItemId(int position) {
-			// TODO Auto-generated method stub
 			return position;
 		}
 
 		@Override
 		public View getView(int position, View convertView, ViewGroup parent) {
-			// TODO Auto-generated method stub
 			ViewHolder viewHolder=null;
 			if(convertView==null){
 				viewHolder=new ViewHolder();

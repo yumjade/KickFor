@@ -804,7 +804,7 @@ public class TitleFragment extends Fragment implements IdentificationInterface{
 							temp.put("date", Tools.getData(message.getMsgTime()));
 							temp.put("message", tmpCursor.getString(0)+": "+t.getMessage());
 							temp.put("result", "u");
-							Cursor tmpCursor1=helper.select("systemtable", new String[]{"i"}, "teamid=? and type=?", new String[]{teamid2, String.valueOf(ListsFragment.TYPE_TEAM1_CHANGINGROOM)}, null);
+							Cursor tmpCursor1=helper.select("systemtable", new String[]{"i"}, "teamid=? and type=?", new String[]{teamid2, String.valueOf(ListsFragment.TYPE_TEAM2_CHANGINGROOM)}, null);
 							if(tmpCursor1.moveToNext()){
 								temp.put("i", tmpCursor1.getInt(0));
 							}
@@ -842,7 +842,7 @@ public class TitleFragment extends Fragment implements IdentificationInterface{
 							temp.put("date", Tools.getData(message.getMsgTime()));
 							temp.put("message", tmpCursor.getString(0)+": "+t.getMessage());
 							temp.put("result", "u");
-							Cursor tmpCursor1=helper.select("systemtable", new String[]{"i"}, "teamid=? and type=?", new String[]{teamid3, String.valueOf(ListsFragment.TYPE_TEAM1_CHANGINGROOM)}, null);
+							Cursor tmpCursor1=helper.select("systemtable", new String[]{"i"}, "teamid=? and type=?", new String[]{teamid3, String.valueOf(ListsFragment.TYPE_TEAM3_CHANGINGROOM)}, null);
 							if(tmpCursor1.moveToNext()){
 								temp.put("i", tmpCursor1.getInt(0));
 							}

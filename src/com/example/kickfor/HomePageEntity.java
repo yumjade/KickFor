@@ -158,30 +158,34 @@ public class HomePageEntity implements Serializable{
 		}
 		
 		if(map.containsKey("userarchivesArray")){
-			helper.delete("archive", null, null);
-			helper.delete("archivematch", null, null);
 			List<String> list=Tools.jsonToList(map.get("userarchivesArray").toString());
 			Iterator<String> iter1=list.iterator();
+			List<SubFile> tmpList=new ArrayList<SubFile>();
 			while(iter1.hasNext()){
 				Map<String, Object> tmpp=Tools.getMapForJson(iter1.next());
 				List<String> list1=Tools.jsonToList(tmpp.get("matchArray").toString());
 				Iterator<String> iter2=list1.iterator();
+				tmpList.clear();
 				while(iter2.hasNext()){
 					Map<String, Object> t=Tools.getMapForJson(iter2.next());
-					helper.update(Tools.getContentValuesFromMap(t, null), Integer.parseInt(t.get("userarchivesmatchkey").toString()), Integer.parseInt(t.get("userarchiveskey").toString()));
+				    SubFile item=new SubFile();
+				    item.setData(t.get("matchname").toString(), t.get("year").toString(), t.get("ranking").toString());
+				    tmpList.add(item);
 				}
-				tmpp.remove("matchArray");
-				helper.update(Tools.getContentValuesFromMap(tmpp, null), "archive", Integer.parseInt(tmpp.get("userarchiveskey").toString()));
+				FileEntity item=new FileEntity(tmpp.get("position").toString(), tmpp.get("teamname").toString(), tmpp.get("inteam").toString(), tmpp.get("joindate").toString(), tmpp.get("exitdate").toString(), tmpList);
+				fList.add(item);
 			}
+			left=fList.size()>=2? fList.size()-2: 0;
 		}
 		if(map.containsKey("userSkillArray")){
-			helper.delete("skills", null, null);
 			List<String> list=Tools.jsonToList(map.get("userSkillArray").toString());
 			Iterator<String> iter2=list.iterator();
 			while(iter2.hasNext()){
 				Map<String, Object> tempp=Tools.getMapForJson(iter2.next());
-				helper.insert(Tools.getContentValuesFromMap(tempp, null), "skills");
+				SkillsShowEntity skills=new SkillsShowEntity("-1", "-1", tempp.get("skillname").toString(), "1", tempp.get("agreeNum").toString());
+				sList.add(skills);
 			}
+			leftSkills=Integer.parseInt(map.get("userskillsnum").toString())-2>=0? (Integer.parseInt(map.get("userskillsnum").toString())-2): 0;
 		}
 		
 	}
@@ -350,7 +354,7 @@ public class HomePageEntity implements Serializable{
 			addup=cursor.getString(29);
 			score=cursor.getString(30);
 			date=cursor.getString(31);
-			leftSkills=cursor.getInt(32)-2>=0? (cursor.getInt(32)-1): 0;
+			leftSkills=cursor.getInt(32)-2>=0? (cursor.getInt(32)-2): 0;
 			initiateFile();
 			initiateSkills();
 			return true;

@@ -1,0 +1,43 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+     android:paddingTop="5dip"
+    android:paddingBottom="5dip"
+    android:background="#ffffff" >
+
+    <TextView
+	        android:id="@+id/skills_show_count"
+	        android:layout_width="30dip"
+	        android:layout_height="30dip"
+	        android:text="12"
+	        android:layout_gravity="center_vertical"
+	        android:gravity="center"
+	        android:layout_marginLeft="10dip"
+	        android:background="@drawable/skills_number"
+	        android:textColor="#ffffff"
+	        android:textSize="15sp" />
+    
+
+
+    <TextView
+        android:id="@+id/skills_show_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@id/skills_show_count"
+        android:layout_alignBottom="@id/skills_show_count"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="5dp"
+        android:gravity="center"
+        android:text="牛尾巴过人"
+        android:textColor="#333333"
+        android:textSize="15sp" />
+
+        <View 
+        android:id="@+id/skills_show_line"
+        android:visibility="gone"
+        android:layout_below="@id/skills_show_name"
+        android:layout_width="match_parent"
+        android:layout_height="1dip"
+        android:layout_marginTop="10dp"
+        android:background="#f0f0f0"/>
+</RelativeLayout>

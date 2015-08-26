@@ -13,12 +13,6 @@ public class Info{
 	private int assist=0;
 	private int card=0;
 	
-	private boolean attendance1;
-	private int goal1=0;
-	private int assist1=0;
-	private int card1=0;
-	
-	private boolean isNew=true;
 	
 	private boolean isPoped=false;
 	
@@ -30,16 +24,13 @@ public class Info{
 	
 	public void setInfo(String goal, String assist, String redCard, String yellowCard, String attendance){
 		this.goal=Integer.parseInt(goal);
-		this.goal1=this.goal;
 		this.assist=Integer.parseInt(assist);
-		this.assist1=this.assist;
 		if(attendance.equals("1")){
 			this.attendance=true;
 		}
 		else{
 			this.attendance=false;
 		}
-		this.attendance1=this.attendance;
 		
 		if(redCard.equals("1")){
 			card=2;
@@ -50,8 +41,6 @@ public class Info{
 		else{
 			card=0;
 		}
-		this.card1=card;
-		isNew=false;
 	}
 	
 	public void setAttendance(){
@@ -130,55 +119,23 @@ public class Info{
 	
 	public Map<String, Object> getInfo(){
 		Map<String, Object> map=new HashMap<String, Object>();
-		if(isNew==true){
-			map.put("phone", phone);
-			map.put("number", number);
-			map.put("name", name);
-			map.put("totalmatch", "1");
-			if(attendance==true){
-				map.put("attendance", "1");
-				map.put("goal", String.valueOf(goal));
-				map.put("assist", String.valueOf(assist));
-				map.put("card", String.valueOf(card));
-			}
-			else{
-				map.put("attendance", "0");
-				map.put("goal", "0");
-				map.put("assist", "0");
-				map.put("card", "0");
-			}
+		map.put("phone", phone);
+		map.put("number", number);
+		map.put("name", name);
+		map.put("totalmatch", "1");
+		if(attendance==true){
+			map.put("attendance", "1");
+			map.put("goal", String.valueOf(goal));
+			map.put("assist", String.valueOf(assist));
+			map.put("card", String.valueOf(card));
 		}
 		else{
-			map.put("phone", phone);
-			map.put("number", number);
-			map.put("name", name);
-			map.put("totalmatch", "0");
-			if(attendance==true && attendance1==true){
-				map.put("attendance", "0");
-				map.put("goal", String.valueOf(goal-goal1));
-				map.put("assist", String.valueOf(assist-assist1));
-				map.put("card", String.valueOf(card-card1));
-			}
-			else if(attendance==true && attendance1==false){
-				map.put("attendance", "1");
-				map.put("goal", String.valueOf(goal-goal1));
-				map.put("assist", String.valueOf(assist-assist1));
-				map.put("card", String.valueOf(card));
-			}
-			else if(attendance==false && attendance1==true){
-				map.put("attendance", "-1");
-				map.put("goal", String.valueOf(0-goal1));
-				map.put("assist", String.valueOf(0-assist1));
-				map.put("card", String.valueOf(0-card1));
-			}
-			else{
-				map.put("attendance", "0");
-				map.put("goal", "0");
-				map.put("assist", "0");
-				map.put("card", "0");
-			}
+			map.put("attendance", "0");
+			map.put("goal", "0");
+			map.put("assist", "0");
+			map.put("card", "0");
 		}
-		return map;
+	return map;
 	}
 	
 }

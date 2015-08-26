@@ -682,7 +682,7 @@
                 android:layout_below="@id/fl_file"
                 android:layout_marginTop="5dp"
                 android:gravity="center"
-                android:paddingBottom="12dp"
+                android:paddingBottom="14dp"
                 android:paddingTop="5dp" >
 
                 <ImageView
@@ -713,7 +713,7 @@
             android:layout_marginTop="10dp"
             android:background="@drawable/btn_style_1"
             android:clickable="true"
-            android:paddingBottom="15dip"
+            android:paddingBottom="5dip"
             android:paddingTop="5dip" >
 
             <TextView
@@ -722,7 +722,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentTop="true"
-                android:layout_marginBottom="15dip"
+                android:layout_marginBottom="5dip"
                 android:background="@drawable/file_skills"
                 android:gravity="center"
                 android:text="踢否技能"
@@ -776,16 +776,17 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/fl_skills"
-                android:gravity="center_horizontal"
-                android:paddingTop="5dp"
+                android:gravity="center"
+                android:paddingTop="3dp"
                 android:layout_marginTop="5dp"
-                android:paddingBottom="12dp"
+                android:paddingBottom="15dp"
                 android:padding="10dp" >
 
                 <ImageView
                     android:id="@+id/iv_skills"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
                     android:src="@drawable/edit_add" />
 
                 <TextView

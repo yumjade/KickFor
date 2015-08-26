@@ -518,7 +518,6 @@ public class PullToRefreshLayout extends RelativeLayout {
        
         // 初始化上拉布局
         pullUpView = loadmoreView.findViewById(R.id.pullup_icon);
-        Log.i("tag", "vvvvvvvvvvvvvvvvvvvvvvvvvvvvv");
         loadStateTextView = (TextView) loadmoreView
                 .findViewById(R.id.loadstate_tv);
         loadingView = loadmoreView.findViewById(R.id.loading_icon);
@@ -527,7 +526,6 @@ public class PullToRefreshLayout extends RelativeLayout {
 
     @Override
     protected void onLayout(boolean changed, int l, int t, int r, int b) {
-        Log.d("Test", "Test");
         if (!isLayout) {
             // 这里是第一次进来的时候做一些初始化
             refreshView = getChildAt(0);

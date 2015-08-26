@@ -62,13 +62,11 @@ public class RegisterFragment extends Fragment implements IdentificationInterfac
 	
 	@Override
 	public int getFragmentLevel() {
-		// TODO Auto-generated method stub
 		return IdentificationInterface.SECOND_LEVEL;
 	}
 	
 	@Override
 	public void setEnable(boolean enable) {
-		// TODO Auto-generated method stub
 		
 	}
 	
@@ -115,7 +113,6 @@ public class RegisterFragment extends Fragment implements IdentificationInterfac
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
 		init();
 		View view=null;
 		switch(state){
@@ -133,7 +130,6 @@ public class RegisterFragment extends Fragment implements IdentificationInterfac
 
 				@Override
 				public void onClick(View arg0) {
-					// TODO Auto-generated method stub
 					getActivity().onBackPressed();
 				}
 				
@@ -142,7 +138,6 @@ public class RegisterFragment extends Fragment implements IdentificationInterfac
 
 				@Override
 				public void onClick(View v) {
-					// TODO Auto-generated method stub
 					String str1=phoneText.getText().toString();
 					String str2=passwords.getText().toString();
 					if(str1.length()!=11){
@@ -173,7 +168,6 @@ public class RegisterFragment extends Fragment implements IdentificationInterfac
 
 				@Override
 				public void handleMessage(Message msg) {
-					// TODO Auto-generated method stub
 					super.handleMessage(msg);
 					int msgId=msg.what;
 					if(msgId==1){
@@ -186,7 +180,6 @@ public class RegisterFragment extends Fragment implements IdentificationInterfac
 
 								@Override
 								public void onClick(View v) {
-									// TODO Auto-generated method stub
 									Map<String, Object> map=new HashMap<String, Object>();
 									map.put("request", "register phone");
 									map.put("phone", phone);
@@ -222,7 +215,6 @@ public class RegisterFragment extends Fragment implements IdentificationInterfac
 
 				@Override
 				public void onClick(View v) {
-					// TODO Auto-generated method stub
 					((HomePageActivity)getActivity()).onBackPressed();
 					
 				}
@@ -236,7 +228,6 @@ public class RegisterFragment extends Fragment implements IdentificationInterfac
 
 				@Override
 				public void onClick(View v) {
-					// TODO Auto-generated method stub
 					String str=identify.getText().toString();
 					if(!str.isEmpty() && str.equals(code)){
 						((HomePageActivity)getActivity()).openVague(HomePageActivity.WAIT_REGISTER_CODING);
@@ -269,7 +260,6 @@ public class RegisterFragment extends Fragment implements IdentificationInterfac
 
 				@Override
 				public void onClick(View v) {
-					// TODO Auto-generated method stub
 					((HomePageActivity)getActivity()).onBackPressed();
 				}
 				
@@ -280,7 +270,6 @@ public class RegisterFragment extends Fragment implements IdentificationInterfac
 
 				@Override
 				public void onClick(View v) {
-					// TODO Auto-generated method stub
 					String str1=name.getText().toString();
 					if(!str1.isEmpty()){
 						setEnable(NAME, false);
@@ -309,7 +298,6 @@ public class RegisterFragment extends Fragment implements IdentificationInterfac
 
 				@Override
 				public void onClick(View v) {
-					// TODO Auto-generated method stub
 					((HomePageActivity)getActivity()).onBackPressed();
 				}
 				
@@ -318,7 +306,6 @@ public class RegisterFragment extends Fragment implements IdentificationInterfac
 
 				@Override
 				public void onClick(View v) {
-					// TODO Auto-generated method stub
 					String str1=cityText.getText().toString();
 					String str2=districtText.getText().toString();
 					if(!str1.isEmpty() && !str2.isEmpty()){
@@ -347,7 +334,6 @@ public class RegisterFragment extends Fragment implements IdentificationInterfac
 
 				@Override
 				public void onClick(View v) {
-					// TODO Auto-generated method stub
 					((HomePageActivity)getActivity()).onBackPressed();
 				}
 				
@@ -357,7 +343,6 @@ public class RegisterFragment extends Fragment implements IdentificationInterfac
 
 				@Override
 				public void onClick(View v) {
-					// TODO Auto-generated method stub
 					((HomePageActivity)getActivity()).openVague(HomePageActivity.WAIT_COMPLETE);
 					setEnable(COMPLETE, false);
 					PreferenceData pd=new PreferenceData(getActivity());

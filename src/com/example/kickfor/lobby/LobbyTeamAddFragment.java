@@ -6,8 +6,10 @@ import java.util.List;
 import java.util.Map;
 
 import com.example.kickfor.ClientWrite;
+import com.example.kickfor.HandlerListener;
 import com.example.kickfor.HomePageActivity;
 import com.example.kickfor.R;
+import com.example.kickfor.RealTimeHandler;
 import com.example.kickfor.SQLHelper;
 import com.example.kickfor.Tools;
 import com.example.kickfor.utils.IdentificationInterface;
@@ -17,6 +19,7 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -30,7 +33,7 @@ import android.widget.PopupWindow.OnDismissListener;
 import android.widget.RadioGroup.OnCheckedChangeListener;
 import android.widget.Toast;
 
-public class LobbyTeamAddFragment extends Fragment implements IdentificationInterface, LobbyInterface{
+public class LobbyTeamAddFragment extends Fragment implements IdentificationInterface, LobbyInterface, HandlerListener{
 
     private ImageView image=null;
     private TextView name=null;
@@ -79,6 +82,7 @@ public class LobbyTeamAddFragment extends Fragment implements IdentificationInte
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
+		RealTimeHandler.getInstance().regist(this);
 		init();
 		View view=inflater.inflate(R.layout.fragment_lobby_publish, container, false);
 		back=(ImageView)view.findViewById(R.id.lobby_add_back);
@@ -124,18 +128,20 @@ public class LobbyTeamAddFragment extends Fragment implements IdentificationInte
 				pop.setOnDismissListener(new OnDismissListener(){  
 		            public void onDismiss(){
 		            	String str=pop.getSelect();
-		            	name.setText(str);
-		            	if(str.equals(name1)){
-		            		image.setImageBitmap(bitmap1);
-		            		teamid=teamid1;
-		            	}
-		            	else if(str.equals(name2)){
-		            		image.setImageBitmap(bitmap2);
-		            		teamid=teamid2;
-		            	}
-		            	else if(str.equals(name3)){
-		            		image.setImageBitmap(bitmap3);
-		            		teamid=teamid3;
+		            	if(str!=null){
+		            		name.setText(str);
+			            	if(str.equals(name1)){
+			            		image.setImageBitmap(bitmap1);
+			            		teamid=teamid1;
+			            	}
+			            	else if(str.equals(name2)){
+			            		image.setImageBitmap(bitmap2);
+			            		teamid=teamid2;
+			            	}
+			            	else if(str.equals(name3)){
+			            		image.setImageBitmap(bitmap3);
+			            		teamid=teamid3;
+			            	}
 		            	}
 		            }             
 		        });  
@@ -182,6 +188,26 @@ public class LobbyTeamAddFragment extends Fragment implements IdentificationInte
 		return view;
 	}
 	
+	
+	
+	@Override
+	public void onChange(Message msg) {
+		// TODO Auto-generated method stub
+		if(msg.what==HomePageActivity.OK_THEME){
+			((HomePageActivity)getActivity()).removeVague();
+			if(back!=null){
+				((HomePageActivity)getActivity()).onBackPressed();
+			}
+		}
+	}
+
+	@Override
+	public void onDestroy() {
+		// TODO Auto-generated method stub
+		RealTimeHandler.getInstance().unRegist(this);
+		super.onDestroy();
+	}
+
 	private void initiate(){
 		SQLHelper helper=SQLHelper.getInstance(context);
 		Cursor cursor=helper.select("ich", new String[]{"name", "team1", "team2", "team3", "authority1", "authority2", "authority3"}, "phone=?", new String[]{"host"}, null);

@@ -6,6 +6,7 @@
     
     <RelativeLayout
         android:layout_width="match_parent"
+        android:padding="10dp"
         android:layout_height="wrap_content">
 
             <ImageView
@@ -14,8 +15,7 @@
                 android:layout_height="65dip"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentTop="true"
-                android:layout_marginLeft="15dip"
-                android:layout_marginTop="10dip"
+                android:layout_marginLeft="5dip"
                 android:background="@drawable/team_default" />
 
             <TextView
@@ -29,7 +29,7 @@
                 android:paddingBottom="3dp"
                 android:layout_marginLeft="5dp"
                 android:textColor="#333333"
-                android:textSize="20sp" />
+                android:textSize="14sp" />
 
             <TextView
                 android:id="@+id/file_select_teamname"

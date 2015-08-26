@@ -60,23 +60,34 @@ public class FileShowAdapter extends BaseAdapter {
 		viewHolder.teamName.setText(item.getTeamName());
 		viewHolder.date.setText(item.getJoinDate()+" - "+item.getExitDate());
 		List<SubFile> mList=item.getMatch();
+		if(mList.size()==0){
+			TextView t1=new TextView(context);
+			t1.setTextSize(12);
+			t1.setText("ÔÝÎÞ");
+			t1.setPadding(10, 15, 0, 0);
+			viewHolder.match.addView(t1);	
+		}
 		Iterator<SubFile> iter=mList.iterator();
 		while(iter.hasNext()){
 			SubFile entity=iter.next();
 			TextView t1=new TextView(context);
-			t1.setText(entity.getMatchName()+"£¨"+entity.getYear()+"£©");
+			t1.setTextSize(12);
+				t1.setText(entity.getMatchName()+"£¨"+entity.getYear()+"£©");
+			
 			LinearLayout ll=new LinearLayout(context);
 			ll.setOrientation(LinearLayout.HORIZONTAL);
-			ll.setPadding(10, 30, 10, 0);
+			ll.setPadding(10, 15, 0, 0);
 			LinearLayout.LayoutParams params1=new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT);
 			params1.weight=6;
+			
 			ll.addView(t1, params1);
 			TextView t2=new TextView(context);
+			t2.setTextSize(12);
 			t2.setText(entity.getRanking());
 			LinearLayout.LayoutParams params2=new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT);
 			params2.weight=1;
 			ll.addView(t2, params2);
-			viewHolder.match.addView(ll);
+			viewHolder.match.addView(ll);	
 		}
 		return convertView;
 	}

@@ -41,7 +41,7 @@
         android:layout_weight="100"
         android:background="#f0f0f0"
         android:divider="#f0f0f0"
-        android:dividerHeight="5dip" />
+        android:dividerHeight="10dip" />
 
     <RelativeLayout
         android:id="@+id/file_add"

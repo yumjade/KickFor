@@ -15,7 +15,7 @@ public class SQLHelper extends SQLiteOpenHelper implements Serializable{
 	 */
 	private static final long serialVersionUID = 10;
 	
-	private final static int DATABASE_VERSION=6;
+	private final static int DATABASE_VERSION=9;
 	private final static String TABLE_NAME1="ich";
 	private final static String TABLE_NAME2="teams";
 	private final static String PHONE="phone";
@@ -85,7 +85,7 @@ public class SQLHelper extends SQLiteOpenHelper implements Serializable{
 	    db.execSQL(sql6);
 	    String sql7="create table if not exists archivematch(userarchivesmatchkey integer, uid varchar(11), userarchiveskey integer, matchname text, year varchar(4), ranking text);";
 	    db.execSQL(sql7);
-	    String sql8="create table if not exists skills(skillname text, agreeNum varchar(5));";
+	    String sql8="create table if not exists skills(skillkey integer, skillname text, agreeNum varchar(5));";
 	    db.execSQL(sql8);
 	}
 
@@ -99,6 +99,7 @@ public class SQLHelper extends SQLiteOpenHelper implements Serializable{
 		db.execSQL("DROP TABLE IF EXISTS friends");
 		db.execSQL("DROP TABLE IF EXISTS archive");
 		db.execSQL("DROP TABLE IF EXISTS archivematch");
+		db.execSQL("DROP TABLE IF EXISTS skills");
 		onCreate(db);
 	}
 	

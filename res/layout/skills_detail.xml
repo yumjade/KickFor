@@ -101,7 +101,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:background="#ffffff"
-        android:padding="10dp"
+        android:paddingLeft="10dp"
+        android:paddingTop="10dp"
         android:text="谁认可了余辛迪的足球技能"
         android:textColor="#333333"
         android:textSize="15sp" />

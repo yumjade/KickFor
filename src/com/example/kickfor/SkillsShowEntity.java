@@ -1,7 +1,13 @@
 package com.example.kickfor;
 
-public class SkillsShowEntity {
+import java.io.Serializable;
 
+public class SkillsShowEntity implements Serializable{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 51L;
 	private String name=null;
 	private String skillskey=null;
 	private String userskillskey=null;

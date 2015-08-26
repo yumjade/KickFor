@@ -118,6 +118,11 @@ public class HomePageFragment extends Fragment implements OnClickListener, HomeP
 				updateView();
 			}
 		}
+		else if(msg.what==HomePageActivity.GET_USERSKILLS){
+			if(name!=null){
+				updateView();
+			}
+		}
 	}
 
 	@Override
@@ -202,7 +207,8 @@ public class HomePageFragment extends Fragment implements OnClickListener, HomeP
 			fileLeft.setText("还有"+entity.getLeftNum()+"段经历");
 		}
 		Iterator<FileEntity> iter=list.iterator();
-		while(iter.hasNext()){
+		int i=0;
+		while(iter.hasNext() && i<2){
 			FileEntity item=iter.next();
 			View v=inflater.inflate(R.layout.file_homepage_item, null);
 			TextView position=(TextView)v.findViewById(R.id.file_position);
@@ -212,6 +218,7 @@ public class HomePageFragment extends Fragment implements OnClickListener, HomeP
 			name.setText(item.getTeamName());
 			date.setText(item.getJoinDate()+" - "+item.getExitDate());
 			fileLayout.addView(v);
+			i++;
 		}
 	}
 	
@@ -330,6 +337,18 @@ public class HomePageFragment extends Fragment implements OnClickListener, HomeP
 		}
 		else{
 			view=inflater.inflate(R.layout.fragment_other_homepage, container, false);
+			
+			skillsBoard=(RelativeLayout)view.findViewById(R.id.rl_other_skills);
+			skillsBoard.setOnClickListener(this);
+			fileLeft=(TextView)view.findViewById(R.id.homepage_other_left);
+			fileLayout=(LinearLayout)view.findViewById(R.id.homepage_other_file);
+			noFile = (RelativeLayout) view.findViewById(R.id.rl_other_no_file);
+			skillsLayout=(LinearLayout)view.findViewById(R.id.homepage_other_skills);
+			skillsText=(TextView)view.findViewById(R.id.homepage_other_skills_text);
+			noSkills = (RelativeLayout) view.findViewById(R.id.rl_other_no_skills);
+			file=(RelativeLayout)view.findViewById(R.id.rl_other_file);
+			file.setOnClickListener(this);
+			
 			imagePhoto=(ImageView)view.findViewById(R.id.iv_other_photo);
 			name=(TextView)view.findViewById(R.id.tv_other_name);
 			title=(TextView)view.findViewById(R.id.other_homepage_text);
@@ -365,6 +384,8 @@ public class HomePageFragment extends Fragment implements OnClickListener, HomeP
 			button2=(TextView)view.findViewById(R.id.other_evaluate);
 			gradeText=(TextView)view.findViewById(R.id.tv_other_grade);
 			initiateOthers();
+			initiateFile();
+			initiateSkills();
 		}
 		RealTimeHandler.getInstance().regist(this);
 		return view;
@@ -545,6 +566,21 @@ public class HomePageFragment extends Fragment implements OnClickListener, HomeP
 			}
 			case R.id.other_homepage_back:{
 				((HomePageActivity)getActivity()).onBackPressed();
+				break;
+			}
+			case R.id.rl_other_skills:{
+				((HomePageActivity)getActivity()).openShowSkills(phone);
+				break;
+			}
+			case R.id.rl_other_file:{
+				Bundle bundle=new Bundle();
+				Iterator<FileEntity> iter=entity.getFileList().iterator();
+				int i=1;
+				while(iter.hasNext()){
+					bundle.putSerializable(""+i, iter.next());
+					i++;
+				}
+				((HomePageActivity)getActivity()).showFile(bundle);
 				break;
 			}
 			}

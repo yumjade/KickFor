@@ -712,7 +712,10 @@ public class ClientReader implements Runnable{
 							bitmap=BitmapFactory.decodeResource(context.getResources(), R.drawable.team_default);
 						}
 						SearchItemEntity entity=new SearchItemEntity(SearchItemEntity.TEAM_SEARCH, temp.get("teamid").toString());
-						entity.setTeamData(temp.get("name").toString(), temp.get("city").toString(), "", "", bitmap);
+						entity.setTeamData(temp.get("name").toString(), temp.get("city").toString(), temp.get("year").toString(), temp.get("number").toString(), bitmap);
+						if(temp.containsKey("captain")){
+							entity.setCaptain(temp.get("captain").toString());
+						}
 						mList.add(entity);
 					}
 					Message msg=handler.obtainMessage();
@@ -803,6 +806,7 @@ public class ClientReader implements Runnable{
 				case "match_info":{
 					map.remove("request");
 					SQLHelper helper=SQLHelper.getInstance(context);
+					helper.delete("matches", null, null);
 					AlarmManager am=(AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
 					Iterator<String> iter=map.keySet().iterator();
 					int index=0;
@@ -1559,16 +1563,37 @@ public class ClientReader implements Runnable{
 					}
 					break;
 				}
+				case "ok_deltheme":{
+					Map<String, Object> temp=new HashMap<String, Object>();
+					temp.put("request", "get themelist");
+					temp.put("pstart", 0);
+					temp.put("pnum", 5);
+					Runnable r=new ClientWrite(Tools.JsonEncode(temp));
+					new Thread(r).start();
+					break;
+				}
 				case "ok_replytheme":{
 					Message msg=handler.obtainMessage();
 					msg.what=HomePageActivity.OK_THEME;
 					handler.sendMessage(msg);
+					Map<String, Object> temp=new HashMap<String, Object>();
+					temp.put("request", "get themelist");
+					temp.put("pstart", 0);
+					temp.put("pnum", 5);
+					Runnable r=new ClientWrite(Tools.JsonEncode(temp));
+					new Thread(r).start();
 					break;
 				}
 				case "ok_addtheme":{
 					Message msg=handler.obtainMessage();
 					msg.what=HomePageActivity.OK_THEME;
 					handler.sendMessage(msg);
+					Map<String, Object> temp=new HashMap<String, Object>();
+					temp.put("request", "get themelist");
+					temp.put("pstart", 0);
+					temp.put("pnum", 5);
+					Runnable r=new ClientWrite(Tools.JsonEncode(temp));
+					new Thread(r).start();
 					break;
 				}
 				case "ok_getthemelist":{
@@ -1657,9 +1682,16 @@ public class ClientReader implements Runnable{
 					break;
 				}
 				case "ok_getuserskills":{
+					Bundle bundle=new Bundle();
+					SQLHelper helper=SQLHelper.getInstance(context);
+					helper.delete("skills", null, null);
 					List<String> list=Tools.jsonToList(map.get("userSkillArray").toString());
 					List<SkillsShowEntity> mList=new ArrayList<SkillsShowEntity>();
 					Iterator<String> iter=list.iterator();
+					int i=0;
+					Map<String, Object> tt=new HashMap<String, Object>();
+					tt.put("userskillsnum", list.size());
+					helper.update(Tools.getContentValuesFromMap(tt, null), "ich", "host");
 					while(iter.hasNext()){
 						Map<String, Object> temp=Tools.getMapForJson(iter.next());
 						String userskillkey=temp.get("userskillkey").toString();
@@ -1669,8 +1701,27 @@ public class ClientReader implements Runnable{
 						String agreeNum=temp.get("agreeNum").toString();
 						SkillsShowEntity item=new SkillsShowEntity(userskillkey, skillkey, skillname, hasAgree, agreeNum);
 						mList.add(item);
+						if(i<2){
+							Map<String, Object> ttt=new HashMap<String, Object>();
+							ttt.put("skillkey", Integer.parseInt(skillkey));
+							ttt.put("skillname", skillname);
+							ttt.put("agreeNum", agreeNum);
+							helper.insert(Tools.getContentValuesFromMap(ttt, null), "skills");
+						}
+						i++;
+					}
+					List<String> list1=Tools.jsonToList(map.get("agreeArray").toString());
+					Iterator<String> iter1=list1.iterator();
+					int ii=1;
+					while(iter1.hasNext()){
+						Map<String, Object> t1=Tools.getMapForJson(iter1.next());
+						bundle.putString("image"+ii, t1.get("image").toString());
+						bundle.putString("name"+ii, t1.get("name").toString());
+						bundle.putString("phone"+ii, t1.get("phone").toString());
+						ii++;
 					}
 					Message msg=handler.obtainMessage();
+					msg.setData(bundle);
 					msg.what=HomePageActivity.GET_USERSKILLS;
 					msg.obj=mList;
 					handler.sendMessage(msg);
@@ -1688,7 +1739,7 @@ public class ClientReader implements Runnable{
 					Iterator<String> iter=list.iterator();
 					while(iter.hasNext()){
 						Map<String, Object> temp=Tools.getMapForJson(iter.next());
-						SkillDetailEntity item=new SkillDetailEntity(temp.get("phone").toString(), temp.get("name").toString(), temp.get("image").toString(), temp.get("team1").toString(), temp.get("position1").toString());
+						SkillDetailEntity item=new SkillDetailEntity(temp.get("phone").toString(), temp.get("name").toString(), temp.get("image").toString(), Tools.getMapForJson(temp.get("team").toString()).get("name").toString(), temp.get("position1").toString());
 						mList.add(item);
 					}
 					Message msg=handler.obtainMessage();
@@ -1702,27 +1753,36 @@ public class ClientReader implements Runnable{
 					Bundle bundle=new Bundle();
 					bundle.putString("phone", map.get("phone").toString());
 					bundle.putString("skillkey", map.get("skillkey").toString());
+					Map<String, Object> tmp1=new HashMap<String, Object>();
+					tmp1.put("request", "get userskills");
+					tmp1.put("phone", map.get("phone").toString());
+					Runnable r=new ClientWrite(Tools.JsonEncode(tmp1));
+					new Thread(r).start();
 					Message msg=handler.obtainMessage();
 					msg.setData(bundle);
 					msg.what=HomePageActivity.OK_DELSKILLS;
 					handler.sendMessage(msg);
 					break;
 				}
-				/*case "ok_addskills":{
-					Message msg=handler.obtainMessage();
-					msg.what=HomePageActivity.OK_ADD_SKILLS;
-					
+				case "ok_addskills":{
+					Map<String, Object> tmp1=new HashMap<String, Object>();
+					tmp1.put("request", "get userskills");
+					tmp1.put("phone", map.get("phone").toString());
+					Runnable r=new ClientWrite(Tools.JsonEncode(tmp1));
+					new Thread(r).start();
 					break;
-				}*/
-				case "ok_getskills":{
+				}
+				case "ok_getkills":{
 					List<SkillsSelectEntity> mList=new ArrayList<SkillsSelectEntity>();
 					List<String> list=Tools.jsonToList(map.get("userSkillArray").toString());
 					Iterator<String> iter=list.iterator();
 					while(iter.hasNext()){
+						System.out.println("ssssssssssdddddddddddddddddddddddddddd");
 						Map<String, Object> temp=Tools.getMapForJson(iter.next());
 						SkillsSelectEntity item=new SkillsSelectEntity(temp.get("skillkey").toString(), temp.get("skillname").toString(), temp.get("hasSkill").toString());
 						mList.add(item);
 					}
+					System.out.println("ssssssssssdddddddddddddddddddddddddddd");
 					Message msg=handler.obtainMessage();
 					msg.obj=mList;
 					msg.what=HomePageActivity.GET_SKILLS;

@@ -520,6 +520,195 @@
 	            android:layout_height="wrap_content"
 	            android:divider="@null"
 	            android:background="#fafafa"/>
+	        
+	        <RelativeLayout
+	            android:id="@+id/rl_other_file"
+	            android:layout_width="match_parent"
+	            android:layout_height="wrap_content"
+	            android:layout_marginLeft="8dip"
+	            android:layout_marginRight="8dip"
+	            android:layout_marginTop="10dp"
+	            android:background="@drawable/btn_style_1"
+	            android:clickable="true"
+	            android:paddingBottom="5dip"
+	            android:paddingTop="5dip" >
+	
+	            <TextView
+	                android:id="@+id/tv_other_file"
+	                android:layout_width="wrap_content"
+	                android:layout_height="wrap_content"
+	                android:layout_alignParentLeft="true"
+	                android:layout_alignParentTop="true"
+	                android:layout_marginBottom="10dip"
+	                android:background="@drawable/file_skills"
+	                android:gravity="center"
+	                android:text="踢否档案"
+	                android:textColor="#ffffff"
+	                android:textSize="12sp" />
+	
+	            <FrameLayout
+	                android:id="@+id/fl_other_file"
+	                android:layout_width="match_parent"
+	                android:layout_height="wrap_content"
+	                android:layout_below="@id/tv_other_file" >
+	
+	                <LinearLayout
+	                    android:id="@+id/homepage_other_file"
+	                    android:layout_width="match_parent"
+	                    android:layout_height="wrap_content"
+	                    android:layout_marginTop="5dp"
+	                    android:orientation="vertical" >
+	                </LinearLayout>
+	
+	                <RelativeLayout
+	                    android:id="@+id/rl_other_no_file"
+	                    android:layout_width="match_parent"
+	                    android:layout_height="wrap_content"
+	                    android:layout_marginBottom="5dp"
+	                    android:gravity="center_horizontal"
+	                    android:paddingTop="10dp" >
+	
+	                    <TextView
+	                        android:id="@+id/file_other_no_file"
+	                        android:layout_width="match_parent"
+	                        android:layout_height="wrap_content"
+	                        android:layout_marginBottom="20dp"
+	                        android:gravity="center_horizontal"
+	                        android:text="暂未添加档案"
+	                        android:textColor="#333333"
+	                        android:textSize="15sp" />
+	
+	                    <View
+	                        android:layout_width="fill_parent"
+	                        android:layout_height="0.5dp"
+	                        android:layout_below="@id/file_other_no_file"
+	                        android:background="#dedede" />
+	                </RelativeLayout>
+	            </FrameLayout>
+	
+	            <RelativeLayout
+	                android:id="@+id/rl_other_file_add"
+	                android:layout_width="match_parent"
+	                android:layout_height="wrap_content"
+	                android:layout_below="@id/fl_other_file"
+	                android:layout_marginTop="5dp"
+	                android:gravity="center"
+	                android:paddingBottom="12dp"
+	                android:paddingTop="5dp" >
+	
+	                <ImageView
+	                    android:id="@+id/iv_other_file"
+	                    android:layout_width="wrap_content"
+	                    android:layout_height="wrap_content"
+	                    android:layout_marginTop="2dp"
+	                    android:src="@drawable/edit_add" />
+	
+	                <TextView
+	                    android:id="@+id/homepage_other_left"
+	                    android:layout_width="wrap_content"
+	                    android:layout_height="wrap_content"
+	                    android:layout_marginLeft="8dp"
+	                    android:layout_toRightOf="@id/iv_other_file"
+	                    android:text="还有1段经历"
+	                    android:textColor="#333333"
+	                    android:textSize="15sp" />
+	            </RelativeLayout>
+	        </RelativeLayout>
+	        
+	        <RelativeLayout
+	            android:id="@+id/rl_other_skills"
+	            android:layout_width="match_parent"
+	            android:layout_height="wrap_content"
+	            android:layout_marginLeft="8dip"
+	            android:layout_marginRight="8dip"
+	            android:layout_marginTop="10dp"
+	            android:background="@drawable/btn_style_1"
+	            android:clickable="true"
+	            android:paddingBottom="5dip"
+	            android:paddingTop="5dip" >
+	
+	            <TextView
+	                android:id="@+id/tv_other_skills"
+	                android:layout_width="wrap_content"
+	                android:layout_height="wrap_content"
+	                android:layout_alignParentLeft="true"
+	                android:layout_alignParentTop="true"
+	                android:layout_marginBottom="5dip"
+	                android:background="@drawable/file_skills"
+	                android:gravity="center"
+	                android:text="踢否技能"
+	                android:textColor="#ffffff"
+	                android:textSize="12sp" />
+	
+	 
+	
+	            <FrameLayout
+	                android:id="@+id/fl_other_skills"
+	                android:layout_width="match_parent"
+	                android:layout_height="wrap_content"
+	                android:layout_below="@id/tv_other_skills" >
+	
+	                <LinearLayout
+	                    android:id="@+id/homepage_other_skills"
+	                    android:layout_width="match_parent"
+	                    android:layout_height="wrap_content"
+	                    android:layout_marginTop="5dp"
+	                    android:orientation="vertical" >
+	                </LinearLayout>
+	
+	                <RelativeLayout
+	                    android:id="@+id/rl_other_no_skills"
+	                    android:layout_width="match_parent"
+	                    android:layout_height="wrap_content"
+	                    android:layout_marginBottom="5dp"
+	                    android:gravity="center_horizontal" >
+	
+	                    <TextView
+	                        android:id="@+id/tv_other_no_skills"
+	                        android:layout_width="match_parent"
+	                        android:layout_height="wrap_content"
+	                        android:layout_marginBottom="20dp"
+	                        android:gravity="center_horizontal"
+	                        android:text="暂未添加技能"
+	                        android:textColor="#333333"
+	                        android:textSize="15sp" />
+	
+	                    <View
+	                        android:layout_width="fill_parent"
+	                        android:layout_height="0.5dp"
+	                        android:layout_below="@id/tv_other_no_skills"
+	                        android:background="#dedede" />
+	                </RelativeLayout>
+	            </FrameLayout>
+	
+	            <RelativeLayout
+	                android:id="@+id/rl_other_skills_add"
+	                android:layout_width="match_parent"
+	                android:layout_height="wrap_content"
+	                android:layout_below="@id/fl_other_skills"
+	                android:gravity="center_horizontal"
+	                android:paddingTop="5dp"
+	                android:layout_marginTop="5dp"
+	                android:paddingBottom="12dp"
+	                android:padding="10dp" >
+	
+	                <ImageView
+	                    android:id="@+id/iv_other_skills"
+	                    android:layout_width="wrap_content"
+	                    android:layout_height="wrap_content"
+	                    android:layout_marginTop="2dp"
+	                    android:src="@drawable/edit_add" />
+	
+	                <TextView
+	                    android:id="@+id/homepage_other_skills_text"
+	                    android:layout_width="wrap_content"
+	                    android:layout_height="wrap_content"
+	                    android:layout_marginLeft="8dp"
+	                    android:layout_toRightOf="@id/iv_other_skills"
+	                    android:text="还有1个技能" />
+	            </RelativeLayout>
+	        </RelativeLayout>
+	        
 	        <TextView
 	            android:id="@+id/other_btn_info3"
 	            android:layout_width="match_parent"

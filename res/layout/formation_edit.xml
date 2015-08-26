@@ -1,4 +1,5 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rl_formation"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#f0f0f0" >
@@ -29,182 +30,151 @@
             android:textColor="#ffffff"
             android:textSize="15sp" />
 
+        <TextView
+            android:id="@+id/formation_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="4-3-3"
+            android:textColor="#ffffff"
+            android:textSize="15sp" />
     </RelativeLayout>
-
-    <TextView
-        android:id="@+id/btn_ensure1"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:background="#56b02a"
-        android:gravity="center"
-        android:paddingBottom="10dip"
-        android:paddingTop="10dip"
-        android:textColor="#ffffff"
-        android:textSize="16sp" />
 
     <RelativeLayout
         android:id="@+id/rl_court"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/r_position1"
-        android:layout_above="@id/btn_ensure1"
-        android:background="@drawable/court_new" >
+        android:layout_below="@id/r_position1" >
 
-        <CheckBox
-            android:id="@+id/rb_striker"
-            android:layout_width="wrap_content"
+        <RelativeLayout
+            android:id="@+id/rl_court_front"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_marginTop="42dp"
-            android:layout_toLeftOf="@+id/rb_cleaner"
-            android:button="@null"
-            android:drawableTop="@drawable/position_btn1"
-            android:text="前锋"
-            android:textColor="#ffffff" />
-        
-         <CheckBox
-            android:id="@+id/rb_leftwing"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_below="@id/rb_striker"
-            android:layout_marginLeft="30dip"
-            android:button="@null"
-            android:drawableTop="@drawable/position_btn1"
-            android:text="左边锋"
-            android:textColor="#ffffff" />
+            android:background="@drawable/court_front" >
+        </RelativeLayout>
 
-        <CheckBox
-            android:id="@+id/rb_striker1"
-            android:layout_width="wrap_content"
+        <RelativeLayout
+            android:id="@+id/rl_court_middle"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/rb_striker"
-            android:layout_toRightOf="@id/rb_leftwing"
-            android:layout_marginLeft="70dp"
-            android:button="@null"
-            android:drawableTop="@drawable/position_btn1"
-            android:text="影子前锋"
-            android:textColor="#ffffff" />
+            android:layout_below="@id/rl_court_front"
+            android:background="@drawable/court_middle" >
+        </RelativeLayout>
 
-       
-
-        <CheckBox
-            android:id="@+id/rb_rightwing"
-            android:layout_width="wrap_content"
+        <RelativeLayout
+            android:id="@+id/rl_court_back"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_below="@id/rb_striker"
-            android:layout_marginRight="30dip"
-            android:button="@null"
-            android:drawableTop="@drawable/position_btn1"
-            android:text="右边锋"
-            android:textColor="#ffffff" />
+            android:layout_below="@id/rl_court_middle"
+            android:background="@drawable/court_back" >
+        </RelativeLayout>
 
-        <CheckBox
-            android:id="@+id/rb_midfield2"
-            android:layout_width="wrap_content"
+        <TextView
+            android:id="@+id/btn_ensure1"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:layout_marginBottom="20dp"
-            android:button="@null"
-            android:drawableTop="@drawable/position_btn2"
-            android:text="中前卫"
-            android:textColor="#ffffff" />
-
-        <CheckBox
-            android:id="@+id/rb_midfield3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignLeft="@id/rb_leftwing"
-            android:layout_alignRight="@id/rb_leftwing"
-            android:layout_centerVertical="true"
-            android:button="@null"
-            android:drawableTop="@drawable/position_btn2"
-            android:text="左前卫"
-            android:textColor="#ffffff" />
-
-        <CheckBox
-            android:id="@+id/rb_midfield4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignLeft="@id/rb_rightwing"
-            android:layout_alignRight="@id/rb_rightwing"
-            android:layout_centerVertical="true"
-            android:button="@null"
-            android:drawableTop="@drawable/position_btn2"
-            android:text="右前卫"
-            android:textColor="#ffffff" />
+            android:layout_alignParentBottom="true"
+            android:background="#56b02a"
+            android:gravity="center"
+            android:paddingBottom="20dip"
+            android:paddingTop="35dip"
+            android:textColor="#ffffff"
+            android:textSize="16sp" />
 
         <CheckBox
             android:id="@+id/rb_goalkeeper"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
-            android:layout_marginBottom="30dip"
+            android:layout_marginLeft="5dp"
             android:button="@null"
             android:drawableTop="@drawable/position_btn4"
             android:text="门将"
             android:textColor="#ffffff" />
 
         <CheckBox
-            android:id="@+id/rb_cleaner"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_above="@id/rb_goalkeeper"
-            android:layout_marginBottom="1dip"
-            android:layout_toRightOf="@id/rb_goalkeeper"
-            android:button="@null"
-            android:drawableTop="@drawable/position_btn3"
-            android:text="清道夫"
-            android:textColor="#ffffff" />
-
-        <CheckBox
-            android:id="@+id/rb_middefender"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_above="@id/rb_goalkeeper"
-            android:layout_marginBottom="10dip"
-            android:layout_toLeftOf="@id/rb_goalkeeper"
-            android:button="@null"
-            android:drawableTop="@drawable/position_btn3"
-            android:text="中后卫"
-            android:textColor="#ffffff" />
-
-        <CheckBox
             android:id="@+id/rb_leftdefender"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_above="@id/rb_goalkeeper"
-            android:layout_alignLeft="@id/rb_leftwing"
-            android:layout_alignRight="@id/rb_leftwing"
-            android:layout_marginBottom="18dip"
+            android:layout_alignParentBottom="true"
+            android:layout_marginLeft="5dp"
             android:button="@null"
             android:drawableTop="@drawable/position_btn3"
             android:text="左后卫"
             android:textColor="#ffffff" />
 
         <CheckBox
+            android:id="@+id/rb_middefender"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginLeft="15dp"
+            android:button="@null"
+            android:drawableTop="@drawable/position_btn3"
+            android:text="中后卫"
+            android:textColor="#ffffff" />
+
+        <CheckBox
+            android:id="@+id/rb_cleaner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginLeft="25dp"
+            android:button="@null"
+            android:drawableTop="@drawable/position_btn3"
+            android:text="清道夫"
+            android:textColor="#ffffff" />
+
+        <CheckBox
             android:id="@+id/rb_rightdefender"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_above="@id/rb_goalkeeper"
-            android:layout_alignLeft="@id/rb_rightwing"
-            android:layout_alignRight="@id/rb_rightwing"
-            android:layout_marginBottom="18dip"
+            android:layout_alignParentBottom="true"
+            android:layout_marginLeft="35dp"
             android:button="@null"
             android:drawableTop="@drawable/position_btn3"
             android:text="右后卫"
             android:textColor="#ffffff" />
 
         <CheckBox
+            android:id="@+id/rb_midfield3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginLeft="45dp"
+            android:button="@null"
+            android:drawableTop="@drawable/position_btn2"
+            android:text="左前卫"
+            android:textColor="#ffffff" />
+
+        <CheckBox
+            android:id="@+id/rb_midfield2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginLeft="55dp"
+            android:button="@null"
+            android:drawableTop="@drawable/position_btn2"
+            android:text="中前卫"
+            android:textColor="#ffffff" />
+
+        <CheckBox
+            android:id="@+id/rb_midfield4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginLeft="65dp"
+            android:button="@null"
+            android:drawableTop="@drawable/position_btn2"
+            android:text="右前卫"
+            android:textColor="#ffffff" />
+
+        <CheckBox
             android:id="@+id/rb_midfield5"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/rb_midfield2"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="10dip"
+            android:layout_alignParentBottom="true"
+            android:layout_marginLeft="85dp"
             android:button="@null"
             android:drawableTop="@drawable/position_btn2"
             android:text="后腰"
@@ -214,12 +184,55 @@
             android:id="@+id/rb_midfield1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_above="@+id/rb_midfield2"
-            android:layout_alignLeft="@+id/rb_midfield5"
-            android:layout_marginBottom="40dp"
+            android:layout_alignParentBottom="true"
+            android:layout_marginLeft="95dp"
             android:button="@null"
             android:drawableTop="@drawable/position_btn1"
             android:text="前腰"
+            android:textColor="#ffffff" />
+
+        <CheckBox
+            android:id="@+id/rb_leftwing"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginLeft="95dp"
+            android:button="@null"
+            android:drawableTop="@drawable/position_btn1"
+            android:text="左边锋"
+            android:textColor="#ffffff" />
+
+        <CheckBox
+            android:id="@+id/rb_striker1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginLeft="95dp"
+            android:button="@null"
+            android:drawableTop="@drawable/position_btn1"
+            android:text="影子前锋"
+            android:textColor="#ffffff" />
+
+        <CheckBox
+            android:id="@+id/rb_rightwing"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginLeft="110dp"
+            android:button="@null"
+            android:drawableTop="@drawable/position_btn1"
+            android:text="右边锋"
+            android:textColor="#ffffff" />
+
+        <CheckBox
+            android:id="@+id/rb_striker"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginLeft="125dp"
+            android:button="@null"
+            android:drawableTop="@drawable/position_btn1"
+            android:text="前锋"
             android:textColor="#ffffff" />
     </RelativeLayout>
 

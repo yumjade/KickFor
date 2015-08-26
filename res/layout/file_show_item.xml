@@ -27,10 +27,10 @@
                 android:layout_toRightOf="@id/file_show_photo"
                 android:gravity="center_vertical"
                 android:text="中后卫"
-                android:paddingBottom="3dp"
-                android:layout_marginLeft="5dp"
+                android:layout_marginTop="3dp"
+                android:layout_marginLeft="10dp"
                 android:textColor="#333333"
-                android:textSize="20sp" />
+                android:textSize="14sp" />
 
             <TextView
                 android:id="@+id/file_show_teamname"
@@ -39,9 +39,10 @@
                 android:layout_below="@id/file_show_position"
                 android:layout_alignLeft="@id/file_show_position"
                 android:gravity="center_vertical"
+                android:layout_marginTop="9dp"
                 android:text="亚平宁之师"
                 android:textColor="#6e6e6e"
-                android:textSize="14sp" />
+                android:textSize="12sp" />
 
             <TextView
                 android:id="@+id/file_show_date"
@@ -53,7 +54,7 @@
                 android:gravity="center_vertical"
                 android:text="2012/1/12-至今"
                 android:textColor="#6e6e6e"
-                android:textSize="14sp" />
+                android:textSize="12sp" />
         </RelativeLayout>
         
     <LinearLayout
@@ -67,7 +68,7 @@
         android:background="#eeeeee"
         android:orientation="vertical" 
         android:paddingBottom="10dip">
- 
+            
         
     </LinearLayout>
 
