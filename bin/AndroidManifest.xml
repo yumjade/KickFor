@@ -45,6 +45,8 @@
         android:theme="@style/AppTheme" >
         <activity
             android:name=".HomePageActivity"
+            android:windowSoftInputMode="adjustResize|stateAlwaysHidden"
+            android:configChanges="orientation|keyboardHidden"
             android:launchMode="singleTask" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

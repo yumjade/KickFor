@@ -61,13 +61,11 @@ public class LobbyTeamReplyFragment extends Fragment implements IdentificationIn
 	
 	@Override
 	public int getFragmentLevel() {
-		// TODO Auto-generated method stub
 		return IdentificationInterface.SECOND_LEVEL;
 	}
 
 	@Override
 	public void setEnable(boolean enable) {
-		// TODO Auto-generated method stub
 		
 	}
 
@@ -83,7 +81,6 @@ public class LobbyTeamReplyFragment extends Fragment implements IdentificationIn
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
 		RealTimeHandler.getInstance().regist(this);
 		init();
 		View view=inflater.inflate(R.layout.fragment_lobby_reply_team, container, false);
@@ -98,7 +95,6 @@ public class LobbyTeamReplyFragment extends Fragment implements IdentificationIn
 
 			@Override
 			public void onClick(View arg0) {
-				// TODO Auto-generated method stub
 				((HomePageActivity)getActivity()).onBackPressed();
 			}
 			
@@ -108,7 +104,6 @@ public class LobbyTeamReplyFragment extends Fragment implements IdentificationIn
 
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
 				final TeamPopupWindow pop=new TeamPopupWindow(context, mList, iden.getWidth(), iden.getHeight());
 				int[] location = new int[2];  
 		        iden.getLocationOnScreen(location);
@@ -141,7 +136,6 @@ public class LobbyTeamReplyFragment extends Fragment implements IdentificationIn
 
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
 				String teamid=null;
 				String str=iden.getText().toString();
 				if(str.equals(name1)){
@@ -185,7 +179,6 @@ public class LobbyTeamReplyFragment extends Fragment implements IdentificationIn
 	
 	@Override
 	public void onChange(Message msg) {
-		// TODO Auto-generated method stub
 		if(msg.what==HomePageActivity.OK_THEME){
 			((HomePageActivity)getActivity()).removeVague();
 			if(back!=null){
@@ -196,7 +189,6 @@ public class LobbyTeamReplyFragment extends Fragment implements IdentificationIn
 
 	@Override
 	public void onDestroy() {
-		// TODO Auto-generated method stub
 		RealTimeHandler.getInstance().unRegist(this);
 		super.onDestroy();
 	}

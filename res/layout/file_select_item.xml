@@ -1,7 +1,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="#ffffff"
+    android:background="@drawable/selected_unselected_8"
     android:orientation="vertical" >
     
     <RelativeLayout
@@ -25,7 +25,6 @@
                 android:layout_alignTop="@id/file_select_photo"
                 android:layout_toRightOf="@id/file_select_photo"
                 android:gravity="center_vertical"
-                android:text="中后卫"
                 android:paddingBottom="3dp"
                 android:layout_marginLeft="5dp"
                 android:textColor="#333333"
@@ -39,7 +38,6 @@
                 android:layout_alignLeft="@id/file_select_position"
                 android:gravity="center_vertical"
                 android:drawableRight="@drawable/more_"
-                android:text="亚平宁之师"
                 android:layout_marginRight="15dip"
                 android:textColor="#6e6e6e"
                 android:textSize="14sp" />
@@ -52,7 +50,6 @@
                 android:layout_below="@id/file_select_teamname"
                 android:layout_alignLeft="@id/file_select_teamname"
                 android:gravity="center_vertical"
-                android:text="2012/1/12-至今"
                 android:textColor="#6e6e6e"
                 android:textSize="14sp" />
         </RelativeLayout>

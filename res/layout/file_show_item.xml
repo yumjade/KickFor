@@ -26,7 +26,6 @@
                 android:layout_alignTop="@id/file_show_photo"
                 android:layout_toRightOf="@id/file_show_photo"
                 android:gravity="center_vertical"
-                android:text="中后卫"
                 android:layout_marginTop="3dp"
                 android:layout_marginLeft="10dp"
                 android:textColor="#333333"
@@ -40,7 +39,6 @@
                 android:layout_alignLeft="@id/file_show_position"
                 android:gravity="center_vertical"
                 android:layout_marginTop="9dp"
-                android:text="亚平宁之师"
                 android:textColor="#6e6e6e"
                 android:textSize="12sp" />
 
@@ -52,7 +50,6 @@
                 android:layout_below="@id/file_show_teamname"
                 android:layout_alignLeft="@id/file_show_teamname"
                 android:gravity="center_vertical"
-                android:text="2012/1/12-至今"
                 android:textColor="#6e6e6e"
                 android:textSize="12sp" />
         </RelativeLayout>

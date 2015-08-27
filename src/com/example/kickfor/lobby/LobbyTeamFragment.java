@@ -113,7 +113,6 @@ public class LobbyTeamFragment extends Fragment implements IdentificationInterfa
 	
 	@Override
 	public void onDestroy() {
-		// TODO Auto-generated method stub
 		RealTimeHandler.getInstance().unRegist(this);
 		super.onDestroy();
 	}
@@ -152,7 +151,6 @@ public class LobbyTeamFragment extends Fragment implements IdentificationInterfa
 
 	@Override
 	public void onChange(Message msg) {
-		// TODO Auto-generated method stub
 		if(msg.what==HomePageActivity.LOBBY_TEAM){
 			((HomePageActivity)getActivity()).removeVague();
 			int index=msg.arg1;

@@ -53,7 +53,6 @@ public class TeamPopupWindow extends PopupWindow {
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
 					long arg3) {
-				// TODO Auto-generated method stub
 				selected = mList.get(arg2);
 				dismiss();
 			}
@@ -64,7 +63,6 @@ public class TeamPopupWindow extends PopupWindow {
 
 			@Override
 			public boolean onTouch(View v, MotionEvent event) {
-				// TODO Auto-generated method stub
 				int height = view.findViewById(R.id.btns).getTop();
 				int y = (int) event.getY();
 				if (event.getAction() == MotionEvent.ACTION_UP) {

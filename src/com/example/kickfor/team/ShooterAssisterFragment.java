@@ -43,13 +43,11 @@ public class ShooterAssisterFragment extends Fragment implements OnClickListener
 	
 	@Override
 	public int getFragmentLevel() {
-		// TODO Auto-generated method stub
 		return IdentificationInterface.SECOND_LEVEL;
 	}
 	
 	@Override
 	public void setEnable(boolean enable) {
-		// TODO Auto-generated method stub
 		
 	}
 	
@@ -96,7 +94,6 @@ public class ShooterAssisterFragment extends Fragment implements OnClickListener
 
 	@Override
 	public void onClick(View view) {
-		// TODO Auto-generated method stub
 		int id=view.getId();
 		if(id==R.id.shooter_assister_shooter){
 			select=SHOOTER_LIST;

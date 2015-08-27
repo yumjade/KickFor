@@ -85,7 +85,6 @@ public class CompleteInfoFragment extends Fragment implements OnClickListener, H
 	
 	@Override
 	public int getFragmentLevel() {
-		// TODO Auto-generated method stub
 		return IdentificationInterface.SECOND_LEVEL;
 	}
 
@@ -121,7 +120,6 @@ public class CompleteInfoFragment extends Fragment implements OnClickListener, H
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
 		init();
 		View view=inflater.inflate(R.layout.fragment_complete_info, container, false);
 		back=(ImageView)view.findViewById(R.id.complete_back);
@@ -157,7 +155,6 @@ public class CompleteInfoFragment extends Fragment implements OnClickListener, H
 
 			@Override
 			public void onCheckedChanged(RadioGroup group, int checkedId) {
-				// TODO Auto-generated method stub
 				if(checkedId==R.id.rb_male){
 					bit="m";
 				}
@@ -172,7 +169,6 @@ public class CompleteInfoFragment extends Fragment implements OnClickListener, H
 
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
 				if(items.size()>0 && items1.size()>0){
 					AlertDialog.Builder builder = new AlertDialog.Builder(context);
 					builder.setTitle("Ñ¡ÔñÄ¸¶Ó");
@@ -208,7 +204,6 @@ public class CompleteInfoFragment extends Fragment implements OnClickListener, H
 
 	@Override
 	public void onClick(View v) {
-		// TODO Auto-generated method stub
 		int id=v.getId();
 		if(id==R.id.btn_ensure){
 			saveExit();

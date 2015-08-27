@@ -1,5 +1,6 @@
 package com.example.kickfor.lobby;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -10,7 +11,9 @@ import com.example.kickfor.HomePageActivity;
 import com.example.kickfor.R;
 import com.example.kickfor.Tools;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -62,9 +65,9 @@ public class LobbyTeamAdapter extends BaseAdapter{
 			viewHolder.image=(ImageView)convertView.findViewById(R.id.lobby_team_photo);
 			viewHolder.name=(TextView)convertView.findViewById(R.id.lobby_team_name);
 			viewHolder.city=(TextView)convertView.findViewById(R.id.lobby_team_city);
-			viewHolder.date=(TextView)convertView.findViewById(R.id.lobby_team_date);
 			viewHolder.type=(TextView)convertView.findViewById(R.id.lobby_team_type);
 			viewHolder.text=(TextView)convertView.findViewById(R.id.lobby_team_text);
+			viewHolder.date=(TextView)convertView.findViewById(R.id.lobby_team_date);
 			viewHolder.cancel=(TextView)convertView.findViewById(R.id.lobby_team_cancel);
 			viewHolder.reply=(TextView)convertView.findViewById(R.id.lobby_team_reply);
 			viewHolder.l=(LinearLayout)convertView.findViewById(R.id.lobby_team_layout);
@@ -72,13 +75,29 @@ public class LobbyTeamAdapter extends BaseAdapter{
 			viewHolder.cancel.setOnClickListener(new OnClickListener(){
 
 				@Override
-				public void onClick(View v) {
-					LobbyTeamEntity item=(LobbyTeamEntity)v.getTag();
-					Map<String, Object> tmp=new HashMap<String, Object>();
-					tmp.put("request", "del theme");
-					tmp.put("themekey", item.getThemeKey());
-					Runnable r=new ClientWrite(Tools.JsonEncode(tmp));
-					new Thread(r).start();
+				public void onClick(final View v) {
+					new AlertDialog.Builder(context)
+					.setTitle("是否确定删除")
+					.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+						
+						@Override
+						public void onClick(DialogInterface dialog, int which) {
+							LobbyTeamEntity item=(LobbyTeamEntity)v.getTag();
+							Map<String, Object> tmp=new HashMap<String, Object>();
+							tmp.put("request", "del theme");
+							tmp.put("themekey", item.getThemeKey());
+							Runnable r=new ClientWrite(Tools.JsonEncode(tmp));
+							new Thread(r).start();
+						}
+					})
+					.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+						
+						@Override
+						public void onClick(DialogInterface dialog, int which) {
+							
+						}
+					}).show();
+					
 				}
 					
 			});
@@ -139,9 +158,9 @@ public class LobbyTeamAdapter extends BaseAdapter{
 		ImageView image=null;
 		TextView name=null;
 		TextView city=null;
-		TextView date=null;
 		TextView type=null;
 		TextView text=null;
+		TextView date=null;
 		TextView cancel=null;
 		TextView reply=null;
 		LinearLayout l=null;

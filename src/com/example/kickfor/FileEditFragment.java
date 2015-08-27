@@ -76,7 +76,6 @@ public class FileEditFragment extends Fragment implements HomePageInterface, Ide
 	
 	@Override
 	public void setEnable(boolean enable) {
-		// TODO Auto-generated method stub
 		
 	}
 
@@ -112,7 +111,6 @@ public class FileEditFragment extends Fragment implements HomePageInterface, Ide
 
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
 				new AlertDialog.Builder(context)
 				.setTitle("您确认删除此档案吗？")
 				.setPositiveButton("确认删除",
@@ -150,7 +148,6 @@ public class FileEditFragment extends Fragment implements HomePageInterface, Ide
 
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
 				((HomePageActivity)getActivity()).getInPosition(fieldPosition.getText().toString(), 4);
 			}
 			
@@ -166,7 +163,6 @@ public class FileEditFragment extends Fragment implements HomePageInterface, Ide
 
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
 				inTeam.setVisibility(View.GONE);
 				outTeam.setVisibility(View.VISIBLE);
 				inteam=false;
@@ -180,7 +176,6 @@ public class FileEditFragment extends Fragment implements HomePageInterface, Ide
 
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
 				outTeam.setVisibility(View.GONE);
 				inTeam.setVisibility(View.VISIBLE);
 				inteam=true;
@@ -195,7 +190,6 @@ public class FileEditFragment extends Fragment implements HomePageInterface, Ide
 
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
 				LayoutInflater inflater=LayoutInflater.from(context);
 				final View datepickerview=inflater.inflate(R.layout.datepicker, null);
 				final WheelDate wheelDate=new WheelDate(datepickerview);
@@ -228,7 +222,6 @@ public class FileEditFragment extends Fragment implements HomePageInterface, Ide
 
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
 				LayoutInflater inflater=LayoutInflater.from(context);
 				final View datepickerview=inflater.inflate(R.layout.datepicker, null);
 				final WheelDate wheelDate=new WheelDate(datepickerview);
@@ -364,21 +357,17 @@ public class FileEditFragment extends Fragment implements HomePageInterface, Ide
 	
 	@Override
 	public void onDestroy() {
-		// TODO Auto-generated method stub
-		System.out.print("FileEditFragment Destroyyyyyyyyyed");
 		super.onDestroy();
 	}
 
 	@Override
 	public void onPause() {
-		// TODO Auto-generated method stub
 		RealTimeHandler.getInstance().unRegist(this);
 		super.onPause();
 	}
 
 	@Override
 	public void onChange(Message msg) {
-		// TODO Auto-generated method stub
 		if(msg.what==HomePageActivity.GET_ARCHIVES){
 			((HomePageActivity)getActivity()).onBackPressed();
 		}

@@ -55,7 +55,7 @@
 		        android:textColor="#333333"
 		        android:layout_alignParentLeft="true"
 		        android:padding="10dip"
-		        android:text="2013.8.9"/>
+		        android:text=""/>
 	        <TextView
 		        android:id="@+id/detail_place"
 		        android:layout_width="wrap_content"
@@ -65,7 +65,7 @@
 		        android:textColor="#333333"
 		        android:layout_centerInParent="true"
 		        android:padding="10dip"
-		        android:text="北京"/>
+		        android:text=""/>
 	    </RelativeLayout>
 	    <RelativeLayout
 	        android:layout_width="match_parent"
@@ -91,8 +91,7 @@
 		        android:layout_marginTop="10dp"
 		        android:textSize="20sp"
 		        android:gravity="center"
-		        android:textColor="#333333"
-		        android:text="3 - 2"/>
+		        android:textColor="#333333"/>
 		    <TextView 
 		        android:id="@+id/detail_match_type"
 		        android:layout_below="@id/detail_match_result"
@@ -100,8 +99,7 @@
 		        android:layout_width="wrap_content"
 		        android:layout_height="wrap_content"
 		        android:textSize="12sp"
-		        android:textColor="#6e6e6e"
-		        android:text="友谊赛"/>
+		        android:textColor="#6e6e6e"/>
 		    <ImageView
 		        android:id="@+id/iv_detail_against_team"
 		        android:layout_width="60dip"
@@ -121,7 +119,7 @@
 		        android:textSize="14sp"
 		        android:gravity="center"
 		        android:textColor="#333333"
-		        android:text="亚平宁之师"/>
+		        android:text=""/>
 		    <TextView
 		        android:id="@+id/tv_detail_against_team_name"
 		        android:layout_width="wrap_content"
@@ -131,8 +129,7 @@
 		        android:layout_alignTop="@id/tv_detail_my_team_name"
 		        android:textSize="14sp"
 		        android:gravity="center"
-		        android:textColor="#333333"
-		        android:text="杨轩"/>
+		        android:textColor="#333333"/>
 		    <TextView
 		        android:id="@+id/detail_line1"
 		        android:layout_width="match_parent"

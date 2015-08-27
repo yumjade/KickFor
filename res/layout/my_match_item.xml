@@ -11,7 +11,6 @@
 	        android:layout_weight="6"
 	        android:textColor="#333333"
 	        android:textSize="15sp"
-	        android:text="2006.11.11 vs 流浪足球俱乐部"
 	        android:singleLine="true"
 	        android:ellipsize="end"
 	        android:gravity="left"/>
@@ -21,7 +20,6 @@
 	        android:layout_weight="1"
 	        android:layout_height="wrap_content"
 	        android:textSize="15sp"
-	        android:text="2:1"
 	        android:textStyle="bold"
 	        android:textColor="#333333"
 	        android:gravity="center"/>"
@@ -32,7 +30,6 @@
 	        android:layout_height="wrap_content"
 	        android:textSize="15sp"
 	        android:textColor="#333333"
-	        android:text="进球0 助攻0"
 	        android:drawableRight="@drawable/more_"
 	        android:gravity="center"/>
 </LinearLayout>

@@ -31,8 +31,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 public class ChatFragment extends Fragment implements HomePageInterface, IdentificationInterface{
@@ -47,6 +49,7 @@ public class ChatFragment extends Fragment implements HomePageInterface, Identif
 	private EditText edit = null;
 	private PullableListView mListView = null;
 	private PullToRefreshLayout pullToRefreshLayout = null;
+	private RelativeLayout root;
 	private ChatAdapter adapter = null;
 	private List<MyChat> mList =null;
 	private Context context;
@@ -68,19 +71,13 @@ public class ChatFragment extends Fragment implements HomePageInterface, Identif
 
 	@Override
 	public int getFragmentLevel() {
-		// TODO Auto-generated method stub
 		return IdentificationInterface.SECOND_LEVEL;
 	}
 
 	@Override
 	public void setEnable(boolean enable) {
-		// TODO Auto-generated method stub
 		
 	}
-
-
-
-
 
 	private void init(){
 		mList=new ArrayList<MyChat>();
@@ -93,7 +90,6 @@ public class ChatFragment extends Fragment implements HomePageInterface, Identif
 			authority=bundle.getString("authority");
 		}
 	}
-	
 	
 	
 
@@ -130,7 +126,6 @@ public class ChatFragment extends Fragment implements HomePageInterface, Identif
 
 	@Override
 	public void onPause() {
-		// TODO Auto-generated method stub
 		if(type.equals(GROUP_CHAT)){
 			EMConversation conversation = EMChatManager.getInstance().getConversation(groupid);
 			conversation.resetUnreadMsgCount();
@@ -163,11 +158,10 @@ public class ChatFragment extends Fragment implements HomePageInterface, Identif
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
 		init();
-		System.out.println("dfgssaaaaaaaaa");
 		System.out.println("group id= "+new PreferenceData(context).getData(new String[]{phone}).get(phone).toString());
 		View view = inflater.inflate(R.layout.fragment_msg, container, false);
+		root = (RelativeLayout) view.findViewById(R.id.rl_rootview);
 		pullToRefreshLayout = (PullToRefreshLayout) view.findViewById(R.id.refresh_view);
 		sendButton = (TextView) view.findViewById(R.id.chat_send);
 		edit = (EditText) view.findViewById(R.id.chat_edit);
@@ -177,7 +171,6 @@ public class ChatFragment extends Fragment implements HomePageInterface, Identif
 
 			@Override
 			public void onClick(View arg0) {
-				// TODO Auto-generated method stub
 				getActivity().onBackPressed();
 			}
 
@@ -188,7 +181,6 @@ public class ChatFragment extends Fragment implements HomePageInterface, Identif
 
 			@Override
 			public void onClick(View arg0) {
-				// TODO Auto-generated method stub
 				final String str = edit.getText().toString();
 				if (!str.isEmpty()) {
 					// 获取到与聊天人的会话对象。参数username为聊天人的userid或者groupid，后文中的username皆是如此
@@ -216,19 +208,16 @@ public class ChatFragment extends Fragment implements HomePageInterface, Identif
 
 						@Override
 						public void onError(int arg0, String arg1) {
-							// TODO Auto-generated method stub
 							System.out.println("失败！");
 						}
 
 						@Override
 						public void onProgress(int arg0, String arg1) {
-							// TODO Auto-generated method stub
 							System.out.println("正在进行！");
 						}
 
 						@Override
 						public void onSuccess() {
-							// TODO Auto-generated method stub
 							System.out.println("成功！");
 						}
 					});
@@ -237,6 +226,16 @@ public class ChatFragment extends Fragment implements HomePageInterface, Identif
 			}
 
 		});
+		
+		root.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+//				InputMethodManager imm = getSystemService(Context.INPUT_METHOD_SERVICE);  
+//				imm.hideSoftInputFromWindow(v.getWindowToken(), 0);  
+			}
+		});
+		
 		mListView = (PullableListView) view.findViewById(R.id.content_view);
 		adapter = new ChatAdapter(context, mList);
 		mListView.setAdapter(adapter);
@@ -427,7 +426,6 @@ public class ChatFragment extends Fragment implements HomePageInterface, Identif
 
 				@Override
 				public void onLoadMore(final PullToRefreshLayout pullToRefreshLayout) {
-					// TODO Auto-generated method stub
 					new Handler() {
 						@Override
 						public void handleMessage(Message msg) {
@@ -579,7 +577,6 @@ public class ChatFragment extends Fragment implements HomePageInterface, Identif
 
 				@Override
 				public void onLoadMore(final PullToRefreshLayout pullToRefreshLayout) {
-					// TODO Auto-generated method stub
 					new Handler() {
 						@Override
 						public void handleMessage(Message msg) {
@@ -595,7 +592,6 @@ public class ChatFragment extends Fragment implements HomePageInterface, Identif
 
 				@Override
 				public void onClick(View arg0) {
-					// TODO Auto-generated method stub
 					((HomePageActivity) getActivity()).openChangingRoomManager(phone, authority);
 				}
 

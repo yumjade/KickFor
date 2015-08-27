@@ -68,20 +68,17 @@ public class LobbyTeamAddFragment extends Fragment implements IdentificationInte
 	
 	@Override
 	public int getFragmentLevel() {
-		// TODO Auto-generated method stub
 		return IdentificationInterface.SECOND_LEVEL;
 	}
 
 	@Override
 	public void setEnable(boolean enable) {
-		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
 		RealTimeHandler.getInstance().regist(this);
 		init();
 		View view=inflater.inflate(R.layout.fragment_lobby_publish, container, false);
@@ -98,7 +95,6 @@ public class LobbyTeamAddFragment extends Fragment implements IdentificationInte
 
 			@Override
 			public void onCheckedChanged(RadioGroup group, int checkedId) {
-				// TODO Auto-generated method stub
 				if(checkedId==R.id.lobby_add_hire){
 					choice="1";
 					text.setHint("招人：建议写出位置、年龄、身高体重需求");
@@ -120,7 +116,6 @@ public class LobbyTeamAddFragment extends Fragment implements IdentificationInte
 
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
 				final TeamPopupWindow pop=new TeamPopupWindow(context, mList, name.getWidth(), name.getHeight());
 				int[] location = new int[2];  
 		        name.getLocationOnScreen(location);
@@ -153,7 +148,6 @@ public class LobbyTeamAddFragment extends Fragment implements IdentificationInte
 
 			@Override
 			public void onClick(View arg0) {
-				// TODO Auto-generated method stub
 				((HomePageActivity)getActivity()).onBackPressed();
 			}
 			
@@ -163,7 +157,6 @@ public class LobbyTeamAddFragment extends Fragment implements IdentificationInte
 
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
 				String str=text.getText().toString();
 				if(str.isEmpty()){
 					Toast.makeText(context, "发布内容不能为空", Toast.LENGTH_SHORT).show();
@@ -192,7 +185,6 @@ public class LobbyTeamAddFragment extends Fragment implements IdentificationInte
 	
 	@Override
 	public void onChange(Message msg) {
-		// TODO Auto-generated method stub
 		if(msg.what==HomePageActivity.OK_THEME){
 			((HomePageActivity)getActivity()).removeVague();
 			if(back!=null){
@@ -203,7 +195,6 @@ public class LobbyTeamAddFragment extends Fragment implements IdentificationInte
 
 	@Override
 	public void onDestroy() {
-		// TODO Auto-generated method stub
 		RealTimeHandler.getInstance().unRegist(this);
 		super.onDestroy();
 	}

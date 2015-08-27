@@ -140,7 +140,6 @@ public class Tools {
 
 			@Override
 			public void run() {
-				// TODO Auto-generated method stub
 				Bundle bundle = new Bundle();
 				for (int i = 0; i < 3; i++) {
 					if (!tmp[i].isEmpty()) {
@@ -712,7 +711,7 @@ public class Tools {
 	}
 
 	public static String dataFormat(float x) {
-		float b = (float) (Math.round(x * 10)) / 10;
+		float b = (float) (Math.round(x * 100)) / 100;
 		return String.valueOf(b);
 	}
 

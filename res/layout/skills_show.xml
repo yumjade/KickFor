@@ -79,7 +79,6 @@
 		                android:layout_height="wrap_content"
 		                android:layout_marginBottom="5dp"
 		                android:layout_marginTop="5dp"
-		                android:text="小白兔"
 		                android:textColor="#333333"
 		                android:textSize="13sp" />
 		        </LinearLayout>
@@ -103,7 +102,6 @@
 		                android:layout_height="wrap_content"
 		                android:layout_marginBottom="5dp"
 		                android:layout_marginTop="5dp"
-		                android:text="小白兔"
 		                android:textColor="#333333"
 		                android:textSize="13sp" />
 		        </LinearLayout>
@@ -127,7 +125,6 @@
 		                android:layout_height="wrap_content"
 		                android:layout_marginBottom="5dp"
 		                android:layout_marginTop="5dp"
-		                android:text="小白兔"
 		                android:textColor="#333333"
 		                android:textSize="13sp" />
 		        </LinearLayout>

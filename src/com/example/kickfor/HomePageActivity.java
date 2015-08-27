@@ -72,6 +72,7 @@ import com.tencent.stat.common.StatLogger;
 
 import android.app.AlertDialog;
 import android.content.ComponentName;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -96,6 +97,7 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.FrameLayout;
 import android.widget.PopupWindow.OnDismissListener;
 import android.widget.RelativeLayout;
@@ -3041,8 +3043,8 @@ public class HomePageActivity extends FragmentActivity implements HandlerListene
 				ShowCapacitiyFragment tmp = (ShowCapacitiyFragment) fm.findFragmentById(R.id.main);
 				tmp.setData(bundle.getBoolean("isEvaluate"), bundle.getInt("n"));
 			} else if (fm.findFragmentById(R.id.main) instanceof HomePageFragment) {
-				HomePageFragment tmp = (HomePageFragment) fm.findFragmentById(R.id.main);
-				tmp.setValue(bundle);
+//				HomePageFragment tmp = (HomePageFragment) fm.findFragmentById(R.id.main);
+//				tmp.setValue(bundle);
 			}
 			break;
 		}
@@ -3972,5 +3974,4 @@ public class HomePageActivity extends FragmentActivity implements HandlerListene
 		tx.addToBackStack(null);
 		tx.commit();
 	}
-
 }

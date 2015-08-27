@@ -617,7 +617,7 @@
             android:layout_marginLeft="8dip"
             android:layout_marginRight="8dip"
             android:layout_marginTop="10dp"
-            android:background="@drawable/btn_style_1"
+            android:background="@drawable/btn_style_12"
             android:clickable="true"
             android:paddingBottom="5dip"
             android:paddingTop="5dip" >
@@ -711,7 +711,7 @@
             android:layout_marginLeft="8dip"
             android:layout_marginRight="8dip"
             android:layout_marginTop="10dp"
-            android:background="@drawable/btn_style_1"
+            android:background="@drawable/btn_style_12"
             android:clickable="true"
             android:paddingBottom="5dip"
             android:paddingTop="5dip" >
@@ -793,6 +793,7 @@
                     android:id="@+id/homepage_skills_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textColor="#333333"
                     android:layout_marginLeft="8dp"
                     android:layout_toRightOf="@id/iv_skills"
                     android:text="还有1个技能" />

@@ -240,7 +240,7 @@ public class HomePageFragment extends Fragment implements OnClickListener, HomeP
 		Iterator<SkillsShowEntity> iter=list.iterator();
 		while(iter.hasNext()){
 			SkillsShowEntity item=iter.next();
-			View v=inflater.inflate(R.layout.skills_show_item, null);
+			View v=inflater.inflate(R.layout.skills_show_item2, null);
 			View line=(View)v.findViewById(R.id.skills_show_line);
 			line.setVisibility(View.VISIBLE);
 			TextView name=(TextView)v.findViewById(R.id.skills_show_name);
@@ -590,15 +590,6 @@ public class HomePageFragment extends Fragment implements OnClickListener, HomeP
 	
 	public void evaluate(){
 		((HomePageActivity)getActivity()).openEvaluate(phone, entity.getImage(), entity.getName(), entity.getTeam1AndPosisiton(), "");
-	}
-	
-	public void setValue(Bundle bundle){
-		setBarColor(power, valuePower, bundle.getInt("power"));
-		setBarColor(skills, valueSkills, bundle.getInt("skills"));
-		setBarColor(stamina, valueStamina, bundle.getInt("stamina"));
-		setBarColor(speed, valueSpeed, bundle.getInt("speed"));
-		setBarColor(attack, valueAttack, bundle.getInt("attack"));
-		setBarColor(defence, valueStamina, bundle.getInt("defence"));
 	}
 	
 	private int initGrade(int score){
