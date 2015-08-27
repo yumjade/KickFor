@@ -232,7 +232,8 @@ public class ChatFragment extends Fragment implements HomePageInterface, Identif
 			@Override
 			public void onClick(View v) {
 //				InputMethodManager imm = getSystemService(Context.INPUT_METHOD_SERVICE);  
-//				imm.hideSoftInputFromWindow(v.getWindowToken(), 0);  
+//				imm.hideSoftInputFromWindow(v.getWindowToken(), 0); 
+				
 			}
 		});
 		
