@@ -54,6 +54,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="#f0f0f0"
-        android:dividerHeight="5dip"
-        android:divider="#f0f0f0"/>
+        android:dividerHeight="1dp"
+        android:divider="#dedede"/>
 </LinearLayout>

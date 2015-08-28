@@ -426,7 +426,6 @@ public class HomePageActivity extends FragmentActivity implements HandlerListene
 					if (fm.findFragmentById(R.id.title) instanceof TitleFragment
 							&& ((TitleFragment) fm.findFragmentById(R.id.title))
 									.getState() == TitleFragment.HOMEPAGE_TITLE) {
-						System.out.println("dffffffffffggggg");
 						final TitleFragment tmp = (TitleFragment) fm.findFragmentById(R.id.title);
 						runOnUiThread(new Runnable() {
 

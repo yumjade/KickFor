@@ -31,6 +31,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -172,6 +173,8 @@ public class ChatFragment extends Fragment implements HomePageInterface, Identif
 			@Override
 			public void onClick(View arg0) {
 				getActivity().onBackPressed();
+				InputMethodManager imm = (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);  
+				imm.hideSoftInputFromWindow(arg0.getWindowToken(), 0); 
 			}
 
 		});
@@ -231,8 +234,8 @@ public class ChatFragment extends Fragment implements HomePageInterface, Identif
 			
 			@Override
 			public void onClick(View v) {
-//				InputMethodManager imm = getSystemService(Context.INPUT_METHOD_SERVICE);  
-//				imm.hideSoftInputFromWindow(v.getWindowToken(), 0); 
+				InputMethodManager imm = (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);  
+				imm.hideSoftInputFromWindow(v.getWindowToken(), 0); 
 				
 			}
 		});
@@ -242,6 +245,7 @@ public class ChatFragment extends Fragment implements HomePageInterface, Identif
 		mListView.setAdapter(adapter);
 		initiate();
 		
+		getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE); 
 				
 		return view;
 	}

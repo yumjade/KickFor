@@ -24,25 +24,21 @@ public class SearchItemAdapter extends BaseAdapter{
 
 	@Override
 	public int getCount() {
-		// TODO Auto-generated method stub
 		return mList.size();
 	}
 
 	@Override
 	public Object getItem(int position) {
-		// TODO Auto-generated method stub
 		return mList.get(position);
 	}
 
 	@Override
 	public long getItemId(int position) {
-		// TODO Auto-generated method stub
 		return position;
 	}
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
-		// TODO Auto-generated method stub
 		ViewHolder viewHolder=null;
 		if(convertView==null){
 			convertView=mInflater.inflate(R.layout.search_list_item, null);
@@ -58,7 +54,6 @@ public class SearchItemAdapter extends BaseAdapter{
 		}
 		SearchItemEntity item=mList.get(position);
 		viewHolder.type.setText(item.getType());
-		System.out.println("adddp"+item.getName());
 		viewHolder.name.setText(item.getName());
 		viewHolder.image.setImageBitmap(item.getImage());
 		viewHolder.info.setText(item.getInfo());

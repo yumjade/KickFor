@@ -3,36 +3,6 @@ package com.example.kickfor;
 import java.util.HashMap;
 import java.util.Map;
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 import com.easemob.chat.EMChatManager;
 import com.easemob.chat.EMConversation;
 import com.easemob.chat.EMMessage;
@@ -55,7 +25,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.view.ViewGroup.LayoutParams;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -214,11 +186,17 @@ public class TitleFragment extends Fragment implements IdentificationInterface{
 			view=inflater.inflate(R.layout.fragment_title_search, container, false);
 			search=(EditText)view.findViewById(R.id.et_search);
 			backSearch=(ImageView)view.findViewById(R.id.search_back);
+			
+//			getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE); 
 			backSearch.setOnClickListener(new OnClickListener(){
 
 				@Override
 				public void onClick(View v) {
+					InputMethodManager imm = (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);  
+					imm.hideSoftInputFromWindow(v.getWindowToken(), 0); 
+					getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 					((HomePageActivity)getActivity()).onBackPressed();
+					
 				}
 				
 			});
@@ -259,7 +237,7 @@ public class TitleFragment extends Fragment implements IdentificationInterface{
 		
 		case HOMEPAGE_TITLE:{
 			view=inflater.inflate(R.layout.fragment_homepage_title,container,false);
-			
+			getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN); 
 			checkNetWork=(TextView)view.findViewById(R.id.title_network);
 			if(Tools.isConnect(getActivity())){
 				checkNetWork.setVisibility(View.GONE);
@@ -303,6 +281,9 @@ public class TitleFragment extends Fragment implements IdentificationInterface{
 
 				@Override
 				public void onClick(View arg0) {
+					InputMethodManager imm = (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);  
+					imm.hideSoftInputFromWindow(arg0.getWindowToken(), 0);
+					getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 					myHomepageButton.setTextColor(Color.parseColor("#ffffff"));
 					myMessage.setTextColor(Color.parseColor("#9e9e9e"));
 					myFriend.setTextColor(Color.parseColor("#9e9e9e"));
@@ -318,6 +299,9 @@ public class TitleFragment extends Fragment implements IdentificationInterface{
 
 				@Override
 				public void onClick(View v) {
+					InputMethodManager imm = (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);  
+					imm.hideSoftInputFromWindow(v.getWindowToken(), 0); 
+					getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 					myHomepageButton.setTextColor(Color.parseColor("#9e9e9e"));
 					myMessage.setTextColor(Color.parseColor("#ffffff"));
 					myFriend.setTextColor(Color.parseColor("#9e9e9e"));
@@ -333,6 +317,9 @@ public class TitleFragment extends Fragment implements IdentificationInterface{
 
 				@Override
 				public void onClick(View v) {
+					InputMethodManager imm = (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);  
+					imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+					getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 					myHomepageButton.setTextColor(Color.parseColor("#9e9e9e"));
 					myMessage.setTextColor(Color.parseColor("#9e9e9e"));
 					myFriend.setTextColor(Color.parseColor("#ffffff"));

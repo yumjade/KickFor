@@ -35,7 +35,6 @@ public class SearchItemFragment extends Fragment implements IdentificationInterf
 	
 	@Override
 	public int getFragmentLevel() {
-		// TODO Auto-generated method stub
 		return IdentificationInterface.SECOND_LEVEL;
 	}
 	
@@ -64,7 +63,6 @@ public class SearchItemFragment extends Fragment implements IdentificationInterf
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
 		View view=inflater.inflate(R.layout.fragment_normal_list, container, false);
 		mListView=(ListView)view.findViewById(R.id.normal_list);
 		adapter=new SearchItemAdapter(context, mList);
@@ -74,7 +72,6 @@ public class SearchItemFragment extends Fragment implements IdentificationInterf
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int position,
 					long arg3) {
-				// TODO Auto-generated method stub
 				((HomePageActivity)getActivity()).openVague(HomePageActivity.WAIT_SEARCH_LIST);
 				setEnable(false);
 				SearchItemEntity item=mList.get(position);

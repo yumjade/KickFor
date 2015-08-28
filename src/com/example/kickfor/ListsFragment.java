@@ -660,9 +660,12 @@ public class ListsFragment extends Fragment implements HomePageInterface, Identi
 		});
 		
 		if(state==TYPE_FRIEND_LIST){
+			getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
 			query.setHint(R.string.search);
 			query.addTextChangedListener(new TextWatcher() {
+				
 				public void onTextChanged(CharSequence s, int start, int before, int count) {
+					getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
 					adapter.getFilter().filter(s);
 					mListView.setAdapter(adapter);
 					if (s.length() > 0) {
@@ -677,6 +680,7 @@ public class ListsFragment extends Fragment implements HomePageInterface, Identi
 				}
 
 				public void afterTextChanged(Editable s) {
+					getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
 				}
 			});
 			clearSearch.setOnClickListener(new OnClickListener() {
@@ -722,7 +726,6 @@ public class ListsFragment extends Fragment implements HomePageInterface, Identi
 
 	@Override
 	public void onPause() {
-		// TODO Auto-generated method stub
 		if(state==TYPE_TEAMS_MESSAGE){
 			SQLHelper helper=SQLHelper.getInstance(context);
 			Map<String, Object> map=new HashMap<String, Object>();
