@@ -45,14 +45,29 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/formation_title" 
         android:background="@drawable/court">
-            
+        
+        <TextView
+            android:id="@+id/formation_select_player"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:alpha="0.5"
+        	android:background="#000000"
+            android:text="球员列表"
+            android:paddingLeft="30dip"
+            android:paddingRight="30dip"
+            android:paddingTop="5dip"
+            android:paddingBottom="5dip"
+            android:textSize="18sp"
+            android:textColor="#ffffff"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"/>
+        
         <android.support.v4.view.ViewPager
             android:id="@+id/formation_pager"
             android:layout_width="match_parent"
+            android:visibility="gone"
             android:layout_alignParentBottom="true"
-            android:layout_height="150dip"/>
-        
-       
+            android:layout_height="150dip"/>"
     </RelativeLayout>
 
 </RelativeLayout>

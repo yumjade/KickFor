@@ -251,7 +251,7 @@
         android:paddingTop="10dip"
         android:text="取消发布"
         android:textColor="#ffffff"
-        android:textSize="15sp" />
+        android:textSize="16sp" />
 
     <TextView
         android:id="@+id/edit_pre_ensure"
@@ -268,7 +268,7 @@
         android:paddingRight="30dip"
         android:text="确认发布"
         android:textColor="#ffffff"
-        android:textSize="15sp" />
+        android:textSize="16sp" />
 
     <TextView
         android:id="@+id/edit_pre_delete"
@@ -283,6 +283,6 @@
         android:gravity="center"
         android:text="删除预告"
         android:textColor="#ffffff"
-        android:textSize="15sp" />
+        android:textSize="16sp" />
 
 </RelativeLayout>

@@ -368,7 +368,7 @@
                 android:paddingRight="20dip"
                 android:text="确认添加"
                 android:textColor="#ffffff"
-                android:textSize="15sp" />
+                android:textSize="16sp" />
 
             <TextView
                 android:id="@+id/editre_cancel"
@@ -382,7 +382,7 @@
                 android:paddingRight="20dip"
                 android:text="取消"
                 android:textColor="#ffffff"
-                android:textSize="15sp" />
+                android:textSize="16sp" />
         </RelativeLayout>
     </LinearLayout>
 

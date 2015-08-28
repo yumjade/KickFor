@@ -1,6 +1,7 @@
 package com.example.kickfor.more;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import com.example.kickfor.R;
@@ -13,6 +14,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
@@ -30,13 +32,18 @@ import android.widget.TextView;
 
 public class FormationEditFragment extends Fragment implements MoreInterface, OnTouchListener, IdentificationInterface{
 	
-	private final int OFFSET=30;
+	private int OFFSET=30;
+	
+	private int offset=0;
+	private int dustX=0;
+	private int dustY=0;
 	
 	private String table=null;
 	private String teamid=null;
 	
 	private ImageView back=null;
 	private TextView formation=null;
+	private TextView select=null;
 	
 	private RelativeLayout layout=null;
 	private ViewPager viewPager=null;
@@ -44,15 +51,18 @@ public class FormationEditFragment extends Fragment implements MoreInterface, On
 	private List<View> mList=null;
 	private FormationAdapter adapter=null;
 	
+	private RelativeLayout title=null;
+	
 	private Context context=null;
 	private int frontNumber=0;
 	private int middleNumber=0;
 	private int behindNumber=0;
 	
-	int screenWidth;  
-    int screenHeight;  
-    int lastX;  
-    int lastY;  
+	private int screenWidth=0;  
+    private int screenHeight=0;  
+    private int lastX=0;  
+    private int lastY=0;
+  
 
     private void init(){
     	Bundle bundle=getArguments();
@@ -73,13 +83,34 @@ public class FormationEditFragment extends Fragment implements MoreInterface, On
 			Bundle savedInstanceState) {
 		init();
 		View view = inflater.inflate(R.layout.fragment_formation_edit, container, false);
+		title=(RelativeLayout)view.findViewById(R.id.formation_title);
 		back=(ImageView)view.findViewById(R.id.formation_back);
+		select=(TextView)view.findViewById(R.id.formation_select_player);
 		
+		select.setOnClickListener(new OnClickListener(){
+
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				viewPager.setVisibility(View.VISIBLE);
+			}
+			
+		});
 		
 		formation = (TextView) view.findViewById(R.id.formation_text);
+		formation.setText("");
 		layout = (RelativeLayout) view.findViewById(R.id.formation_court);
 		viewPager=(ViewPager)view.findViewById(R.id.formation_pager);
 		
+		layout.setOnClickListener(new OnClickListener(){
+
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				viewPager.setVisibility(View.GONE);
+			}
+			
+		});
 		
 		adapter = new FormationAdapter(mList);
         
@@ -89,50 +120,6 @@ public class FormationEditFragment extends Fragment implements MoreInterface, On
             @Override
             public void onPageSelected(int arg0) {                                 
                 // TODO Auto-generated method stub
-                /*switch (arg0)
-                {
-                case 0:
-                    if (currentItem == 1)
-                    {
-                        animation = new TranslateAnimation(
-                                offSet * 2 + bmWidth, 0 , 0, 0);
-                    }
-                    else if(currentItem == 2)
-                    {
-                        animation = new TranslateAnimation(
-                                offSet * 4 + 2 * bmWidth, 0, 0, 0);
-                    }
-                    break;
-                case 1:
-                    if (currentItem == 0)
-                    {
-                        animation = new TranslateAnimation(
-                                0, offSet * 2 + bmWidth, 0, 0);
-                    }
-                    else if (currentItem == 2)
-                    {
-                        animation = new TranslateAnimation(
-                                4 * offSet + 2 * bmWidth, offSet * 2 + bmWidth, 0, 0);
-                    }
-                    break;
-                case 2:
-                    if (currentItem == 0)
-                    {
-                        animation = new TranslateAnimation(
-                                0, 4 * offSet + 2 * bmWidth, 0, 0);
-                    }
-                    else if (currentItem == 1)
-                    {
-                        animation = new TranslateAnimation(
-                                offSet * 2 + bmWidth, 4 * offSet + 2 * bmWidth, 0, 0);
-                    }
-                }
-                currentItem = arg0;
-                
-                animation.setDuration(500);
-                animation.setFillAfter(true);
-                imageView.startAnimation(animation);*/
-                
             }
             
             @Override
@@ -170,7 +157,6 @@ public class FormationEditFragment extends Fragment implements MoreInterface, On
 	private void initiate(){
 		SQLHelper helper=SQLHelper.getInstance(context);
 		Cursor cursor=helper.select(table, new String[]{"phone", "name", "number", "position1", "position2"}, null, null, null);
-		int whole=cursor.getCount();
 		int i=0;
 		while(cursor.moveToNext()){
 			Cursor cursor1=helper.select("friends", new String[]{"image"}, "phone=?", new String[]{cursor.getString(0)}, null);
@@ -230,57 +216,133 @@ public class FormationEditFragment extends Fragment implements MoreInterface, On
 	@SuppressLint("NewApi")
 	@Override
 	public boolean onTouch(View v, MotionEvent event) {
-		 int action=event.getAction();  
+		 int action=event.getAction();
 	        switch(action){  
 	        case MotionEvent.ACTION_DOWN:{
 	        	System.out.println("down");
-	            lastX = (int) event.getRawX();  
+	        	lastX = (int) event.getRawX();  
 	            lastY = (int) event.getRawY();  
+	        	if(v.getParent() instanceof LinearLayout){
+	        		ViewGroup parent=(ViewGroup)v.getParent();
+	        		int whole=parent.getChildCount();
+	        		int index=0;
+	        		for(int i=0; i<whole; i++){
+	        			if(parent.getChildAt(i).equals(v)){
+	        				index=i;
+	        				break;
+	        			}
+	        		}
+	        		
+	        		offset=title.getHeight();
+	        		int[] position = new int[2];  
+	        		v.getLocationInWindow(position);  
+	        		
+	        		ImageView p=new ImageView(context);
+	        		ImageView tmp=(ImageView)v;
+	        		Bitmap image = ((BitmapDrawable)tmp.getDrawable()).getBitmap();  
+					p.setImageBitmap(image);
+					p.setOnTouchListener(null);
+					
+					parent.removeViewAt(index);
+					LinearLayout.LayoutParams params1=(LinearLayout.LayoutParams)v.getLayoutParams();
+					parent.addView(p, index, params1);
+					
+	        		RelativeLayout.LayoutParams params=new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+	        		
+		    	    params.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
+		    	    params.addRule(RelativeLayout.ALIGN_PARENT_TOP);
+		    	    params.setMargins(position[0], position[1]-offset, 0, 0);
+		    	    
+	        		layout.addView(v, 0, params);
+	        		p.setAlpha((float)0.5);
+	        	}
+	        	viewPager.setVisibility(View.GONE);
 	            break;
 	        }
 	        case MotionEvent.ACTION_MOVE:{ 
-	        	System.out.println("move");
-	            int dx =(int)event.getRawX() - lastX;  
-	            int dy =(int)event.getRawY() - lastY;  
-	          
-	            int left = v.getLeft() + dx;  
-	            int top = v.getTop() + dy;  
-	            int right = v.getRight() + dx;  
-	            int bottom = v.getBottom() + dy;                      
-	            if(left < 0){  
-	                left = 0;  
-	                right = left + v.getWidth(); 
-	            }                     
-	            if(right > screenWidth){  
-	                right = screenWidth;  
-	                left = right - v.getWidth();  
-	            }                     
-	            if(top < 0){  
-	                top = 0;  
-	                bottom = top + v.getHeight();  
-	            }                     
-	            if(bottom > screenHeight){  
-	                bottom = screenHeight;  
-	                top = bottom - v.getHeight();  
-	            }      
-	            v.layout(left, top, right, bottom); 
-	            
-	    				
-	    	    RelativeLayout.LayoutParams params=(RelativeLayout.LayoutParams)v.getLayoutParams();
-	    	    params.removeRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
-	    	    params.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
-	    	    params.addRule(RelativeLayout.ALIGN_PARENT_TOP);
-	    	    params.setMargins(left, top, 0, 0);
-	    	    v.requestLayout();
-	    	    checkPosition(lastY, (int) event.getRawY());
-	            
-	            
-	            lastX = (int) event.getRawX();  
-	            lastY = (int) event.getRawY(); 
+	        	if(v.getParent() instanceof RelativeLayout){
+	        		System.out.println("move");
+		            int dx =(int)event.getRawX() - lastX;  
+		            int dy =(int)event.getRawY() - lastY;  
+		          
+		            int left = v.getLeft() + dx;  
+		            int top = v.getTop() + dy;  
+		            int right = v.getRight() + dx;  
+		            int bottom = v.getBottom() + dy;                      
+		            if(left < 0){  
+		                left = 0;  
+		                right = left + v.getWidth(); 
+		            }                     
+		            if(right > screenWidth){  
+		                right = screenWidth;  
+		                left = right - v.getWidth();  
+		            }                     
+		            if(top < 0){  
+		                top = 0;  
+		                bottom = top + v.getHeight();  
+		            }                     
+		            if(bottom > screenHeight){  
+		                bottom = screenHeight;  
+		                top = bottom - v.getHeight();  
+		            }      
+		            v.layout(left, top, right, bottom); 
+		            
+		    				
+		    	    RelativeLayout.LayoutParams params=(RelativeLayout.LayoutParams)v.getLayoutParams();
+		    	    params.removeRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+		    	    params.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
+		    	    params.addRule(RelativeLayout.ALIGN_PARENT_TOP);
+		    	    params.setMargins(left, top, 0, 0);
+		    	    v.requestLayout();
+		            
+		            
+		            lastX = (int) event.getRawX();  
+		            lastY = (int) event.getRawY();
+	        	}
 	            break;
 	        }
 	        case MotionEvent.ACTION_UP:{ 
 	        	System.out.println("up");
+	        	if(v.getParent() instanceof RelativeLayout){
+	        		int[] position = new int[2];  
+	        		select.getLocationInWindow(position);  
+	        		dustX=position[0]-Tools.dip2px(context, 40);
+	        		dustY=position[1]-Tools.dip2px(context, 40);
+	        		if(lastX>=dustX && lastY>=dustY){
+	        			Bitmap bitmap=((BitmapDrawable)((ImageView)v).getDrawable()).getBitmap();
+		        		layout.removeView(v);
+		        		Iterator<View> iter=mList.iterator();
+		        		boolean isContinue=true;
+		        		while(iter.hasNext() && isContinue==true){
+		        			View vLayout=iter.next();
+		        			LinearLayout l1=(LinearLayout)vLayout.findViewById(R.id.formation_edit_line1);
+		        			int num1=l1.getChildCount();
+		        			for(int i=0; i<num1; i++){
+		        				ImageView iv=(ImageView)l1.getChildAt(i);
+		        				Bitmap tmp=((BitmapDrawable)iv.getDrawable()).getBitmap();
+		        				if(bitmap.equals(tmp)){
+		        					iv.setOnTouchListener(this);
+		        					iv.setAlpha((float)1);
+		        					isContinue=false;
+		        					break;
+		        				}
+		        			}
+		        			LinearLayout l2=(LinearLayout)vLayout.findViewById(R.id.formation_edit_line2);
+		        			int num2=l2.getChildCount();
+		        			for(int i=0; i<num2; i++){
+		        				ImageView iv=(ImageView)l2.getChildAt(i);
+		        				Bitmap tmp=((BitmapDrawable)iv.getDrawable()).getBitmap();
+		        				if(bitmap.equals(tmp)){
+		        					iv.setOnTouchListener(this);
+		        					iv.setAlpha((float)1);
+		        					isContinue=false;
+		        					break;
+		        				}
+		        			}
+		        		}
+		        	}
+	        	}
+	        	checkPosition();
 	        	
 	            break;  
 	        }
@@ -293,38 +355,29 @@ public class FormationEditFragment extends Fragment implements MoreInterface, On
 		
 	}
 	
-	private void checkPosition(int lastPositionY, int newPositionY){
-		if(lastPositionY>screenHeight && newPositionY<=screenHeight){
-			behindNumber++;
+	private void checkPosition(){
+		int num=layout.getChildCount();
+		frontNumber=0;
+		middleNumber=0;
+		behindNumber=0;
+		for(int i=0; i<num; i++){
+			if(layout.getChildAt(i) instanceof ImageView){
+				ImageView v=(ImageView)layout.getChildAt(i);
+				int[] position = new int[2];  
+        		v.getLocationInWindow(position);  
+        		int y=position[1];
+        		if(y<=screenHeight/3){
+        			frontNumber++;
+        		}
+        		else if(y<=2*screenHeight/3){
+        			middleNumber++;
+        		}
+        		else if(y<=screenHeight){
+        			behindNumber++;
+        		}
+			}
 		}
-		else if(lastPositionY<=screenHeight && newPositionY>screenHeight){
-			behindNumber--;
-		}
-	    else if(lastPositionY<=screenHeight/3 && newPositionY>screenHeight/3 && newPositionY<=2*screenHeight/3){
-			frontNumber--;
-			middleNumber++;
-		}
-		else if(lastPositionY<=screenHeight/3 && newPositionY>2*screenHeight/3){
-			frontNumber--;
-			behindNumber++;
-		}
-		else if(lastPositionY>screenHeight/3 && lastPositionY<=2*screenHeight/3 && newPositionY<=screenHeight/3){
-			middleNumber--;
-			frontNumber++;
-		}
-		else if(lastPositionY>screenHeight/3 && lastPositionY<=2*screenHeight/3 && newPositionY>2*screenHeight/3){
-			middleNumber--;
-			behindNumber++;
-		}
-		else if(lastPositionY>2*screenHeight/3 && newPositionY<=screenHeight/3){
-			behindNumber--;
-			frontNumber++;
-		}
-		else if(lastPositionY>2*screenHeight/3 && newPositionY>screenHeight/3 && newPositionY<=2*screenHeight/3){
-			behindNumber--;
-			middleNumber++;
-		}
-		formation.setText(frontNumber+"-"+middleNumber+"-"+behindNumber);
+		formation.setText(behindNumber+"-"+middleNumber+"-"+frontNumber);
 	}
 	
 

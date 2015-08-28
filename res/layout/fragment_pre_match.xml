@@ -101,9 +101,9 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical"
             android:layout_marginTop="10dp"
-            android:background="@drawable/rect_6" >
+            android:background="@drawable/rect_6"
+            android:orientation="vertical" >
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -209,7 +209,7 @@
                     android:text=""
                     android:textColor="#333333"
                     android:textSize="14sp" />
-                
+
                 <TextView
                     android:id="@+id/saizhi"
                     android:layout_width="wrap_content"
@@ -332,7 +332,6 @@
                     android:layout_alignParentLeft="true"
                     android:layout_alignParentTop="true"
                     android:text="确认参赛队员："
-                    
                     android:textColor="#6e6e6e"
                     android:textSize="14sp" />
 
@@ -342,11 +341,13 @@
                     android:layout_height="wrap_content"
                     android:layout_alignLeft="@id/querencansaiduiyuan"
                     android:layout_below="@id/querencansaiduiyuan"
-                    android:orientation="vertical">
+                    android:orientation="vertical" >
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:hint="暂无队员参加"/>
+                        android:hint="暂无队员参加"
+                        android:textSize="14sp" />
                 </LinearLayout>
             </RelativeLayout>
 
@@ -354,10 +355,9 @@
                 android:id="@+id/pre_ensure_join"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                
+                android:layout_marginBottom="30dip"
                 android:layout_marginLeft="5dip"
                 android:layout_marginRight="5dip"
-                android:layout_marginBottom="30dip"
                 android:layout_marginTop="80dip"
                 android:background="@drawable/btn_style_selector"
                 android:gravity="center"
@@ -370,8 +370,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginRight="5dip"
                 android:layout_marginBottom="30dip"
+                android:layout_marginRight="5dip"
                 android:layout_marginTop="80dip"
                 android:background="@drawable/btn_style_selector"
                 android:gravity="center"
